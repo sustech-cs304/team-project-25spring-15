@@ -31,3 +31,5 @@ Here is the version of critical packages we install in the image:
 + chatMessage: 100%
 + assignment: 54.5%
 + runner: 23.7%
+
+#### Integration Test
