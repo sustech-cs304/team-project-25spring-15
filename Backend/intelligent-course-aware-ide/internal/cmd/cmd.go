@@ -9,6 +9,7 @@ import (
 
 	"intelligent-course-aware-ide/internal/controller/example"
 	"intelligent-course-aware-ide/internal/controller/hello"
+	"intelligent-course-aware-ide/internal/controller/runner"
 )
 
 var (
@@ -23,6 +24,7 @@ var (
 				group.Bind(
 					hello.NewV1(),
 					example.NewV1(),
+					runner.NewV1(),
 				)
 			})
 			s.Run()
