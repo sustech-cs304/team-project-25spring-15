@@ -50,6 +50,7 @@ body {
 /* side bar style */
 #sidebar {
   width: 25%;
+  min-width: 10rem;
   background-color: #f7f7f7;
   border-right: solid 1px #e3e3e3;
   display: flex;

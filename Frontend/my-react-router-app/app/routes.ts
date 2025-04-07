@@ -4,8 +4,8 @@ import { index, layout, route } from "@react-router/dev/routes";
 // 管理页面布局以及路由
 export default [
   layout("layouts/sidebar.tsx", [
-    index("routes/home.tsx")
-    // route("courses/:courseId", "routes/courses.tsx")
+    index("routes/home.tsx"),
+    route("/courses/:courseId/:lectureId", "routes/viewer.tsx")
   ]),
   route("about", "routes/about.tsx"),
 ] satisfies RouteConfig;
