@@ -37,9 +37,12 @@ export default function SidebarLayout({ loaderData }: Route.ComponentProps) {
 
   return (
     <>
-      <div>
+      <div id="sidebar">
+        <h1>
+          <Link to="about">React Router Contacts</Link>
+        </h1>
         <List
-          sx={{ width: 300, bgcolor: 'background.paper' }}
+          sx={{ width: '100%', bgcolor: 'background.paper' }}
           component="nav"
           subheader={
               <ListSubheader component="div">

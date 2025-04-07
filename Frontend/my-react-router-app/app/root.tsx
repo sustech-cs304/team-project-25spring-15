@@ -8,11 +8,6 @@ import {
 } from "react-router";
 
 import {
-  AppBar,
-  Toolbar,
-  Typography,
-  Box,
-  CssBaseline,
   ThemeProvider,
   createTheme,
 } from "@mui/material";
