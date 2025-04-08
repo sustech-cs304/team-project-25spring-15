@@ -7,6 +7,7 @@ import (
 type RunnerReq struct {
 	Code string   `json:"code" v:"required" dc:"code to run"`
 	Args []string `json:"args" dc:"Arguments to pass to the script"`
+	Name string   `json:"name" d:"temp_script" dc:"FileName"`
 }
 
 type RunnerRes struct {

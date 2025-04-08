@@ -3,3 +3,50 @@
 // =================================================================================
 
 package runner
+
+import (
+	"fmt"
+	"os/exec"
+	"strings"
+)
+
+const TargetPythonDockerName string = "pythonRunner"
+const TargetCDockerName string = "cRunner"
+const TmpFileName string = "temp_script"
+const PathForHost string = "C:\\Users\\sunyy\\Desktop\\SUSTECH\\Software_Engineering\\code\\Project\\team-project-25spring-15\\tmp\\"
+const PathForDocker string = "/usr/Document/"
+
+func CheckWhetherContainerIsRunning(targetDockerName string) string {
+	var cmd *exec.Cmd = exec.Command("docker", "ps", "--filter", fmt.Sprintf("name=%s", targetDockerName), "--format", "{{.Names}}")
+	output, err := cmd.Output()
+	if err != nil {
+		print(err)
+		return fmt.Sprintf("Error checking Docker container: %v", err.Error())
+	}
+
+	var dockerNames []string = strings.Split(strings.TrimSpace(string(output)), "\n")
+	var hasStarted bool = false
+	for _, dockerName := range dockerNames {
+		if targetDockerName == dockerName {
+			hasStarted = true
+			break
+		}
+	}
+
+	if !hasStarted {
+		// If there is not such a container, create and start a new one
+		cmd = exec.Command("docker", "run", "-d", "--name", targetDockerName, "-v", "/tmp:/tmp", "python:3.8-slim")
+		_, err = cmd.Output()
+	} else {
+		// If the container is already exist, just start it
+		cmd = exec.Command("docker", "start", targetDockerName)
+		_, err = cmd.Output()
+	}
+
+	if err != nil {
+		print(err)
+		return fmt.Sprintf("Error starting Docker container: %v", err.Error())
+	}
+
+	return "success"
+}
