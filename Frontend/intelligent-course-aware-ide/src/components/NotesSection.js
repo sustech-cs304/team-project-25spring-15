@@ -166,7 +166,7 @@ const NotesSection = () => {
         const cell = cells.find(cell => cell.id === activeCellId);
         if (cell && cell.type === 'code') {
             try {
-                const response = await axios.post('http://your-backend-api/execute', {
+                const response = await axios.post('http://127.0.0.1:8000/pythonRunner', {
                     language: cell.language,
                     code: cell.content,
                 });
@@ -197,10 +197,10 @@ const NotesSection = () => {
         return (
             <motion.div
                 key={cell.id}
-                initial={{opacity: 0, y: 10}}
-                animate={{opacity: 1, y: 0}}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                transition={{duration: 0.3}}
+                transition={{ duration: 0.3 }}
             >
                 <CellContainer
                     active={isActive ? 1 : 0}
@@ -219,9 +219,9 @@ const NotesSection = () => {
                         />
                     )}
                     {cell.type === 'code' && cell.executionResult && (
-                        <Box sx={{mt: 1, p: 1, border: '1px solid #ccc', borderRadius: 1, backgroundColor: '#f0f0f0'}}>
+                        <Box sx={{ mt: 1, p: 1, border: '1px solid #ccc', borderRadius: 1, backgroundColor: '#f0f0f0' }}>
                             <Typography variant="body2">运行结果:</Typography>
-                            <Typography variant="body2" sx={{whiteSpace: 'pre-wrap'}}>
+                            <Typography variant="body2" sx={{ whiteSpace: 'pre-wrap' }}>
                                 {cell.executionResult}
                             </Typography>
                         </Box>
@@ -243,11 +243,11 @@ const NotesSection = () => {
                 }}
             >
                 <Toolbar>
-                    <Typography variant="h6" sx={{flexGrow: 1, color: 'text.primary'}}>
+                    <Typography variant="h6" sx={{ flexGrow: 1, color: 'text.primary' }}>
                         Notebook
                     </Typography>
                     <IconButton color="inherit" onClick={handleAddCellClick}>
-                        <AddIcon/>
+                        <AddIcon />
                     </IconButton>
                     <Menu
                         anchorEl={anchorEl}
@@ -258,16 +258,16 @@ const NotesSection = () => {
                         <MenuItem onClick={handleAddMarkdownCell}>添加Markdown单元</MenuItem>
                     </Menu>
                     <IconButton color="inherit" onClick={handleDeleteCell}>
-                        <DeleteIcon/>
+                        <DeleteIcon />
                     </IconButton>
                     <IconButton color="inherit" onClick={handleMoveUp}>
-                        <UpIcon/>
+                        <UpIcon />
                     </IconButton>
                     <IconButton color="inherit" onClick={handleMoveDown}>
-                        <DownIcon/>
+                        <DownIcon />
                     </IconButton>
                     <IconButton color="inherit" onClick={handleRun}>
-                        <RunIcon/>
+                        <RunIcon />
                     </IconButton>
                 </Toolbar>
             </AppBar>
