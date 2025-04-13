@@ -1,15 +1,15 @@
-// src/components/CourseIDE/CourseIDE.jsx
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import ContentViewer from './ContentViewer';
 import NotesSection from './NotesSection';
+import axios from 'axios';  // 导入 axios
 
 const MainContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
-    height: '100vh',
+    height: '100%',
     backgroundColor: '#f5f5f5',
 }));
 
@@ -20,40 +20,51 @@ const ContentContainer = styled(Box)(({ theme }) => ({
     gap: theme.spacing(2),
 }));
 
-// 示例课程数据
-const courses = [
-    {
-        id: 1,
-        title: "软件工程",
-        expanded: true,
-        lectures: [
-            { id: 1, title: "软件工程简介", selected: true },
-            { id: 2, title: "Maven介绍" },
-            { id: 3, title: "需求分析" }
-        ]
-    },
-    {
-        id: 2,
-        title: "数据库原理",
-        expanded: false,
-        lectures: []
-    },
-    {
-        id: 3,
-        title: "操作系统",
-        expanded: false,
-        lectures: []
-    }
-];
-
 const CourseIDE = () => {
+    const [courses, setCourses] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const loadCourses = async () => {
+            try {
+                const response = await axios.get('http://127.0.0.1:4523/m1/5989566-5677982-default/api/getCourses');
+                setCourses(response.data.courses);
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        loadCourses();
+    }, []);
+
+    if (loading) {
+        return <div>加载中...</div>;
+    }
+
+    if (error) {
+        return <div>加载失败: {error}</div>;
+    }
+
     return (
         <MainContainer>
             <Header />
-            <Sidebar courses={courses} />
+            <Box
+                sx={{
+                    width: 250,
+                    height: '100vh',
+                    position: 'relative',
+                    zIndex: 1,
+                    marginTop: '64px',
+                }}
+            >
+                <Sidebar courses={courses} />
+            </Box>
             <Box sx={{ flexGrow: 1, mt: 8 }}>
                 <ContentContainer>
-                    <ContentViewer file="C:\Users\ASUS\Desktop\Undergraduate Students Declaration Form (2)(1).pdf"/>
+                    <ContentViewer file="C:\Users\ASUS\Desktop\Undergraduate Students Declaration Form (2)(1).pdf" />
                     <Box sx={{ flexGrow: 1, height: '100vh', overflow: 'hidden' }}>
                         <NotesSection />
                     </Box>
