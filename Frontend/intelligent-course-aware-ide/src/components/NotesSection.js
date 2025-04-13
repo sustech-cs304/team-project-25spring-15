@@ -6,6 +6,8 @@ import {
     IconButton,
     Typography,
     Paper,
+    Menu,
+    MenuItem
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import {
@@ -42,7 +44,6 @@ const CellContainer = styled(Paper)(({ theme, active }) => ({
     borderRadius: theme.spacing(1),
     padding: theme.spacing(2),
     cursor: 'pointer',
-    // 初始阴影，悬浮时阴影加深
     boxShadow: theme.shadows[1],
     transition: 'box-shadow 0.2s ease-in-out',
     '&:hover': {
@@ -51,8 +52,6 @@ const CellContainer = styled(Paper)(({ theme, active }) => ({
 }));
 
 const NotesSection = () => {
-    // cells 数组中，每个对象代表一个单元格，有Code和Markdown两种类型，数据结构如下：
-    // { id, type, content, language, executionResult }
     const [cells, setCells] = useState([
         {
             id: uuidv4(),
@@ -72,50 +71,17 @@ const NotesSection = () => {
 
     const [activeCellId, setActiveCellId] = useState(cells[0]?.id || null);
 
-    const loadNotebook = async () => {
-        try {
-            const response = await axios.get('http://127.0.0.1:4523/m1/5989566-5677982-default/api/getNoteBook');
-            // 假设后端返回一个 cell 数组（如果接口返回 { cells: [...] }，请调整为 response.data.cells）
-            if (response.data && Array.isArray(response.data)) {
-                setCells(response.data);
-                setActiveCellId(response.data[0]?.id || null);
-            } else {
-                console.error('返回数据格式不正确', response.data);
-            }
-        } catch (error) {
-            console.error('加载 Notebook 失败:', error);
-        }
+    const [anchorEl, setAnchorEl] = useState(null); // 控制下拉框的位置
+
+    const handleAddCellClick = (event) => {
+        setAnchorEl(event.currentTarget); // 打开菜单
     };
 
-    // 在组件挂载时加载 Notebook 数据
-    useEffect(() => {
-        loadNotebook();
-    }, []);
-
-    // 自动保存功能（使用 lodash 的 debounce 防抖）
-    const autoSaveNotebook = async () => {
-        try {
-            console.log(cells);
-            await axios.post('http://127.0.0.1:4523/m1/5989566-5677982-default/api/saveNoteBook', {
-                cells,
-            });
-            console.log("自动保存成功");
-        } catch (error) {
-            console.error("自动保存失败:", error);
-        }
+    const handleCloseMenu = () => {
+        setAnchorEl(null); // 关闭菜单
     };
 
-    // 延时1秒后自动执行，如果1秒内cells改变则重新计时
-    const debouncedAutoSave = debounce(autoSaveNotebook, 1000);
-
-    // 每当 cells 发生变化时自动保存
-    useEffect(() => {
-        debouncedAutoSave();
-        return () => debouncedAutoSave.cancel();
-    }, [cells]);
-
-    // 添加：在当前活动 cell 后添加一个新的 cell
-    const handleAddCell = () => {
+    const handleAddCodeCell = () => {
         const newCell = {
             id: uuidv4(),
             type: 'code',
@@ -123,6 +89,23 @@ const NotesSection = () => {
             language: 'javascript',
             executionResult: '',
         };
+        addCell(newCell);
+        handleCloseMenu();
+    };
+
+    const handleAddMarkdownCell = () => {
+        const newCell = {
+            id: uuidv4(),
+            type: 'markdown',
+            content: '### 新的Markdown单元',
+            language: '',
+            executionResult: '',
+        };
+        addCell(newCell);
+        handleCloseMenu();
+    };
+
+    const addCell = (newCell) => {
         if (activeCellId) {
             const index = cells.findIndex(cell => cell.id === activeCellId);
             const newCells = [...cells];
@@ -135,7 +118,24 @@ const NotesSection = () => {
         }
     };
 
-    // 删除：删除当前活动 cell
+    const loadNotebook = async () => {
+        try {
+            const response = await axios.get('http://127.0.0.1:4523/m1/5989566-5677982-default/api/getNoteBook');
+            if (response.data && Array.isArray(response.data)) {
+                setCells(response.data);
+                setActiveCellId(response.data[0]?.id || null);
+            } else {
+                console.error('返回数据格式不正确', response.data);
+            }
+        } catch (error) {
+            console.error('加载 Notebook 失败:', error);
+        }
+    };
+
+    useEffect(() => {
+        loadNotebook();
+    }, []);
+
     const handleDeleteCell = () => {
         if (!activeCellId) return;
         const newCells = cells.filter(cell => cell.id !== activeCellId);
@@ -143,7 +143,6 @@ const NotesSection = () => {
         setActiveCellId(newCells[0]?.id || null);
     };
 
-    // 上移
     const handleMoveUp = () => {
         if (!activeCellId) return;
         const index = cells.findIndex(cell => cell.id === activeCellId);
@@ -153,7 +152,6 @@ const NotesSection = () => {
         setCells(newCells);
     };
 
-    // 下移
     const handleMoveDown = () => {
         if (!activeCellId) return;
         const index = cells.findIndex(cell => cell.id === activeCellId);
@@ -163,7 +161,6 @@ const NotesSection = () => {
         setCells(newCells);
     };
 
-    // 运行：如果当前 cell 为代码单元，将代码发送给后端执行，获取返回结果更新 executionResult
     const handleRun = async () => {
         if (!activeCellId) return;
         const cell = cells.find(cell => cell.id === activeCellId);
@@ -189,14 +186,12 @@ const NotesSection = () => {
         }
     };
 
-    // 更新单元内容
     const updateCellContent = (id, content) => {
         setCells(prevCells =>
             prevCells.map(cell => (cell.id === id ? { ...cell, content } : cell))
         );
     };
 
-    // 根据 cell 类型渲染对应的编辑器组件
     const renderCell = (cell) => {
         const isActive = cell.id === activeCellId;
         return (
@@ -208,7 +203,6 @@ const NotesSection = () => {
                 transition={{duration: 0.3}}
             >
                 <CellContainer
-                    key={cell.id}
                     active={isActive ? 1 : 0}
                     onClick={() => setActiveCellId(cell.id)}
                 >
@@ -234,13 +228,11 @@ const NotesSection = () => {
                     )}
                 </CellContainer>
             </motion.div>
-
         );
     };
 
     return (
         <NotesContainer>
-            {/* 局部工具栏，固定在 NotesSection 部分的上方 */}
             <AppBar
                 position="static"
                 elevation={0}
@@ -254,9 +246,17 @@ const NotesSection = () => {
                     <Typography variant="h6" sx={{flexGrow: 1, color: 'text.primary'}}>
                         Notebook
                     </Typography>
-                    <IconButton color="inherit" onClick={handleAddCell}>
+                    <IconButton color="inherit" onClick={handleAddCellClick}>
                         <AddIcon/>
                     </IconButton>
+                    <Menu
+                        anchorEl={anchorEl}
+                        open={Boolean(anchorEl)}
+                        onClose={handleCloseMenu}
+                    >
+                        <MenuItem onClick={handleAddCodeCell}>添加代码单元</MenuItem>
+                        <MenuItem onClick={handleAddMarkdownCell}>添加Markdown单元</MenuItem>
+                    </Menu>
                     <IconButton color="inherit" onClick={handleDeleteCell}>
                         <DeleteIcon/>
                     </IconButton>
@@ -271,7 +271,6 @@ const NotesSection = () => {
                     </IconButton>
                 </Toolbar>
             </AppBar>
-            {/* CellsWrapper：滚动区域 */}
             <CellsWrapper>{cells.map(renderCell)}</CellsWrapper>
         </NotesContainer>
     );
