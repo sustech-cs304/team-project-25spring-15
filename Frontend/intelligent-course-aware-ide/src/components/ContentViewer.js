@@ -1,8 +1,11 @@
-import React from 'react';
-import { Paper, Box, Typography } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Box, AppBar, Toolbar, IconButton, Typography, Button, CircularProgress } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { Add as AddIcon, Delete as DeleteIcon, PlayArrow as RunIcon } from '@mui/icons-material';
+import axios from 'axios';
+import { Document, Page } from 'react-pdf';
 
-const ContentViewerContainer = styled(Paper)(({ theme }) => ({
+const ContentViewerContainer = styled('div')(({ theme }) => ({
     flexGrow: 1,
     padding: theme.spacing(2),
     borderRadius: theme.spacing(1),
@@ -11,19 +14,110 @@ const ContentViewerContainer = styled(Paper)(({ theme }) => ({
 }));
 
 const ContentViewer = () => {
+    const [file, setFile] = useState(null);  // 存储文件的 URL
+    const [fileId, setFileId] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [numPages, setNumPages] = useState(null);
+
+    // 1. 加载已经上传的文件
+    const loadPdfFile = async () => {
+        try {
+            const response = await axios.get(`http://127.0.0.1:4523/m1/5989566-5677982-default/api/getNoteBook`);
+            if (response.data && response.data.fileId) {
+                const { fileId } = response.data;
+                setFileId(fileId);
+                // 请求获取 PDF 数据流
+                const pdfResponse = await axios.get(`http://127.0.0.1:4523/m1/5989566-5677982-default/api/get-pdf/${fileId}`, {
+                    responseType: 'blob',
+                });
+                const fileURL = URL.createObjectURL(pdfResponse.data);
+                setFile(fileURL);
+            }
+        } catch (err) {
+            setError("加载 PDF 文件失败，请重试！");
+            console.error(err);
+        }
+    };
+
+    useEffect(() => {
+        loadPdfFile();
+    }, []);
+
+    // 2. 上传文件
+    const handleFileUpload = async (event) => {
+        const uploadedFile = event.target.files[0];
+        if (!uploadedFile) return;
+
+        setLoading(true);
+        setError(null);
+
+        const formData = new FormData();
+        formData.append('file', uploadedFile);
+
+        try {
+            const response = await axios.post('http://127.0.0.1:4523/m1/5989566-5677982-default/api/upload', formData, {
+                headers: { 'Content-Type': 'multipart/form-data' },
+            });
+
+            const { fileId } = response.data;
+            setFileId(fileId);  // 存储文件 ID
+            // 请求获取 PDF 数据流
+            const pdfResponse = await axios.get(`http://127.0.0.1:4523/m1/5989566-5677982-default/api/get-pdf/${fileId}`, {
+                responseType: 'blob',
+            });
+
+            const fileURL = URL.createObjectURL(pdfResponse.data);
+            setFile(fileURL);  // 设置 PDF URL 来展示
+        } catch (err) {
+            setError("文件上传失败，请重试！");
+            console.error(err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const onDocumentLoadSuccess = ({ numPages }) => {
+        setNumPages(numPages);
+    };
+
     return (
-        <ContentViewerContainer elevation={1}>
-            {/* 这里替换为你的实际内容组件 */}
-            <Box sx={{ bgcolor: '#fafafa', p: 2, borderRadius: 1, height: 450 }}>
-                <Typography variant="h4" gutterBottom>
-                    TAKEAWAYS
-                </Typography>
-                <Typography variant="h6" gutterBottom>
-                    "Plan to throw one away; you will, anyhow."
-                </Typography>
-                <Typography paragraph>
-                    要有丢弃一个版本的心理准备，因为你做的第一个总会这样。
-                </Typography>
+        <ContentViewerContainer>
+            {/* 如果没有文件，显示提示和上传按钮 */}
+            {!file ? (
+                <Box sx={{ textAlign: 'center' }}>
+                    <Typography variant="h5" gutterBottom>
+                        当前没有上传文件
+                    </Typography>
+                    <Button variant="contained" component="label">
+                        上传文件
+                        <input type="file" hidden onChange={handleFileUpload} />
+                    </Button>
+                    {loading && <CircularProgress sx={{ mt: 2 }} />}
+                    {error && <Typography color="error" sx={{ mt: 2 }}>{error}</Typography>}
+                </Box>
+            ) : (
+                // 如果上传了文件，展示 PDF
+                <Box sx={{ bgcolor: '#fafafa', p: 2, borderRadius: 1, height: 450 }}>
+                    <Typography variant="h4" gutterBottom>
+                        PDF 预览
+                    </Typography>
+                    <Document file={file} onLoadSuccess={onDocumentLoadSuccess}>
+                        {Array.from(new Array(numPages), (el, index) => (
+                            <Page key={`page_${index + 1}`} pageNumber={index + 1} />
+                        ))}
+                    </Document>
+                </Box>
+            )}
+
+            {/* 提供上传按钮 */}
+            <Box sx={{ textAlign: 'center', mt: 2 }}>
+                {file && (
+                    <Button onClick={handleFileUpload} variant="contained" component="label">
+                        覆盖上传文件
+                        <input type="file" hidden onChange={handleFileUpload} />
+                    </Button>
+                )}
             </Box>
         </ContentViewerContainer>
     );
