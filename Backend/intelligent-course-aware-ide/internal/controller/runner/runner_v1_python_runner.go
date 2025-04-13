@@ -15,7 +15,7 @@ import (
 func (c *ControllerV1) PythonRunner(ctx context.Context, req *v1.PythonRunnerReq) (res *v1.PythonRunnerRes, err error) {
 	var name string = req.Name
 	// Check if the Docker container is running
-	var checkResult string = CheckWhetherContainerIsRunning(TargetPythonDockerName)
+	var checkResult string = CheckWhetherContainerIsRunning(TargetDockerName)
 	if checkResult != "success" {
 		return nil, gerror.NewCode(gcode.CodeDbOperationError, checkResult)
 	}
@@ -31,7 +31,7 @@ func (c *ControllerV1) PythonRunner(ctx context.Context, req *v1.PythonRunnerReq
 	// But we have not implement file upload so we will implement it later
 	var pathForPythonDocker string = PathForDocker + name + ".py"
 	var cmdContext []string = append([]string{
-		"exec", "-i", TargetPythonDockerName, "python", pathForPythonDocker,
+		"exec", "-i", TargetDockerName, "python", pathForPythonDocker,
 	}, req.Args...)
 
 	var cmd *exec.Cmd = exec.CommandContext(ctx, "docker", cmdContext...)

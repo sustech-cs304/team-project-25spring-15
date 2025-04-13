@@ -8,7 +8,7 @@ import (
 	"github.com/gogf/gf/v2/os/gtime"
 )
 
-// Assignments is the golang structure for table assignments.
+// Assignments is the golang structure for table Assignments.
 type Assignments struct {
 	AssignmentId int64       `json:"assignmentId" orm:"assignmentId" description:""` //
 	OwnerId      int64       `json:"ownerId"      orm:"ownerId"      description:""` //

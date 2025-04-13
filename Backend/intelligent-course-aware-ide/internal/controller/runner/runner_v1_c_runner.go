@@ -14,7 +14,7 @@ import (
 
 func (c *ControllerV1) CRunner(ctx context.Context, req *v1.CRunnerReq) (res *v1.CRunnerRes, err error) {
 	var name string = req.Name
-	var checkResult string = CheckWhetherContainerIsRunning(TargetCDockerName)
+	var checkResult string = CheckWhetherContainerIsRunning(TargetDockerName)
 	if checkResult != "success" {
 		return nil, gerror.NewCode(gcode.CodeInternalError, checkResult)
 	}
@@ -30,7 +30,7 @@ func (c *ControllerV1) CRunner(ctx context.Context, req *v1.CRunnerReq) (res *v1
 	var compileErr string
 	var stdout, stderr strings.Builder
 
-	cmd = exec.CommandContext(ctx, "docker", "exec", TargetCDockerName, "g++", pathForCDocker, "-o", pathForExecutableFile)
+	cmd = exec.CommandContext(ctx, "docker", "exec", TargetDockerName, "g++", pathForCDocker, "-o", pathForExecutableFile)
 	cmd.Stdout = &stdout
 	cmd.Stderr = &stderr
 
@@ -49,7 +49,7 @@ func (c *ControllerV1) CRunner(ctx context.Context, req *v1.CRunnerReq) (res *v1
 	}
 
 	var cmdContext []string = append([]string{
-		"exec", "-i", TargetCDockerName, pathForExecutableFile,
+		"exec", "-i", TargetDockerName, pathForExecutableFile,
 	}, req.Args...)
 
 	cmd = exec.CommandContext(ctx, "docker", cmdContext...)

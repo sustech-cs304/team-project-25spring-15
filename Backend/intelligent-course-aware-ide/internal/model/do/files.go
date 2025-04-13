@@ -9,9 +9,9 @@ import (
 	"github.com/gogf/gf/v2/os/gtime"
 )
 
-// Files is the golang structure of table files for DAO operations like Where/Data.
+// Files is the golang structure of table Files for DAO operations like Where/Data.
 type Files struct {
-	g.Meta       `orm:"table:files, do:true"`
+	g.Meta       `orm:"table:Files, do:true"`
 	FileId       interface{} //
 	CourseId     interface{} //
 	OwnerId      interface{} //

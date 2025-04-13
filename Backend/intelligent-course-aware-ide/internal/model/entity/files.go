@@ -8,7 +8,7 @@ import (
 	"github.com/gogf/gf/v2/os/gtime"
 )
 
-// Files is the golang structure for table files.
+// Files is the golang structure for table Files.
 type Files struct {
 	FileId       int64       `json:"fileId"       orm:"fileId"       description:""` //
 	CourseId     int64       `json:"courseId"     orm:"courseId"     description:""` //

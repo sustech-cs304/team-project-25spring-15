@@ -11,14 +11,14 @@ import (
 	"github.com/gogf/gf/v2/frame/g"
 )
 
-// FilesDao is the data access object for the table files.
+// FilesDao is the data access object for the table Files.
 type FilesDao struct {
 	table   string       // table is the underlying table name of the DAO.
 	group   string       // group is the database configuration group name of the current DAO.
 	columns FilesColumns // columns contains all the column names of Table for convenient usage.
 }
 
-// FilesColumns defines and stores column names for the table files.
+// FilesColumns defines and stores column names for the table Files.
 type FilesColumns struct {
 	FileId       string //
 	CourseId     string //
@@ -31,7 +31,7 @@ type FilesColumns struct {
 	LastModified string //
 }
 
-// filesColumns holds the columns for the table files.
+// filesColumns holds the columns for the table Files.
 var filesColumns = FilesColumns{
 	FileId:       "fileId",
 	CourseId:     "courseId",
@@ -48,7 +48,7 @@ var filesColumns = FilesColumns{
 func NewFilesDao() *FilesDao {
 	return &FilesDao{
 		group:   "default",
-		table:   "files",
+		table:   "Files",
 		columns: filesColumns,
 	}
 }
