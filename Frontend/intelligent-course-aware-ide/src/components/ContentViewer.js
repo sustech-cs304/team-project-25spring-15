@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Box, AppBar, Toolbar, IconButton, Typography, Button, CircularProgress } from '@mui/material';
+import {Box, AppBar, Toolbar, IconButton, Typography, Button, CircularProgress, Card} from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Add as AddIcon, Delete as DeleteIcon, PlayArrow as RunIcon } from '@mui/icons-material';
 import axios from 'axios';
 import { Document, Page } from 'react-pdf';
 
-const ContentViewerContainer = styled('div')(({ theme }) => ({
+const ContentViewerContainer = styled(Card)(({ theme }) => ({
     flexGrow: 1,
     padding: theme.spacing(2),
     borderRadius: theme.spacing(1),
@@ -85,40 +85,42 @@ const ContentViewer = () => {
         <ContentViewerContainer>
             {/* 如果没有文件，显示提示和上传按钮 */}
             {!file ? (
-                <Box sx={{ textAlign: 'center' }}>
-                    <Typography variant="h5" gutterBottom>
-                        当前没有上传文件
-                    </Typography>
+                <Box>
+                    <Box sx={{ bgcolor: '#ffffff', borderRadius: 1, textAlign: 'center' }}>
+                        <Typography variant="h5" gutterBottom>
+                            当前没有上传文件
+                        </Typography>
+                        {loading && <CircularProgress sx={{ mt: 2 }} />}
+                        {error && <Typography color="error" sx={{ mt: 2 }}>{error}</Typography>}
+                    </Box>
                     <Button variant="contained" component="label">
                         上传文件
                         <input type="file" hidden onChange={handleFileUpload} />
                     </Button>
-                    {loading && <CircularProgress sx={{ mt: 2 }} />}
-                    {error && <Typography color="error" sx={{ mt: 2 }}>{error}</Typography>}
                 </Box>
             ) : (
                 // 如果上传了文件，展示 PDF
-                <Box sx={{ bgcolor: '#fafafa', p: 2, borderRadius: 1, height: 450 }}>
-                    <Typography variant="h4" gutterBottom>
-                        PDF 预览
-                    </Typography>
-                    <Document file={file} onLoadSuccess={onDocumentLoadSuccess}>
-                        {Array.from(new Array(numPages), (el, index) => (
-                            <Page key={`page_${index + 1}`} pageNumber={index + 1} />
-                        ))}
-                    </Document>
+                <Box>
+                    <Box sx={{ bgcolor: '#ffffff', p: 2, borderRadius: 1, height: 450 }}>
+                        <Typography variant="h4" gutterBottom>
+                            PDF 预览
+                        </Typography>
+                        <Document file={file} onLoadSuccess={onDocumentLoadSuccess}>
+                            {Array.from(new Array(numPages), (el, index) => (
+                                <Page key={`page_${index + 1}`} pageNumber={index + 1} />
+                            ))}
+                        </Document>
+                    </Box>
+                    <Box sx={{ textAlign: 'center', mt: 2 }}>
+                        {file && (
+                            <Button onClick={handleFileUpload} variant="contained" component="label">
+                                覆盖上传文件
+                                <input type="file" hidden onChange={handleFileUpload} />
+                            </Button>
+                        )}
+                    </Box>
                 </Box>
             )}
-
-            {/* 提供上传按钮 */}
-            <Box sx={{ textAlign: 'center', mt: 2 }}>
-                {file && (
-                    <Button onClick={handleFileUpload} variant="contained" component="label">
-                        覆盖上传文件
-                        <input type="file" hidden onChange={handleFileUpload} />
-                    </Button>
-                )}
-            </Box>
         </ContentViewerContainer>
     );
 };

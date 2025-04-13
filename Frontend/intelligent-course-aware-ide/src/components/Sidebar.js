@@ -4,10 +4,14 @@ import {
     ListItemButton,
     ListItemText,
     Collapse,
-    ListSubheader
+    ListSubheader,
+    ListItemIcon,
+    Typography,
 } from '@mui/material';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';  // 示例图标
+import AssignmentIcon from '@mui/icons-material/Assignment';  // 示例图标
 
 const Sidebar = ({ courses, onSelectLecture }) => {
     const [open, setOpen] = React.useState({});
@@ -36,7 +40,17 @@ const Sidebar = ({ courses, onSelectLecture }) => {
             {courses.map((course) => (
                 <div key={course.id}>
                     <ListItemButton onClick={() => handleCourseClick(course.id)}>
-                        <ListItemText primary={course.title} />
+                        <ListItemIcon>
+                            <LibraryBooksIcon />  {/* 课程图标 */}
+                        </ListItemIcon>
+                        <ListItemText
+                            primary={course.title}
+                            slotProps={{
+                                primary: {
+                                    sx: { fontSize: '18px' },  // 设置字体大小
+                                },
+                            }}
+                        />
                         {open[course.id] ? <ExpandLess /> : <ExpandMore />}
                     </ListItemButton>
                     <Collapse in={open[course.id]} timeout="auto" unmountOnExit>
@@ -47,7 +61,17 @@ const Sidebar = ({ courses, onSelectLecture }) => {
                                     sx={{ pl: 4 }}
                                     onClick={() => onSelectLecture(lecture)}
                                 >
-                                    <ListItemText primary={lecture.title} />
+                                    <ListItemIcon>
+                                        <AssignmentIcon />  {/* 课件图标 */}
+                                    </ListItemIcon>
+                                    <ListItemText
+                                        primary={lecture.title}
+                                        slotProps={{
+                                            primary: {
+                                                sx: { fontSize: '16px' },  // 设置字体大小
+                                            },
+                                        }}
+                                    />
                                 </ListItemButton>
                             ))}
                         </List>

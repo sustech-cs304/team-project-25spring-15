@@ -120,7 +120,7 @@ const NotesSection = () => {
 
     const loadNotebook = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:4523/m1/5989566-5677982-default/api/getNoteBook');
+            const response = await axios.get('https://m1.apifoxmock.com/m1/5989566-5677982-default/api/getNoteBook');
             if (response.data && Array.isArray(response.data)) {
                 setCells(response.data);
                 setActiveCellId(response.data[0]?.id || null);

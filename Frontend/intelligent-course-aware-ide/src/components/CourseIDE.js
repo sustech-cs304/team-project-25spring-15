@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box } from '@mui/material';
+import {Box, Card} from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Header from './Header';
 import Sidebar from './Sidebar';
@@ -28,7 +28,7 @@ const CourseIDE = () => {
     useEffect(() => {
         const loadCourses = async () => {
             try {
-                const response = await axios.get('http://127.0.0.1:4523/m1/5989566-5677982-default/api/getCourses');
+                const response = await axios.get('https://m1.apifoxmock.com/m1/5989566-5677982-default/api/getCourses');
                 setCourses(response.data.courses);
             } catch (err) {
                 setError(err.message);
@@ -62,12 +62,12 @@ const CourseIDE = () => {
             >
                 <Sidebar courses={courses} />
             </Box>
-            <Box sx={{ flexGrow: 1, mt: 8 }}>
+            <Box sx={{ flexGrow: 1, mt: 8, ml: 8 }}>
                 <ContentContainer>
                     <ContentViewer file="C:\Users\ASUS\Desktop\Undergraduate Students Declaration Form (2)(1).pdf" />
-                    <Box sx={{ flexGrow: 1, height: '100vh', overflow: 'hidden' }}>
+                    <Card sx={{ flexGrow: 1, height: '100vh', overflow: 'hidden' }}>
                         <NotesSection />
-                    </Box>
+                    </Card>
                 </ContentContainer>
             </Box>
         </MainContainer>
