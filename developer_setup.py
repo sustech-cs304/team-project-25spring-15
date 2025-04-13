@@ -27,7 +27,7 @@ if __name__ == "__main__":
     maxTryTime = 5
 
     tryTime = 0
-    for image in len(dockerImages):
+    for image in range(len(dockerImages)):
         result, out, err = imageDownload(dockerImages[image])
         image -= result
         tryTime += result
@@ -36,7 +36,7 @@ if __name__ == "__main__":
             print(err)
             break
     
-    for image in len(dockerImages):
+    for image in range(len(dockerImages)):
         result, out, err = containerCreating(dockerImages[image])
         image -= result
         tryTime += result
