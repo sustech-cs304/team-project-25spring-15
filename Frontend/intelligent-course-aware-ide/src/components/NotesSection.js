@@ -20,6 +20,7 @@ import axios from 'axios';
 import { debounce } from 'lodash';
 import CodeEditor from './CodeEditor';
 import MarkdownEditor from './MarkdownEditor';
+import { motion } from 'framer-motion';
 
 const NotesContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -199,32 +200,41 @@ const NotesSection = () => {
     const renderCell = (cell) => {
         const isActive = cell.id === activeCellId;
         return (
-            <CellContainer
+            <motion.div
                 key={cell.id}
-                active={isActive ? 1 : 0}
-                onClick={() => setActiveCellId(cell.id)}
+                initial={{opacity: 0, y: 10}}
+                animate={{opacity: 1, y: 0}}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{duration: 0.3}}
             >
-                {cell.type === 'code' ? (
-                    <CodeEditor
-                        value={cell.content}
-                        language={cell.language}
-                        onChange={(newCode) => updateCellContent(cell.id, newCode)}
-                    />
-                ) : (
-                    <MarkdownEditor
-                        value={cell.content}
-                        onChange={(newContent) => updateCellContent(cell.id, newContent)}
-                    />
-                )}
-                {cell.type === 'code' && cell.executionResult && (
-                    <Box sx={{ mt: 1, p: 1, border: '1px solid #ccc', borderRadius: 1, backgroundColor: '#f0f0f0' }}>
-                        <Typography variant="body2">运行结果:</Typography>
-                        <Typography variant="body2" sx={{ whiteSpace: 'pre-wrap' }}>
-                            {cell.executionResult}
-                        </Typography>
-                    </Box>
-                )}
-            </CellContainer>
+                <CellContainer
+                    key={cell.id}
+                    active={isActive ? 1 : 0}
+                    onClick={() => setActiveCellId(cell.id)}
+                >
+                    {cell.type === 'code' ? (
+                        <CodeEditor
+                            value={cell.content}
+                            language={cell.language}
+                            onChange={(newCode) => updateCellContent(cell.id, newCode)}
+                        />
+                    ) : (
+                        <MarkdownEditor
+                            value={cell.content}
+                            onChange={(newContent) => updateCellContent(cell.id, newContent)}
+                        />
+                    )}
+                    {cell.type === 'code' && cell.executionResult && (
+                        <Box sx={{mt: 1, p: 1, border: '1px solid #ccc', borderRadius: 1, backgroundColor: '#f0f0f0'}}>
+                            <Typography variant="body2">运行结果:</Typography>
+                            <Typography variant="body2" sx={{whiteSpace: 'pre-wrap'}}>
+                                {cell.executionResult}
+                            </Typography>
+                        </Box>
+                    )}
+                </CellContainer>
+            </motion.div>
+
         );
     };
 
@@ -241,23 +251,23 @@ const NotesSection = () => {
                 }}
             >
                 <Toolbar>
-                    <Typography variant="h6" sx={{ flexGrow: 1, color: 'text.primary' }}>
+                    <Typography variant="h6" sx={{flexGrow: 1, color: 'text.primary'}}>
                         Notebook
                     </Typography>
                     <IconButton color="inherit" onClick={handleAddCell}>
-                        <AddIcon />
+                        <AddIcon/>
                     </IconButton>
                     <IconButton color="inherit" onClick={handleDeleteCell}>
-                        <DeleteIcon />
+                        <DeleteIcon/>
                     </IconButton>
                     <IconButton color="inherit" onClick={handleMoveUp}>
-                        <UpIcon />
+                        <UpIcon/>
                     </IconButton>
                     <IconButton color="inherit" onClick={handleMoveDown}>
-                        <DownIcon />
+                        <DownIcon/>
                     </IconButton>
                     <IconButton color="inherit" onClick={handleRun}>
-                        <RunIcon />
+                        <RunIcon/>
                     </IconButton>
                 </Toolbar>
             </AppBar>
