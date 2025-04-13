@@ -18,7 +18,14 @@ const Sidebar = ({ courses, onSelectLecture }) => {
 
     return (
         <List
-            sx={{ width: 300, bgcolor: 'background.paper' }}
+            sx={{
+                width: 300,
+                bgcolor: 'background.paper',
+                height: '100vh',
+                position: 'fixed',
+                overflowY: 'auto',
+                zIndex: 1,
+            }}
             component="nav"
             subheader={
                 <ListSubheader component="div">
