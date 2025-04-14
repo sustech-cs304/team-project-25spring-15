@@ -11,58 +11,56 @@ import (
 	"github.com/gogf/gf/v2/frame/g"
 )
 
-// ChatsDao is the data access object for the table Chats.
-type ChatsDao struct {
-	table   string       // table is the underlying table name of the DAO.
-	group   string       // group is the database configuration group name of the current DAO.
-	columns ChatsColumns // columns contains all the column names of Table for convenient usage.
+// ChatUserInfoDao is the data access object for the table ChatUserInfo.
+type ChatUserInfoDao struct {
+	table   string              // table is the underlying table name of the DAO.
+	group   string              // group is the database configuration group name of the current DAO.
+	columns ChatUserInfoColumns // columns contains all the column names of Table for convenient usage.
 }
 
-// ChatsColumns defines and stores column names for the table Chats.
-type ChatsColumns struct {
-	ChatId   string //
-	CourseId string //
-	OwnerId  string //
+// ChatUserInfoColumns defines and stores column names for the table ChatUserInfo.
+type ChatUserInfoColumns struct {
+	UserId string //
+	ChatId string //
 }
 
-// chatsColumns holds the columns for the table Chats.
-var chatsColumns = ChatsColumns{
-	ChatId:   "chatId",
-	CourseId: "courseId",
-	OwnerId:  "ownerId",
+// chatUserInfoColumns holds the columns for the table ChatUserInfo.
+var chatUserInfoColumns = ChatUserInfoColumns{
+	UserId: "userId",
+	ChatId: "chatId",
 }
 
-// NewChatsDao creates and returns a new DAO object for table data access.
-func NewChatsDao() *ChatsDao {
-	return &ChatsDao{
+// NewChatUserInfoDao creates and returns a new DAO object for table data access.
+func NewChatUserInfoDao() *ChatUserInfoDao {
+	return &ChatUserInfoDao{
 		group:   "default",
-		table:   "Chats",
-		columns: chatsColumns,
+		table:   "ChatUserInfo",
+		columns: chatUserInfoColumns,
 	}
 }
 
 // DB retrieves and returns the underlying raw database management object of the current DAO.
-func (dao *ChatsDao) DB() gdb.DB {
+func (dao *ChatUserInfoDao) DB() gdb.DB {
 	return g.DB(dao.group)
 }
 
 // Table returns the table name of the current DAO.
-func (dao *ChatsDao) Table() string {
+func (dao *ChatUserInfoDao) Table() string {
 	return dao.table
 }
 
 // Columns returns all column names of the current DAO.
-func (dao *ChatsDao) Columns() ChatsColumns {
+func (dao *ChatUserInfoDao) Columns() ChatUserInfoColumns {
 	return dao.columns
 }
 
 // Group returns the database configuration group name of the current DAO.
-func (dao *ChatsDao) Group() string {
+func (dao *ChatUserInfoDao) Group() string {
 	return dao.group
 }
 
 // Ctx creates and returns a Model for the current DAO. It automatically sets the context for the current operation.
-func (dao *ChatsDao) Ctx(ctx context.Context) *gdb.Model {
+func (dao *ChatUserInfoDao) Ctx(ctx context.Context) *gdb.Model {
 	return dao.DB().Model(dao.table).Safe().Ctx(ctx)
 }
 
@@ -72,6 +70,6 @@ func (dao *ChatsDao) Ctx(ctx context.Context) *gdb.Model {
 //
 // Note: Do not commit or roll back the transaction in function f,
 // as it is automatically handled by this function.
-func (dao *ChatsDao) Transaction(ctx context.Context, f func(ctx context.Context, tx gdb.TX) error) (err error) {
+func (dao *ChatUserInfoDao) Transaction(ctx context.Context, f func(ctx context.Context, tx gdb.TX) error) (err error) {
 	return dao.Ctx(ctx).Transaction(ctx, f)
 }

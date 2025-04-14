@@ -11,14 +11,14 @@ import (
 	"github.com/gogf/gf/v2/frame/g"
 )
 
-// AssignmentsDao is the data access object for the table assignments.
+// AssignmentsDao is the data access object for the table Assignments.
 type AssignmentsDao struct {
 	table   string             // table is the underlying table name of the DAO.
 	group   string             // group is the database configuration group name of the current DAO.
 	columns AssignmentsColumns // columns contains all the column names of Table for convenient usage.
 }
 
-// AssignmentsColumns defines and stores column names for the table assignments.
+// AssignmentsColumns defines and stores column names for the table Assignments.
 type AssignmentsColumns struct {
 	AssignmentId string //
 	OwnerId      string //
@@ -28,7 +28,7 @@ type AssignmentsColumns struct {
 	Completeness string //
 }
 
-// assignmentsColumns holds the columns for the table assignments.
+// assignmentsColumns holds the columns for the table Assignments.
 var assignmentsColumns = AssignmentsColumns{
 	AssignmentId: "assignmentId",
 	OwnerId:      "ownerId",
@@ -42,7 +42,7 @@ var assignmentsColumns = AssignmentsColumns{
 func NewAssignmentsDao() *AssignmentsDao {
 	return &AssignmentsDao{
 		group:   "default",
-		table:   "assignments",
+		table:   "Assignments",
 		columns: assignmentsColumns,
 	}
 }

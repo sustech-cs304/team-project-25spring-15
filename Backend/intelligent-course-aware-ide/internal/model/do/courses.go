@@ -9,9 +9,9 @@ import (
 	"github.com/gogf/gf/v2/os/gtime"
 )
 
-// Courses is the golang structure of table courses for DAO operations like Where/Data.
+// Courses is the golang structure of table Courses for DAO operations like Where/Data.
 type Courses struct {
-	g.Meta      `orm:"table:courses, do:true"`
+	g.Meta      `orm:"table:Courses, do:true"`
 	CourseId    interface{} //
 	CourseName  interface{} //
 	Description interface{} //

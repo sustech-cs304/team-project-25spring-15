@@ -11,14 +11,14 @@ import (
 	"github.com/gogf/gf/v2/frame/g"
 )
 
-// CoursesDao is the data access object for the table courses.
+// CoursesDao is the data access object for the table Courses.
 type CoursesDao struct {
 	table   string         // table is the underlying table name of the DAO.
 	group   string         // group is the database configuration group name of the current DAO.
 	columns CoursesColumns // columns contains all the column names of Table for convenient usage.
 }
 
-// CoursesColumns defines and stores column names for the table courses.
+// CoursesColumns defines and stores column names for the table Courses.
 type CoursesColumns struct {
 	CourseId    string //
 	CourseName  string //
@@ -27,7 +27,7 @@ type CoursesColumns struct {
 	EndTime     string //
 }
 
-// coursesColumns holds the columns for the table courses.
+// coursesColumns holds the columns for the table Courses.
 var coursesColumns = CoursesColumns{
 	CourseId:    "courseId",
 	CourseName:  "courseName",
@@ -40,7 +40,7 @@ var coursesColumns = CoursesColumns{
 func NewCoursesDao() *CoursesDao {
 	return &CoursesDao{
 		group:   "default",
-		table:   "courses",
+		table:   "Courses",
 		columns: coursesColumns,
 	}
 }

@@ -8,7 +8,7 @@ import (
 	"github.com/gogf/gf/v2/os/gtime"
 )
 
-// Courses is the golang structure for table courses.
+// Courses is the golang structure for table Courses.
 type Courses struct {
 	CourseId    int64       `json:"courseId"    orm:"courseId"    description:""` //
 	CourseName  string      `json:"courseName"  orm:"courseName"  description:""` //

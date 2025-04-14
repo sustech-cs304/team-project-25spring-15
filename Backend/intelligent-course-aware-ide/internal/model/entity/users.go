@@ -8,7 +8,7 @@ import (
 	"github.com/gogf/gf/v2/os/gtime"
 )
 
-// Users is the golang structure for table users.
+// Users is the golang structure for table Users.
 type Users struct {
 	UserId     int64       `json:"userId"     orm:"userId"     description:""` //
 	UserName   string      `json:"userName"   orm:"userName"   description:""` //

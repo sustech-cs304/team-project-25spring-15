@@ -4,9 +4,8 @@
 
 package entity
 
-// Chats is the golang structure for table Chats.
-type Chats struct {
-	ChatId   int64 `json:"chatId"   orm:"chatId"   description:""` //
+// CourseFiles is the golang structure for table CourseFiles.
+type CourseFiles struct {
+	FileId   int64 `json:"fileId"   orm:"fileId"   description:""` //
 	CourseId int64 `json:"courseId" orm:"courseId" description:""` //
-	OwnerId  int64 `json:"ownerId"  orm:"ownerId"  description:""` //
 }
