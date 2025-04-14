@@ -1,0 +1,5 @@
+docker exec -it CS304 bash
+
+mysql -u Y -p
+
+123456
