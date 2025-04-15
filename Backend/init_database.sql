@@ -1,19 +1,34 @@
 create database if not exists mysqlTest;
 use mysqlTest;
+
+DROP TABLE IF EXISTS Users;
+DROP TABLE IF EXISTS Files;
+DROP TABLE IF EXISTS Courses;
+DROP TABLE IF EXISTS Assignments;
+DROP TABLE IF EXISTS Chats;
+DROP TABLE IF EXISTS AssignmentUserInfo;
+DROP TABLE IF EXISTS UserFileInfo;
+DROP TABLE IF EXISTS Coursefiles;
+DROP TABLE IF EXISTS AssignmentFiles;
+DROP TABLE IF EXISTS TestcaseAndAnswerFiles;
+DROP TABLE IF EXISTS ChatUserInfo;
+DROP TABLE IF EXISTS ChatMessageInfo;
+
 CREATE TABLE Users (
     userId BIGINT AUTO_INCREMENT PRIMARY KEY,
     userName VARCHAR(255) NOT NULL,
-    password VARCHAR(255) NOT NULL,
+    password_U VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     userSign TEXT,
     university VARCHAR(255),
-    birthday TIMESTAMP
+    birthday TIMESTAMP,
+    identity_U ENUM('teacher', 'student') DEFAULT 'student'
 );
 CREATE TABLE Files (
     fileId BIGINT AUTO_INCREMENT PRIMARY KEY,
     fileSize BIGINT NOT NULL,
     fileUrl TEXT NOT NULL,
-    fileName VARCHAR(255) NOT NULL,
+    fileName_F VARCHAR(255) NOT NULL,
     fileType VARCHAR(50) NOT NULL,
     uploaderId BIGINT,
     uploadDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -23,7 +38,7 @@ CREATE TABLE Files (
 CREATE TABLE Courses(
     courseId BIGINT AUTO_INCREMENT PRIMARY KEY,
     courseName VARCHAR(255) NOT NULL,
-    description VARCHAR(255),
+    description_C VARCHAR(255),
     startTime TIMESTAMP,
     endTime TIMESTAMP
 );
@@ -31,11 +46,11 @@ CREATE TABLE Assignments(
     assignmentId BIGINT AUTO_INCREMENT PRIMARY KEY,
     publisherId BIGINT NOT NULL,
     courseId BIGINT,
-    description VARCHAR(255),
+    description_A VARCHAR(255),
     deadLine TIMESTAMP,
     completeness INT,
-    FOREIGN KEY (ownerId) REFERENCES Users(userId),
-    FOREIGN KEY (courseId) REFERENCES Courses(courseId),
+    FOREIGN KEY (publisherId) REFERENCES Users(userId),
+    FOREIGN KEY (courseId) REFERENCES Courses(courseId)
 );
 CREATE TABLE Chats(
     chatId BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -48,7 +63,7 @@ CREATE TABLE AssignmentUserInfo(
     assignmentId BIGINT NOT NULL,
     performerId BIGINT NOT NULL,
     score INT DEFAULT 0,
-    PRIMARY KEY (assignmentId, performerId)
+    PRIMARY KEY (assignmentId, performerId),
     FOREIGN KEY (assignmentId) REFERENCES Assignments(assignmentId),
     FOREIGN KEY (performerId) REFERENCES Users(userId)
 );
@@ -84,7 +99,7 @@ CREATE TABLE TestcaseAndAnswerFiles(
     FOREIGN KEY (ownerId) REFERENCES Users(userId),
     FOREIGN KEY (testcaseId) REFERENCES Files(fileId),
     FOREIGN KEY (answerId) REFERENCES Files(fileId)
-)
+);
 CREATE TABLE ChatUserInfo(
     userId BIGINT NOT NULL,
     chatId BIGINT NOT NULL,
