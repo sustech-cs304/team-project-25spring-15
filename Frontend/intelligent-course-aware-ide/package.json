@@ -19,6 +19,7 @@
     "axios": "^1.8.4",
     "framer-motion": "^12.6.5",
     "lodash": "^4.17.21",
+    "pdfjs-dist": "^5.1.91",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-markdown": "^10.1.0",

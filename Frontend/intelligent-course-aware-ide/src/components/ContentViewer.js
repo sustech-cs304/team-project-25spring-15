@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import {Box, AppBar, Toolbar, IconButton, Typography, Button, CircularProgress, Card} from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { Add as AddIcon, Delete as DeleteIcon, PlayArrow as RunIcon } from '@mui/icons-material';
+// import { Add as AddIcon, Delete as DeleteIcon, PlayArrow as RunIcon } from '@mui/icons-material';
 import axios from 'axios';
-import { Document, Page } from 'react-pdf';
+import { Document, Page, pdfjs } from 'react-pdf';
+
+pdfjs.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
 
 const ContentViewerContainer = styled(Card)(({ theme }) => ({
     flexGrow: 1,
@@ -19,6 +21,7 @@ const ContentViewer = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [numPages, setNumPages] = useState(null);
+    const [pageNumber, setPageNumber] = useState(1); 
 
     // 1. 加载已经上传的文件
     const loadPdfFile = async () => {
@@ -41,7 +44,15 @@ const ContentViewer = () => {
     };
 
     useEffect(() => {
-        loadPdfFile();
+        const testMode = true;
+
+        if (testMode) {
+            // 使用public文件夹中的PDF (假设你放了一个sample.pdf在public文件夹)
+            setFile('/mockedPdf.pdf');
+        } else {
+            // 原来的加载逻辑
+            loadPdfFile();
+        }
     }, []);
 
     // 2. 上传文件
@@ -101,15 +112,36 @@ const ContentViewer = () => {
             ) : (
                 // 如果上传了文件，展示 PDF
                 <Box>
-                    <Box sx={{ bgcolor: '#ffffff', p: 2, borderRadius: 1, height: 450 }}>
+                    <Box sx={{ bgcolor: '#ffffff', p: 2, borderRadius: 1, height: 510, overflow: 'auto' }}>
                         <Typography variant="h4" gutterBottom>
                             PDF 预览
                         </Typography>
                         <Document file={file} onLoadSuccess={onDocumentLoadSuccess}>
-                            {Array.from(new Array(numPages), (el, index) => (
-                                <Page key={`page_${index + 1}`} pageNumber={index + 1} />
-                            ))}
+                            <Page pageNumber={pageNumber} width={800} renderTextLayer={false} renderAnnotationLayer={false}/>
                         </Document>
+                    </Box>
+                    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2, mb: 2 }}>
+                        <Button 
+                            disabled={pageNumber <= 1}
+                            onClick={() => setPageNumber(pageNumber - 1)}
+                            variant="contained"
+                            sx={{ mx: 1 }}
+                        >
+                            上一页
+                        </Button>
+                        
+                        <Typography variant="body1" sx={{ mx: 2, display: 'flex', alignItems: 'center' }}>
+                            第 {pageNumber} 页 / 共 {numPages} 页
+                        </Typography>
+                        
+                        <Button 
+                            disabled={pageNumber >= numPages}
+                            onClick={() => setPageNumber(pageNumber + 1)}
+                            variant="contained"
+                            sx={{ mx: 1 }}
+                        >
+                            下一页
+                        </Button>
                     </Box>
                     <Box sx={{ textAlign: 'center', mt: 2 }}>
                         {file && (

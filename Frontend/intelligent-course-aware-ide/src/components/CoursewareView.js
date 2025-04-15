@@ -25,19 +25,19 @@ const CoursewareView = () => {
             <Divider />
 
             {/* 下方：代码示例 */}
-            <LowerBox sx={{ p: 1 }}>
+            {/* <LowerBox sx={{ p: 1 }}>
                 <Typography variant="h6" gutterBottom>
                     代码示例
                 </Typography>
-                <Box sx={{ height: 'calc(100% - 32px)', overflow: 'auto' }}>
+                <Box sx={{ height: 'calc(100% - 32px)', overflow: 'auto' }}> */}
                     {/* 这里放简易 code editor, 也可复用NotesSection的某个代码单元 */}
-                    <CodeEditor
+                    {/* <CodeEditor
                         value="// 这里是课件相关的代码示例"
                         language="javascript"
                         onChange={() => {}}
                     />
                 </Box>
-            </LowerBox>
+            </LowerBox> */}
         </Box>
     );
 };
