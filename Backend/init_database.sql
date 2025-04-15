@@ -35,7 +35,7 @@ CREATE TABLE Assignments(
     deadLine TIMESTAMP,
     completeness INT,
     FOREIGN KEY (ownerId) REFERENCES Users(userId),
-    FOREIGN KEY (courseId) REFERENCES Courses(courseId)
+    FOREIGN KEY (courseId) REFERENCES Courses(courseId),
 );
 CREATE TABLE Chats(
     chatId BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -47,7 +47,7 @@ CREATE TABLE Chats(
 CREATE TABLE AssignmentUserInfo(
     assignmentId BIGINT NOT NULL,
     performerId BIGINT NOT NULL,
-    completed INT DEFAULT 0,
+    score INT DEFAULT 0,
     PRIMARY KEY (assignmentId, performerId)
     FOREIGN KEY (assignmentId) REFERENCES Assignments(assignmentId),
     FOREIGN KEY (performerId) REFERENCES Users(userId)
@@ -75,6 +75,16 @@ CREATE TABLE AssignmentFiles(
     FOREIGN KEY (ownerId) REFERENCES Users(userId),
     FOREIGN KEY (fileId) REFERENCES Files(fileId)
 );
+CREATE TABLE TestcaseAndAnswerFiles(
+    assignmentId BIGINT NOT NULL,
+    ownerId BIGINT NOT NULL,
+    testcaseId BIGINT,
+    answerId BIGINT,
+    FOREIGN KEY (assignmentId) REFERENCES Assignments(assignmentId),
+    FOREIGN KEY (ownerId) REFERENCES Users(userId),
+    FOREIGN KEY (testcaseId) REFERENCES Files(fileId),
+    FOREIGN KEY (answerId) REFERENCES Files(fileId)
+)
 CREATE TABLE ChatUserInfo(
     userId BIGINT NOT NULL,
     chatId BIGINT NOT NULL,
