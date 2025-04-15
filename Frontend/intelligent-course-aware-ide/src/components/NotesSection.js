@@ -56,7 +56,7 @@ const NotesSection = () => {
         {
             id: uuidv4(),
             type: 'code',
-            content: '// 示例代码\nconsole.log("Hello World");',
+            content: '// Example\nprint(\'Hello, World!\');',
             language: 'python',
             executionResult: '',
         },
@@ -85,7 +85,7 @@ const NotesSection = () => {
         const newCell = {
             id: uuidv4(),
             type: 'code',
-            content: '// 新的代码单元',
+            content: '// Example\nprint(\'Hello, World!\');',
             language: 'python',
             executionResult: '',
         };
@@ -198,7 +198,7 @@ const NotesSection = () => {
                 };
                 const response = await axios.get(endpoint, { params });
                 console.log(response);
-                const result = response.data.data.result || '无返回结果';
+                const result = response.data.data.result || '程序运行错误';
                 setCells(prevCells =>
                     prevCells.map(c =>
                         c.id === activeCellId ? { ...c, executionResult: result } : c
