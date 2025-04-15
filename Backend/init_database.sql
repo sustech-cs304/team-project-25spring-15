@@ -29,7 +29,7 @@ CREATE TABLE Courses(
 );
 CREATE TABLE Assignments(
     assignmentId BIGINT AUTO_INCREMENT PRIMARY KEY,
-    ownerId BIGINT NOT NULL,
+    publisherId BIGINT NOT NULL,
     courseId BIGINT,
     description VARCHAR(255),
     deadLine TIMESTAMP,
@@ -43,6 +43,14 @@ CREATE TABLE Chats(
     ownerId BIGINT NOT NULL,
     FOREIGN KEY (ownerId) REFERENCES Users(userId),
     FOREIGN KEY (courseId) REFERENCES Courses(courseId)
+);
+CREATE TABLE AssignmentUserInfo(
+    assignmentId BIGINT NOT NULL,
+    performerId BIGINT NOT NULL,
+    completed INT DEFAULT 0,
+    PRIMARY KEY (assignmentId, performerId)
+    FOREIGN KEY (assignmentId) REFERENCES Assignments(assignmentId),
+    FOREIGN KEY (performerId) REFERENCES Users(userId)
 );
 CREATE TABLE UserFileInfo(
     userId BIGINT NOT NULL,
@@ -58,6 +66,14 @@ CREATE TABLE CourseFiles(
     PRIMARY KEY (fileId, courseId),
     FOREIGN KEY (fileId) REFERENCES Files(fileId),
     FOREIGN KEY (courseId) REFERENCES Courses(courseId)
+);
+CREATE TABLE AssignmentFiles(
+    assignmentId BIGINT NOT NULL,
+    ownerId BIGINT NOT NULL,
+    fileId BIGINT NOT NULL,
+    FOREIGN KEY (assignmentId) REFERENCES Assignments(assignmentId),
+    FOREIGN KEY (ownerId) REFERENCES Users(userId),
+    FOREIGN KEY (fileId) REFERENCES Files(fileId)
 );
 CREATE TABLE ChatUserInfo(
     userId BIGINT NOT NULL,
