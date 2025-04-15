@@ -2,14 +2,14 @@
 // Code generated and maintained by GoFrame CLI tool. DO NOT EDIT.
 // =================================================================================
 
-package hello
+package Files
 
 import (
 	"context"
 
-	"intelligent-course-aware-ide/api/hello/v1"
+	"intelligent-course-aware-ide/api/Files/v1"
 )
 
-type IHelloV1 interface {
-	Hello(ctx context.Context, req *v1.HelloReq) (res *v1.HelloRes, err error)
+type IFilesV1 interface {
+	UploadFile(ctx context.Context, req *v1.UploadFileReq) (res *v1.UploadFileRes, err error)
 }

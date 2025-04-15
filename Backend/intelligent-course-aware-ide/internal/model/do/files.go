@@ -13,12 +13,11 @@ import (
 type Files struct {
 	g.Meta       `orm:"table:Files, do:true"`
 	FileId       interface{} //
-	CourseId     interface{} //
-	OwnerId      interface{} //
 	FileSize     interface{} //
 	FileUrl      interface{} //
 	FileName     interface{} //
 	FileType     interface{} //
+	UploaderId   interface{} //
 	UploadDate   *gtime.Time //
 	LastModified *gtime.Time //
 }
