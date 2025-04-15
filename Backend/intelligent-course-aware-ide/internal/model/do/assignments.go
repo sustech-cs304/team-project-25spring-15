@@ -13,9 +13,10 @@ import (
 type Assignments struct {
 	g.Meta       `orm:"table:Assignments, do:true"`
 	AssignmentId interface{} //
-	OwnerId      interface{} //
+	PublisherId  interface{} //
 	CourseId     interface{} //
-	Description  interface{} //
+	LectureId    interface{} //
+	DescriptionA interface{} //
 	DeadLine     *gtime.Time //
 	Completeness interface{} //
 }

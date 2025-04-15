@@ -8,11 +8,10 @@ import (
 	"github.com/gogf/gf/v2/frame/g"
 )
 
-// Chats is the golang structure of table Chats for DAO operations like Where/Data.
-type Chats struct {
-	g.Meta    `orm:"table:Chats, do:true"`
-	ChatId    interface{} //
-	CourseId  interface{} //
-	LectureId interface{} //
-	OwnerId   interface{} //
+// AssignmentFiles is the golang structure of table AssignmentFiles for DAO operations like Where/Data.
+type AssignmentFiles struct {
+	g.Meta       `orm:"table:AssignmentFiles, do:true"`
+	AssignmentId interface{} //
+	OwnerId      interface{} //
+	FileId       interface{} //
 }

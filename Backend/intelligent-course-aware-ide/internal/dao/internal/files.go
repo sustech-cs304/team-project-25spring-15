@@ -21,12 +21,11 @@ type FilesDao struct {
 // FilesColumns defines and stores column names for the table Files.
 type FilesColumns struct {
 	FileId       string //
-	CourseId     string //
-	OwnerId      string //
 	FileSize     string //
 	FileUrl      string //
-	FileName     string //
+	FileNameF    string //
 	FileType     string //
+	UploaderId   string //
 	UploadDate   string //
 	LastModified string //
 }
@@ -34,12 +33,11 @@ type FilesColumns struct {
 // filesColumns holds the columns for the table Files.
 var filesColumns = FilesColumns{
 	FileId:       "fileId",
-	CourseId:     "courseId",
-	OwnerId:      "ownerId",
 	FileSize:     "fileSize",
 	FileUrl:      "fileUrl",
-	FileName:     "fileName",
+	FileNameF:    "fileName_F",
 	FileType:     "fileType",
+	UploaderId:   "uploaderId",
 	UploadDate:   "uploadDate",
 	LastModified: "lastModified",
 }
