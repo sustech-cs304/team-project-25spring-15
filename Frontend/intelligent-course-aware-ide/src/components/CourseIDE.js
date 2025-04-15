@@ -9,6 +9,7 @@ import axios from 'axios';
 import CoursewareView from './CoursewareView';  // 新建课件视图
 import ExercisesList from './ExercisesList'; // 练习视图
 import CommentView from './CommentView.js';
+import AIAssistantView from './AIAssistantView';
 import { motion, AnimatePresence } from 'framer-motion';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import AssignmentIcon from '@mui/icons-material/Assignment';
@@ -133,7 +134,7 @@ const CourseIDE = () => {
                                     </Box>
                                 </motion.div>
                             )}
-                            {tabValue === 3 && ( /* 新增AI内容渲染 */
+                            {tabValue === 3 && (
                                 <motion.div
                                     key="ai"
                                     initial={{ opacity: 0, x: -20 }}
@@ -142,12 +143,7 @@ const CourseIDE = () => {
                                     transition={{ duration: 0.3 }}
                                 >
                                     <Box sx={{ height: 'calc(100% - 48px)' }}>
-                                        <Typography variant="h6" gutterBottom>
-                                            AI 功能区
-                                        </Typography>
-                                        <Typography>
-                                            这里可以集成 AI 相关的功能，例如智能问答或代码生成。
-                                        </Typography>
+                                        <AIAssistantView />
                                     </Box>
                                 </motion.div>
                             )}
