@@ -1,20 +1,20 @@
 create database if not exists mysqlTest;
 use mysqlTest;
 
-DROP TABLE IF EXISTS Users;
-DROP TABLE IF EXISTS Files;
-DROP TABLE IF EXISTS Courses;
-DROP TABLE IF EXISTS Assignments;
-DROP TABLE IF EXISTS Chats;
-DROP TABLE IF EXISTS AssignmentUserInfo;
-DROP TABLE IF EXISTS UserFileInfo;
-DROP TABLE IF EXISTS Coursefiles;
-DROP TABLE IF EXISTS AssignmentFiles;
+DROP TABLE IF EXISTS ChatMessageInfo;
 DROP TABLE IF EXISTS TestcaseAndAnswerFiles;
 DROP TABLE IF EXISTS ChatUserInfo;
-DROP TABLE IF EXISTS ChatMessageInfo;
+DROP TABLE IF EXISTS AssignmentUserInfo;
+DROP TABLE IF EXISTS UserFileInfo;
+DROP TABLE IF EXISTS CourseFiles;
+DROP TABLE IF EXISTS AssignmentFiles;
+DROP TABLE IF EXISTS Files;
+DROP TABLE IF EXISTS Assignments;
 DROP TABLE IF EXISTS Lectures;
 DROP TABLE IF EXISTS Comments;
+DROP TABLE IF EXISTS Chats;
+DROP TABLE IF EXISTS Courses;
+DROP TABLE IF EXISTS Users;
 
 CREATE TABLE Users (
     userId BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -45,15 +45,17 @@ CREATE TABLE Courses(
     endTime TIMESTAMP
 );
 CREATE TABLE Lectures(
-    lectureId int AUTO_INCREMENT PRIMARY KEY ,
+    lectureId INTEGER AUTO_INCREMENT PRIMARY KEY ,
     courseId BIGINT NOT NULL ,
+    lectureName VARCHAR(255) NOT NULL,
+    description_L VARCHAR(255),
     FOREIGN KEY (courseId) REFERENCES Courses(courseId)
 );
 CREATE TABLE Assignments(
     assignmentId BIGINT AUTO_INCREMENT PRIMARY KEY,
     publisherId BIGINT NOT NULL,
     courseId BIGINT,
-    lectureId BIGINT,
+    lectureId INTEGER,
     description_A VARCHAR(255),
     deadLine TIMESTAMP,
     completeness INT,
@@ -62,20 +64,21 @@ CREATE TABLE Assignments(
     FOREIGN KEY (lectureId) REFERENCES Lectures(lectureId)
 );
 CREATE TABLE Comments(
-    commentId BIGINT AUTO_INCREMENT PRIMARY KEY ,
+    commentId INTEGER NOT NULL ,
+    fatherCommentId INTEGER DEFAULT 0,
+    subCommentId INTEGER DEFAULT 0,
     courseId BIGINT,
-    lectureId BIGINT,
+    lectureId INTEGER,
     publisherId BIGINT,
     comment_C VARCHAR(255) NOT NULL ,
-    level_C DOUBLE,
     FOREIGN KEY (courseId) REFERENCES Courses(courseId),
     FOREIGN KEY (lectureId) REFERENCES Lectures(lectureId) ,
-    FOREIGN KEY (publisherId) REFERENCES Users(userId),
+    FOREIGN KEY (publisherId) REFERENCES Users(userId)
 );
 CREATE TABLE Chats(
     chatId BIGINT AUTO_INCREMENT PRIMARY KEY,
     courseId BIGINT,
-    lectureId BIGINT,
+    lectureId INTEGER,
     ownerId BIGINT NOT NULL,
     FOREIGN KEY (ownerId) REFERENCES Users(userId),
     FOREIGN KEY (courseId) REFERENCES Courses(courseId)
