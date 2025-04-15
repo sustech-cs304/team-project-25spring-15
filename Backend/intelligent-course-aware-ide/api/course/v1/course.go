@@ -16,11 +16,11 @@ type LectureInfo struct {
 	LecutureName      string `json:"title" dc:"Name of the lecture"`
 	CourseDescription string `json:"description" dc:"description of the lecture"`
 }
-
+//获取课程信息的requset
 type GetAllCoursesInfoReq struct {
 	g.Meta `path:"/api/getCourses" method:"get" tags:"Course" summary:"get info of all course"`
 }
-
+//获取课程信息的response
 type GetAllCoursesInfoRes struct {
 	g.Meta  `mime:"text/html" example:"json"`
 	Courses []CourseInfo `json:"courses" dc:"Info of all courses"`
