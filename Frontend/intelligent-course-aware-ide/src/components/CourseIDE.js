@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Card, Tabs, Tab } from '@mui/material';
+import {Box, Card, Tabs, Tab, Typography} from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Header from './Header';
 import Sidebar from './Sidebar';
@@ -7,12 +7,13 @@ import ContentViewer from './ContentViewer';
 import NotesSection from './NotesSection';
 import axios from 'axios';
 import CoursewareView from './CoursewareView';  // 新建课件视图
-import ExercisesView from './ExercisesView'; // 练习视图
+import ExercisesList from './ExercisesList'; // 练习视图
 import CommentView from './CommentView.js';
 import { motion, AnimatePresence } from 'framer-motion';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import ChatIcon from '@mui/icons-material/Chat';
+import SmartToyIcon from '@mui/icons-material/SmartToy';
 
 const MainContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -32,11 +33,15 @@ const CourseIDE = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // 用于表示当前选中的“课件 / 练习 / 代码”，0=课件,1=练习,2=代码
+    // 用于表示当前选中的“课件 / 练习 / 讨论 / AI”，0=课件, 1=练习, 2=讨论, 3=AI
     const [tabValue, setTabValue] = useState(0);
 
     const handleTabChange = (event, newValue) => {
         setTabValue(newValue);
+    };
+
+    const onSelectLecture = (lecture) => {
+        console.log('选中的课件:', lecture);
     };
 
     useEffect(() => {
@@ -75,19 +80,17 @@ const CourseIDE = () => {
                     marginTop: '64px',  // Header 高度占位
                 }}
             >
-                <Sidebar courses={courses} />
+                <Sidebar courses={courses} onSelectLecture={onSelectLecture} />
             </Box>
 
-            {/* 中间与右侧内容 */}
             <Box sx={{ flexGrow: 1, mt: 8, ml: 2 }}>
                 <ContentContainer>
-                    {/* 中间主要内容区 */}
                     <Card sx={{ flexGrow: 1, height: 'calc(100vh - 64px)', overflow: 'hidden', padding: '10px' }}>
-                        {/* 顶部Tab切换，三按钮 */}
                         <Tabs value={tabValue} onChange={handleTabChange} variant="fullWidth" sx={{ borderBottom: 1, borderColor: 'divider' }}>
                             <Tab icon={<PictureAsPdfIcon />} label="课件" />
                             <Tab icon={<AssignmentIcon />} label="练习" />
                             <Tab icon={<ChatIcon />} label="评论" />
+                            <Tab icon={<SmartToyIcon />} label="AI" />
                         </Tabs>
                         {/* 根据 tabValue 显示不同视图 */}
                         <AnimatePresence exitBeforeEnter>
@@ -112,8 +115,8 @@ const CourseIDE = () => {
                                     exit={{ opacity: 0, x: 20 }}
                                     transition={{ duration: 0.3 }}
                                 >
-                                    <Box sx={{ height: 'calc(100% - 48px)' }}>
-                                        <ExercisesView />
+                                    <Box sx={{ height: 'calc(100% - 48px)', padding: '20px' }}>
+                                        <ExercisesList />
                                     </Box>
                                 </motion.div>
                             )}
@@ -127,6 +130,24 @@ const CourseIDE = () => {
                                 >
                                     <Box sx={{ height: 'calc(100% - 48px)' }}>
                                         <CommentView />
+                                    </Box>
+                                </motion.div>
+                            )}
+                            {tabValue === 3 && ( /* 新增AI内容渲染 */
+                                <motion.div
+                                    key="ai"
+                                    initial={{ opacity: 0, x: -20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    exit={{ opacity: 0, x: 20 }}
+                                    transition={{ duration: 0.3 }}
+                                >
+                                    <Box sx={{ height: 'calc(100% - 48px)' }}>
+                                        <Typography variant="h6" gutterBottom>
+                                            AI 功能区
+                                        </Typography>
+                                        <Typography>
+                                            这里可以集成 AI 相关的功能，例如智能问答或代码生成。
+                                        </Typography>
                                     </Box>
                                 </motion.div>
                             )}
