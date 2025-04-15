@@ -7,7 +7,7 @@ type UploadFileReq struct {
 	CourseId int64   `json:"courseId"` // 课程ID
 	File     *g.File `json:"file"`     // 上传的文件
 }
-
+//上传课程文件资料
 type UploadFileRes struct {
 	Result string `json:"result"` // 上传结果
 }
