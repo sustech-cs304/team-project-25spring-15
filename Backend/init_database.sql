@@ -13,6 +13,8 @@ DROP TABLE IF EXISTS AssignmentFiles;
 DROP TABLE IF EXISTS TestcaseAndAnswerFiles;
 DROP TABLE IF EXISTS ChatUserInfo;
 DROP TABLE IF EXISTS ChatMessageInfo;
+DROP TABLE IF EXISTS Lectures;
+DROP TABLE IF EXISTS Comments;
 
 CREATE TABLE Users (
     userId BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -22,7 +24,7 @@ CREATE TABLE Users (
     userSign TEXT,
     university VARCHAR(255),
     birthday TIMESTAMP,
-    identity_U ENUM('teacher', 'student') DEFAULT 'student'
+    identity_U ENUM('teacher', 'student', 'superuser') DEFAULT 'student'
 );
 CREATE TABLE Files (
     fileId BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -42,19 +44,38 @@ CREATE TABLE Courses(
     startTime TIMESTAMP,
     endTime TIMESTAMP
 );
+CREATE TABLE Lectures(
+    lectureId int AUTO_INCREMENT PRIMARY KEY ,
+    courseId BIGINT NOT NULL ,
+    FOREIGN KEY (courseId) REFERENCES Courses(courseId)
+);
 CREATE TABLE Assignments(
     assignmentId BIGINT AUTO_INCREMENT PRIMARY KEY,
     publisherId BIGINT NOT NULL,
     courseId BIGINT,
+    lectureId BIGINT,
     description_A VARCHAR(255),
     deadLine TIMESTAMP,
     completeness INT,
     FOREIGN KEY (publisherId) REFERENCES Users(userId),
-    FOREIGN KEY (courseId) REFERENCES Courses(courseId)
+    FOREIGN KEY (courseId) REFERENCES Courses(courseId),
+    FOREIGN KEY (lectureId) REFERENCES Lectures(lectureId)
+);
+CREATE TABLE Comments(
+    commentId BIGINT AUTO_INCREMENT PRIMARY KEY ,
+    courseId BIGINT,
+    lectureId BIGINT,
+    publisherId BIGINT,
+    comment_C VARCHAR(255) NOT NULL ,
+    level_C DOUBLE,
+    FOREIGN KEY (courseId) REFERENCES Courses(courseId),
+    FOREIGN KEY (lectureId) REFERENCES Lectures(lectureId) ,
+    FOREIGN KEY (publisherId) REFERENCES Users(userId),
 );
 CREATE TABLE Chats(
     chatId BIGINT AUTO_INCREMENT PRIMARY KEY,
     courseId BIGINT,
+    lectureId BIGINT,
     ownerId BIGINT NOT NULL,
     FOREIGN KEY (ownerId) REFERENCES Users(userId),
     FOREIGN KEY (courseId) REFERENCES Courses(courseId)
@@ -114,4 +135,4 @@ CREATE TABLE ChatMessageInfo(
     message VARCHAR(255) NOT NULL,
     FOREIGN KEY (chatId) REFERENCES Chats(chatId),
     FOREIGN KEY (ownerId) REFERENCES Users(userId)
-)
+);
