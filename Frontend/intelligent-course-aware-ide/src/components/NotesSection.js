@@ -197,13 +197,13 @@ const NotesSection = () => {
                     code: cell.content
                 };
                 const response = await axios.get(endpoint, { params });
-                const result = response.data.result || '无返回结果';
+                console.log(response);
+                const result = response.data.data.result || '无返回结果';
                 setCells(prevCells =>
                     prevCells.map(c =>
                         c.id === activeCellId ? { ...c, executionResult: result } : c
                     )
                 );
-                alert("运行结果:\n" + result);
             } catch (error) {
                 console.error("运行代码出错:", error);
                 setCells(prevCells =>
