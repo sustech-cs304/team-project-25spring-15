@@ -13,7 +13,7 @@ type Files struct {
 	FileId       int64       `json:"fileId"       orm:"fileId"       description:""` //
 	FileSize     int64       `json:"fileSize"     orm:"fileSize"     description:""` //
 	FileUrl      string      `json:"fileUrl"      orm:"fileUrl"      description:""` //
-	FileName     string      `json:"fileName"     orm:"fileName"     description:""` //
+	FileNameF    string      `json:"fileNameF"    orm:"fileName_F"   description:""` //
 	FileType     string      `json:"fileType"     orm:"fileType"     description:""` //
 	UploaderId   int64       `json:"uploaderId"   orm:"uploaderId"   description:""` //
 	UploadDate   *gtime.Time `json:"uploadDate"   orm:"uploadDate"   description:""` //

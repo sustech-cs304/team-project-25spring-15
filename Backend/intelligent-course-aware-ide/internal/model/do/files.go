@@ -15,7 +15,7 @@ type Files struct {
 	FileId       interface{} //
 	FileSize     interface{} //
 	FileUrl      interface{} //
-	FileName     interface{} //
+	FileNameF    interface{} //
 	FileType     interface{} //
 	UploaderId   interface{} //
 	UploadDate   *gtime.Time //

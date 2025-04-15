@@ -23,22 +23,24 @@ type UsersDao struct {
 type UsersColumns struct {
 	UserId     string //
 	UserName   string //
-	Password   string //
+	PasswordU  string //
 	Email      string //
 	UserSign   string //
 	University string //
 	Birthday   string //
+	IdentityU  string //
 }
 
 // usersColumns holds the columns for the table Users.
 var usersColumns = UsersColumns{
 	UserId:     "userId",
 	UserName:   "userName",
-	Password:   "password",
+	PasswordU:  "password_U",
 	Email:      "email",
 	UserSign:   "userSign",
 	University: "university",
 	Birthday:   "birthday",
+	IdentityU:  "identity_U",
 }
 
 // NewUsersDao creates and returns a new DAO object for table data access.

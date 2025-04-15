@@ -22,9 +22,10 @@ type AssignmentsDao struct {
 // AssignmentsColumns defines and stores column names for the table Assignments.
 type AssignmentsColumns struct {
 	AssignmentId string //
-	OwnerId      string //
+	PublisherId  string //
 	CourseId     string //
-	Description  string //
+	LectureId    string //
+	DescriptionA string //
 	DeadLine     string //
 	Completeness string //
 }
@@ -32,9 +33,10 @@ type AssignmentsColumns struct {
 // assignmentsColumns holds the columns for the table Assignments.
 var assignmentsColumns = AssignmentsColumns{
 	AssignmentId: "assignmentId",
-	OwnerId:      "ownerId",
+	PublisherId:  "publisherId",
 	CourseId:     "courseId",
-	Description:  "description",
+	LectureId:    "lectureId",
+	DescriptionA: "description_A",
 	DeadLine:     "deadLine",
 	Completeness: "completeness",
 }

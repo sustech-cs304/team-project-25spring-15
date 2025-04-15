@@ -12,9 +12,10 @@ import (
 type Users struct {
 	UserId     int64       `json:"userId"     orm:"userId"     description:""` //
 	UserName   string      `json:"userName"   orm:"userName"   description:""` //
-	Password   string      `json:"password"   orm:"password"   description:""` //
+	PasswordU  string      `json:"passwordU"  orm:"password_U" description:""` //
 	Email      string      `json:"email"      orm:"email"      description:""` //
 	UserSign   string      `json:"userSign"   orm:"userSign"   description:""` //
 	University string      `json:"university" orm:"university" description:""` //
 	Birthday   *gtime.Time `json:"birthday"   orm:"birthday"   description:""` //
+	IdentityU  string      `json:"identityU"  orm:"identity_U" description:""` //
 }

@@ -11,10 +11,10 @@ import (
 
 // Courses is the golang structure of table Courses for DAO operations like Where/Data.
 type Courses struct {
-	g.Meta      `orm:"table:Courses, do:true"`
-	CourseId    interface{} //
-	CourseName  interface{} //
-	Description interface{} //
-	StartTime   *gtime.Time //
-	EndTime     *gtime.Time //
+	g.Meta       `orm:"table:Courses, do:true"`
+	CourseId     interface{} //
+	CourseName   interface{} //
+	DescriptionC interface{} //
+	StartTime    *gtime.Time //
+	EndTime      *gtime.Time //
 }
