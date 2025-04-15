@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import {Box, AppBar, Toolbar, IconButton, Typography, Button, CircularProgress, Card} from '@mui/material';
 import { styled } from '@mui/material/styles';
-// import { Add as AddIcon, Delete as DeleteIcon, PlayArrow as RunIcon } from '@mui/icons-material';
 import axios from 'axios';
 import { Document, Page, pdfjs } from 'react-pdf';
 
-pdfjs.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.mjs`;
 
 const ContentViewerContainer = styled(Card)(({ theme }) => ({
     flexGrow: 1,
