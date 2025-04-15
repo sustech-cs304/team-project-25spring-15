@@ -167,7 +167,7 @@ const NotesSection = () => {
         if (cell && cell.type === 'code') {
             try {
                 const response = await axios.post('http://127.0.0.1:8000/pythonRunner', {
-                    language: cell.language,
+                    // language: cell.language,
                     code: cell.content,
                 });
                 const result = response.data.result || '无返回结果';
