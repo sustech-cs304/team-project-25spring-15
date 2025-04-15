@@ -7,8 +7,8 @@ import (
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/gogf/gf/v2/os/gcmd"
 
+	"intelligent-course-aware-ide/internal/controller/course"
 	"intelligent-course-aware-ide/internal/controller/example"
-	"intelligent-course-aware-ide/internal/controller/hello"
 	"intelligent-course-aware-ide/internal/controller/runner"
 )
 
@@ -22,9 +22,9 @@ var (
 			s.Group("/", func(group *ghttp.RouterGroup) {
 				group.Middleware(ghttp.MiddlewareHandlerResponse)
 				group.Bind(
-					hello.NewV1(),
 					example.NewV1(),
 					runner.NewV1(),
+					course.NewV1(),
 				)
 			})
 			s.Run()

@@ -5,17 +5,20 @@ import (
 )
 
 type CourseInfo struct {
-	CourseId   int64          `json:"id" dc:"Id of the course"`
-	CourseName string         `json:"title" dc:"Name of the course"`
-	Lectures   []LecutureInfo `json:"lectures" dc:"Lectures of this course"`
+	CourseId          int64         `json:"id" dc:"Id of the course"`
+	CourseName        string        `json:"title" dc:"Name of the course"`
+	CourseDescription string        `json:"description" dc:"description of the course"`
+	Lectures          []LectureInfo `json:"lectures" dc:"Lectures of this course"`
 }
 
-type LecutureInfo struct {
-	Test_1 int `json:"test" dc:"test"`
+type LectureInfo struct {
+	LectureId         int64  `json:"id" dc:"Id of the lecture"`
+	LecutureName      string `json:"title" dc:"Name of the lecture"`
+	CourseDescription string `json:"description" dc:"description of the lecture"`
 }
 
 type GetAllCoursesInfoReq struct {
-	g.Meta `path:"/course/all" method:"get" tags:"Course" summary:"get info of all course"`
+	g.Meta `path:"/api/getCourses" method:"get" tags:"Course" summary:"get info of all course"`
 }
 
 type GetAllCoursesInfoRes struct {

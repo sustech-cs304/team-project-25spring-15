@@ -13,10 +13,9 @@ import (
 
 // AssignmentsDao is the data access object for the table Assignments.
 type AssignmentsDao struct {
-	table    string             // table is the underlying table name of the DAO.
-	group    string             // group is the database configuration group name of the current DAO.
-	columns  AssignmentsColumns // columns contains all the column names of Table for convenient usage.
-	handlers []gdb.ModelHandler // handlers for customized model modification.
+	table   string             // table is the underlying table name of the DAO.
+	group   string             // group is the database configuration group name of the current DAO.
+	columns AssignmentsColumns // columns contains all the column names of Table for convenient usage.
 }
 
 // AssignmentsColumns defines and stores column names for the table Assignments.
@@ -42,12 +41,11 @@ var assignmentsColumns = AssignmentsColumns{
 }
 
 // NewAssignmentsDao creates and returns a new DAO object for table data access.
-func NewAssignmentsDao(handlers ...gdb.ModelHandler) *AssignmentsDao {
+func NewAssignmentsDao() *AssignmentsDao {
 	return &AssignmentsDao{
-		group:    "default",
-		table:    "Assignments",
-		columns:  assignmentsColumns,
-		handlers: handlers,
+		group:   "default",
+		table:   "Assignments",
+		columns: assignmentsColumns,
 	}
 }
 
@@ -73,11 +71,7 @@ func (dao *AssignmentsDao) Group() string {
 
 // Ctx creates and returns a Model for the current DAO. It automatically sets the context for the current operation.
 func (dao *AssignmentsDao) Ctx(ctx context.Context) *gdb.Model {
-	model := dao.DB().Model(dao.table)
-	for _, handler := range dao.handlers {
-		model = handler(model)
-	}
-	return model.Safe().Ctx(ctx)
+	return dao.DB().Model(dao.table).Safe().Ctx(ctx)
 }
 
 // Transaction wraps the transaction logic using function f.
