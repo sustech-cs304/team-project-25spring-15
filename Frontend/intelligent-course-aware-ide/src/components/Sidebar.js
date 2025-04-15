@@ -23,7 +23,7 @@ const Sidebar = ({ courses, onSelectLecture }) => {
     return (
         <List
             sx={{
-                width: 300,
+                width: 250,
                 bgcolor: 'background.paper',
                 height: '100vh',
                 position: 'fixed',

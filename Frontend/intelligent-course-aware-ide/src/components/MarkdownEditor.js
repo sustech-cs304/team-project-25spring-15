@@ -9,14 +9,14 @@ const MarkdownEditor = ({ value, onChange }) => {
     return (
         <Box
             sx={{
-                height: 'calc(100vh - 120px)',     // 设置固定高度
-                width: '100%',       // 设置宽度为100%
-                overflow: 'auto',    // 添加滚动条
-                border: '1px solid #e0e0e0',  // 添加边框使滚动区域更加明显
-                borderRadius: '4px', // 圆角边框
+                height: 'calc(100vh - 120px)',
+                width: '100%',
+                overflow: 'auto',
+                border: '1px solid #e0e0e0',
+                borderRadius: '4px',
                 '& .prose': {
-                    minHeight: '100%',  // 确保编辑区域至少占满容器高度
-                    padding: '16px'     // 内边距
+                    minHeight: '100%',
+                    padding: '16px'
                 }
             }}
         >
