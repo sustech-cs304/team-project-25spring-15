@@ -1,3 +1,5 @@
+'use client';
+
 import React from "react";
 import { AppBar, Toolbar, Box, IconButton, Typography } from "@mui/material";
 import { motion } from "framer-motion";
