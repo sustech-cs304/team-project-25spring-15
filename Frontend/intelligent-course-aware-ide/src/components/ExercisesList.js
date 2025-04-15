@@ -104,6 +104,10 @@ const TaskRow = styled(Box)(({ theme }) => ({
     ':last-child': {
         borderBottom: 'none',
     },
+    cursor: 'pointer', // 添加指针样式
+    '&:hover': {
+        backgroundColor: theme.palette.action.hover, // 添加悬停效果
+    }
 }));
 
 const StatusLabel = styled(Typography)(({ theme, color }) => ({
@@ -111,7 +115,7 @@ const StatusLabel = styled(Typography)(({ theme, color }) => ({
     fontSize: '0.875rem',
 }));
 
-export default function TaskList() {
+export default function ExercisesList({ onExerciseClick }) {
     const [tabValue, setTabValue] = useState(0);
     const [searchText, setSearchText] = useState('');
     const [tasks] = useState(initialTasks);
@@ -119,6 +123,13 @@ export default function TaskList() {
     // Tab切换
     const handleTabChange = (event, newValue) => {
         setTabValue(newValue);
+    };
+
+    // 处理练习点击
+    const handleTaskClick = (taskId) => {
+        if (onExerciseClick) {
+            onExerciseClick(taskId);
+        }
     };
 
     // 根据当前过滤Tab和搜索文本对任务进行筛选
@@ -186,7 +197,7 @@ export default function TaskList() {
                     }
 
                     return (
-                        <TaskRow key={task.id}>
+                        <TaskRow key={task.id} onClick={() => handleTaskClick(task.id)}>
                             {/* 在任务前显示状态图标 */}
                             <Box sx={{ mr: 1 }}>
                                 {task.isDone ? (

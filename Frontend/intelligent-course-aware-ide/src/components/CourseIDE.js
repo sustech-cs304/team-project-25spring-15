@@ -7,7 +7,7 @@ import ContentViewer from './ContentViewer';
 import NotesSection from './NotesSection';
 import axios from 'axios';
 import CoursewareView from './CoursewareView';  // 新建课件视图
-import ExercisesList from './ExercisesList'; // 练习视图
+import ExercisesContainer from './ExercisesContainer'; // 练习视图
 import CommentView from './CommentView.js';
 import AIAssistantView from './AIAssistantView';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -117,7 +117,7 @@ const CourseIDE = () => {
                                     transition={{ duration: 0.3 }}
                                 >
                                     <Box sx={{ height: 'calc(100% - 48px)', padding: '20px' }}>
-                                        <ExercisesList />
+                                        <ExercisesContainer />
                                     </Box>
                                 </motion.div>
                             )}
