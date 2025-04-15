@@ -139,3 +139,8 @@ CREATE TABLE ChatMessageInfo(
     FOREIGN KEY (chatId) REFERENCES Chats(chatId),
     FOREIGN KEY (ownerId) REFERENCES Users(userId)
 );
+
+
+
+INSERT INTO Courses(COURSENAME, DESCRIPTION_C) VALUES ('1','1');
+INSERT INTO Lectures(courseId, lectureName, description_L) VALUES (1, '1', '1');
