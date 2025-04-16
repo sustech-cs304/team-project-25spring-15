@@ -169,7 +169,7 @@ const NotesSection = () => {
             let endpoint;
             switch (cell.language.toLowerCase()) {
                 case 'javascript':
-                    endpoint = '/jsRunner';
+                    endpoint = '/pythonRunner';
                     break;
                 case 'python':
                     endpoint = '/pythonRunner';
