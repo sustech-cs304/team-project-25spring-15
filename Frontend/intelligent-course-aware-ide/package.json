@@ -2,6 +2,7 @@
   "name": "intelligent-course-aware-ide",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://127.0.0.1:8000",
   "dependencies": {
     "@codemirror/autocomplete": "^6.18.6",
     "@codemirror/lang-javascript": "^6.2.3",
