@@ -57,7 +57,7 @@ const NotesSection = () => {
             id: uuidv4(),
             type: 'code',
             content: '// 示例代码\nconsole.log("Hello World");',
-            language: 'javascript',
+            language: 'python',
             executionResult: '',
         },
         {
@@ -86,7 +86,7 @@ const NotesSection = () => {
             id: uuidv4(),
             type: 'code',
             content: '// 新的代码单元',
-            language: 'javascript',
+            language: 'python',
             executionResult: '',
         };
         addCell(newCell);
