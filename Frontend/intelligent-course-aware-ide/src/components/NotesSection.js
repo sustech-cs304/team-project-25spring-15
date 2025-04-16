@@ -187,10 +187,16 @@ const NotesSection = () => {
                     endpoint = '/codeRunner'; // 默认处理器
             }
             try {
-                const response = await axios.post(endpoint, {
+                setCells(prevCells =>
+                    prevCells.map(c =>
+                        c.id === activeCellId ? { ...c, executionResult: '正在运行...' } : c
+                    )
+                );
+                const params = {
                     language: cell.language,
-                    code: cell.content,
-                });
+                    code: cell.content
+                };
+                const response = await axios.get(endpoint, { params });
                 const result = response.data.result || '无返回结果';
                 setCells(prevCells =>
                     prevCells.map(c =>
