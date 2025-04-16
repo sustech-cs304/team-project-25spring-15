@@ -5,7 +5,10 @@
 
 
 ## 1. Architectural Design
+### Frontend Structure
+![image](https://github.com/sustech-cs304/team-project-25spring-15/blob/main/Img/Frontend_Structure)
 
+### Backend Database Structure
 ![image](https://github.com/sustech-cs304/team-project-25spring-15/blob/main/Img/Data_Structure_sprint1.png)
 
 ## 2. UI Design
