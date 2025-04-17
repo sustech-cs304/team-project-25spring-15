@@ -1,3 +1,9 @@
 export default function Page() {
-  return <p>Dashboard Page</p>;
+  return (
+    <main>
+      <h1 className={`mb-4 text-xl md:text-2xl`}>
+        Dashboard
+      </h1>
+    </main>
+  );
 }

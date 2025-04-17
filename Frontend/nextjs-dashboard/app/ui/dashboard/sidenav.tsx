@@ -13,28 +13,35 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import AssignmentIcon from "@mui/icons-material/Assignment";
-
-// 定义类型接口
-interface Lecture {
-  id: string;
-  title: string;
-}
-
-interface Course {
-  id: string;
-  title: string;
-  lectures: Lecture[];
-}
+import { usePathname, useRouter } from 'next/navigation';
+import { Course, Lecture } from '@/app/lib/data';
 
 interface SidebarProps {
   courses: Course[];
 }
 
 export default function SideNav({ courses }: SidebarProps) {
+  const router = useRouter();
+  const pathname = usePathname(); // 获取当前路径
   const [open, setOpen] = React.useState<Record<string, boolean>>({});
 
   const handleCourseClick = (courseId: string) => {
-    setOpen((prev) => ({ ...prev, [courseId]: !prev[courseId] }));
+    setOpen((prev) => {
+      const newState: Record<string, boolean> = {};
+
+      courses?.forEach(course => {
+        newState[course.id] = false;
+      });
+      newState[courseId] = !prev[courseId];
+      return newState;
+    });
+
+    const currentCourseUrl = `/dashboard/${courseId}`;
+    if (pathname === currentCourseUrl) {
+      router.push('/dashboard');
+    } else {
+      router.push(currentCourseUrl);
+    }
   };
 
   const handleSelectLecture = (lecture: Lecture) => {
