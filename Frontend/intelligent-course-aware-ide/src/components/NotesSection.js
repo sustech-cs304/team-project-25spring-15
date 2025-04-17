@@ -56,8 +56,8 @@ const NotesSection = () => {
         {
             id: uuidv4(),
             type: 'code',
-            content: '// 示例代码\nconsole.log("Hello World");',
-            language: 'javascript',
+            content: '// Example\nprint(\'Hello, World!\');',
+            language: 'python',
             executionResult: '',
         },
         {
@@ -85,8 +85,8 @@ const NotesSection = () => {
         const newCell = {
             id: uuidv4(),
             type: 'code',
-            content: '// 新的代码单元',
-            language: 'javascript',
+            content: '// Example\nprint(\'Hello, World!\');',
+            language: 'python',
             executionResult: '',
         };
         addCell(newCell);
@@ -165,20 +165,52 @@ const NotesSection = () => {
         if (!activeCellId) return;
         const cell = cells.find(cell => cell.id === activeCellId);
         if (cell && cell.type === 'code') {
+            // 根据不同语言选择不同的API端点
+            let endpoint;
+            switch (cell.language.toLowerCase()) {
+                case 'javascript':
+                    endpoint = '/pythonRunner';
+                    break;
+                case 'python':
+                    endpoint = '/pythonRunner';
+                    break;
+                case 'go':
+                    endpoint = '/goRunner';
+                    break;
+                case 'java':
+                    endpoint = '/javaRunner';
+                    break;
+                case 'sql':
+                    endpoint = '/sqlRunner';
+                    break;
+                default:
+                    endpoint = '/codeRunner'; // 默认处理器
+            }
             try {
-                const response = await axios.post('http://127.0.0.1:8000/pythonRunner', {
+                setCells(prevCells =>
+                    prevCells.map(c =>
+                        c.id === activeCellId ? { ...c, executionResult: '正在运行...' } : c
+                    )
+                );
+                const params = {
                     language: cell.language,
-                    code: cell.content,
-                });
-                const result = response.data.result || '无返回结果';
+                    code: cell.content
+                };
+                const response = await axios.get(endpoint, { params });
+                console.log(response);
+                const result = response.data.data.result || '程序运行错误';
                 setCells(prevCells =>
                     prevCells.map(c =>
                         c.id === activeCellId ? { ...c, executionResult: result } : c
                     )
                 );
-                alert("运行结果:\n" + result);
             } catch (error) {
                 console.error("运行代码出错:", error);
+                setCells(prevCells =>
+                    prevCells.map(c =>
+                        c.id === activeCellId ? { ...c, executionResult: `错误: ${error.message}` } : c
+                    )
+                );
                 alert("运行代码出错:\n" + error.message);
             }
         } else {
