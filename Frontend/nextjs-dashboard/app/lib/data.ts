@@ -11,6 +11,20 @@ import { formatCurrency } from './utils';
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 
+export async function fetchCourses() {
+  try {
+    let coursesUrl = 'https://m1.apifoxmock.com/m1/5989566-5677982-default/api/getCourses';
+    const response = await fetch(coursesUrl);
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+    const data = await response.json();
+    return data.courses;
+  } catch (err) {
+    console.error(`Failed to fetch courses infomation:`, err);
+  }
+}
+
 export async function fetchRevenue() {
   try {
     // Artificially delay a response for demo purposes.

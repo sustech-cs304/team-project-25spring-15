@@ -1,29 +1,100 @@
-import Link from 'next/link';
-import NavLinks from '@/app/ui/dashboard/nav-links';
-import AcmeLogo from '@/app/ui/acme-logo';
-import { PowerIcon } from '@heroicons/react/24/outline';
+"use client";
 
-export default function SideNav() {
+import React from "react";
+import {
+  List,
+  ListItemButton,
+  ListItemText,
+  Collapse,
+  ListSubheader,
+  ListItemIcon,
+} from "@mui/material";
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
+import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
+import AssignmentIcon from "@mui/icons-material/Assignment";
+
+// 定义类型接口
+interface Lecture {
+  id: string;
+  title: string;
+}
+
+interface Course {
+  id: string;
+  title: string;
+  lectures: Lecture[];
+}
+
+interface SidebarProps {
+  courses: Course[];
+}
+
+export default function SideNav({ courses }: SidebarProps) {
+  const [open, setOpen] = React.useState<Record<string, boolean>>({});
+
+  const handleCourseClick = (courseId: string) => {
+    setOpen((prev) => ({ ...prev, [courseId]: !prev[courseId] }));
+  };
+
+  const handleSelectLecture = (lecture: Lecture) => {
+    console.log('Selected lecture:', lecture);
+  };
+
   return (
-    <div className="flex h-full flex-col px-3 py-4 md:px-2">
-      <Link
-        className="mb-2 flex h-20 items-end justify-start rounded-md bg-blue-600 p-4 md:h-40"
-        href="/"
-      >
-        <div className="w-32 text-white md:w-40">
-          <AcmeLogo />
+    <List
+      sx={{
+        width: 250,
+        bgcolor: "background.paper",
+        height: "100vh",
+        position: "fixed",
+        overflowY: "auto",
+        zIndex: 1,
+      }}
+      component="nav"
+      subheader={<ListSubheader component="div">课程列表</ListSubheader>}
+    >
+      {courses?.map((course) => (
+        <div key={course.id}>
+          <ListItemButton onClick={() => handleCourseClick(course.id)}>
+            <ListItemIcon>
+              <LibraryBooksIcon />
+            </ListItemIcon>
+            <ListItemText
+              primary={course.title}
+              slotProps={{
+                primary: {
+                  sx: { fontSize: "18px" },
+                },
+              }}
+            />
+            {open[course.id] ? <ExpandLess /> : <ExpandMore />}
+          </ListItemButton>
+          <Collapse in={open[course.id]} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              {course.lectures?.map((lecture) => (
+                <ListItemButton
+                  key={lecture.id}
+                  sx={{ pl: 4 }}
+                  onClick={() => handleSelectLecture(lecture)}
+                >
+                  <ListItemIcon>
+                    <AssignmentIcon />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={lecture.title}
+                    slotProps={{
+                      primary: {
+                        sx: { fontSize: "16px" },
+                      },
+                    }}
+                  />
+                </ListItemButton>
+              ))}
+            </List>
+          </Collapse>
         </div>
-      </Link>
-      <div className="flex grow flex-row justify-between space-x-2 md:flex-col md:space-x-0 md:space-y-2">
-        <NavLinks />
-        <div className="hidden h-auto w-full grow rounded-md bg-gray-50 md:block"></div>
-        <form>
-          <button className="flex h-[48px] w-full grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3">
-            <PowerIcon className="w-6" />
-            <div className="hidden md:block">Sign Out</div>
-          </button>
-        </form>
-      </div>
-    </div>
+      ))}
+    </List>
   );
 }
