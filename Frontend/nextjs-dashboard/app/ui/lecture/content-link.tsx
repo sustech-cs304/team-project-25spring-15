@@ -36,9 +36,11 @@ export default function ContentLink() {
       <Card
         sx={{
           flexGrow: 1,
-          height: "calc(100vh - 64px)",
+          height: "calc(94vh - 64px)",
           overflow: "hidden",
           padding: "10px",
+          borderColor: `2px solid #e0e0e0`,
+          borderRadius: "8px",  // 增加一点圆角
         }}
       >
         <Tabs

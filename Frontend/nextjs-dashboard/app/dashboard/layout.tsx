@@ -15,7 +15,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
         <div className="w-full flex-none md:w-64 border-r-4 border-gray-300">
           <SideNav courses={courses} />
         </div>
-        <div className="flex-grow p-6 md:overflow-y-auto md:p-12">
+        <div className="flex-grow p-4 md:overflow-y-auto border-r-2 md:p-6 bg-gray-100">
           <Suspense fallback={<div>加载中...</div>}>
             {children}
           </Suspense>
