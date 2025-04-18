@@ -1,12 +1,7 @@
 'use client';
 
 import {
-  PlayIcon,  // 或 PlayCircleIcon
   CheckCircleIcon,
-  BanknotesIcon,
-  ClockIcon,
-  UserGroupIcon,
-  InboxIcon,
   ArrowPathIcon,
   RocketLaunchIcon,
 } from '@heroicons/react/24/outline';

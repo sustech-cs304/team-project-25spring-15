@@ -1,7 +1,7 @@
 'use server';
 
 import { Course, fetchCourses } from "@/app/lib/data";
-import CardWrapper from "@/app/ui/dashboard/cards";
+import CardWrapper from "@/app/ui/course/cards";
 import { CardsSkeleton } from "@/app/ui/skeletons";
 
 export default async function Page() {
