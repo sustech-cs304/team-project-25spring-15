@@ -5,6 +5,7 @@
 package course
 
 import (
+	"errors"
 	"intelligent-course-aware-ide/internal/dao"
 	"intelligent-course-aware-ide/internal/model/do"
 	"intelligent-course-aware-ide/internal/model/entity"
@@ -43,9 +44,9 @@ func CheckUserHasHalfPermission(ctx context.Context, userId int64, courseId int6
 		AssistantId: userId,
 	}).Scan(&userFound)
 
-	if err == nil && userFound != nil {
-		return true, nil
+	if err != nil || userFound == nil {
+		return false, errors.New("maybe it is because user not found ")
 	}
 
-	return false, err
+	return true, nil
 }

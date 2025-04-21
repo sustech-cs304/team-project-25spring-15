@@ -48,7 +48,7 @@ type GetCourseRes struct {
 }
 
 type DeleteCourseReq struct {
-	g.Meta   `path:"/api/course/deleteCourse/{courseId}" method:"delete" tags:"Course" summary:"delete course info"`
+	g.Meta   `path:"/api/course/deleteCourse" method:"delete" tags:"Course" summary:"delete course info"`
 	CourseId int64 `v:"required" dc:"id of the course to delete"`
 	UserId   int64 `json:"userId" v:"required" dc:"id of the user who want to delete this course"`
 }
@@ -59,8 +59,8 @@ type DeleteCourseRes struct {
 }
 
 type UpdateCourseReq struct {
-	g.Meta       `path:"/api/course/updateCourse" method:"put" tags:"Course" summary:"create course"`
-	UpdateCourse CourseInfo `json:"course" dc:"Info of the course to create"`
+	g.Meta       `path:"/api/course/updateCourse" method:"put" tags:"Course" summary:"update course"`
+	UpdateCourse CourseInfo `json:"course" dc:"Info of the course to update"`
 }
 
 type UpdateCourseRes struct {
