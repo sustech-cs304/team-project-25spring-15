@@ -10,6 +10,7 @@ import (
 
 func (c *ControllerV1) CreateCourse(ctx context.Context, req *v1.CreateCourseReq) (res *v1.CreateCourseRes, err error) {
 	courseId, err := dao.Courses.Ctx(ctx).Data(do.Courses{
+		TeacherId:   req.NewCourse.TeacherId,
 		CourseName:  req.NewCourse.CourseName,
 		Description: req.NewCourse.Description,
 		StartTime:   req.NewCourse.StartTime,

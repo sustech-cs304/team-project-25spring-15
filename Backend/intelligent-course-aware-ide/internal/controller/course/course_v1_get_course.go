@@ -3,12 +3,12 @@ package course
 import (
 	"context"
 
-	"github.com/gogf/gf/v2/errors/gcode"
-	"github.com/gogf/gf/v2/errors/gerror"
-
-	"intelligent-course-aware-ide/api/course/v1"
+	v1 "intelligent-course-aware-ide/api/course/v1"
+	"intelligent-course-aware-ide/internal/dao"
 )
 
 func (c *ControllerV1) GetCourse(ctx context.Context, req *v1.GetCourseReq) (res *v1.GetCourseRes, err error) {
-	return nil, gerror.NewCode(gcode.CodeNotImplemented)
+	res = &v1.GetCourseRes{}
+	err = dao.Courses.Ctx(ctx).WherePri(req.CourseId).Scan(&res.Course)
+	return res, err
 }

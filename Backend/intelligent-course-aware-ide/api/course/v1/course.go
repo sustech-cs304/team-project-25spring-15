@@ -9,6 +9,7 @@ import (
 
 type CourseInfo struct {
 	CourseId    int64       `json:"courseId" dc:"id of this course"`
+	TeacherId   int64       `json:"teacherId" dc:"id of teacher"`
 	CourseName  string      `json:"courseName" dc:"name of this course"`
 	Description string      `json:"description" dc:"description of this course"`
 	StartTime   *gtime.Time `json:"startTime" dc:"start time of this course"`
@@ -17,7 +18,7 @@ type CourseInfo struct {
 
 // 获取课程信息的requset
 type GetAllCoursesInfoReq struct {
-	g.Meta `path:"/api/getCourses" method:"get" tags:"Course" summary:"get info of all course"`
+	g.Meta `path:"/api/course/getCourses" method:"get" tags:"Course" summary:"get info of all courses"`
 }
 
 // 获取课程信息的response
@@ -27,7 +28,7 @@ type GetAllCoursesInfoRes struct {
 }
 
 type CreateCourseReq struct {
-	g.Meta    `path:"/api/createCourse" method:"post" tags:"Course" summary:"create course"`
+	g.Meta    `path:"/api/course/createCourse" method:"post" tags:"Course" summary:"create course"`
 	NewCourse CourseInfo `json:"course" dc:"Info of the course to create"`
 }
 
@@ -37,7 +38,7 @@ type CreateCourseRes struct {
 }
 
 type GetCourseReq struct {
-	g.Meta   `path:"/api/searchCourse/{courseId}" method:"get" tags:"Course" summary:"get course info"`
+	g.Meta   `path:"/api/course/searchCourse/{courseId}" method:"get" tags:"Course" summary:"get course info"`
 	CourseId int64 `v:"required" dc:"id of the course to find"`
 }
 
@@ -47,7 +48,7 @@ type GetCourseRes struct {
 }
 
 type DeleteCourseReq struct {
-	g.Meta   `path:"/api/deleteCourse/{courseId}" method:"delete" tags:"Course" summary:"delete course info"`
+	g.Meta   `path:"/api/course/deleteCourse/{courseId}" method:"delete" tags:"Course" summary:"delete course info"`
 	CourseId int64 `v:"required" dc:"id of the course to delete"`
 	UserId   int64 `json:"userId" v:"required" dc:"id of the user who want to delete this course"`
 }
@@ -58,11 +59,11 @@ type DeleteCourseRes struct {
 }
 
 type UpdateCourseReq struct {
-	g.Meta    `path:"/api/createCourse" method:"put" tags:"Course" summary:"create course"`
-	NewCourse *entity.Courses `json:"course" dc:"Info of the course to create"`
+	g.Meta       `path:"/api/course/updateCourse" method:"put" tags:"Course" summary:"create course"`
+	UpdateCourse CourseInfo `json:"course" dc:"Info of the course to create"`
 }
 
 type UpdateCourseRes struct {
-	g.Meta    `mime:"text/html" example:"json"`
-	NewCourse *entity.Courses `json:"course" dc:"info of the new course"`
+	g.Meta  `mime:"text/html" example:"json"`
+	Success bool `json:"success" dc:"success or not"`
 }
