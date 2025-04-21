@@ -17,5 +17,5 @@ type Comments struct {
 	CourseId        interface{} //
 	LectureId       interface{} //
 	PublisherId     interface{} //
-	CommentC        interface{} //
+	Comment         interface{} //
 }

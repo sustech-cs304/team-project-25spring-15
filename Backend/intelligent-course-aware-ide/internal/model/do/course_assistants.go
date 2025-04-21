@@ -8,11 +8,9 @@ import (
 	"github.com/gogf/gf/v2/frame/g"
 )
 
-// Lectures is the golang structure of table Lectures for DAO operations like Where/Data.
-type Lectures struct {
-	g.Meta      `orm:"table:Lectures, do:true"`
-	LectureId   interface{} //
+// CourseAssistants is the golang structure of table CourseAssistants for DAO operations like Where/Data.
+type CourseAssistants struct {
+	g.Meta      `orm:"table:CourseAssistants, do:true"`
 	CourseId    interface{} //
-	LectureName interface{} //
-	Description interface{} //
+	AssistantId interface{} //
 }

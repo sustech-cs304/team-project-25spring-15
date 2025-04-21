@@ -1,104 +1,68 @@
 package v1
 
 import (
+	"intelligent-course-aware-ide/internal/model/entity"
+
 	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/os/gtime"
 )
 
 type CourseInfo struct {
-	CourseId          int64         `json:"id" dc:"Id of the course"`
-	CourseName        string        `json:"title" dc:"Name of the course"`
-	CourseDescription string        `json:"description" dc:"description of the course"`
-	Lectures          []LectureInfo `json:"lectures" dc:"Lectures of this course"`
+	CourseId    int64       `json:"courseId" dc:"id of this course"`
+	CourseName  string      `json:"courseName" dc:"name of this course"`
+	Description string      `json:"description" dc:"description of this course"`
+	StartTime   *gtime.Time `json:"startTime" dc:"start time of this course"`
+	EndTime     *gtime.Time `json:"endTime" dc:"end time of this course"`
 }
 
-type LectureInfo struct {
-	LectureId         int64  `json:"id" dc:"Id of the lecture"`
-	LecutureName      string `json:"title" dc:"Name of the lecture"`
-	CourseDescription string `json:"description" dc:"description of the lecture"`
-}
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
-//获取课程信息的requset
+// 获取课程信息的requset
 type GetAllCoursesInfoReq struct {
 	g.Meta `path:"/api/getCourses" method:"get" tags:"Course" summary:"get info of all course"`
 }
-//获取课程信息的response
+
+// 获取课程信息的response
 type GetAllCoursesInfoRes struct {
 	g.Meta  `mime:"text/html" example:"json"`
-	Courses []CourseInfo `json:"courses" dc:"Info of all courses"`
+	Courses []*entity.Courses `json:"courses" dc:"Info of all courses"`
+}
+
+type CreateCourseReq struct {
+	g.Meta    `path:"/api/createCourse" method:"post" tags:"Course" summary:"create course"`
+	NewCourse CourseInfo `json:"course" dc:"Info of the course to create"`
+}
+
+type CreateCourseRes struct {
+	g.Meta   `mime:"text/html" example:"json"`
+	CourseId int64 `json:"courseId" dc:"id of the new course"`
+}
+
+type GetCourseReq struct {
+	g.Meta   `path:"/api/searchCourse/{courseId}" method:"get" tags:"Course" summary:"get course info"`
+	CourseId int64 `v:"required" dc:"id of the course to find"`
+}
+
+type GetCourseRes struct {
+	g.Meta `mime:"text/html" example:"json"`
+	Course *entity.Courses `json:"course" dc:"info of the course"`
+}
+
+type DeleteCourseReq struct {
+	g.Meta   `path:"/api/deleteCourse/{courseId}" method:"delete" tags:"Course" summary:"delete course info"`
+	CourseId int64 `v:"required" dc:"id of the course to delete"`
+	UserId   int64 `json:"userId" v:"required" dc:"id of the user who want to delete this course"`
+}
+
+type DeleteCourseRes struct {
+	g.Meta  `mime:"text/html" example:"json"`
+	Success bool `json:"success" dc:"success or not"`
+}
+
+type UpdateCourseReq struct {
+	g.Meta    `path:"/api/createCourse" method:"put" tags:"Course" summary:"create course"`
+	NewCourse *entity.Courses `json:"course" dc:"Info of the course to create"`
+}
+
+type UpdateCourseRes struct {
+	g.Meta    `mime:"text/html" example:"json"`
+	NewCourse *entity.Courses `json:"course" dc:"info of the new course"`
 }

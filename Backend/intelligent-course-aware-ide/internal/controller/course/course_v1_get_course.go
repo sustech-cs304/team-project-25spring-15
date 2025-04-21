@@ -9,6 +9,6 @@ import (
 	"intelligent-course-aware-ide/api/course/v1"
 )
 
-func (c *ControllerV1) GetAllCoursesInfo(ctx context.Context, req *v1.GetAllCoursesInfoReq) (res *v1.GetAllCoursesInfoRes, err error) {
+func (c *ControllerV1) GetCourse(ctx context.Context, req *v1.GetCourseReq) (res *v1.GetCourseRes, err error) {
 	return nil, gerror.NewCode(gcode.CodeNotImplemented)
 }

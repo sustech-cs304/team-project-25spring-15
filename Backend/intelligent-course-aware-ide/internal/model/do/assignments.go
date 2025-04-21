@@ -16,7 +16,7 @@ type Assignments struct {
 	PublisherId  interface{} //
 	CourseId     interface{} //
 	LectureId    interface{} //
-	DescriptionA interface{} //
+	Description  interface{} //
 	DeadLine     *gtime.Time //
 	Completeness interface{} //
 }

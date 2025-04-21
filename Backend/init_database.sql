@@ -10,8 +10,8 @@ DROP TABLE IF EXISTS CourseFiles;
 DROP TABLE IF EXISTS AssignmentFiles;
 DROP TABLE IF EXISTS Files;
 DROP TABLE IF EXISTS Assignments;
-DROP TABLE IF EXISTS Lectures;
 DROP TABLE IF EXISTS Comments;
+DROP TABLE IF EXISTS Lectures;
 DROP TABLE IF EXISTS Chats;
 DROP TABLE IF EXISTS Courses;
 DROP TABLE IF EXISTS Users;
@@ -19,18 +19,18 @@ DROP TABLE IF EXISTS Users;
 CREATE TABLE Users (
     userId BIGINT AUTO_INCREMENT PRIMARY KEY,
     userName VARCHAR(255) NOT NULL,
-    password_U VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     userSign TEXT,
     university VARCHAR(255),
     birthday TIMESTAMP,
-    identity_U ENUM('teacher', 'student', 'superuser') DEFAULT 'student'
+    identity ENUM('teacher', 'student', 'superuser') DEFAULT 'student'
 );
 CREATE TABLE Files (
     fileId BIGINT AUTO_INCREMENT PRIMARY KEY,
     fileSize BIGINT NOT NULL,
     fileUrl TEXT NOT NULL,
-    fileName_F VARCHAR(255) NOT NULL,
+    fileName VARCHAR(255) NOT NULL,
     fileType VARCHAR(50) NOT NULL,
     uploaderId BIGINT,
     uploadDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -40,7 +40,7 @@ CREATE TABLE Files (
 CREATE TABLE Courses(
     courseId BIGINT AUTO_INCREMENT PRIMARY KEY,
     courseName VARCHAR(255) NOT NULL,
-    description_C VARCHAR(255),
+    description VARCHAR(255),
     startTime TIMESTAMP,
     endTime TIMESTAMP
 );
@@ -48,7 +48,7 @@ CREATE TABLE Lectures(
     lectureId INTEGER AUTO_INCREMENT PRIMARY KEY ,
     courseId BIGINT NOT NULL ,
     lectureName VARCHAR(255) NOT NULL,
-    description_L VARCHAR(255),
+    description VARCHAR(255),
     FOREIGN KEY (courseId) REFERENCES Courses(courseId)
 );
 CREATE TABLE Assignments(
@@ -56,7 +56,7 @@ CREATE TABLE Assignments(
     publisherId BIGINT NOT NULL,
     courseId BIGINT,
     lectureId INTEGER,
-    description_A VARCHAR(255),
+    description VARCHAR(255),
     deadLine TIMESTAMP,
     completeness INT,
     FOREIGN KEY (publisherId) REFERENCES Users(userId),
@@ -70,7 +70,7 @@ CREATE TABLE Comments(
     courseId BIGINT,
     lectureId INTEGER,
     publisherId BIGINT,
-    comment_C VARCHAR(255) NOT NULL ,
+    comment VARCHAR(255) NOT NULL ,
     FOREIGN KEY (courseId) REFERENCES Courses(courseId),
     FOREIGN KEY (lectureId) REFERENCES Lectures(lectureId) ,
     FOREIGN KEY (publisherId) REFERENCES Users(userId)
@@ -141,6 +141,5 @@ CREATE TABLE ChatMessageInfo(
 );
 
 
-
-INSERT INTO Courses(COURSENAME, DESCRIPTION_C) VALUES ('1','1');
-INSERT INTO Lectures(courseId, lectureName, description_L) VALUES (1, '1', '1');
+insert into Courses(COURSENAME, DESCRIPTION) values ('1','1');
+insert into Lectures(courseId, lectureName, description) values (1, '1', '1');
