@@ -30,6 +30,7 @@ type GetAllCoursesInfoRes struct {
 type CreateCourseReq struct {
 	g.Meta    `path:"/api/course/createCourse" method:"post" tags:"Course" summary:"create course"`
 	NewCourse CourseInfo `json:"course" dc:"Info of the course to create"`
+	UserId    int64      `json:"userId" dc:"Id of the user who want to create course"`
 }
 
 type CreateCourseRes struct {

@@ -13,6 +13,20 @@ import (
 	"context"
 )
 
+func CheckUserIsSuperUserOrTeacher(ctx context.Context, userId int64) bool {
+	var user *entity.Users
+	err := dao.Users.Ctx(ctx).WherePri(userId).Scan(&user)
+	if err != nil || user == nil {
+		return false
+	}
+
+	if user.Identity == "superuser" || user.Identity == "teacher" {
+		return true
+	}
+
+	return false
+}
+
 func CheckUserHasFullPermission(ctx context.Context, userId int64, courseId int64) (result bool, err error) {
 	var user *entity.Users
 	err = dao.Users.Ctx(ctx).WherePri(userId).Scan(&user)
