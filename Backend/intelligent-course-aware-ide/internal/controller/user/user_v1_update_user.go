@@ -8,7 +8,7 @@ import (
 )
 
 func (c *ControllerV1) UpdateUser(ctx context.Context, req *v1.UpdateUserReq) (res *v1.UpdateUserRes, err error) {
-	info := ConstructUpdateUserInfo(req.UpdateUser)
+	info := ConstructUserInfo(req.UpdateUser)
 	_, err = dao.Users.Ctx(ctx).Data(info).WherePri(req.UpdateUser.UserId).Update()
 	res = &v1.UpdateUserRes{
 		Success: false,

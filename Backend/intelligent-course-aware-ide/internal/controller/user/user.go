@@ -37,7 +37,7 @@ func CheckUserHasPermssion(ctx context.Context, UserToDeleteId int64, userId int
 
 }
 
-func ConstructUpdateUserInfo(info interface{}) g.Map {
+func ConstructUserInfo(info interface{}) g.Map {
 	updateUserInfo := g.Map{}
 	val := reflect.ValueOf(info)
 	typ := val.Type()
@@ -46,14 +46,14 @@ func ConstructUpdateUserInfo(info interface{}) g.Map {
 		typeField := typ.Field(i)
 		fieldName := typeField.Name
 		fieldValue := field.Interface()
-		if !needToUpdate(fieldValue) {
+		if !validInfo(fieldValue) {
 			updateUserInfo[fieldName] = fieldValue
 		}
 	}
 	return updateUserInfo
 }
 
-func needToUpdate(fieldValue any) bool {
+func validInfo(fieldValue any) bool {
 	switch val := fieldValue.(type) {
 	case string:
 		return val == ""
