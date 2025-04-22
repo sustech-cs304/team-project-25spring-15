@@ -9,6 +9,11 @@ import (
 	"errors"
 	"intelligent-course-aware-ide/internal/dao"
 	"intelligent-course-aware-ide/internal/model/entity"
+	"reflect"
+	"time"
+
+	"github.com/gogf/gf/util/gconv"
+	"github.com/gogf/gf/v2/frame/g"
 )
 
 func CheckUserHasPermssion(ctx context.Context, UserToDeleteId int64, userId int64) (success bool, err error) {
@@ -30,4 +35,35 @@ func CheckUserHasPermssion(ctx context.Context, UserToDeleteId int64, userId int
 		return false, errors.New("user is not the user to be deleted or user to delete is superuser")
 	}
 
+}
+
+func ConstructUpdateUserInfo(info interface{}) g.Map {
+	updateUserInfo := g.Map{}
+	val := reflect.ValueOf(info)
+	typ := val.Type()
+	for i := 1; i < val.NumField(); i++ {
+		field := val.Field(i)
+		typeField := typ.Field(i)
+		fieldName := typeField.Name
+		fieldValue := field.Interface()
+		if !needToUpdate(fieldValue) {
+			updateUserInfo[fieldName] = fieldValue
+		}
+	}
+	return updateUserInfo
+}
+
+func needToUpdate(fieldValue any) bool {
+	switch val := fieldValue.(type) {
+	case string:
+		return val == ""
+	case int, int64, int32:
+		return gconv.Int64(val) == 0
+	case float64, float32:
+		return gconv.Float64(val) == 0
+	case time.Time:
+		return val.IsZero()
+	default:
+		return reflect.DeepEqual(fieldValue, reflect.Zero(reflect.TypeOf(fieldValue)).Interface())
+	}
 }

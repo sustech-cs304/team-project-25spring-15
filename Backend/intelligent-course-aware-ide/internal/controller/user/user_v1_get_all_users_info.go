@@ -3,12 +3,12 @@ package user
 import (
 	"context"
 
-	"github.com/gogf/gf/v2/errors/gcode"
-	"github.com/gogf/gf/v2/errors/gerror"
-
-	"intelligent-course-aware-ide/api/user/v1"
+	v1 "intelligent-course-aware-ide/api/user/v1"
+	"intelligent-course-aware-ide/internal/dao"
 )
 
 func (c *ControllerV1) GetAllUsersInfo(ctx context.Context, req *v1.GetAllUsersInfoReq) (res *v1.GetAllUsersInfoRes, err error) {
-	return nil, gerror.NewCode(gcode.CodeNotImplemented)
+	res = &v1.GetAllUsersInfoRes{}
+	err = dao.Users.Ctx(ctx).Scan(&res.Users)
+	return res, err
 }
