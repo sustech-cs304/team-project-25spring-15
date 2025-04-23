@@ -37,7 +37,7 @@ func CheckUserHasPermssion(ctx context.Context, UserToDeleteId int64, userId int
 
 }
 
-func ConstructUserInfo(info interface{}) g.Map {
+func ConstructInfo(info interface{}) g.Map {
 	updateUserInfo := g.Map{}
 	val := reflect.ValueOf(info)
 	typ := val.Type()

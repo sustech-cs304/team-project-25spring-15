@@ -30,5 +30,5 @@ func (c *ControllerV1) DeleteLecture(ctx context.Context, req *v1.DeleteLectureR
 		}
 		return res, err
 	}
-	return nil, errors.New("please check the existence of this lecture or course")
+	return nil, errors.New("please check the existence of this lecture or course and whether you have the permission to delete the lecture")
 }

@@ -30,5 +30,5 @@ func (c *ControllerV1) CreateLecture(ctx context.Context, req *v1.CreateLectureR
 		}
 		return res, err
 	}
-	return nil, errors.New("please check your info")
+	return nil, errors.New("please check whether you have permission to create lecture")
 }

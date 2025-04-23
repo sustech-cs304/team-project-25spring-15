@@ -18,9 +18,9 @@ func (c *ControllerV1) LoginUser(ctx context.Context, req *v1.LoginUserReq) (res
 	if req.UserInfo.Password == "" {
 		return nil, errors.New("password should not be empty")
 	}
-	info := ConstructUserInfo(req.UserInfo)
-	_, err = dao.Users.Ctx(ctx).Where(info).Count()
-	if err == nil {
+	info := ConstructInfo(req.UserInfo)
+	num, err := dao.Users.Ctx(ctx).Where(info).Count()
+	if err == nil && num == 1 {
 		res.Success = true
 	}
 	return res, err

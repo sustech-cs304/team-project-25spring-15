@@ -59,6 +59,7 @@ type DeleteLectureRes struct {
 type UpdateLectureReq struct {
 	g.Meta        `path:"/api/lecture/updateLecture" method:"put" tags:"Lecture" summary:"update lecture"`
 	UpdateLecture LectureInfo `json:"lecture" dc:"Info of the lecture to update"`
+	UserId        int64       `json:"userId" v:"required" dc:"id of the user who want to update this lecture"`
 }
 
 type UpdateLectureRes struct {
