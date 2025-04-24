@@ -59,9 +59,10 @@ type GetAssignmentRes struct {
 }
 
 type DeleteAssignmentReq struct {
-	g.Meta     `path:"/api/assignment/deleteAssignment" method:"delete" tags:"Assignment" summary:"delete assignment info"`
-	Assignment int64 `v:"required" dc:"id of the assignment to delete"`
-	UserId     int64 `json:"userId" v:"required" dc:"id of the user who want to delete this assignment"`
+	g.Meta       `path:"/api/assignment/deleteAssignment" method:"delete" tags:"Assignment" summary:"delete assignment info"`
+	AssignmentId int64 `v:"required" dc:"id of the assignment to delete"`
+	CourseId     int64 `v:"required" dc:"id of the course"`
+	UserId       int64 `json:"userId" v:"required" dc:"id of the user who want to delete this assignment"`
 }
 
 type DeleteAssignmentRes struct {
@@ -72,6 +73,7 @@ type DeleteAssignmentRes struct {
 type UpdateAssignmentReq struct {
 	g.Meta           `path:"/api/assignment/updateAssignment" method:"put" tags:"Assignment" summary:"update assignment"`
 	UpdateAssignment AssignmentInfo `json:"assignment" dc:"Info of the assignment to update"`
+	UserId           int64          `json:"userId" v:"required" dc:"id of the user who want to update this assignment"`
 }
 
 type UpdateAssignmentRes struct {

@@ -2,13 +2,33 @@ package assignment
 
 import (
 	"context"
+	"errors"
 
-	"github.com/gogf/gf/v2/errors/gcode"
-	"github.com/gogf/gf/v2/errors/gerror"
-
-	"intelligent-course-aware-ide/api/assignment/v1"
+	v1 "intelligent-course-aware-ide/api/assignment/v1"
+	"intelligent-course-aware-ide/internal/controller/course"
+	"intelligent-course-aware-ide/internal/dao"
 )
 
 func (c *ControllerV1) CreateAssignment(ctx context.Context, req *v1.CreateAssignmentReq) (res *v1.CreateAssignmentRes, err error) {
-	return nil, gerror.NewCode(gcode.CodeNotImplemented)
+	result1, err := course.CheckUserHasFullPermission(ctx, req.UserId, req.NewAssignment.CourseId)
+	if err != nil {
+		return nil, err
+	}
+	result2, err := course.CheckUserHasHalfPermission(ctx, req.UserId, req.NewAssignment.CourseId)
+	if err != nil {
+		return nil, err
+	}
+
+	if result1 || result2 {
+		assignmentId, err := dao.Lectures.Ctx(ctx).Data(req.NewAssignment).InsertAndGetId()
+		if err != nil {
+			return nil, err
+		}
+
+		res = &v1.CreateAssignmentRes{
+			AssignmentId: assignmentId,
+		}
+		return res, err
+	}
+	return nil, errors.New("please check whether you have permission to create assignment")
 }
