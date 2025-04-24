@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, { useState } from "react";
 import {
@@ -195,34 +195,36 @@ export function ExercisesList({ onExerciseClick }: ExercisesListProps) {
 }
 
 export default function ExercisesContainer() {
-    const [showExerciseDetail, setShowExerciseDetail] = useState(false);
-    const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(null);
+  const [showExerciseDetail, setShowExerciseDetail] = useState(false);
+  const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(
+    null
+  );
 
-    // 处理练习项点击
-    const handleExerciseClick = (exerciseId: number) => {
-        const content = exerciseContents[exerciseId];
-        setSelectedExercise({ id: exerciseId, content });
-        setShowExerciseDetail(true);
-    };
+  // 处理练习项点击
+  const handleExerciseClick = (exerciseId: number) => {
+    const content = exerciseContents[exerciseId];
+    setSelectedExercise({ id: exerciseId, content });
+    setShowExerciseDetail(true);
+  };
 
-    // 返回列表
-    const handleBackToList = () => {
-        setShowExerciseDetail(false);
-    };
+  // 返回列表
+  const handleBackToList = () => {
+    setShowExerciseDetail(false);
+  };
 
-    return (
-        <Box sx={{ width: '100%', height: '100%', overflow: 'auto' }}>
-            {showExerciseDetail ? (
-                <ExercisesRenderer
-                    exerciseContent={selectedExercise?.content}
-                    exerciseId={selectedExercise?.id}
-                    onBack={handleBackToList}
-                />
-            ) : (
-                <Box sx={{ display: 'flex', justifyContent: 'center', py: 2 }}>
-                    <ExercisesList onExerciseClick={handleExerciseClick} />
-                </Box>
-            )}
+  return (
+    <Box sx={{ width: "100%", height: "100%", overflow: "auto" }}>
+      {showExerciseDetail ? (
+        <ExercisesRenderer
+          exerciseContent={selectedExercise?.content}
+          exerciseId={selectedExercise?.id}
+          onBack={handleBackToList}
+        />
+      ) : (
+        <Box sx={{ display: "flex", justifyContent: "center", py: 2 }}>
+          <ExercisesList onExerciseClick={handleExerciseClick} />
         </Box>
-    );
-};
+      )}
+    </Box>
+  );
+}

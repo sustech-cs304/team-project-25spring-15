@@ -37,7 +37,7 @@ export default function ContentLink() {
         sx={{
           flexGrow: 1,
           height: "calc(94vh - 64px)",
-          overflow: "hidden",
+          overflow: "auto",
           padding: "10px",
           borderColor: `2px solid #e0e0e0`,
           borderRadius: "8px",  // 增加一点圆角
