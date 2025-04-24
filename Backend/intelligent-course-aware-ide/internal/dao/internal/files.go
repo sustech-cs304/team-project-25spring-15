@@ -23,7 +23,7 @@ type FilesColumns struct {
 	FileId       string //
 	FileSize     string //
 	FileUrl      string //
-	FileNameF    string //
+	FileName     string //
 	FileType     string //
 	UploaderId   string //
 	UploadDate   string //
@@ -35,7 +35,7 @@ var filesColumns = FilesColumns{
 	FileId:       "fileId",
 	FileSize:     "fileSize",
 	FileUrl:      "fileUrl",
-	FileNameF:    "fileName_F",
+	FileName:     "fileName",
 	FileType:     "fileType",
 	UploaderId:   "uploaderId",
 	UploadDate:   "uploadDate",

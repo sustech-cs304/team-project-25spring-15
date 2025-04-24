@@ -26,7 +26,7 @@ type CommentsColumns struct {
 	CourseId        string //
 	LectureId       string //
 	PublisherId     string //
-	CommentC        string //
+	Comment         string //
 }
 
 // commentsColumns holds the columns for the table Comments.
@@ -37,7 +37,7 @@ var commentsColumns = CommentsColumns{
 	CourseId:        "courseId",
 	LectureId:       "lectureId",
 	PublisherId:     "publisherId",
-	CommentC:        "comment_C",
+	Comment:         "comment",
 }
 
 // NewCommentsDao creates and returns a new DAO object for table data access.

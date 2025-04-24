@@ -10,9 +10,10 @@ import (
 
 // TestcaseAndAnswerFiles is the golang structure of table TestcaseAndAnswerFiles for DAO operations like Where/Data.
 type TestcaseAndAnswerFiles struct {
-	g.Meta       `orm:"table:TestcaseAndAnswerFiles, do:true"`
-	AssignmentId interface{} //
-	OwnerId      interface{} //
-	TestcaseId   interface{} //
-	AnswerId     interface{} //
+	g.Meta              `orm:"table:TestcaseAndAnswerFiles, do:true"`
+	TestcaseAndAnswerId interface{} //
+	AssignmentId        interface{} //
+	PublisherId         interface{} //
+	TestcaseId          interface{} //
+	AnswerId            interface{} //
 }

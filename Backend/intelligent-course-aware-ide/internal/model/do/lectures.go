@@ -10,9 +10,9 @@ import (
 
 // Lectures is the golang structure of table Lectures for DAO operations like Where/Data.
 type Lectures struct {
-	g.Meta       `orm:"table:Lectures, do:true"`
-	LectureId    interface{} //
-	CourseId     interface{} //
-	LectureName  interface{} //
-	DescriptionL interface{} //
+	g.Meta      `orm:"table:Lectures, do:true"`
+	LectureId   interface{} //
+	CourseId    interface{} //
+	LectureName interface{} //
+	Description interface{} //
 }

@@ -5,9 +5,15 @@
 package runner
 
 import (
+	"context"
 	"fmt"
+	v1 "intelligent-course-aware-ide/api/runner/v1"
+	"os"
 	"os/exec"
 	"strings"
+
+	"github.com/gogf/gf/v2/errors/gcode"
+	"github.com/gogf/gf/v2/errors/gerror"
 )
 
 const TargetDockerName string = "CS304"
@@ -50,4 +56,96 @@ func CheckWhetherContainerIsRunning(targetDockerName string) string {
 	}
 
 	return "success"
+}
+
+func CCodeRunner(ctx context.Context, codeInfo *v1.RunnerReq) (codeFeedback *v1.RunnerRes, err error) {
+	var name string = codeInfo.Name
+	var checkResult string = CheckWhetherContainerIsRunning(TargetCDockerName)
+	if checkResult != "success" {
+		return nil, gerror.NewCode(gcode.CodeInternalError, checkResult)
+	}
+
+	var pathForCHost string = PathForHost + name + ".cpp"
+	if err := os.WriteFile(pathForCHost, []byte(codeInfo.Code), 0644); err != nil {
+		return nil, gerror.Wrap(err, "Fail to write")
+	}
+
+	var pathForCDocker string = PathForDocker + name + ".cpp"
+	var pathForExecutableFile = PathForDocker + name
+	var cmd *exec.Cmd
+	var compileErr string
+	var stdout, stderr strings.Builder
+
+	cmd = exec.CommandContext(ctx, "docker", "exec", TargetCDockerName, "g++", pathForCDocker, "-o", pathForExecutableFile)
+	cmd.Stdout = &stdout
+	cmd.Stderr = &stderr
+
+	cmd.Run()
+
+	compileErr = stderr.String()
+	if compileErr != "" {
+		codeFeedback = &v1.RunnerRes{
+			Result:   stdout.String(),
+			Error:    compileErr,
+			FilePath: "",
+		}
+
+		return codeFeedback, err
+	}
+
+	var cmdContext []string = append([]string{
+		"exec", "-i", TargetCDockerName, pathForExecutableFile,
+	}, codeInfo.Args...)
+
+	cmd = exec.CommandContext(ctx, "docker", cmdContext...)
+	cmd.Stdout = &stdout
+	cmd.Stderr = &stderr
+
+	cmd.Run()
+
+	codeFeedback = &v1.RunnerRes{
+		Result:   stdout.String(),
+		Error:    stderr.String(),
+		FilePath: "",
+	}
+	return codeFeedback, err
+}
+
+func PythonCodeRunner(ctx context.Context, codeInfo *v1.RunnerReq) (codeFeedback *v1.RunnerRes, err error) {
+	var name string = codeInfo.Name
+	// Check if the Docker container is running
+	var checkResult string = CheckWhetherContainerIsRunning(TargetPythonDockerName)
+	if checkResult != "success" {
+		return nil, gerror.NewCode(gcode.CodeDbOperationError, checkResult)
+	}
+
+	// Create a temporary file to store the Python code
+	// Write the code into the file
+	var pathForPythonHost string = PathForHost + name + ".py"
+	if err := os.WriteFile(pathForPythonHost, []byte(codeInfo.Code), 0644); err != nil {
+		return nil, gerror.Wrap(err, "Fail to write")
+	}
+
+	// Here we use new path to replace the ordinary path
+	// But we have not implement file upload so we will implement it later
+	var pathForPythonDocker string = PathForDocker + name + ".py"
+	var cmdContext []string = append([]string{
+		"exec", "-i", TargetPythonDockerName, "python", pathForPythonDocker,
+	}, codeInfo.Args...)
+
+	var cmd *exec.Cmd = exec.CommandContext(ctx, "docker", cmdContext...)
+
+	var stdout, stderr strings.Builder
+	cmd.Stdout = &stdout
+	cmd.Stderr = &stderr
+
+	cmd.Run()
+
+	codeFeedback = &v1.RunnerRes{
+		Result:   stdout.String(),
+		Error:    stderr.String(),
+		FilePath: "",
+	}
+
+	return
 }

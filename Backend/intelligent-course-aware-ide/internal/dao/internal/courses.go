@@ -20,20 +20,22 @@ type CoursesDao struct {
 
 // CoursesColumns defines and stores column names for the table Courses.
 type CoursesColumns struct {
-	CourseId     string //
-	CourseName   string //
-	DescriptionC string //
-	StartTime    string //
-	EndTime      string //
+	CourseId    string //
+	TeacherId   string //
+	CourseName  string //
+	Description string //
+	StartTime   string //
+	EndTime     string //
 }
 
 // coursesColumns holds the columns for the table Courses.
 var coursesColumns = CoursesColumns{
-	CourseId:     "courseId",
-	CourseName:   "courseName",
-	DescriptionC: "description_C",
-	StartTime:    "startTime",
-	EndTime:      "endTime",
+	CourseId:    "courseId",
+	TeacherId:   "teacherId",
+	CourseName:  "courseName",
+	Description: "description",
+	StartTime:   "startTime",
+	EndTime:     "endTime",
 }
 
 // NewCoursesDao creates and returns a new DAO object for table data access.

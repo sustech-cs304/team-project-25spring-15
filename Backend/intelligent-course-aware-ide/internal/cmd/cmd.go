@@ -10,6 +10,7 @@ import (
 	"intelligent-course-aware-ide/internal/controller/course"
 	"intelligent-course-aware-ide/internal/controller/example"
 	"intelligent-course-aware-ide/internal/controller/runner"
+	"intelligent-course-aware-ide/internal/controller/user"
 )
 
 var (
@@ -25,6 +26,7 @@ var (
 					example.NewV1(),
 					runner.NewV1(),
 					course.NewV1(),
+					user.NewV1(),
 				)
 			})
 			s.Run()

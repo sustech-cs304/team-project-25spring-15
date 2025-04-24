@@ -20,18 +20,18 @@ type LecturesDao struct {
 
 // LecturesColumns defines and stores column names for the table Lectures.
 type LecturesColumns struct {
-	LectureId    string //
-	CourseId     string //
-	LectureName  string //
-	DescriptionL string //
+	LectureId   string //
+	CourseId    string //
+	LectureName string //
+	Description string //
 }
 
 // lecturesColumns holds the columns for the table Lectures.
 var lecturesColumns = LecturesColumns{
-	LectureId:    "lectureId",
-	CourseId:     "courseId",
-	LectureName:  "lectureName",
-	DescriptionL: "description_L",
+	LectureId:   "lectureId",
+	CourseId:    "courseId",
+	LectureName: "lectureName",
+	Description: "description",
 }
 
 // NewLecturesDao creates and returns a new DAO object for table data access.
