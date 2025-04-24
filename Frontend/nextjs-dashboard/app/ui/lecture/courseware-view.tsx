@@ -47,7 +47,7 @@ export function PdfViewer() {
               pageNumber={pageNumber}
               renderTextLayer={false}
               renderAnnotationLayer={false}
-              width={window.innerWidth * 0.8} // 使用固定基准宽度
+              // width={window.innerWidth * 0.8} // 使用固定基准宽度
             />
           </Document>
         </PdfContainer>
