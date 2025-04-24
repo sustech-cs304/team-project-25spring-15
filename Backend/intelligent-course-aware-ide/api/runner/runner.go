@@ -11,6 +11,5 @@ import (
 )
 
 type IRunnerV1 interface {
-	PythonRunner(ctx context.Context, req *v1.PythonRunnerReq) (res *v1.PythonRunnerRes, err error)
-	CRunner(ctx context.Context, req *v1.CRunnerReq) (res *v1.CRunnerRes, err error)
+	GeneralRunner(ctx context.Context, req *v1.GeneralRunnerReq) (res *v1.GeneralRunnerRes, err error)
 }

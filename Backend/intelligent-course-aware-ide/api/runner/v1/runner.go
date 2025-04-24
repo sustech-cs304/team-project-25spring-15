@@ -16,22 +16,13 @@ type RunnerRes struct {
 	FilePath string `json:"filePath" dc:"Path to the temporary file"`
 }
 
-type PythonRunnerReq struct {
-	g.Meta `path:"/pythonRunner" method:"get" tags:"PythonRunner" summary:"Run Python code"`
-	RunnerReq
+type GeneralRunnerReq struct {
+	g.Meta   `path:"/api/codeRunner/run" method:"post" tags:"CodeRunner" summary:"Run code"`
+	CodeInfo RunnerReq `json:"codeInfo" dc:"Info of the code to run"`
+	CodeType string    `json:"type" dc:"type of the code to run"`
 }
 
-type PythonRunnerRes struct {
-	g.Meta `mime:"text/html" example:"json"`
-	RunnerRes
-}
-
-type CRunnerReq struct {
-	g.Meta `path:"/cRunner" method:"get" tags:"CRunner" summary:"Run C code"`
-	RunnerReq
-}
-
-type CRunnerRes struct {
-	g.Meta `mime:"text/html" example:"json"`
-	RunnerRes
+type GeneralRunnerRes struct {
+	g.Meta       `mime:"text/html" example:"json"`
+	CodeFeedback *RunnerRes `json:"codeFeedback" dc:"Feedback of the code to run"`
 }
