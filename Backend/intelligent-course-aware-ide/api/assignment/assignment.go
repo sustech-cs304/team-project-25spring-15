@@ -17,4 +17,5 @@ type IAssignmentV1 interface {
 	GetAssignment(ctx context.Context, req *v1.GetAssignmentReq) (res *v1.GetAssignmentRes, err error)
 	DeleteAssignment(ctx context.Context, req *v1.DeleteAssignmentReq) (res *v1.DeleteAssignmentRes, err error)
 	UpdateAssignment(ctx context.Context, req *v1.UpdateAssignmentReq) (res *v1.UpdateAssignmentRes, err error)
+	AttemptForAssignment(ctx context.Context, req *v1.AttemptForAssignmentReq) (res *v1.AttemptForAssignmentRes, err error)
 }

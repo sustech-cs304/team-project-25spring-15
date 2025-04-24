@@ -89,18 +89,17 @@ CREATE TABLE Chats(
 CREATE TABLE AssignmentUserInfo(
     assignmentId BIGINT NOT NULL,
     performerId BIGINT NOT NULL,
-    score INT,
+    score INT DEFAULT 0,
     PRIMARY KEY (assignmentId, performerId),
     FOREIGN KEY (assignmentId) REFERENCES Assignments(assignmentId) ON DELETE CASCADE ,
     FOREIGN KEY (performerId) REFERENCES Users(userId) ON DELETE CASCADE
 );
 CREATE TABLE UserFileInfo(
     userId BIGINT NOT NULL,
-    assignmentId BIGINT NOT NULL,
     fileId BIGINT NOT NULL,
-    PRIMARY KEY (userId, assignmentId, fileId),
-    FOREIGN KEY (userId) REFERENCES Users(userId) ON DELETE CASCADE,
-    FOREIGN KEY (assignmentId) REFERENCES Assignments(assignmentId) ON DELETE CASCADE,
+    authority INT NOT NULL,
+    PRIMARY KEY (userId, fileId),
+    FOREIGN KEY (userId) REFERENCES Users(userId) ON DELETE CASCADE ,
     FOREIGN KEY (fileId) REFERENCES Files(fileId) ON DELETE CASCADE
 );
 CREATE TABLE CourseFiles(

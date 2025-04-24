@@ -17,6 +17,11 @@ type AssignmentInfo struct {
 	Completeness int32       `json:"completeness" dc:"num of the student who has finished this"`
 }
 
+type AttemptForAssignment struct {
+	UserId int64 `json:"userId" dc:"id of user"`
+	FileId int64 `json:"fileId" dc:"id of file"`
+}
+
 type GetAllAssignmentInfoOfACourseReq struct {
 	g.Meta   `path:"/api/assignment/getAllAssignmentOfACourse" method:"get" tags:"Assignment" summary:"get info of all assignment of a course"`
 	CourseId int64 `json:"courseId" dc:"Id of this course"`
@@ -79,4 +84,14 @@ type UpdateAssignmentReq struct {
 type UpdateAssignmentRes struct {
 	g.Meta  `mime:"text/html" example:"json"`
 	Success bool `json:"success" dc:"success or not"`
+}
+
+type AttemptForAssignmentReq struct {
+	g.Meta                `path:"/api/assignment/attemptAssignment" method:"post" tags:"Assignment" summary:"attempt assignment"`
+	AssignmentUserAttempt AttemptForAssignment `json:"attempt" dc:"Info of the attempt for this assignment"`
+}
+
+type AttemptForAssignmentRes struct {
+	g.Meta                 `mime:"text/html" example:"json"`
+	AssignmentUserFeedback *entity.AssignmentUserInfo `json:"feedback" dc:"Info of the feedback for this attempt"`
 }
