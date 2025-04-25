@@ -16,4 +16,6 @@ type ICourseV1 interface {
 	GetCourse(ctx context.Context, req *v1.GetCourseReq) (res *v1.GetCourseRes, err error)
 	DeleteCourse(ctx context.Context, req *v1.DeleteCourseReq) (res *v1.DeleteCourseRes, err error)
 	UpdateCourse(ctx context.Context, req *v1.UpdateCourseReq) (res *v1.UpdateCourseRes, err error)
+	AssignCourseAssistant(ctx context.Context, req *v1.AssignCourseAssistantReq) (res *v1.AssignCourseAssistantRes, err error)
+	DeleteCourseAssistant(ctx context.Context, req *v1.DeleteCourseAssistantReq) (res *v1.DeleteCourseAssistantRes, err error)
 }

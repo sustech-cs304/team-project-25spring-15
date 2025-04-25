@@ -69,3 +69,27 @@ type UpdateCourseRes struct {
 	g.Meta  `mime:"text/html" example:"json"`
 	Success bool `json:"success" dc:"success or not"`
 }
+
+type AssignCourseAssistantReq struct {
+	g.Meta      `path:"/api/course/assignCourseAssistant" method:"post" tags:"Course" summary:"assign course assistant"`
+	CourseId    int64 `json:"courseId" dc:"Id of the course"`
+	UserId      int64 `json:"userId" v:"required" dc:"id of the user who want to assign assistant"`
+	AssistantId int64 `json:"assistantId" v:"required" dc:"id of the user who will be the assistant"`
+}
+
+type AssignCourseAssistantRes struct {
+	g.Meta  `mime:"text/html" example:"json"`
+	Success bool `json:"success" dc:"success or not"`
+}
+
+type DeleteCourseAssistantReq struct {
+	g.Meta      `path:"/api/course/deleteCourseAssistant" method:"delete" tags:"Course" summary:"delete course assistant"`
+	CourseId    int64 `json:"courseId" dc:"Id of the course"`
+	UserId      int64 `json:"userId" v:"required" dc:"id of the user who want to delete assistant"`
+	AssistantId int64 `json:"assistantId" v:"required" dc:"id of the user who will not be the assistant any more"`
+}
+
+type DeleteCourseAssistantRes struct {
+	g.Meta  `mime:"text/html" example:"json"`
+	Success bool `json:"success" dc:"success or not"`
+}
