@@ -58,25 +58,31 @@ func CheckWhetherContainerIsRunning(targetDockerName string) string {
 	return "success"
 }
 
-func CCodeRunner(ctx context.Context, codeInfo *v1.RunnerReq) (codeFeedback *v1.RunnerRes, err error) {
+func CCodeRunner(ctx context.Context, codeInfo *v1.RunnerReq) (pathForCDocker string, pathForExecutableFile string, err error) {
 	var name string = codeInfo.Name
 	var checkResult string = CheckWhetherContainerIsRunning(TargetCDockerName)
 	if checkResult != "success" {
-		return nil, gerror.NewCode(gcode.CodeInternalError, checkResult)
+		return "", "", gerror.NewCode(gcode.CodeInternalError, checkResult)
 	}
 
 	var pathForCHost string = PathForHost + name + ".cpp"
 	if err := os.WriteFile(pathForCHost, []byte(codeInfo.Code), 0644); err != nil {
-		return nil, gerror.Wrap(err, "Fail to write")
+		return "", "", gerror.Wrap(err, "Fail to write")
 	}
 
-	var pathForCDocker string = PathForDocker + name + ".cpp"
-	var pathForExecutableFile = PathForDocker + name
+	pathForCDocker = PathForDocker + name + ".cpp"
+	pathForExecutableFile = PathForDocker + name
+
+	return pathForCDocker, pathForExecutableFile, err
+}
+
+func RunCCode(ctx context.Context, codeInfo *v1.RunnerReq, pathForCDocker string, pathForExecutableFile string) (codeFeedback *v1.RunnerRes, err error) {
 	var cmd *exec.Cmd
 	var compileErr string
 	var stdout, stderr strings.Builder
 
-	cmd = exec.CommandContext(ctx, "docker", "exec", TargetCDockerName, "g++", pathForCDocker, "-o", pathForExecutableFile)
+	cmdStr1 := "g++ " + pathForCDocker + " -o " + pathForExecutableFile
+	cmd = exec.CommandContext(ctx, "docker", "exec", TargetCDockerName, cmdStr1)
 	cmd.Stdout = &stdout
 	cmd.Stderr = &stderr
 
@@ -93,16 +99,32 @@ func CCodeRunner(ctx context.Context, codeInfo *v1.RunnerReq) (codeFeedback *v1.
 		return codeFeedback, err
 	}
 
-	var cmdContext []string = append([]string{
-		"exec", "-i", TargetCDockerName, pathForExecutableFile,
-	}, codeInfo.Args...)
+	stdout.Reset()
+	stderr.Reset()
+
+	cmdStr2 := "pathForExecutableFile"
+	if codeInfo.Args != nil {
+		for _, arg := range codeInfo.Args {
+			cmdStr2 += " " + arg
+		}
+	} else {
+		if codeInfo.InputPath != "" {
+			cmdStr2 += " < " + codeInfo.InputPath
+		}
+		if codeInfo.OutputPath != "" {
+			cmdStr2 += " > " + codeInfo.OutputPath
+		}
+	}
+
+	var cmdContext []string = []string{
+		"exec", "-it", TargetCDockerName, "bash", "-c", cmdStr2,
+	}
 
 	cmd = exec.CommandContext(ctx, "docker", cmdContext...)
 	cmd.Stdout = &stdout
 	cmd.Stderr = &stderr
 
 	cmd.Run()
-
 	codeFeedback = &v1.RunnerRes{
 		Result:   stdout.String(),
 		Error:    stderr.String(),
@@ -111,27 +133,47 @@ func CCodeRunner(ctx context.Context, codeInfo *v1.RunnerReq) (codeFeedback *v1.
 	return codeFeedback, err
 }
 
-func PythonCodeRunner(ctx context.Context, codeInfo *v1.RunnerReq) (codeFeedback *v1.RunnerRes, err error) {
+func PythonCodeRunner(ctx context.Context, codeInfo *v1.RunnerReq) (pathForPythonDocker string, err error) {
 	var name string = codeInfo.Name
 	// Check if the Docker container is running
 	var checkResult string = CheckWhetherContainerIsRunning(TargetPythonDockerName)
 	if checkResult != "success" {
-		return nil, gerror.NewCode(gcode.CodeDbOperationError, checkResult)
+		return "", gerror.NewCode(gcode.CodeDbOperationError, checkResult)
 	}
 
 	// Create a temporary file to store the Python code
 	// Write the code into the file
 	var pathForPythonHost string = PathForHost + name + ".py"
 	if err := os.WriteFile(pathForPythonHost, []byte(codeInfo.Code), 0644); err != nil {
-		return nil, gerror.Wrap(err, "Fail to write")
+		return "", gerror.Wrap(err, "Fail to write")
 	}
 
 	// Here we use new path to replace the ordinary path
 	// But we have not implement file upload so we will implement it later
-	var pathForPythonDocker string = PathForDocker + name + ".py"
-	var cmdContext []string = append([]string{
-		"exec", "-i", TargetPythonDockerName, "python", pathForPythonDocker,
-	}, codeInfo.Args...)
+	pathForPythonDocker = PathForDocker + name + ".py"
+
+	return pathForPythonDocker, err
+}
+
+func RunPythonCode(ctx context.Context, codeInfo *v1.RunnerReq, pathForPythonDocker string) (codeFeedback *v1.RunnerRes, err error) {
+	// Here we use new path to replace the ordinary path
+	// But we have not implement file upload so we will implement it later
+	cmdStr := "python " + pathForPythonDocker
+	if codeInfo.Args != nil {
+		for _, arg := range codeInfo.Args {
+			cmdStr += " " + arg
+		}
+	} else {
+		if codeInfo.InputPath != "" {
+			cmdStr += " < " + codeInfo.InputPath
+		}
+		if codeInfo.OutputPath != "" {
+			cmdStr += " > " + codeInfo.OutputPath
+		}
+	}
+	var cmdContext []string = []string{
+		"exec", TargetPythonDockerName, "bash", "-c", cmdStr,
+	}
 
 	var cmd *exec.Cmd = exec.CommandContext(ctx, "docker", cmdContext...)
 
@@ -140,12 +182,11 @@ func PythonCodeRunner(ctx context.Context, codeInfo *v1.RunnerReq) (codeFeedback
 	cmd.Stderr = &stderr
 
 	cmd.Run()
-
 	codeFeedback = &v1.RunnerRes{
 		Result:   stdout.String(),
 		Error:    stderr.String(),
 		FilePath: "",
 	}
 
-	return
+	return codeFeedback, err
 }
