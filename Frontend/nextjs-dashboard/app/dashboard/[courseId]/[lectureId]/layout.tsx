@@ -1,18 +1,10 @@
 'use client';
 
 import { ReactNode } from "react";
-import { Box, Card } from "@mui/material";
-import { styled } from "@mui/material/styles";
-import ContentTabs from "@/app/ui/lecture/content-link"; // 导入标签栏组件
+import { Card } from "@mui/material";
+import ContentLinks from "@/app/ui/lecture/content-link"; // 导入标签栏组件
 
 export const experimental_ppr = true;
-
-// 内容容器样式
-const ContentContainer = styled(Box)(({ theme }) => ({
-  height: "calc(100% - 48px)",
-  overflow: "auto",
-  padding: theme.spacing(2),
-}));
 
 interface LectureLayoutProps {
   children: ReactNode;
@@ -34,12 +26,12 @@ export default function LectureLayout({ children }: LectureLayoutProps) {
         }}
       >
         {/* 顶部标签栏 */}
-        <ContentTabs />
+        <ContentLinks />
 
         {/* 内容区域 - 渲染子路由 */}
-        <ContentContainer>
+        <div className="content-container">
           {children}
-        </ContentContainer>
+        </div>
       </Card>
     </div>
   );
