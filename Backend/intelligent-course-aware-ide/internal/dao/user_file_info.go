@@ -8,20 +8,15 @@ import (
 	"intelligent-course-aware-ide/internal/dao/internal"
 )
 
-// internalUserFileInfoDao is an internal type for wrapping the internal DAO implementation.
-type internalUserFileInfoDao = *internal.UserFileInfoDao
-
 // userFileInfoDao is the data access object for the table UserFileInfo.
 // You can define custom methods on it to extend its functionality as needed.
 type userFileInfoDao struct {
-	internalUserFileInfoDao
+	*internal.UserFileInfoDao
 }
 
 var (
 	// UserFileInfo is a globally accessible object for table UserFileInfo operations.
-	UserFileInfo = userFileInfoDao{
-		internal.NewUserFileInfoDao(),
-	}
+	UserFileInfo = userFileInfoDao{internal.NewUserFileInfoDao()}
 )
 
 // Add your custom methods and functionality below.

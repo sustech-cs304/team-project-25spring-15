@@ -103,6 +103,5 @@ func (c *ControllerV1) AttemptForAssignment(ctx context.Context, req *v1.Attempt
 		AssignmentUserFeedback: assignmentUserFeedback,
 	}
 
-	res.AssignmentUserFeedback.FeedbackId, err = dao.AssignmentUserFeedback.Ctx(ctx).Data(assignmentUserFeedback).InsertAndGetId()
 	return res, err
 }

@@ -8,20 +8,15 @@ import (
 	"intelligent-course-aware-ide/internal/dao/internal"
 )
 
-// internalAssignmentFilesDao is an internal type for wrapping the internal DAO implementation.
-type internalAssignmentFilesDao = *internal.AssignmentFilesDao
-
 // assignmentFilesDao is the data access object for the table AssignmentFiles.
 // You can define custom methods on it to extend its functionality as needed.
 type assignmentFilesDao struct {
-	internalAssignmentFilesDao
+	*internal.AssignmentFilesDao
 }
 
 var (
 	// AssignmentFiles is a globally accessible object for table AssignmentFiles operations.
-	AssignmentFiles = assignmentFilesDao{
-		internal.NewAssignmentFilesDao(),
-	}
+	AssignmentFiles = assignmentFilesDao{internal.NewAssignmentFilesDao()}
 )
 
 // Add your custom methods and functionality below.

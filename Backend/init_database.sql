@@ -1,13 +1,12 @@
 create database if not exists mysqlTest;
 use mysqlTest;
-
 DROP TABLE IF EXISTS ChatMessageInfo;
 DROP TABLE IF EXISTS TestcaseAndAnswerFiles;
 DROP TABLE IF EXISTS ChatUserInfo;
 DROP TABLE IF EXISTS AssignmentUserInfo;
 DROP TABLE IF EXISTS UserFileInfo;
 DROP TABLE IF EXISTS CourseAssistants;
-DROP TABLE IF EXISTS CourseFiles;
+DROP TABLE IF EXISTS LectureFiles;
 DROP TABLE IF EXISTS AssignmentFiles;
 DROP TABLE IF EXISTS Files;
 DROP TABLE IF EXISTS Assignments;
@@ -16,7 +15,6 @@ DROP TABLE IF EXISTS Lectures;
 DROP TABLE IF EXISTS Chats;
 DROP TABLE IF EXISTS Courses;
 DROP TABLE IF EXISTS Users;
-
 CREATE TABLE Users (
     userId BIGINT AUTO_INCREMENT PRIMARY KEY,
     userName VARCHAR(255) NOT NULL,
@@ -40,7 +38,7 @@ CREATE TABLE Files (
 );
 CREATE TABLE Courses(
     courseId BIGINT AUTO_INCREMENT PRIMARY KEY,
-    teacherId BIGINT NOT NULL ,
+    teacherId BIGINT NOT NULL,
     courseName VARCHAR(255) NOT NULL,
     description VARCHAR(255),
     startTime TIMESTAMP,
@@ -48,8 +46,8 @@ CREATE TABLE Courses(
     FOREIGN KEY (teacherId) REFERENCES Users(userId) ON DELETE CASCADE
 );
 CREATE TABLE Lectures(
-    lectureId INTEGER AUTO_INCREMENT PRIMARY KEY ,
-    courseId BIGINT NOT NULL ,
+    lectureId INTEGER AUTO_INCREMENT PRIMARY KEY,
+    courseId BIGINT NOT NULL,
     lectureName VARCHAR(255) NOT NULL,
     description VARCHAR(255),
     FOREIGN KEY (courseId) REFERENCES Courses(courseId) ON DELETE CASCADE
@@ -62,20 +60,20 @@ CREATE TABLE Assignments(
     description VARCHAR(255),
     deadLine TIMESTAMP,
     completeness INT,
-    FOREIGN KEY (publisherId) REFERENCES Users(userId) ON DELETE CASCADE ,
-    FOREIGN KEY (courseId) REFERENCES Courses(courseId) ON DELETE CASCADE ,
+    FOREIGN KEY (publisherId) REFERENCES Users(userId) ON DELETE CASCADE,
+    FOREIGN KEY (courseId) REFERENCES Courses(courseId) ON DELETE CASCADE,
     FOREIGN KEY (lectureId) REFERENCES Lectures(lectureId) ON DELETE CASCADE
 );
 CREATE TABLE Comments(
-    commentId INTEGER NOT NULL ,
+    commentId INTEGER NOT NULL,
     fatherCommentId INTEGER DEFAULT 0,
     subCommentId INTEGER DEFAULT 0,
     courseId BIGINT,
     lectureId INTEGER,
     publisherId BIGINT,
-    comment VARCHAR(255) NOT NULL ,
-    FOREIGN KEY (courseId) REFERENCES Courses(courseId) ON DELETE CASCADE ,
-    FOREIGN KEY (lectureId) REFERENCES Lectures(lectureId)  ON DELETE CASCADE ,
+    comment VARCHAR(255) NOT NULL,
+    FOREIGN KEY (courseId) REFERENCES Courses(courseId) ON DELETE CASCADE,
+    FOREIGN KEY (lectureId) REFERENCES Lectures(lectureId) ON DELETE CASCADE,
     FOREIGN KEY (publisherId) REFERENCES Users(userId) ON DELETE CASCADE
 );
 CREATE TABLE Chats(
@@ -83,7 +81,7 @@ CREATE TABLE Chats(
     courseId BIGINT,
     lectureId INTEGER,
     ownerId BIGINT NOT NULL,
-    FOREIGN KEY (ownerId) REFERENCES Users(userId) ON DELETE CASCADE ,
+    FOREIGN KEY (ownerId) REFERENCES Users(userId) ON DELETE CASCADE,
     FOREIGN KEY (courseId) REFERENCES Courses(courseId) ON DELETE CASCADE
 );
 CREATE TABLE AssignmentUserInfo(
@@ -91,7 +89,7 @@ CREATE TABLE AssignmentUserInfo(
     performerId BIGINT NOT NULL,
     score INT,
     PRIMARY KEY (assignmentId, performerId),
-    FOREIGN KEY (assignmentId) REFERENCES Assignments(assignmentId) ON DELETE CASCADE ,
+    FOREIGN KEY (assignmentId) REFERENCES Assignments(assignmentId) ON DELETE CASCADE,
     FOREIGN KEY (performerId) REFERENCES Users(userId) ON DELETE CASCADE
 );
 CREATE TABLE UserFileInfo(
@@ -103,44 +101,44 @@ CREATE TABLE UserFileInfo(
     FOREIGN KEY (assignmentId) REFERENCES Assignments(assignmentId) ON DELETE CASCADE,
     FOREIGN KEY (fileId) REFERENCES Files(fileId) ON DELETE CASCADE
 );
-CREATE TABLE CourseFiles(
+CREATE TABLE LectureFiles(
     fileId BIGINT NOT NULL,
-    courseId BIGINT NOT NULL,
-    PRIMARY KEY (fileId, courseId),
-    FOREIGN KEY (fileId) REFERENCES Files(fileId) ON DELETE CASCADE ,
-    FOREIGN KEY (courseId) REFERENCES Courses(courseId) ON DELETE CASCADE
+    lectureId INTEGER NOT NULL,
+    PRIMARY KEY (fileId, lectureId),
+    FOREIGN KEY (fileId) REFERENCES Files(fileId) ON DELETE CASCADE,
+    FOREIGN KEY (lectureId) REFERENCES Lectures(lectureId) ON DELETE CASCADE
 );
 CREATE TABLE CourseAssistants(
     courseId BIGINT NOT NULL,
-    assistantId BIGINT NOT NULL ,
+    assistantId BIGINT NOT NULL,
     PRIMARY KEY (courseId, assistantId),
-    FOREIGN KEY (courseId) REFERENCES Courses(courseId) ON DELETE CASCADE ,
+    FOREIGN KEY (courseId) REFERENCES Courses(courseId) ON DELETE CASCADE,
     FOREIGN KEY (assistantId) REFERENCES Users(userId) ON DELETE CASCADE
 );
 CREATE TABLE AssignmentFiles(
     assignmentId BIGINT NOT NULL,
     ownerId BIGINT NOT NULL,
     fileId BIGINT NOT NULL,
-    FOREIGN KEY (assignmentId) REFERENCES Assignments(assignmentId) ON DELETE CASCADE ,
-    FOREIGN KEY (ownerId) REFERENCES Users(userId) ON DELETE CASCADE ,
+    FOREIGN KEY (assignmentId) REFERENCES Assignments(assignmentId) ON DELETE CASCADE,
+    FOREIGN KEY (ownerId) REFERENCES Users(userId) ON DELETE CASCADE,
     FOREIGN KEY (fileId) REFERENCES Files(fileId) ON DELETE CASCADE
 );
 CREATE TABLE TestcaseAndAnswerFiles(
-    testcaseAndAnswerId BIGINT AUTO_INCREMENT PRIMARY KEY ,
+    testcaseAndAnswerId BIGINT AUTO_INCREMENT PRIMARY KEY,
     assignmentId BIGINT NOT NULL,
     publisherId BIGINT NOT NULL,
     testcaseId BIGINT,
     answerId BIGINT,
-    FOREIGN KEY (assignmentId) REFERENCES Assignments(assignmentId) ON DELETE CASCADE ,
-    FOREIGN KEY (publisherId) REFERENCES Users(userId) ON DELETE CASCADE ,
-    FOREIGN KEY (testcaseId) REFERENCES Files(fileId) ON DELETE CASCADE ,
+    FOREIGN KEY (assignmentId) REFERENCES Assignments(assignmentId) ON DELETE CASCADE,
+    FOREIGN KEY (publisherId) REFERENCES Users(userId) ON DELETE CASCADE,
+    FOREIGN KEY (testcaseId) REFERENCES Files(fileId) ON DELETE CASCADE,
     FOREIGN KEY (answerId) REFERENCES Files(fileId) ON DELETE CASCADE
 );
 CREATE TABLE ChatUserInfo(
     userId BIGINT NOT NULL,
     chatId BIGINT NOT NULL,
     PRIMARY KEY (userId, chatId),
-    FOREIGN KEY (userId) REFERENCES Users(userId) ON DELETE CASCADE ,
+    FOREIGN KEY (userId) REFERENCES Users(userId) ON DELETE CASCADE,
     FOREIGN KEY (chatId) REFERENCES Chats(chatId) ON DELETE CASCADE
 );
 CREATE TABLE ChatMessageInfo(
@@ -148,16 +146,18 @@ CREATE TABLE ChatMessageInfo(
     chatId BIGINT NOT NULL,
     ownerId BIGINT NOT NULL,
     message VARCHAR(255) NOT NULL,
-    FOREIGN KEY (chatId) REFERENCES Chats(chatId) ON DELETE CASCADE ,
+    FOREIGN KEY (chatId) REFERENCES Chats(chatId) ON DELETE CASCADE,
     FOREIGN KEY (ownerId) REFERENCES Users(userId) ON DELETE CASCADE
 );
-
-insert into Users(userId, userName, password, email, identity) VALUES (1,'Y', '123456', 'Y', 'superuser');
-insert into Courses(COURSENAME, DESCRIPTION, teacherId) values ('1','1',1);
-insert into Lectures(courseId, lectureName, description) values (1, '1', '1');
-
-insert into Users(userId, userName, password, email, identity) VALUES (5,'5', '123456', '5', 'teacher');
-insert into Users(userId, userName, password, email, identity) VALUES (6,'6', '123456', '6', 'student');
-insert into Courses(COURSENAME, DESCRIPTION, teacherId) values ('2','2',2);
-insert into CourseAssistants(courseId, assistantId) VALUES (2,3);
-select * from Users;
+insert into Users(userId, userName, password, email, identity)
+VALUES (1, 'Y', '123456', 'Y', 'superuser');
+insert into Courses(COURSENAME, DESCRIPTION, teacherId)
+values ('1', '1', 1);
+insert into Lectures(courseId, lectureName, description)
+values (1, '1', '1');
+insert into Users(userId, userName, password, email, identity)
+VALUES (5, '5', '123456', '5', 'teacher');
+insert into Users(userId, userName, password, email, identity)
+VALUES (6, '6', '123456', '6', 'student');
+select *
+from Users;
