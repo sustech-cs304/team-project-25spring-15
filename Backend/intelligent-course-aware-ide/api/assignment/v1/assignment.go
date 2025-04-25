@@ -137,3 +137,14 @@ type AttemptForAssignmentRes struct {
 	g.Meta                 `mime:"text/html" example:"json"`
 	AssignmentUserFeedback FeedbackForAssignmentInfo `json:"feedback" dc:"Info of the feedback for this attempt"`
 }
+
+type GetAssignmentFeedbackOfAUserReq struct {
+	g.Meta       `path:"/api/assignment/getAssignmentFeedbackOfAUser" method:"get" tags:"Assignment" summary:"attempt assignment"`
+	UserId       int64 `json:"userId" dc:"Id of the user want to search for feedback"`
+	AssignmentId int64 `v:"required" dc:"id of the assignment to get"`
+}
+
+type GetAssignmentFeedbackOfAUserRes struct {
+	g.Meta    `mime:"text/html" example:"json"`
+	Feedbacks []*entity.AssignmentUserFeedback `json:"feedback" dc:"Info of the feedback for this assignment"`
+}
