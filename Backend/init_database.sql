@@ -4,7 +4,7 @@ use mysqlTest;
 DROP TABLE IF EXISTS ChatMessageInfo;
 DROP TABLE IF EXISTS TestcaseAndAnswerFiles;
 DROP TABLE IF EXISTS ChatUserInfo;
-DROP TABLE IF EXISTS AssignmentUserInfo;
+DROP TABLE IF EXISTS AssignmentUserFeedback;
 DROP TABLE IF EXISTS UserFileInfo;
 DROP TABLE IF EXISTS CourseAssistants;
 DROP TABLE IF EXISTS CourseFiles;
@@ -86,10 +86,12 @@ CREATE TABLE Chats(
     FOREIGN KEY (ownerId) REFERENCES Users(userId) ON DELETE CASCADE ,
     FOREIGN KEY (courseId) REFERENCES Courses(courseId) ON DELETE CASCADE
 );
-CREATE TABLE AssignmentUserInfo(
+CREATE TABLE AssignmentUserFeedback(
     assignmentId BIGINT NOT NULL,
     performerId BIGINT NOT NULL,
     score INT,
+    fileId BIGINT NOT NULL ,
+    fileType ENUM('string', 'python', 'c', 'c++', 'cpp') default 'string',
     PRIMARY KEY (assignmentId, performerId),
     FOREIGN KEY (assignmentId) REFERENCES Assignments(assignmentId) ON DELETE CASCADE ,
     FOREIGN KEY (performerId) REFERENCES Users(userId) ON DELETE CASCADE
@@ -131,6 +133,7 @@ CREATE TABLE TestcaseAndAnswerFiles(
     publisherId BIGINT NOT NULL,
     testcaseId BIGINT,
     answerId BIGINT,
+    fileType ENUM('string', 'code') DEFAULT 'string',
     FOREIGN KEY (assignmentId) REFERENCES Assignments(assignmentId) ON DELETE CASCADE ,
     FOREIGN KEY (publisherId) REFERENCES Users(userId) ON DELETE CASCADE ,
     FOREIGN KEY (testcaseId) REFERENCES Files(fileId) ON DELETE CASCADE ,
@@ -158,6 +161,5 @@ insert into Lectures(courseId, lectureName, description) values (1, '1', '1');
 
 insert into Users(userId, userName, password, email, identity) VALUES (5,'5', '123456', '5', 'teacher');
 insert into Users(userId, userName, password, email, identity) VALUES (6,'6', '123456', '6', 'student');
-insert into Courses(COURSENAME, DESCRIPTION, teacherId) values ('2','2',2);
-insert into CourseAssistants(courseId, assistantId) VALUES (2,3);
-select * from Users;
+select * from Courses;
+select * from CourseAssistants;
