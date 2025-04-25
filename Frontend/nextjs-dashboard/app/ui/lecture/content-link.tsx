@@ -1,119 +1,74 @@
 'use client';
 
 import { useState } from "react";
-import { Box, Card, Tabs, Tab, Typography } from "@mui/material";
-import { styled } from "@mui/material/styles";
-import { motion, AnimatePresence } from "framer-motion";
+import { Box, Tabs, Tab } from "@mui/material";
+import { useRouter, usePathname } from "next/navigation";
 
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import ChatIcon from "@mui/icons-material/Chat";
 import SmartToyIcon from "@mui/icons-material/SmartToy";
 
-// 引入可能的内容组件
-import CoursewareView from "./courseware-view";
-import ExercisesContainer from "./exercises-container";
-import CommentView from "./comment-view";
-import AIAssistantView from "./ai-view";
+export default function ContentTabs() {
+  const router = useRouter();
+  const pathname = usePathname();
 
-// 如果需要自定义样式
-const ContentContainer = styled(Box)(({ theme }) => ({
-  height: "calc(100% - 48px)",
-  overflow: "auto",
-  padding: theme.spacing(2),
-}));
+  // 从 URL 路径确定当前标签
+  const getTabFromPath = () => {
+    if (pathname.includes('/courseware')) return 0;
+    if (pathname.includes('/exercises')) return 1;
+    if (pathname.includes('/comments')) return 2;
+    if (pathname.includes('/ai')) return 3;
+    return false; // 默认不选中任何标签
+  };
 
-export default function ContentLink() {
-  // 用于表示当前选中的"课件 / 练习 / 讨论 / AI"，0=课件, 1=练习, 2=讨论, 3=AI
-  const [tabValue, setTabValue] = useState<number>(0);
+  const [tabValue, setTabValue] = useState<number | false>(getTabFromPath);
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
+
+    // 根据标签值导航到对应的子路径
+    const basePath = pathname.split('/').slice(0, 4).join('/'); // /dashboard/[courseId]/[lectureId]
+
+    let targetPath = basePath;
+    switch (newValue) {
+      case 0:
+        targetPath = `${basePath}/courseware`;
+        break;
+      case 1:
+        targetPath = `${basePath}/exercises`;
+        break;
+      case 2:
+        targetPath = `${basePath}/comments`;
+        break;
+      case 3:
+        targetPath = `${basePath}/ai`;
+        break;
+    }
+
+    router.push(targetPath);
   };
 
   return (
-    <div>
-      <Card
+    <Box sx={{
+      width: '100%',
+      borderBottom: 1,
+      borderColor: 'divider'
+    }}>
+      <Tabs
+        value={tabValue}
+        onChange={handleTabChange}
+        variant="fullWidth"
         sx={{
-          flexGrow: 1,
-          height: "calc(94vh - 64px)",
-          overflow: "auto",
-          padding: "10px",
-          borderColor: `2px solid #e0e0e0`,
-          borderRadius: "8px",  // 增加一点圆角
+          borderBottom: 1,
+          borderColor: "divider",
         }}
       >
-        <Tabs
-          value={tabValue}
-          onChange={handleTabChange}
-          variant="fullWidth"
-          sx={{ borderBottom: 1, borderColor: "divider" }}
-        >
-          <Tab icon={<PictureAsPdfIcon />} label="课件" />
-          <Tab icon={<AssignmentIcon />} label="练习" />
-          <Tab icon={<ChatIcon />} label="评论" />
-          <Tab icon={<SmartToyIcon />} label="AI" />
-        </Tabs>
-
-        {/* 根据 tabValue 显示不同视图 */}
-        <AnimatePresence mode="wait">
-          {tabValue === 0 && (
-            <motion.div
-              key="courseware"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 20 }}
-              transition={{ duration: 0.3 }}
-            >
-              <ContentContainer>
-                <CoursewareView />
-              </ContentContainer>
-            </motion.div>
-          )}
-
-          {tabValue === 1 && (
-            <motion.div
-              key="exercises"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 20 }}
-              transition={{ duration: 0.3 }}
-            >
-              <ContentContainer>
-                <ExercisesContainer />
-              </ContentContainer>
-            </motion.div>
-          )}
-
-          {tabValue === 2 && (
-            <motion.div
-              key="comments"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 20 }}
-              transition={{ duration: 0.3 }}
-            >
-              <ContentContainer>
-                <CommentView />
-              </ContentContainer>
-            </motion.div>
-          )}
-
-          {tabValue === 3 && (
-            <motion.div
-              key="ai"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 20 }}
-              transition={{ duration: 0.3 }}
-            >
-              <ContentContainer>
-                <AIAssistantView />
-              </ContentContainer>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </Card>
-    </div>
+        <Tab icon={<PictureAsPdfIcon />} label="课件" />
+        <Tab icon={<AssignmentIcon />} label="练习" />
+        <Tab icon={<ChatIcon />} label="评论" />
+        <Tab icon={<SmartToyIcon />} label="AI" />
+      </Tabs>
+    </Box>
   );
 }
