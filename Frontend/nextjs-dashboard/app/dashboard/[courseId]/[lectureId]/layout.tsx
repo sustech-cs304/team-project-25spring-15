@@ -1,8 +1,7 @@
-'use client';
-
 import { ReactNode } from "react";
 import { Card } from "@mui/material";
 import ContentLinks from "@/app/ui/lecture/content-link"; // 导入标签栏组件
+import { fetchCourses } from "@/app/lib/data";
 
 export const experimental_ppr = true;
 
@@ -10,7 +9,9 @@ interface LectureLayoutProps {
   children: ReactNode;
 }
 
-export default function LectureLayout({ children }: LectureLayoutProps) {
+export default async function LectureLayout({ children }: LectureLayoutProps) {
+  const courses = await fetchCourses();
+
   return (
     <div>
       <Card
