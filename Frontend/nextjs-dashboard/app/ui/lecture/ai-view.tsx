@@ -1,4 +1,4 @@
-export default function Page() {
+export default function AiView() {
   return (
     <main>
       <h1 className={`mb-4 text-xl md:text-2xl`}>
