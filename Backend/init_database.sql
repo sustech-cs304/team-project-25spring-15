@@ -88,7 +88,7 @@ CREATE TABLE AssignmentUserFeedback(
     assignmentId BIGINT NOT NULL,
     performerId BIGINT NOT NULL,
     score INT,
-    fileId BIGINT NOT NULL ,
+    fileId BIGINT NOT NULL,
     fileType ENUM('string', 'python', 'c', 'c++', 'cpp') default 'string',
     PRIMARY KEY (assignmentId, performerId),
     FOREIGN KEY (assignmentId) REFERENCES Assignments(assignmentId) ON DELETE CASCADE,
@@ -131,16 +131,10 @@ CREATE TABLE TestcaseAndAnswerFiles(
     publisherId BIGINT NOT NULL,
     testcaseId BIGINT,
     answerId BIGINT,
-<<<<<<< HEAD
+    fileType ENUM('string', 'code') DEFAULT 'string',
     FOREIGN KEY (assignmentId) REFERENCES Assignments(assignmentId) ON DELETE CASCADE,
     FOREIGN KEY (publisherId) REFERENCES Users(userId) ON DELETE CASCADE,
     FOREIGN KEY (testcaseId) REFERENCES Files(fileId) ON DELETE CASCADE,
-=======
-    fileType ENUM('string', 'code') DEFAULT 'string',
-    FOREIGN KEY (assignmentId) REFERENCES Assignments(assignmentId) ON DELETE CASCADE ,
-    FOREIGN KEY (publisherId) REFERENCES Users(userId) ON DELETE CASCADE ,
-    FOREIGN KEY (testcaseId) REFERENCES Files(fileId) ON DELETE CASCADE ,
->>>>>>> ca96130134d4b9676079182fbe1ff32a70e29b45
     FOREIGN KEY (answerId) REFERENCES Files(fileId) ON DELETE CASCADE
 );
 CREATE TABLE ChatUserInfo(
@@ -158,7 +152,6 @@ CREATE TABLE ChatMessageInfo(
     FOREIGN KEY (chatId) REFERENCES Chats(chatId) ON DELETE CASCADE,
     FOREIGN KEY (ownerId) REFERENCES Users(userId) ON DELETE CASCADE
 );
-<<<<<<< HEAD
 insert into Users(userId, userName, password, email, identity)
 VALUES (1, 'Y', '123456', 'Y', 'superuser');
 insert into Courses(COURSENAME, DESCRIPTION, teacherId)
@@ -170,15 +163,6 @@ VALUES (5, '5', '123456', '5', 'teacher');
 insert into Users(userId, userName, password, email, identity)
 VALUES (6, '6', '123456', '6', 'student');
 select *
-from Users;
-=======
-
-insert into Users(userId, userName, password, email, identity) VALUES (1,'Y', '123456', 'Y', 'superuser');
-insert into Courses(COURSENAME, DESCRIPTION, teacherId) values ('1','1',1);
-insert into Lectures(courseId, lectureName, description) values (1, '1', '1');
-
-insert into Users(userId, userName, password, email, identity) VALUES (5,'5', '123456', '5', 'teacher');
-insert into Users(userId, userName, password, email, identity) VALUES (6,'6', '123456', '6', 'student');
-select * from Courses;
-select * from CourseAssistants;
->>>>>>> ca96130134d4b9676079182fbe1ff32a70e29b45
+from Courses;
+select *
+from CourseAssistants;

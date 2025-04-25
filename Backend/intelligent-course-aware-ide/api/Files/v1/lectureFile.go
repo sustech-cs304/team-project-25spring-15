@@ -42,6 +42,4 @@ type DeleteLectureFileRes struct {
 }
 
 type GetLectureFileRes struct {
-	Result bool              `json:"result" dc:"is OK or not"`
-	File   *ghttp.UploadFile `json:"file"`
 }
