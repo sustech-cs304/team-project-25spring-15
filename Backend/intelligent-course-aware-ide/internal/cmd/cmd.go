@@ -7,8 +7,10 @@ import (
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/gogf/gf/v2/os/gcmd"
 
+	"intelligent-course-aware-ide/internal/controller/assignment"
 	"intelligent-course-aware-ide/internal/controller/course"
 	"intelligent-course-aware-ide/internal/controller/example"
+	"intelligent-course-aware-ide/internal/controller/lecture"
 	"intelligent-course-aware-ide/internal/controller/runner"
 	"intelligent-course-aware-ide/internal/controller/user"
 )
@@ -27,6 +29,8 @@ var (
 					runner.NewV1(),
 					course.NewV1(),
 					user.NewV1(),
+					assignment.NewV1(),
+					lecture.NewV1(),
 				)
 			})
 			s.Run()

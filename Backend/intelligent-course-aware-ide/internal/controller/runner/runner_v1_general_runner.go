@@ -10,9 +10,17 @@ import (
 func (c *ControllerV1) GeneralRunner(ctx context.Context, req *v1.GeneralRunnerReq) (res *v1.GeneralRunnerRes, err error) {
 	res = &v1.GeneralRunnerRes{}
 	if req.CodeType == "c" || req.CodeType == "c++" || req.CodeType == "cpp" {
-		res.CodeFeedback, err = CCodeRunner(ctx, &req.CodeInfo)
+		var pathForCDocker, pathForExecutableFile string
+		pathForCDocker, pathForExecutableFile, err = CCodeRunner(ctx, &req.CodeInfo)
+		if err == nil {
+			res.CodeFeedback, err = RunCCode(ctx, &req.CodeInfo, pathForCDocker, pathForExecutableFile)
+		}
 	} else if req.CodeType == "python" {
-		res.CodeFeedback, err = PythonCodeRunner(ctx, &req.CodeInfo)
+		var pathForPythonDocker string
+		pathForPythonDocker, err = PythonCodeRunner(ctx, &req.CodeInfo)
+		if err == nil {
+			res.CodeFeedback, err = RunPythonCode(ctx, &req.CodeInfo, pathForPythonDocker)
+		}
 	} else {
 		err = errors.New("only c/cpp and python are support to run")
 	}

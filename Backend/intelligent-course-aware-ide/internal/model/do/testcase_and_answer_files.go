@@ -16,4 +16,5 @@ type TestcaseAndAnswerFiles struct {
 	PublisherId         interface{} //
 	TestcaseId          interface{} //
 	AnswerId            interface{} //
+	FileType            interface{} //
 }

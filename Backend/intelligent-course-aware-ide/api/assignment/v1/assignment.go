@@ -18,8 +18,27 @@ type AssignmentInfo struct {
 }
 
 type AttemptForAssignment struct {
-	UserId int64 `json:"userId" dc:"id of user"`
-	FileId int64 `json:"fileId" dc:"id of file"`
+	UserId       int64  `json:"userId" dc:"id of user"`
+	FileId       int64  `json:"fileId" dc:"id of file"`
+	FileType     string `json:"fileType" dc:"type of file"`
+	AssignmentId int64  `json:"assignmentId" dc:"id of assignment"`
+}
+
+type FeedbackForAssignmentInfo struct {
+	FeedbackId   int64  `json:"feedbackId" dc:"id of feedback"`
+	PerformerId  int64  `json:"performerId" dc:"id of performer"`
+	AssignmentId int64  `json:"assignmentId" dc:"id of assignment"`
+	Score        int    `json:"score" dc:"score of this attempt"`
+	FileId       int64  `json:"fileId" dc:"id of this attempt file"`
+	FileType     string `json:"fileType" dc:"type of this attempt file"`
+}
+
+type TestcaseAndAnswerInfo struct {
+	AssignmentId int64  `json:"assignmentId" dc:"id of this assignment"`
+	PublisherId  int64  `json:"publisherId" dc:"id of the publisher"`
+	TestcaseId   int64  `json:"testcaseId" dc:"id of this testcase file"`
+	AnswerId     int64  `json:"answerId" dc:"id of the answer to the testcase"`
+	FileType     string `json:"fileType" dc:"type of this testcase"`
 }
 
 type GetAllAssignmentInfoOfACourseReq struct {
@@ -86,6 +105,29 @@ type UpdateAssignmentRes struct {
 	Success bool `json:"success" dc:"success or not"`
 }
 
+type UploadTestcaseAndAnswerReq struct {
+	g.Meta            `path:"/api/assignment/uploadTestcaseAndAnswer" method:"post" tags:"Assignment" summary:"update testcase and answer for this assignment"`
+	TestcaseAndAnswer TestcaseAndAnswerInfo `json:"testcaseAndAnswer" dc:"Info of the testcase and answer"`
+	CourseId          int64                 `v:"required" dc:"id of the course"`
+}
+
+type UploadTestcaseAndAnswerRes struct {
+	g.Meta              `mime:"text/html" example:"json"`
+	TestcaseAndAnswerId int64 `json:"testcaseAndAnswerId" dc:"id of this testcase and answer"`
+}
+
+type DeleteTestcaseAndAnswerReq struct {
+	g.Meta              `path:"/api/assignment/deleteTestcaseAndAnswer" method:"delete" tags:"Assignment" summary:"delete testcase and answer"`
+	TestcaseAndAnswerId int64 `json:"testcaseAndAnswerId" dc:"Id of the testcase and answer"`
+	UserId              int64 `v:"required" dc:"id of the user who want to delete the testcase"`
+	CourseId            int64 `v:"required" dc:"id of the course"`
+}
+
+type DeleteTestcaseAndAnswerRes struct {
+	g.Meta  `mime:"text/html" example:"json"`
+	Success bool `json:"success" dc:"success or not"`
+}
+
 type AttemptForAssignmentReq struct {
 	g.Meta                `path:"/api/assignment/attemptAssignment" method:"post" tags:"Assignment" summary:"attempt assignment"`
 	AssignmentUserAttempt AttemptForAssignment `json:"attempt" dc:"Info of the attempt for this assignment"`
@@ -93,5 +135,5 @@ type AttemptForAssignmentReq struct {
 
 type AttemptForAssignmentRes struct {
 	g.Meta                 `mime:"text/html" example:"json"`
-	AssignmentUserFeedback *entity.AssignmentUserInfo `json:"feedback" dc:"Info of the feedback for this attempt"`
+	AssignmentUserFeedback FeedbackForAssignmentInfo `json:"feedback" dc:"Info of the feedback for this attempt"`
 }

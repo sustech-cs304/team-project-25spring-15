@@ -25,6 +25,7 @@ type TestcaseAndAnswerFilesColumns struct {
 	PublisherId         string //
 	TestcaseId          string //
 	AnswerId            string //
+	FileType            string //
 }
 
 // testcaseAndAnswerFilesColumns holds the columns for the table TestcaseAndAnswerFiles.
@@ -34,6 +35,7 @@ var testcaseAndAnswerFilesColumns = TestcaseAndAnswerFilesColumns{
 	PublisherId:         "publisherId",
 	TestcaseId:          "testcaseId",
 	AnswerId:            "answerId",
+	FileType:            "fileType",
 }
 
 // NewTestcaseAndAnswerFilesDao creates and returns a new DAO object for table data access.
