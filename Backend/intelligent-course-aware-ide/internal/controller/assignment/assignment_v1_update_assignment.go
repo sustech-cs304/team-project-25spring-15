@@ -23,7 +23,7 @@ func (c *ControllerV1) UpdateAssignment(ctx context.Context, req *v1.UpdateAssig
 	}
 
 	if result1 || result2 {
-		info := utility.ConstructInfo(req.UpdateAssignment)
+		info := utility.ConstructInfo(req.UpdateAssignment, 1)
 		err = c.assignments.UpdateAssignment(ctx, info, req.UpdateAssignment.AssignmentId)
 		if err != nil {
 			return res, err

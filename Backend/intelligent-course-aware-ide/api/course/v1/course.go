@@ -82,14 +82,14 @@ type AssignCourseAssistantRes struct {
 	Success bool `json:"success" dc:"success or not"`
 }
 
-type DeleteCourseAssistantReq struct {
-	g.Meta      `path:"/api/course/deleteCourseAssistant" method:"delete" tags:"Course" summary:"delete course assistant"`
+type UnassignCourseAssistantReq struct {
+	g.Meta      `path:"/api/course/unassignCourseAssistant" method:"delete" tags:"Course" summary:"unassign course assistant"`
 	CourseId    int64 `json:"courseId" dc:"Id of the course"`
-	UserId      int64 `json:"userId" v:"required" dc:"id of the user who want to delete assistant"`
+	UserId      int64 `json:"userId" v:"required" dc:"id of the user who want to unassign assistant"`
 	AssistantId int64 `json:"assistantId" v:"required" dc:"id of the user who will not be the assistant any more"`
 }
 
-type DeleteCourseAssistantRes struct {
+type UnassignCourseAssistantRes struct {
 	g.Meta  `mime:"text/html" example:"json"`
 	Success bool `json:"success" dc:"success or not"`
 }

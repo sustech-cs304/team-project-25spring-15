@@ -5,8 +5,7 @@ import (
 	"errors"
 
 	v1 "intelligent-course-aware-ide/api/course/v1"
-	"intelligent-course-aware-ide/internal/controller/user"
-	"intelligent-course-aware-ide/internal/dao"
+	"intelligent-course-aware-ide/utility"
 )
 
 func (c *ControllerV1) UpdateCourse(ctx context.Context, req *v1.UpdateCourseReq) (res *v1.UpdateCourseRes, err error) {
@@ -14,18 +13,18 @@ func (c *ControllerV1) UpdateCourse(ctx context.Context, req *v1.UpdateCourseReq
 		Success: false,
 	}
 
-	result1, err := CheckUserHasFullPermissionOfCourse(ctx, req.UserId, req.UpdateCourse.CourseId)
+	result1, err := c.courses.CheckUserHasFullPermissionOfCourse(ctx, req.UserId, req.UpdateCourse.CourseId)
 	if err != nil {
 		return res, err
 	}
-	result2, err := CheckUserHasHalfPermissionOfCourse(ctx, req.UserId, req.UpdateCourse.CourseId)
+	result2, err := c.courses.CheckUserHasHalfPermissionOfCourse(ctx, req.UserId, req.UpdateCourse.CourseId)
 	if err != nil {
 		return res, err
 	}
 
 	if result1 || result2 {
-		info := user.ConstructInfo(req.UpdateCourse)
-		_, err = dao.Courses.Ctx(ctx).Data(info).WherePri(req.UpdateCourse.CourseId).Update()
+		info := utility.ConstructInfo(req.UpdateCourse, 1)
+		err = c.courses.UpdateCourse(ctx, info, req.UpdateCourse.CourseId)
 		if err != nil {
 			return res, err
 		}
