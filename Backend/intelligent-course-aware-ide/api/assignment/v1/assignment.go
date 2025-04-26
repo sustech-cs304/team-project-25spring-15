@@ -12,8 +12,8 @@ type AssignmentInfo struct {
 	PublisherId  int64       `json:"publisherId" dc:"id of publisher"`
 	CourseId     int64       `json:"courseId" dc:"id of this course"`
 	LectureId    int64       `json:"lectureId" dc:"id of this lecture"`
-	Description  string      `json:"startTime" dc:"start time of this course"`
-	DeadLine     *gtime.Time `json:"endTime" dc:"end time of this course"`
+	Description  string      `json:"description" dc:"description of this assignment"`
+	DeadLine     *gtime.Time `json:"deadLine" dc:"end time of this assignment"`
 	Completeness int32       `json:"completeness" dc:"num of the student who has finished this"`
 }
 
@@ -62,9 +62,9 @@ type GetAllAssignmentInfoOfALectureRes struct {
 }
 
 type CreateAssignmentReq struct {
-	g.Meta        `path:"/api/assignment/createCourse" method:"post" tags:"Assignment" summary:"create course"`
+	g.Meta        `path:"/api/assignment/createAssignment" method:"post" tags:"Assignment" summary:"create assignment"`
 	NewAssignment AssignmentInfo `json:"assignment" dc:"Info of the assignment to create"`
-	UserId        int64          `json:"userId" dc:"Id of the user who want to create course"`
+	UserId        int64          `json:"userId" dc:"Id of the user who want to create assignment"`
 }
 
 type CreateAssignmentRes struct {

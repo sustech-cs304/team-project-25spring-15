@@ -13,10 +13,9 @@ import (
 
 // TestcaseAndAnswerFilesDao is the data access object for the table TestcaseAndAnswerFiles.
 type TestcaseAndAnswerFilesDao struct {
-	table    string                        // table is the underlying table name of the DAO.
-	group    string                        // group is the database configuration group name of the current DAO.
-	columns  TestcaseAndAnswerFilesColumns // columns contains all the column names of Table for convenient usage.
-	handlers []gdb.ModelHandler            // handlers for customized model modification.
+	table   string                        // table is the underlying table name of the DAO.
+	group   string                        // group is the database configuration group name of the current DAO.
+	columns TestcaseAndAnswerFilesColumns // columns contains all the column names of Table for convenient usage.
 }
 
 // TestcaseAndAnswerFilesColumns defines and stores column names for the table TestcaseAndAnswerFiles.
@@ -26,6 +25,8 @@ type TestcaseAndAnswerFilesColumns struct {
 	PublisherId         string //
 	TestcaseId          string //
 	AnswerId            string //
+	Score               string //
+	FileType            string //
 }
 
 // testcaseAndAnswerFilesColumns holds the columns for the table TestcaseAndAnswerFiles.
@@ -35,15 +36,16 @@ var testcaseAndAnswerFilesColumns = TestcaseAndAnswerFilesColumns{
 	PublisherId:         "publisherId",
 	TestcaseId:          "testcaseId",
 	AnswerId:            "answerId",
+	Score:               "score",
+	FileType:            "fileType",
 }
 
 // NewTestcaseAndAnswerFilesDao creates and returns a new DAO object for table data access.
-func NewTestcaseAndAnswerFilesDao(handlers ...gdb.ModelHandler) *TestcaseAndAnswerFilesDao {
+func NewTestcaseAndAnswerFilesDao() *TestcaseAndAnswerFilesDao {
 	return &TestcaseAndAnswerFilesDao{
-		group:    "default",
-		table:    "TestcaseAndAnswerFiles",
-		columns:  testcaseAndAnswerFilesColumns,
-		handlers: handlers,
+		group:   "default",
+		table:   "TestcaseAndAnswerFiles",
+		columns: testcaseAndAnswerFilesColumns,
 	}
 }
 
@@ -69,11 +71,7 @@ func (dao *TestcaseAndAnswerFilesDao) Group() string {
 
 // Ctx creates and returns a Model for the current DAO. It automatically sets the context for the current operation.
 func (dao *TestcaseAndAnswerFilesDao) Ctx(ctx context.Context) *gdb.Model {
-	model := dao.DB().Model(dao.table)
-	for _, handler := range dao.handlers {
-		model = handler(model)
-	}
-	return model.Safe().Ctx(ctx)
+	return dao.DB().Model(dao.table).Safe().Ctx(ctx)
 }
 
 // Transaction wraps the transaction logic using function f.

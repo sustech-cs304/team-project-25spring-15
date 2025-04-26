@@ -13,10 +13,9 @@ import (
 
 // CommentsDao is the data access object for the table Comments.
 type CommentsDao struct {
-	table    string             // table is the underlying table name of the DAO.
-	group    string             // group is the database configuration group name of the current DAO.
-	columns  CommentsColumns    // columns contains all the column names of Table for convenient usage.
-	handlers []gdb.ModelHandler // handlers for customized model modification.
+	table   string          // table is the underlying table name of the DAO.
+	group   string          // group is the database configuration group name of the current DAO.
+	columns CommentsColumns // columns contains all the column names of Table for convenient usage.
 }
 
 // CommentsColumns defines and stores column names for the table Comments.
@@ -42,12 +41,11 @@ var commentsColumns = CommentsColumns{
 }
 
 // NewCommentsDao creates and returns a new DAO object for table data access.
-func NewCommentsDao(handlers ...gdb.ModelHandler) *CommentsDao {
+func NewCommentsDao() *CommentsDao {
 	return &CommentsDao{
-		group:    "default",
-		table:    "Comments",
-		columns:  commentsColumns,
-		handlers: handlers,
+		group:   "default",
+		table:   "Comments",
+		columns: commentsColumns,
 	}
 }
 
@@ -73,11 +71,7 @@ func (dao *CommentsDao) Group() string {
 
 // Ctx creates and returns a Model for the current DAO. It automatically sets the context for the current operation.
 func (dao *CommentsDao) Ctx(ctx context.Context) *gdb.Model {
-	model := dao.DB().Model(dao.table)
-	for _, handler := range dao.handlers {
-		model = handler(model)
-	}
-	return model.Safe().Ctx(ctx)
+	return dao.DB().Model(dao.table).Safe().Ctx(ctx)
 }
 
 // Transaction wraps the transaction logic using function f.

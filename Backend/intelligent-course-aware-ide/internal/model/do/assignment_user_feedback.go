@@ -10,11 +10,10 @@ import (
 
 // AssignmentUserFeedback is the golang structure of table AssignmentUserFeedback for DAO operations like Where/Data.
 type AssignmentUserFeedback struct {
-	g.Meta                   `orm:"table:AssignmentUserFeedback, do:true"`
-	AssignmentUserFeedbackId interface{} //
-	AssignmentId             interface{} //
-	PerformerId              interface{} //
-	Score                    interface{} //
-	FileId                   interface{} //
-	FileType                 interface{} //
+	g.Meta       `orm:"table:AssignmentUserFeedback, do:true"`
+	AssignmentId interface{} //
+	PerformerId  interface{} //
+	Score        interface{} //
+	FileId       interface{} //
+	FileType     interface{} //
 }

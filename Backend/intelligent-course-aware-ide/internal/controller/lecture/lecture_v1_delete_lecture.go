@@ -10,11 +10,11 @@ import (
 )
 
 func (c *ControllerV1) DeleteLecture(ctx context.Context, req *v1.DeleteLectureReq) (res *v1.DeleteLectureRes, err error) {
-	result1, err := course.CheckUserHasFullPermission(ctx, req.UserId, req.CourseId)
+	result1, err := course.CheckUserHasFullPermissionOfCourse(ctx, req.UserId, req.CourseId)
 	if err != nil {
 		return nil, err
 	}
-	result2, err := course.CheckUserHasHalfPermission(ctx, req.UserId, req.CourseId)
+	result2, err := course.CheckUserHasHalfPermissionOfCourse(ctx, req.UserId, req.CourseId)
 	if err != nil {
 		return nil, err
 	}
