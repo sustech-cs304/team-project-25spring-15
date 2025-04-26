@@ -20,22 +20,20 @@ type AssignmentUserFeedbackDao struct {
 
 // AssignmentUserFeedbackColumns defines and stores column names for the table AssignmentUserFeedback.
 type AssignmentUserFeedbackColumns struct {
-	AssignmentUserFeedbackId string //
-	AssignmentId             string //
-	PerformerId              string //
-	Score                    string //
-	FileId                   string //
-	FileType                 string //
+	AssignmentId string //
+	PerformerId  string //
+	Score        string //
+	FileId       string //
+	FileType     string //
 }
 
 // assignmentUserFeedbackColumns holds the columns for the table AssignmentUserFeedback.
 var assignmentUserFeedbackColumns = AssignmentUserFeedbackColumns{
-	AssignmentUserFeedbackId: "assignmentUserFeedbackId",
-	AssignmentId:             "assignmentId",
-	PerformerId:              "performerId",
-	Score:                    "score",
-	FileId:                   "fileId",
-	FileType:                 "fileType",
+	AssignmentId: "assignmentId",
+	PerformerId:  "performerId",
+	Score:        "score",
+	FileId:       "fileId",
+	FileType:     "fileType",
 }
 
 // NewAssignmentUserFeedbackDao creates and returns a new DAO object for table data access.

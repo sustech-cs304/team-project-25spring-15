@@ -11,5 +11,6 @@ type TestcaseAndAnswerFiles struct {
 	PublisherId         int64  `json:"publisherId"         orm:"publisherId"         description:""` //
 	TestcaseId          int64  `json:"testcaseId"          orm:"testcaseId"          description:""` //
 	AnswerId            int64  `json:"answerId"            orm:"answerId"            description:""` //
+	Score               int    `json:"score"               orm:"score"               description:""` //
 	FileType            string `json:"fileType"            orm:"fileType"            description:""` //
 }

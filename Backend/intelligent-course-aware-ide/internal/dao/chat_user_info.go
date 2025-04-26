@@ -8,20 +8,15 @@ import (
 	"intelligent-course-aware-ide/internal/dao/internal"
 )
 
-// internalChatUserInfoDao is an internal type for wrapping the internal DAO implementation.
-type internalChatUserInfoDao = *internal.ChatUserInfoDao
-
 // chatUserInfoDao is the data access object for the table ChatUserInfo.
 // You can define custom methods on it to extend its functionality as needed.
 type chatUserInfoDao struct {
-	internalChatUserInfoDao
+	*internal.ChatUserInfoDao
 }
 
 var (
 	// ChatUserInfo is a globally accessible object for table ChatUserInfo operations.
-	ChatUserInfo = chatUserInfoDao{
-		internal.NewChatUserInfoDao(),
-	}
+	ChatUserInfo = chatUserInfoDao{internal.NewChatUserInfoDao()}
 )
 
 // Add your custom methods and functionality below.

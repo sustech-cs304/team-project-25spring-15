@@ -27,7 +27,7 @@ func CheckUserIsSuperUserOrTeacher(ctx context.Context, userId int64) bool {
 	return false
 }
 
-func CheckUserHasFullPermission(ctx context.Context, userId int64, courseId int64) (result bool, err error) {
+func CheckUserHasFullPermissionOfCourse(ctx context.Context, userId int64, courseId int64) (result bool, err error) {
 	var user *entity.Users
 	err = dao.Users.Ctx(ctx).WherePri(userId).Scan(&user)
 	if err != nil {
@@ -51,7 +51,7 @@ func CheckUserHasFullPermission(ctx context.Context, userId int64, courseId int6
 	return false, err
 }
 
-func CheckUserHasHalfPermission(ctx context.Context, userId int64, courseId int64) (result bool, err error) {
+func CheckUserHasHalfPermissionOfCourse(ctx context.Context, userId int64, courseId int64) (result bool, err error) {
 	var userFound *entity.CourseAssistants
 	err = dao.CourseAssistants.Ctx(ctx).Where(do.CourseAssistants{
 		CourseId:    courseId,

@@ -8,20 +8,15 @@ import (
 	"intelligent-course-aware-ide/internal/dao/internal"
 )
 
-// internalAssignmentUserInfoDao is an internal type for wrapping the internal DAO implementation.
-type internalAssignmentUserInfoDao = *internal.AssignmentUserInfoDao
-
 // assignmentUserInfoDao is the data access object for the table AssignmentUserInfo.
 // You can define custom methods on it to extend its functionality as needed.
 type assignmentUserInfoDao struct {
-	internalAssignmentUserInfoDao
+	*internal.AssignmentUserInfoDao
 }
 
 var (
 	// AssignmentUserInfo is a globally accessible object for table AssignmentUserInfo operations.
-	AssignmentUserInfo = assignmentUserInfoDao{
-		internal.NewAssignmentUserInfoDao(),
-	}
+	AssignmentUserInfo = assignmentUserInfoDao{internal.NewAssignmentUserInfoDao()}
 )
 
 // Add your custom methods and functionality below.

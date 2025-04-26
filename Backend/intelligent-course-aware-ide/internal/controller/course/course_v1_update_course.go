@@ -14,11 +14,11 @@ func (c *ControllerV1) UpdateCourse(ctx context.Context, req *v1.UpdateCourseReq
 		Success: false,
 	}
 
-	result1, err := CheckUserHasFullPermission(ctx, req.UserId, req.UpdateCourse.CourseId)
+	result1, err := CheckUserHasFullPermissionOfCourse(ctx, req.UserId, req.UpdateCourse.CourseId)
 	if err != nil {
 		return res, err
 	}
-	result2, err := CheckUserHasHalfPermission(ctx, req.UserId, req.UpdateCourse.CourseId)
+	result2, err := CheckUserHasHalfPermissionOfCourse(ctx, req.UserId, req.UpdateCourse.CourseId)
 	if err != nil {
 		return res, err
 	}

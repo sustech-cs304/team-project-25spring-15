@@ -11,56 +11,56 @@ import (
 	"github.com/gogf/gf/v2/frame/g"
 )
 
-// CourseFilesDao is the data access object for the table CourseFiles.
-type CourseFilesDao struct {
-	table   string             // table is the underlying table name of the DAO.
-	group   string             // group is the database configuration group name of the current DAO.
-	columns CourseFilesColumns // columns contains all the column names of Table for convenient usage.
+// LectureFilesDao is the data access object for the table LectureFiles.
+type LectureFilesDao struct {
+	table   string              // table is the underlying table name of the DAO.
+	group   string              // group is the database configuration group name of the current DAO.
+	columns LectureFilesColumns // columns contains all the column names of Table for convenient usage.
 }
 
-// CourseFilesColumns defines and stores column names for the table CourseFiles.
-type CourseFilesColumns struct {
-	FileId   string //
-	CourseId string //
+// LectureFilesColumns defines and stores column names for the table LectureFiles.
+type LectureFilesColumns struct {
+	FileId    string //
+	LectureId string //
 }
 
-// courseFilesColumns holds the columns for the table CourseFiles.
-var courseFilesColumns = CourseFilesColumns{
-	FileId:   "fileId",
-	CourseId: "courseId",
+// lectureFilesColumns holds the columns for the table LectureFiles.
+var lectureFilesColumns = LectureFilesColumns{
+	FileId:    "fileId",
+	LectureId: "lectureId",
 }
 
-// NewCourseFilesDao creates and returns a new DAO object for table data access.
-func NewCourseFilesDao() *CourseFilesDao {
-	return &CourseFilesDao{
+// NewLectureFilesDao creates and returns a new DAO object for table data access.
+func NewLectureFilesDao() *LectureFilesDao {
+	return &LectureFilesDao{
 		group:   "default",
-		table:   "CourseFiles",
-		columns: courseFilesColumns,
+		table:   "LectureFiles",
+		columns: lectureFilesColumns,
 	}
 }
 
 // DB retrieves and returns the underlying raw database management object of the current DAO.
-func (dao *CourseFilesDao) DB() gdb.DB {
+func (dao *LectureFilesDao) DB() gdb.DB {
 	return g.DB(dao.group)
 }
 
 // Table returns the table name of the current DAO.
-func (dao *CourseFilesDao) Table() string {
+func (dao *LectureFilesDao) Table() string {
 	return dao.table
 }
 
 // Columns returns all column names of the current DAO.
-func (dao *CourseFilesDao) Columns() CourseFilesColumns {
+func (dao *LectureFilesDao) Columns() LectureFilesColumns {
 	return dao.columns
 }
 
 // Group returns the database configuration group name of the current DAO.
-func (dao *CourseFilesDao) Group() string {
+func (dao *LectureFilesDao) Group() string {
 	return dao.group
 }
 
 // Ctx creates and returns a Model for the current DAO. It automatically sets the context for the current operation.
-func (dao *CourseFilesDao) Ctx(ctx context.Context) *gdb.Model {
+func (dao *LectureFilesDao) Ctx(ctx context.Context) *gdb.Model {
 	return dao.DB().Model(dao.table).Safe().Ctx(ctx)
 }
 
@@ -70,6 +70,6 @@ func (dao *CourseFilesDao) Ctx(ctx context.Context) *gdb.Model {
 //
 // Note: Do not commit or roll back the transaction in function f,
 // as it is automatically handled by this function.
-func (dao *CourseFilesDao) Transaction(ctx context.Context, f func(ctx context.Context, tx gdb.TX) error) (err error) {
+func (dao *LectureFilesDao) Transaction(ctx context.Context, f func(ctx context.Context, tx gdb.TX) error) (err error) {
 	return dao.Ctx(ctx).Transaction(ctx, f)
 }

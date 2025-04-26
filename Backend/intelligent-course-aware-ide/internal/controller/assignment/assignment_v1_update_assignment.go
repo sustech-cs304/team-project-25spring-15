@@ -5,9 +5,7 @@ import (
 	"errors"
 
 	v1 "intelligent-course-aware-ide/api/assignment/v1"
-	"intelligent-course-aware-ide/internal/controller/course"
-	"intelligent-course-aware-ide/internal/controller/user"
-	"intelligent-course-aware-ide/internal/dao"
+	"intelligent-course-aware-ide/utility"
 )
 
 func (c *ControllerV1) UpdateAssignment(ctx context.Context, req *v1.UpdateAssignmentReq) (res *v1.UpdateAssignmentRes, err error) {
@@ -15,18 +13,18 @@ func (c *ControllerV1) UpdateAssignment(ctx context.Context, req *v1.UpdateAssig
 		Success: false,
 	}
 
-	result1, err := course.CheckUserHasFullPermission(ctx, req.UserId, req.UpdateAssignment.CourseId)
+	result1, err := c.courses.CheckUserHasFullPermissionOfCourse(ctx, req.UserId, req.UpdateAssignment.CourseId)
 	if err != nil {
 		return res, err
 	}
-	result2, err := course.CheckUserHasHalfPermission(ctx, req.UserId, req.UpdateAssignment.CourseId)
+	result2, err := c.courses.CheckUserHasHalfPermissionOfCourse(ctx, req.UserId, req.UpdateAssignment.CourseId)
 	if err != nil {
 		return res, err
 	}
 
 	if result1 || result2 {
-		info := user.ConstructInfo(req.UpdateAssignment)
-		_, err = dao.Assignments.Ctx(ctx).Data(info).WherePri(req.UpdateAssignment.LectureId).Update()
+		info := utility.ConstructInfo(req.UpdateAssignment)
+		err = c.assignments.UpdateAssignment(ctx, info, req.UpdateAssignment.AssignmentId)
 		if err != nil {
 			return res, err
 		}

@@ -25,6 +25,7 @@ type TestcaseAndAnswerFilesColumns struct {
 	PublisherId         string //
 	TestcaseId          string //
 	AnswerId            string //
+	Score               string //
 	FileType            string //
 }
 
@@ -35,6 +36,7 @@ var testcaseAndAnswerFilesColumns = TestcaseAndAnswerFilesColumns{
 	PublisherId:         "publisherId",
 	TestcaseId:          "testcaseId",
 	AnswerId:            "answerId",
+	Score:               "score",
 	FileType:            "fileType",
 }
 

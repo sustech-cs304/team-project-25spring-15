@@ -10,7 +10,7 @@ import (
 )
 
 func (c *ControllerV1) AssignCourseAssistant(ctx context.Context, req *v1.AssignCourseAssistantReq) (res *v1.AssignCourseAssistantRes, err error) {
-	result, err := CheckUserHasFullPermission(ctx, req.UserId, req.CourseId)
+	result, err := CheckUserHasFullPermissionOfCourse(ctx, req.UserId, req.CourseId)
 	if err != nil {
 		return nil, err
 	}
