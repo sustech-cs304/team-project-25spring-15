@@ -5,6 +5,8 @@ import (
 	"errors"
 
 	v1 "intelligent-course-aware-ide/api/course/v1"
+	"intelligent-course-aware-ide/internal/dao"
+	"intelligent-course-aware-ide/internal/model/do"
 )
 
 func (c *ControllerV1) CreateCourse(ctx context.Context, req *v1.CreateCourseReq) (res *v1.CreateCourseRes, err error) {
@@ -12,7 +14,13 @@ func (c *ControllerV1) CreateCourse(ctx context.Context, req *v1.CreateCourseReq
 		return nil, errors.New("please check whether you are superuser or teacher")
 	}
 
-	courseId, err := c.courses.CreateCourse(ctx, &req.NewCourse)
+	courseId, err := dao.Courses.Ctx(ctx).Data(do.Courses{
+		TeacherId:   req.NewCourse.TeacherId,
+		CourseName:  req.NewCourse.CourseName,
+		Description: req.NewCourse.Description,
+		StartTime:   req.NewCourse.StartTime,
+		EndTime:     req.NewCourse.EndTime,
+	}).InsertAndGetId()
 	if err != nil {
 		return nil, err
 	}

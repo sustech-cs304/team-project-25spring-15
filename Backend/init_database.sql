@@ -78,11 +78,8 @@ CREATE TABLE Comments(
 );
 CREATE TABLE Chats(
     chatId BIGINT AUTO_INCREMENT PRIMARY KEY,
-    courseId BIGINT,
-    lectureId INTEGER,
     ownerId BIGINT NOT NULL,
-    FOREIGN KEY (ownerId) REFERENCES Users(userId) ON DELETE CASCADE,
-    FOREIGN KEY (courseId) REFERENCES Courses(courseId) ON DELETE CASCADE
+    FOREIGN KEY (ownerId) REFERENCES Users(userId) ON DELETE CASCADE
 );
 CREATE TABLE AssignmentUserFeedback(
     assignmentId BIGINT NOT NULL,

@@ -5,6 +5,8 @@ import (
 	"errors"
 
 	v1 "intelligent-course-aware-ide/api/course/v1"
+	"intelligent-course-aware-ide/internal/dao"
+	"intelligent-course-aware-ide/internal/model/do"
 )
 
 func (c *ControllerV1) AssignCourseAssistant(ctx context.Context, req *v1.AssignCourseAssistantReq) (res *v1.AssignCourseAssistantRes, err error) {
@@ -17,7 +19,10 @@ func (c *ControllerV1) AssignCourseAssistant(ctx context.Context, req *v1.Assign
 		res = &v1.AssignCourseAssistantRes{
 			Success: false,
 		}
-		err = c.courseAssistants.AssignCourseAssistant(ctx, req.CourseId, req.AssistantId)
+		_, err := dao.CourseAssistants.Ctx(ctx).Data(do.CourseAssistants{
+			CourseId:    req.CourseId,
+			AssistantId: req.AssistantId,
+		}).Insert()
 		if err != nil {
 			return res, err
 		}

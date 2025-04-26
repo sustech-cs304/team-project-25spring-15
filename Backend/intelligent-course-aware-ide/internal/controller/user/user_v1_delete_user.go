@@ -8,7 +8,7 @@ import (
 )
 
 func (c *ControllerV1) DeleteUser(ctx context.Context, req *v1.DeleteUserReq) (res *v1.DeleteUserRes, err error) {
-	success, err := CheckUserHasPermssion(ctx, req.UserToDeleteId, req.UserId)
+	success, err := c.users.CheckUserHasPermssionOfUser(ctx, req.UserToDeleteId, req.UserId)
 	if err != nil || !success {
 		return nil, err
 	}

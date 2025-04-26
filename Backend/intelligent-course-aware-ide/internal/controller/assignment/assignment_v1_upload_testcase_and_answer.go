@@ -5,6 +5,7 @@ import (
 	"errors"
 
 	v1 "intelligent-course-aware-ide/api/assignment/v1"
+	"intelligent-course-aware-ide/internal/dao"
 )
 
 func (c *ControllerV1) UploadTestcaseAndAnswer(ctx context.Context, req *v1.UploadTestcaseAndAnswerReq) (res *v1.UploadTestcaseAndAnswerRes, err error) {
@@ -18,7 +19,7 @@ func (c *ControllerV1) UploadTestcaseAndAnswer(ctx context.Context, req *v1.Uplo
 	}
 
 	if result1 || result2 {
-		testcaseAndAnswerId, err := c.testcaseAndAnswers.UploadTestcaseAndAnswer(ctx, &req.TestcaseAndAnswer)
+		testcaseAndAnswerId, err := dao.TestcaseAndAnswerFiles.Ctx(ctx).Data(req.TestcaseAndAnswer).InsertAndGetId()
 		if err != nil {
 			return nil, err
 		}

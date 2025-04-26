@@ -5,6 +5,7 @@ import (
 	"errors"
 
 	v1 "intelligent-course-aware-ide/api/course/v1"
+	"intelligent-course-aware-ide/internal/dao"
 	"intelligent-course-aware-ide/utility"
 )
 
@@ -24,7 +25,7 @@ func (c *ControllerV1) UpdateCourse(ctx context.Context, req *v1.UpdateCourseReq
 
 	if result1 || result2 {
 		info := utility.ConstructInfo(req.UpdateCourse, 1)
-		err = c.courses.UpdateCourse(ctx, info, req.UpdateCourse.CourseId)
+		_, err = dao.Courses.Ctx(ctx).Data(info).WherePri(req.UpdateCourse.CourseId).Update()
 		if err != nil {
 			return res, err
 		}

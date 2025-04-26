@@ -5,16 +5,15 @@ import (
 	"errors"
 
 	v1 "intelligent-course-aware-ide/api/lecture/v1"
-	"intelligent-course-aware-ide/internal/controller/course"
 	"intelligent-course-aware-ide/internal/dao"
 )
 
 func (c *ControllerV1) CreateLecture(ctx context.Context, req *v1.CreateLectureReq) (res *v1.CreateLectureRes, err error) {
-	result1, err := course.CheckUserHasFullPermissionOfCourse(ctx, req.UserId, req.NewLecture.CourseId)
+	result1, err := c.courses.CheckUserHasFullPermissionOfCourse(ctx, req.UserId, req.NewLecture.CourseId)
 	if err != nil {
 		return nil, err
 	}
-	result2, err := course.CheckUserHasHalfPermissionOfCourse(ctx, req.UserId, req.NewLecture.CourseId)
+	result2, err := c.courses.CheckUserHasHalfPermissionOfCourse(ctx, req.UserId, req.NewLecture.CourseId)
 	if err != nil {
 		return nil, err
 	}

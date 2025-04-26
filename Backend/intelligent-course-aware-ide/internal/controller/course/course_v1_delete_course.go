@@ -5,6 +5,7 @@ import (
 	"errors"
 
 	v1 "intelligent-course-aware-ide/api/course/v1"
+	"intelligent-course-aware-ide/internal/dao"
 )
 
 func (c *ControllerV1) DeleteCourse(ctx context.Context, req *v1.DeleteCourseReq) (res *v1.DeleteCourseRes, err error) {
@@ -14,7 +15,7 @@ func (c *ControllerV1) DeleteCourse(ctx context.Context, req *v1.DeleteCourseReq
 	}
 
 	if result {
-		err := c.courses.DeleteCourse(ctx, req.CourseId)
+		_, err := dao.Courses.Ctx(ctx).WherePri(req.CourseId).Delete()
 		if err != nil {
 			return nil, err
 		}
