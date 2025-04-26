@@ -3,12 +3,12 @@ package chat
 import (
 	"context"
 
-	"github.com/gogf/gf/v2/errors/gcode"
-	"github.com/gogf/gf/v2/errors/gerror"
-
-	"intelligent-course-aware-ide/api/chat/v1"
+	v1 "intelligent-course-aware-ide/api/chat/v1"
+	"intelligent-course-aware-ide/internal/dao"
 )
 
 func (c *ControllerV1) CreateChatMessage(ctx context.Context, req *v1.CreateChatMessageReq) (res *v1.CreateChatMessageRes, err error) {
-	return nil, gerror.NewCode(gcode.CodeNotImplemented)
+	res = &v1.CreateChatMessageRes{}
+	res.MessageId, err = dao.ChatMessageInfo.Ctx(ctx).Data(req.ChatMessage).InsertAndGetId()
+	return res, err
 }

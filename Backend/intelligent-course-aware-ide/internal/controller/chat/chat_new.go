@@ -6,10 +6,18 @@ package chat
 
 import (
 	"intelligent-course-aware-ide/api/chat"
+	chatLogic "intelligent-course-aware-ide/internal/logic/chat"
+	chatMessageLogic "intelligent-course-aware-ide/internal/logic/chatMessage"
 )
 
-type ControllerV1 struct{}
+type ControllerV1 struct {
+	chats        chatLogic.Chats
+	chatMessages chatMessageLogic.ChatMessages
+}
 
 func NewV1() chat.IChatV1 {
-	return &ControllerV1{}
+	return &ControllerV1{
+		chats:        *chatLogic.New(),
+		chatMessages: *chatMessageLogic.New(),
+	}
 }

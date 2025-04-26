@@ -8,6 +8,7 @@ import (
 	"github.com/gogf/gf/v2/os/gcmd"
 
 	"intelligent-course-aware-ide/internal/controller/assignment"
+	"intelligent-course-aware-ide/internal/controller/chat"
 	"intelligent-course-aware-ide/internal/controller/course"
 	"intelligent-course-aware-ide/internal/controller/example"
 	"intelligent-course-aware-ide/internal/controller/lecture"
@@ -31,6 +32,7 @@ var (
 					user.NewV1(),
 					assignment.NewV1(),
 					lecture.NewV1(),
+					chat.NewV1(),
 				)
 			})
 			s.Run()
