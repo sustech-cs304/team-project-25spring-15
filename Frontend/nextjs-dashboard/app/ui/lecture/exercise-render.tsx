@@ -2,8 +2,7 @@
 
 import React from "react";
 import { Box, Typography, Button } from "@mui/material";
-import Markdown from "react-markdown";
-import remarkGfm from "remark-gfm";
+import { Markdown } from '../markdown';
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import mocked_exercise from "@/app/mock/mocked-data";
 
@@ -40,7 +39,7 @@ const ExercisesRenderer = ({ exerciseContent, exerciseId, onBack }) => {
             "& th, & td": { border: "1px solid #e0e0e0", padding: "8px" },
           }}
         >
-          <Markdown remarkPlugins={[remarkGfm]}>{mocked_exercise}</Markdown>
+          <Markdown>{mocked_exercise}</Markdown>
         </Box>
       </Box>
 
