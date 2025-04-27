@@ -1,16 +1,22 @@
-import { streamText, tool } from 'ai';
+import { streamText, tool, UIMessage } from 'ai';
 import { deepseek } from '@ai-sdk/deepseek';
 import { z } from 'zod';
 
-// Allow streaming responses up to 30 seconds
-export const maxDuration = 30;
-
 export async function POST(req: Request) {
-  const { messages } = await req.json();
+  const {
+    id,
+    messages,
+    selectedChatModel,
+  }: {
+    id: string;
+    messages: Array<UIMessage>;
+    selectedChatModel: string;
+  } = await req.json();
 
   const result = streamText({
-    model: deepseek('deepseek-chat'), // could be changed to 'deepseek-reasoner'
+    model: deepseek(selectedChatModel), // could be changed to 'deepseek-reasoner'
     messages,
+    maxSteps: 5,
     tools: {
       weather: tool({
         description: 'Get the weather in a location (fahrenheit)',
