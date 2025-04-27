@@ -2,9 +2,9 @@
 
 import React from "react";
 import { Box, Typography, Button } from "@mui/material";
-import { Markdown } from '../markdown';
+import { Markdown } from '@/app/ui/markdown';
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import mocked_exercise from "@/app/mock/mocked-data";
+import mocked_exercise from "@/app/lib/mocked-data";
 
 const ExercisesRenderer = ({ exerciseContent, exerciseId, onBack }) => {
   // 使用传入的内容或默认内容

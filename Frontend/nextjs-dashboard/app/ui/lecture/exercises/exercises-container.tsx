@@ -16,7 +16,7 @@ import { styled } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import { initialTasks, exerciseContents } from "@/app/mock/mocked-data";
+import { initialTasks, exerciseContents } from "@/app/lib/mocked-data";
 import ExercisesRenderer from "./exercise-render";
 
 interface ExercisesListProps {
