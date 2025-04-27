@@ -10,7 +10,7 @@ import (
 )
 
 func (c *ControllerV1) AssignCourseAssistant(ctx context.Context, req *v1.AssignCourseAssistantReq) (res *v1.AssignCourseAssistantRes, err error) {
-	result, err := CheckUserHasFullPermissionOfCourse(ctx, req.UserId, req.CourseId)
+	result, err := c.courses.CheckUserHasFullPermissionOfCourse(ctx, req.UserId, req.CourseId)
 	if err != nil {
 		return nil, err
 	}
@@ -19,7 +19,7 @@ func (c *ControllerV1) AssignCourseAssistant(ctx context.Context, req *v1.Assign
 		res = &v1.AssignCourseAssistantRes{
 			Success: false,
 		}
-		_, err = dao.CourseAssistants.Ctx(ctx).Data(do.CourseAssistants{
+		_, err := dao.CourseAssistants.Ctx(ctx).Data(do.CourseAssistants{
 			CourseId:    req.CourseId,
 			AssistantId: req.AssistantId,
 		}).Insert()

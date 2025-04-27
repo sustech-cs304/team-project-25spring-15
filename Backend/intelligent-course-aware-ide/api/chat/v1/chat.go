@@ -12,10 +12,14 @@ type MessageInfo struct {
 	OwnerId   int64 `json:"ownerId" dc:"Id of this chat message owner"`
 }
 
+type ChatUserInfo struct {
+	ChatId int64 `json:"chatId" dc:"Id of this chat"`
+	UserId int64 `json:"userId" dc:"Id of this chat member"`
+}
+
 type GetAllChatMessageOfAChatInfoReq struct {
 	g.Meta `path:"/api/chat/getChatMessageOfAChat/{chatId}" method:"get" tags:"Chat" summary:"get all message of this chat"`
 	ChatId int64 `json:"chatId" dc:"Id of this chat"`
-	UserId int64 `json:"userId" dc:"Id of the user who want chatmessage"`
 }
 
 type GetAllChatMessageOfAChatInfoRes struct {
@@ -34,9 +38,9 @@ type CreateChatMessageRes struct {
 }
 
 type DeleteChatMessageReq struct {
-	g.Meta    `path:"/api/chat/deleteChatMessage" method:"delete" tags:"Chat" summary:"Delete a chat message"`
-	UserId    int64 `json:"userId" dc:"Id of the user who want to delete chat"`
-	MessageId int64 `json:"messageId" dc:"Id of the chat message to delete"`
+	g.Meta      `path:"/api/chat/deleteChatMessage" method:"delete" tags:"Chat" summary:"Delete a chat message"`
+	UserId      int64       `json:"userId" dc:"Id of the user who want to delete chat"`
+	ChatMessage MessageInfo `json:"chatMessage" dc:"Info of the chat message"`
 }
 
 type DeleteChatMessageRes struct {
@@ -67,9 +71,8 @@ type DeleteChatRes struct {
 
 type AddUserIntoChatReq struct {
 	g.Meta     `path:"/api/chat/addUserIntoChat" method:"post" tags:"Chat" summary:"Add a user into a chat"`
-	OperatorId int64 `json:"operatorId" dc:"Id of the user who want to add a user into a chat"`
-	UserId     int64 `json:"userId" dc:"Id of the user who will be added into the chat"`
-	ChatId     int64 `json:"chatId" dc:"Id of the chat"`
+	OperatorId int64        `json:"operatorId" dc:"Id of the user who want to add a user into a chat"`
+	ChatUser   ChatUserInfo `json:"chatUserInfo" dc:"new user to be added into chat"`
 }
 
 type AddUserIntoChatRes struct {
@@ -79,9 +82,8 @@ type AddUserIntoChatRes struct {
 
 type DeleteUserFromChatReq struct {
 	g.Meta     `path:"/api/chat/deleteUserFromChat" method:"delete" tags:"Chat" summary:"delete a user from a chat"`
-	OperatorId int64 `json:"operatorId" dc:"Id of the user who want to remove a user from a chat"`
-	UserId     int64 `json:"userId" dc:"Id of the user who will be removed from the chat"`
-	ChatId     int64 `json:"chatId" dc:"Id of the chat"`
+	OperatorId int64        `json:"operatorId" dc:"Id of the user who want to remove a user from a chat"`
+	ChatUser   ChatUserInfo `json:"chatUserInfo" dc:"user to be delete from chat"`
 }
 
 type DeleteUserFromChatRes struct {

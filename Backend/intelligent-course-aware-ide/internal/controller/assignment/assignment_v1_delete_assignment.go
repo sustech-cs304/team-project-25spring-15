@@ -5,6 +5,7 @@ import (
 	"errors"
 
 	v1 "intelligent-course-aware-ide/api/assignment/v1"
+	"intelligent-course-aware-ide/internal/dao"
 )
 
 func (c *ControllerV1) DeleteAssignment(ctx context.Context, req *v1.DeleteAssignmentReq) (res *v1.DeleteAssignmentRes, err error) {
@@ -18,7 +19,7 @@ func (c *ControllerV1) DeleteAssignment(ctx context.Context, req *v1.DeleteAssig
 	}
 
 	if result1 || result2 {
-		err = c.assignments.DeleteAssignment(ctx, req.AssignmentId)
+		_, err = dao.Assignments.Ctx(ctx).WherePri(req.AssignmentId).Delete()
 		if err != nil {
 			return nil, err
 		}

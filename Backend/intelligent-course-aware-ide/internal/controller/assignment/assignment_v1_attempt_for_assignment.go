@@ -4,17 +4,18 @@ import (
 	"context"
 
 	v1 "intelligent-course-aware-ide/api/assignment/v1"
+	"intelligent-course-aware-ide/internal/dao"
 	"intelligent-course-aware-ide/internal/model/entity"
 )
 
 func (c *ControllerV1) AttemptForAssignment(ctx context.Context, req *v1.AttemptForAssignmentReq) (res *v1.AttemptForAssignmentRes, err error) {
 	var codeFile *entity.Files
 	var testcaseAndAnswerList []*entity.TestcaseAndAnswerFiles
-	codeFile, err = c.files.GetFileWithFileId(ctx, req.AssignmentUserAttempt.FileId)
+	err = dao.Files.Ctx(ctx).WherePri(req.AssignmentUserAttempt.FileId).Scan(&codeFile)
 	if err != nil {
 		return nil, err
 	}
-	testcaseAndAnswerList, err = c.testcaseAndAnswers.GetTestcaseAndAnswerWithAssignmentId(ctx, req.AssignmentUserAttempt.AssignmentId)
+	err = dao.TestcaseAndAnswerFiles.Ctx(ctx).Where("assignmentId", req.AssignmentUserAttempt.AssignmentId).Scan(&testcaseAndAnswerList)
 	if err != nil {
 		return nil, err
 	}

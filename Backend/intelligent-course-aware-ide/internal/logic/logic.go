@@ -6,6 +6,7 @@ package logic
 
 import (
 	_ "intelligent-course-aware-ide/internal/logic/assignment"
-	_ "intelligent-course-aware-ide/internal/logic/file"
-	_ "intelligent-course-aware-ide/internal/logic/testcaseAndAnswer"
+	_ "intelligent-course-aware-ide/internal/logic/chat"
+	_ "intelligent-course-aware-ide/internal/logic/course"
+	_ "intelligent-course-aware-ide/internal/logic/user"
 )

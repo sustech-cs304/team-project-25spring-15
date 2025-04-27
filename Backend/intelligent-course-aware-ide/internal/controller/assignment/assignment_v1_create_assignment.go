@@ -5,6 +5,7 @@ import (
 	"errors"
 
 	v1 "intelligent-course-aware-ide/api/assignment/v1"
+	"intelligent-course-aware-ide/internal/dao"
 )
 
 func (c *ControllerV1) CreateAssignment(ctx context.Context, req *v1.CreateAssignmentReq) (res *v1.CreateAssignmentRes, err error) {
@@ -19,7 +20,7 @@ func (c *ControllerV1) CreateAssignment(ctx context.Context, req *v1.CreateAssig
 	}
 
 	if result1 || result2 {
-		assignmentId, err := c.assignments.CreateAssignment(ctx, &req.NewAssignment)
+		assignmentId, err := dao.Assignments.Ctx(ctx).Data(req.NewAssignment).InsertAndGetId()
 		if err != nil {
 			return nil, err
 		}

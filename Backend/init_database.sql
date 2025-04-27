@@ -78,11 +78,8 @@ CREATE TABLE Comments(
 );
 CREATE TABLE Chats(
     chatId BIGINT AUTO_INCREMENT PRIMARY KEY,
-    courseId BIGINT,
-    lectureId INTEGER,
     ownerId BIGINT NOT NULL,
-    FOREIGN KEY (ownerId) REFERENCES Users(userId) ON DELETE CASCADE,
-    FOREIGN KEY (courseId) REFERENCES Courses(courseId) ON DELETE CASCADE
+    FOREIGN KEY (ownerId) REFERENCES Users(userId) ON DELETE CASCADE
 );
 CREATE TABLE AssignmentUserFeedback(
     assignmentId BIGINT NOT NULL,
@@ -131,6 +128,7 @@ CREATE TABLE TestcaseAndAnswerFiles(
     publisherId BIGINT NOT NULL,
     testcaseId BIGINT,
     answerId BIGINT,
+    score INT DEFAULT 1,
     fileType ENUM('string', 'code') DEFAULT 'string',
     FOREIGN KEY (assignmentId) REFERENCES Assignments(assignmentId) ON DELETE CASCADE,
     FOREIGN KEY (publisherId) REFERENCES Users(userId) ON DELETE CASCADE,
@@ -162,7 +160,14 @@ insert into Users(userId, userName, password, email, identity)
 VALUES (5, '5', '123456', '5', 'teacher');
 insert into Users(userId, userName, password, email, identity)
 VALUES (6, '6', '123456', '6', 'student');
-select *
-from Courses;
-select *
-from CourseAssistants;
+insert into Assignments(assignmentId, publisherId, courseId, lectureId) VALUES (1,1,1,1);
+insert into Files(fileId, fileSize, fileUrl, fileName, fileType) VALUES (1,1,'/usr/Document/testcase_1.txt','testcase_1', '1');
+insert into Files(fileId, fileSize, fileUrl, fileName, fileType) VALUES (2,1,'/usr/Document/testcase_2.txt','testcase_2', '1');
+insert into Files(fileId, fileSize, fileUrl, fileName, fileType) VALUES (3,1,'/usr/Document/answer_1.txt','answer_1', '1');
+insert into Files(fileId, fileSize, fileUrl, fileName, fileType) VALUES (4,1,'/usr/Document/answer_2.txt','answer_2', '1');
+insert into Files(fileId, fileSize, fileUrl, fileName, fileType) VALUES (5,1,'/usr/Document/attempt.py','attempt.py', '1');
+insert into TestcaseAndAnswerFiles(testcaseAndAnswerId, assignmentId, publisherId, testcaseId, answerId, fileType) VALUES (1,1,1,1,3,'code');
+insert into TestcaseAndAnswerFiles(testcaseAndAnswerId, assignmentId, publisherId, testcaseId, answerId, fileType) VALUES (2,1,1,2,4,'code');
+insert into TestcaseAndAnswerFiles(testcaseAndAnswerId, assignmentId, publisherId, testcaseId, answerId, fileType, score) VALUES (3,1,1,2,3,'code',2);
+
+select * from Chats;

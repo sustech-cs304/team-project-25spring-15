@@ -7,26 +7,17 @@ package assignment
 import (
 	"intelligent-course-aware-ide/api/assignment"
 	assignmentLogic "intelligent-course-aware-ide/internal/logic/assignment"
-	assignmentFeebackLogic "intelligent-course-aware-ide/internal/logic/assignmentFeedback"
 	courseLogic "intelligent-course-aware-ide/internal/logic/course"
-	fileLogic "intelligent-course-aware-ide/internal/logic/file"
-	testcaseAndAnswerLogic "intelligent-course-aware-ide/internal/logic/testcaseAndAnswer"
 )
 
 type ControllerV1 struct {
-	assignments         *assignmentLogic.Assignments
-	files               *fileLogic.Files
-	testcaseAndAnswers  *testcaseAndAnswerLogic.TestcaseAndAnswers
-	courses             *courseLogic.Courses
-	assignmentFeedbacks *assignmentFeebackLogic.Assignmentfeebacks
+	assignments *assignmentLogic.Assignments
+	courses     *courseLogic.Courses
 }
 
 func NewV1() assignment.IAssignmentV1 {
 	return &ControllerV1{
-		assignments:         assignmentLogic.New(),
-		files:               fileLogic.New(),
-		testcaseAndAnswers:  testcaseAndAnswerLogic.New(),
-		courses:             courseLogic.New(),
-		assignmentFeedbacks: assignmentFeebackLogic.New(),
+		assignments: assignmentLogic.New(),
+		courses:     courseLogic.New(),
 	}
 }

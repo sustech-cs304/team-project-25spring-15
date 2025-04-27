@@ -6,10 +6,15 @@ package lecture
 
 import (
 	"intelligent-course-aware-ide/api/lecture"
+	courseLogic "intelligent-course-aware-ide/internal/logic/course"
 )
 
-type ControllerV1 struct{}
+type ControllerV1 struct {
+	courses *courseLogic.Courses
+}
 
 func NewV1() lecture.ILectureV1 {
-	return &ControllerV1{}
+	return &ControllerV1{
+		courses: courseLogic.New(),
+	}
 }

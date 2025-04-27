@@ -6,11 +6,11 @@ import (
 	"github.com/gogf/gf/frame/g"
 )
 
-func ConstructInfo(info interface{}) g.Map {
+func ConstructInfo(info interface{}, startPlace int) g.Map {
 	updateUserInfo := g.Map{}
 	val := reflect.ValueOf(info)
 	typ := val.Type()
-	for i := 1; i < val.NumField(); i++ {
+	for i := startPlace; i < val.NumField(); i++ {
 		field := val.Field(i)
 		typeField := typ.Field(i)
 		fieldName := typeField.Name

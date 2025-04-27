@@ -9,7 +9,7 @@ import (
 )
 
 func (c *ControllerV1) DeleteCourse(ctx context.Context, req *v1.DeleteCourseReq) (res *v1.DeleteCourseRes, err error) {
-	result, err := CheckUserHasFullPermissionOfCourse(ctx, req.UserId, req.CourseId)
+	result, err := c.courses.CheckUserHasFullPermissionOfCourse(ctx, req.UserId, req.CourseId)
 	if err != nil {
 		return nil, err
 	}

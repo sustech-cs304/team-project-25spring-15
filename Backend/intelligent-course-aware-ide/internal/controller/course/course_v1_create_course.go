@@ -10,7 +10,7 @@ import (
 )
 
 func (c *ControllerV1) CreateCourse(ctx context.Context, req *v1.CreateCourseReq) (res *v1.CreateCourseRes, err error) {
-	if !CheckUserIsSuperUserOrTeacher(ctx, req.UserId) {
+	if c.users.CheckUserIsStudent(ctx, req.UserId) {
 		return nil, errors.New("please check whether you are superuser or teacher")
 	}
 
@@ -21,7 +21,6 @@ func (c *ControllerV1) CreateCourse(ctx context.Context, req *v1.CreateCourseReq
 		StartTime:   req.NewCourse.StartTime,
 		EndTime:     req.NewCourse.EndTime,
 	}).InsertAndGetId()
-
 	if err != nil {
 		return nil, err
 	}
@@ -29,6 +28,5 @@ func (c *ControllerV1) CreateCourse(ctx context.Context, req *v1.CreateCourseReq
 	res = &v1.CreateCourseRes{
 		CourseId: courseId,
 	}
-
 	return res, nil
 }
