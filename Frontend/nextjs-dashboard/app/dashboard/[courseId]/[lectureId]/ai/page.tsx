@@ -1,5 +1,4 @@
-import { Chat } from '@/app/ui/lecture/ai/chat';
-import { Box } from '@mui/material';
+import { Chat } from '@/app/ui/lecture/ai-view';
 
 export default function Page() {
   return (

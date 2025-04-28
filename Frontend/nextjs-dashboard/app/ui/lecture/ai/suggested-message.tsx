@@ -51,25 +51,32 @@ function PureSuggestedActions({ chatId, append }: SuggestedMessagesProps) {
           <Button
             variant="text"
             sx={{
+              justifyContent: 'flex-start',
+              alignItems: 'flex-start',
+              textAlign: 'left',
               color: 'text.primary',
               backgroundColor: 'transparent',
+              border: '1px solid',
+              borderColor: 'divider',
+              borderRadius: '15px',
+              padding: '10px 20px',
               '&:hover': {
                 backgroundColor: 'action.hover',
                 color: 'primary.main',
               },
             }}
             onClick={async () => {
-              window.history.replaceState({}, '', `/chat/${chatId}`);
+              // window.history.replaceState({}, '', `/chat/${chatId}`);
 
               append({
                 role: 'user',
                 content: suggestedAction.action,
               });
             }}
-            className="text-left border rounded-xl px-4 py-3.5 text-sm flex-1 gap-1 sm:flex-col w-full h-auto justify-start items-start"
+            className="text-sm flex-1 gap-1 sm:flex-col w-full h-auto"
           >
-            <span className="font-medium">{suggestedAction.title}</span>
-            <span className="text-muted-foreground">
+            <span style={{ textTransform: 'none' }} className='font-medium'>{suggestedAction.title}</span>
+            <span style={{ textTransform: 'none' }} className="text-muted-foreground">
               {suggestedAction.label}
             </span>
           </Button>

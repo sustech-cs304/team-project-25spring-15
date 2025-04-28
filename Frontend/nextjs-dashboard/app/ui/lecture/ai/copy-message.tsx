@@ -1,7 +1,7 @@
 import type { Message } from 'ai';
 import { useCopyToClipboard } from 'usehooks-ts';
 
-import { CopyIcon } from './icons';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { Button, Tooltip, Snackbar } from '@mui/material';
 
 import { memo, useState } from 'react';
@@ -25,7 +25,18 @@ export function PureMessageActions({
     <>
       <Tooltip title="复制">
         <Button
-          className="py-1 px-2 h-fit text-muted-foreground"
+          sx={{
+            minWidth: 32,
+            minHeight: 32,
+            width: 32,
+            height: 32,
+            padding: 0,
+            borderRadius: '6px',
+            lineHeight: 1,
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
           onClick={async () => {
             const textFromParts = message.parts
               ?.filter((part) => part.type === 'text')
@@ -42,7 +53,7 @@ export function PureMessageActions({
             setSnackbarOpen(true);
           }}
         >
-          <CopyIcon />
+          <ContentCopyIcon sx={{ fontSize: 16 }} />
         </Button>
       </Tooltip>
       <Snackbar

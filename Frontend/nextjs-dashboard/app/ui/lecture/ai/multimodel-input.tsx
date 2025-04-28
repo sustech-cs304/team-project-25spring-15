@@ -12,7 +12,8 @@ import {
 import { toast } from 'sonner';
 import { useLocalStorage, useWindowSize } from 'usehooks-ts';
 
-import { ArrowUpIcon, StopIcon } from './icons';
+import StopIcon from '@mui/icons-material/Stop';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 // import { PreviewAttachment } from './preview-attachment';
 import { Button } from '@mui/material';
 import { Textarea } from '@/app/ui/text-area';
@@ -92,7 +93,7 @@ function PureMultimodalInput({
   };
 
   const submitForm = useCallback(() => {
-    window.history.replaceState({}, '', `/chat/${chatId}`);
+    // window.history.replaceState({}, '', `/chat/${chatId}`);
 
     handleSubmit(undefined, {
     });
@@ -180,14 +181,29 @@ function PureStopButton({
   return (
     <Button
       data-testid="stop-button"
-      className="rounded-full p-1.5 h-fit border dark:border-zinc-600"
+      sx={{
+        minWidth: 36,
+        minHeight: 36,
+        width: 36,
+        height: 36,
+        padding: 0,
+        borderRadius: '50%',
+        border: '1px solid',
+        borderColor: 'divider',
+        backgroundColor: '#f0f0f0',
+        boxShadow: 'none',
+        '&:hover': {
+          backgroundColor: '#e0e0e0',
+          boxShadow: 'none',
+        },
+      }}
       onClick={(event) => {
         event.preventDefault();
         stop();
         setMessages((messages) => messages);
       }}
     >
-      <StopIcon size={14} />
+      <StopIcon />
     </Button>
   );
 }
@@ -204,14 +220,29 @@ function PureSendButton({
   return (
     <Button
       data-testid="send-button"
-      className="rounded-full p-1.5 h-fit border dark:border-zinc-600"
+      sx={{
+        minWidth: 36,
+        minHeight: 36,
+        width: 36,
+        height: 36,
+        padding: 0,
+        borderRadius: '50%',
+        border: '1px solid',
+        borderColor: 'divider',
+        backgroundColor: '#f0f0f0',
+        boxShadow: 'none',
+        '&:hover': {
+          backgroundColor: '#e0e0e0',
+          boxShadow: 'none',
+        },
+      }}
       onClick={(event) => {
         event.preventDefault();
         submitForm();
       }}
       disabled={input.length === 0}
     >
-      <ArrowUpIcon size={14} />
+      <ArrowUpwardIcon/>
     </Button>
   );
 }
