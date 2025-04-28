@@ -20,7 +20,7 @@ type AskForAiReq struct {
 	AskForAiReqInfo AskForAiReqInfos `json:"askForAiReqInfo" dc:"Info of this question"`
 }
 
-type GetAllAssignmentInfoOfACourseRes struct {
+type AskForAiRes struct {
 	g.Meta          `mime:"text/html" example:"json"`
 	AskForAiResInfo AskForAiResInfos `json:"askForAiResInfo" dc:"Info of this answer"`
 }
