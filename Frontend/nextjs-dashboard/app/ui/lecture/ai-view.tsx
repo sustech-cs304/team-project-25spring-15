@@ -3,10 +3,11 @@
 import type { Attachment, UIMessage } from 'ai';
 import { useChat } from '@ai-sdk/react';
 import { useState } from 'react';
-// import { ChatHeader } from '@/components/chat-header';
+
+import { ChatHeader } from './ai/chat-header';
+import { Messages } from './ai/messages';
 import { MultimodalInput } from './ai/multimodel-input';
 import { fetcher, generateUUID } from '@/app/lib/utils';
-import { Messages } from './ai/messages';
 import { toast } from 'sonner';
 import useSWR, { useSWRConfig } from 'swr';
 import { unstable_serialize } from 'swr/infinite';
@@ -54,12 +55,11 @@ export function Chat({
   return (
     <>
       <div className="flex flex-col h-full w-full">
-        {/* <ChatHeader
+        <ChatHeader
           chatId={id}
           selectedModelId={selectedChatModel}
-          selectedVisibilityType={selectedVisibilityType}
-          isReadonly={isReadonly}
-        /> */}
+          isReadonly={false}
+        />
 
         <Messages
           chatId={id}

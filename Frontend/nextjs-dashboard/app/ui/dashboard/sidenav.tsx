@@ -14,7 +14,7 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import { usePathname, useRouter } from 'next/navigation';
-import { Course, Lecture } from '@/app/lib/data';
+import { Course, Lecture } from '@/app/lib/definitions';
 
 interface SidebarProps {
   courses: Course[];

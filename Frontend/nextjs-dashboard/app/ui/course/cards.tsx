@@ -6,7 +6,7 @@ import {
   RocketLaunchIcon,
 } from "@heroicons/react/24/outline";
 import { usePathname } from "next/navigation";
-import { Course, Lecture } from "@/app/lib/data";
+import { Course, Lecture } from "@/app/lib/definitions";
 import Link from "next/link";
 import { Card } from "@mui/material";
 

@@ -1,7 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { ChevronDownIcon, LoaderIcon } from './icons';
+import { LoaderIcon } from './icons';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
 import { motion, AnimatePresence } from 'framer-motion';
 import { Markdown } from '../../markdown';
 
@@ -55,7 +57,7 @@ export function ReasoningMessage({
               setIsExpanded(!isExpanded);
             }}
           >
-            <ChevronDownIcon />
+            <ExpandMoreIcon />
           </button>
         </div>
       )}

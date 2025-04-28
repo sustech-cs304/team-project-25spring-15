@@ -1,14 +1,6 @@
-export interface Lecture {
-  id: string;
-  title: string;
-  status?: 'notStarted' | 'inProgress' | 'done';  // 可选: 添加状态属性
-}
+'use server';
 
-export interface Course {
-  id: string;
-  title: string;
-  lectures: Lecture[];
-}
+import { cookies } from 'next/headers';
 
 export async function fetchCourses() {
   try {
@@ -22,4 +14,9 @@ export async function fetchCourses() {
   } catch (err) {
     console.error(`Failed to fetch courses infomation:`, err);
   }
+}
+
+export async function saveChatModelAsCookie(model: string) {
+  const cookieStore = await cookies();
+  cookieStore.set('chat-model', model);
 }

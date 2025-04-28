@@ -52,6 +52,8 @@ const PurePreviewMessage = ({
               const { type } = part;
               const key = `message-${message.id}-part-${index}`;
 
+              console.log(type);
+
               if (type === 'reasoning') {
                 return (
                   <ReasoningMessage
