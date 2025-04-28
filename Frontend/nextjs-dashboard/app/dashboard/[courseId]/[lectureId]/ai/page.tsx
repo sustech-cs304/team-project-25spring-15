@@ -1,9 +1,15 @@
-import AiView from "@/app/ui/lecture/ai-view";
+import { Chat } from '@/app/ui/lecture/ai/chat';
+import { Box } from '@mui/material';
 
 export default function Page() {
   return (
-    <main>
-      <AiView/>
-    </main>
+    <div className="flex flex-col h-full w-full">
+      <Chat
+          id={'0'}
+          initialMessages={[]}
+          selectedChatModel={'deepseek-chat'}
+          isReadonly={false}
+      />
+    </div>
   );
 }
