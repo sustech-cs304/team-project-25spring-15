@@ -2,6 +2,8 @@ import { streamText, tool, UIMessage } from 'ai';
 import { deepseek } from '@ai-sdk/deepseek';
 import { z } from 'zod';
 
+import { myProvider } from '@/app/lib/definitions';
+
 export async function POST(req: Request) {
   const {
     id,
@@ -14,25 +16,37 @@ export async function POST(req: Request) {
   } = await req.json();
 
   const result = streamText({
-    model: deepseek(selectedChatModel), // could be changed to 'deepseek-reasoner'
+    model: myProvider.languageModel(selectedChatModel), // could be changed to 'deepseek-reasoner'
+    // system: systemPrompt({ selectedChatModel }),
     messages,
     maxSteps: 5,
-    tools: {
-      weather: tool({
-        description: 'Get the weather in a location (fahrenheit)',
-        parameters: z.object({
-          location: z.string().describe('The location to get the weather for'),
-        }),
-        execute: async ({ location }) => {
-          const temperature = Math.round(Math.random() * (90 - 32) + 32);
-          return {
-            location,
-            temperature,
-          };
-        },
-      }),
-    },
+    // experimental_activeTools:
+    //   selectedChatModel === 'chat-model-reasoning'
+    //     ? []
+    //     : [
+    //         'getWeather',
+    //         'createDocument',
+    //         'updateDocument',
+    //         'requestSuggestions',
+    //       ],
+    // tools: {
+    //   weather: tool({
+    //     description: 'Get the weather in a location (fahrenheit)',
+    //     parameters: z.object({
+    //       location: z.string().describe('The location to get the weather for'),
+    //     }),
+    //     execute: async ({ location }) => {
+    //       const temperature = Math.round(Math.random() * (90 - 32) + 32);
+    //       return {
+    //         location,
+    //         temperature,
+    //       };
+    //     },
+    //   }),
+    // },
   });
 
-  return result.toDataStreamResponse();
+  return result.toDataStreamResponse({
+    sendReasoning: true,
+  });
 }
