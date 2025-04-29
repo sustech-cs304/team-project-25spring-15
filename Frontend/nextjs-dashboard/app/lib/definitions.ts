@@ -32,6 +32,15 @@ export const myProvider = customProvider({
   }
 });
 
+export interface Exercise {
+  exerciseId: number;
+  publisherId: number;
+  title: string;
+  description: string;
+  deadLine: string;
+  score: number;
+}
+
 export interface Lecture {
   id: string;
   title: string;

@@ -8,21 +8,17 @@ import {
   Typography,
   Button,
   CircularProgress,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import axios from 'axios';
 import MarkdownEditor from '@/app/ui/note/MarkdownEditor';
 import CodeEditor from '@/app/ui/note/CodeEditor';
 import { RunIcon } from '@codesandbox/sandpack-react';
-
-interface Assignment {
-  assignmentId: number;
-  publisherId: number;
-  title: string;
-  description: string;
-  deadLine: string;
-  completeness: number;
-}
+import {Exercise} from "@/app/lib/definitions";
 
 interface ExercisePageProps {
   assignmentId: number;
@@ -30,32 +26,34 @@ interface ExercisePageProps {
 }
 
 export default function ExercisePage({ assignmentId, onBack }: ExercisePageProps) {
-  const [assignment, setAssignment] = useState<Assignment | null>(null);
+  const [exercise, setExercise] = useState<Exercise | null>(null);
   const [loading, setLoading] = useState(true);
   const [code, setCode] = useState<string>("// 在此编写代码");
+  const [language, setLanguage] = useState<string>('javascript');
   const [output, setOutput] = useState<string>("");
 
   useEffect(() => {
     axios
-      .get<Assignment>('https://m1.apifoxmock.com/m1/5989566-5677982-default/api/getExercise')
-      .then((res) => setAssignment(res.data))
+      .get<Exercise>('https://m1.apifoxmock.com/m1/5989566-5677982-default/api/getExercise')
+      .then((res) => setExercise(res.data))
       .catch((err) => console.error('加载练习失败', err))
       .finally(() => setLoading(false));
   }, [assignmentId]);
 
-  const handleRun = () => {
+  const handleRun = async () => {
     try {
-      // 简易 JS eval
-      // eslint-disable-next-line no-eval
-      const result = eval(code);
-      setOutput(String(result));
+      setOutput('正在运行...');
+      const params = { language, code };
+      const response = await axios.get('/pythonRunner', { params });
+      const result = response.data.data?.result ?? '程序运行错误';
+      setOutput(result);
     } catch (err: any) {
-      setOutput(err.message);
+      setOutput(`错误: ${err.message}`);
     }
   };
 
   const handleSubmit = () => {
-    axios.post('/api/submissions', { assignmentId, code })
+    axios.post('/api/submissions', { assignmentId, code, language })
       .catch((err) => console.error('提交失败', err));
   };
 
@@ -67,7 +65,7 @@ export default function ExercisePage({ assignmentId, onBack }: ExercisePageProps
     );
   }
 
-  if (!assignment) {
+  if (!exercise) {
     return <Box sx={{ p: 2 }}>未能加载练习内容</Box>;
   }
 
@@ -79,7 +77,7 @@ export default function ExercisePage({ assignmentId, onBack }: ExercisePageProps
             <ArrowBackIcon />
           </IconButton>
           <Typography variant="h6" sx={{ ml: 2 }}>
-            {assignment.title}
+            {exercise.title}
           </Typography>
         </Toolbar>
       </AppBar>
@@ -94,13 +92,28 @@ export default function ExercisePage({ assignmentId, onBack }: ExercisePageProps
             minHeight: 0,
           }}
         >
-          <MarkdownEditor value={assignment.description} onChange={() => {}} />
+          <MarkdownEditor value={exercise.description} onChange={() => {}} />
         </Box>
 
         {/* 右侧代码区 */}
-        <Box sx={{ flex: 1, p: 2, display: 'flex', flexDirection: 'column', minHeight: 0, overflow: 'auto' }}>
+        <Box sx={{ flex: 1, p: 2, display: 'flex', flexDirection: 'column', height: '600px', overflow: 'auto' }}>
           <Typography variant="subtitle1">代码编辑</Typography>
-          <CodeEditor value={code} language="javascript" onChange={setCode} />
+          <FormControl sx={{ mt: 1, mb: 2, minWidth: 140 }} size="small">
+            <InputLabel id="language-select-label">语言</InputLabel>
+            <Select
+              labelId="language-select-label"
+              value={language}
+              label="语言"
+              onChange={(e) => setLanguage(e.target.value as string)}
+            >
+              <MenuItem value="javascript">JavaScript</MenuItem>
+              <MenuItem value="python">Python</MenuItem>
+              <MenuItem value="go">Go</MenuItem>
+              <MenuItem value="java">Java</MenuItem>
+              <MenuItem value="sql">SQL</MenuItem>
+            </Select>
+          </FormControl>
+          <CodeEditor value={code} language={language} onChange={setCode} />
           <Box sx={{ mt: 2, display: 'flex', gap: 1 }}>
             <Button variant="outlined" onClick={handleRun} startIcon={<RunIcon />}>运行</Button>
             <Button variant="contained" color="primary" onClick={handleSubmit}>提交答案</Button>

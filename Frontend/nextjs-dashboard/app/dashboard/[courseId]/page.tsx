@@ -1,6 +1,7 @@
 'use server';
 
-import { Course, fetchCourses } from "@/app/lib/data";
+import { fetchCourses } from "@/app/lib/data";
+import { Course } from "@/app/lib/definitions";
 import CardWrapper from "@/app/ui/course/cards";
 import { CardsSkeleton } from "@/app/ui/skeletons";
 
