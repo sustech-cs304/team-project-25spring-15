@@ -29,6 +29,7 @@ export const myProvider = customProvider({
       model: deepseek('deepseek-reasoner'),
       middleware: extractReasoningMiddleware({ tagName: 'think' }),
     }),
+    'artifact-model': deepseek('deepseek-chat'),
   }
 });
 
@@ -52,3 +53,10 @@ export interface Course {
   title: string;
   lectures: Lecture[];
 }
+
+export type User = {
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+};

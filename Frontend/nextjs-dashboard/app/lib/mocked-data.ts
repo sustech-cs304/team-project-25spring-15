@@ -1,3 +1,6 @@
+import bcrypt from "bcryptjs";
+import { User } from "./definitions";
+
 const mocked_exercise = `## 练习描述
 
 ### 要求
@@ -86,3 +89,9 @@ export const exerciseContents: ExerciseContents = {
 
 export default mocked_exercise;
 
+export const fakeUser: User = {
+  id: '1',
+  name: '张三',
+  email: 'user@nextmail.com',
+  password: bcrypt.hashSync('123456', 10), // 仅用于测试，实际项目请使用加密密码
+};
