@@ -32,7 +32,6 @@ export default function CardWrapper({ courses }: CardWrapperProps) {
       (course) => course.id.toString() === courseId
     );
     if (currentCourse) {
-      console.log(currentCourse.lectures);
       currentLectures = currentCourse.lectures || [];
       currentCouseTitle = currentCourse.title || "";
     }
@@ -90,8 +89,6 @@ export function CourseCard({
   courseId: string | number;
 }) {
   const Icon = iconMap[type];
-  console.log(lectureId);
-  console.log(courseId);
 
   return (
     <div className="rounded-xl bg-gray-300 p-3 shadow-sm relative">
