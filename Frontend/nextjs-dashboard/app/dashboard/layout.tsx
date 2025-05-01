@@ -1,7 +1,7 @@
-import { Suspense } from 'react';
-import { fetchCourses } from '../lib/data';
-import Topbar from '../ui/dashboard/topbar';
-import SideNav from '@/app/ui/dashboard/sidenav';
+import { Suspense } from "react";
+import { fetchCourses } from "../lib/data";
+import Topbar from "../ui/dashboard/topbar";
+import SideNav from "@/app/ui/dashboard/sidenav";
 
 export const experimental_ppr = true;
 
