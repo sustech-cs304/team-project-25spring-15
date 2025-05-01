@@ -12,13 +12,13 @@ import {
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { userLogOut } from "@/app/lib/actions";
+import { User } from "next-auth";
 
-const user = {
-  name: "张三",
-  email: "zhangsan@example.com",
-};
+interface TopbarProps {
+  user?: User;
+}
 
-export default function Topbar() {
+export default function Topbar({ user }: TopbarProps) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleAvatarClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -77,10 +77,10 @@ export default function Topbar() {
             >
               <Box sx={{ px: 2, py: 1 }}>
                 <Typography variant="subtitle1" fontWeight="bold">
-                  {user.name}
+                  {user?.name || 'unknown'}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  {user.email}
+                  {user?.email || 'unknown'}
                 </Typography>
               </Box>
               <Box sx={{ my: 1 }}>
