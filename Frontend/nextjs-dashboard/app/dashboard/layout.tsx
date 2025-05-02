@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { fetchCourses } from "../lib/data";
 import Topbar from "../ui/dashboard/topbar";
 import SideNav from "@/app/ui/dashboard/sidenav";
+import NoteSidebar from "@/app/ui/note/NoteSideBar";
 import { auth } from "@/auth";
 
 export const experimental_ppr = true;
@@ -21,6 +22,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
           <Suspense fallback={<div>加载中...</div>}>
             {children}
           </Suspense>
+          <NoteSidebar />
         </div>
       </div>
     </div>
