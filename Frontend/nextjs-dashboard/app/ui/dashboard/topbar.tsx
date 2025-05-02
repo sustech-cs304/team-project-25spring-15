@@ -11,7 +11,7 @@ import {
   MenuItem,
 } from "@mui/material";
 import { motion } from "framer-motion";
-import { userLogOut } from "@/app/lib/actions";
+import { userLogOut } from "@/app/lib/data";
 import { User } from "next-auth";
 
 interface TopbarProps {

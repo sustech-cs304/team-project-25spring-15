@@ -1,8 +1,8 @@
-import { streamText, tool, UIMessage } from 'ai';
-import { deepseek } from '@ai-sdk/deepseek';
-import { z } from 'zod';
+import { createDataStreamResponse, streamText, UIMessage } from 'ai';
 
 import { myProvider } from '@/app/lib/definitions';
+import { generateUUID } from '@/app/lib/utils';
+import { systemPrompt } from '@/app/lib/prompts';
 
 export async function POST(req: Request) {
   const {
@@ -15,38 +15,40 @@ export async function POST(req: Request) {
     selectedChatModel: string;
   } = await req.json();
 
-  const result = streamText({
-    model: myProvider.languageModel(selectedChatModel), // could be changed to 'deepseek-reasoner'
-    // system: systemPrompt({ selectedChatModel }),
-    messages,
-    maxSteps: 5,
-    // experimental_activeTools:
-    //   selectedChatModel === 'chat-model-reasoning'
-    //     ? []
-    //     : [
-    //         'getWeather',
-    //         'createDocument',
-    //         'updateDocument',
-    //         'requestSuggestions',
-    //       ],
-    // tools: {
-    //   weather: tool({
-    //     description: 'Get the weather in a location (fahrenheit)',
-    //     parameters: z.object({
-    //       location: z.string().describe('The location to get the weather for'),
-    //     }),
-    //     execute: async ({ location }) => {
-    //       const temperature = Math.round(Math.random() * (90 - 32) + 32);
-    //       return {
-    //         location,
-    //         temperature,
-    //       };
-    //     },
-    //   }),
-    // },
-  });
+  return createDataStreamResponse({
+    execute: (dataStream) => {
+      const result = streamText({
+        model: myProvider.languageModel(selectedChatModel),
+        system: systemPrompt({ selectedChatModel }),
+        messages,
+        maxSteps: 5,
+        // experimental_activeTools:
+        //   selectedChatModel === 'chat-model-reasoning'
+        //     ? []
+        //     : [
+        //         'createDocument',
+        //         'updateDocument',
+        //         'requestSuggestions',
+        //       ],
+        experimental_generateMessageId: generateUUID,
+        // tools: {
+        //   createDocument: createDocument({ session, dataStream }),
+        //   updateDocument: updateDocument({ session, dataStream }),
+        //   requestSuggestions: requestSuggestions({
+        //     session,
+        //     dataStream,
+        //   }),
+        // },
+      });
 
-  return result.toDataStreamResponse({
-    sendReasoning: true,
+      result.consumeStream();
+
+      result.mergeIntoDataStream(dataStream, {
+        sendReasoning: true,
+      });
+    },
+    onError: () => {
+      return 'Oops, an error occurred!';
+    },
   });
 }
