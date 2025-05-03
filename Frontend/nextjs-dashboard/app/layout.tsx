@@ -1,5 +1,8 @@
 import '@/app/ui/global.css';
-import { inter, roboto } from './ui/fonts';
+import "@liveblocks/react-ui/styles.css";
+import "@liveblocks/react-tiptap/styles.css";
+
+import { roboto } from './ui/fonts';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from './ui/theme';
