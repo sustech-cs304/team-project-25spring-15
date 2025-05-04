@@ -12,5 +12,5 @@ type Comments struct {
 	CourseId        int64  `json:"courseId"        orm:"courseId"        description:""` //
 	LectureId       int    `json:"lectureId"       orm:"lectureId"       description:""` //
 	PublisherId     int64  `json:"publisherId"     orm:"publisherId"     description:""` //
-	CommentC        string `json:"commentC"        orm:"comment_C"       description:""` //
+	Comment         string `json:"comment"         orm:"comment"         description:""` //
 }

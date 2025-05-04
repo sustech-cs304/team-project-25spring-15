@@ -10,9 +10,10 @@ import (
 
 // Courses is the golang structure for table Courses.
 type Courses struct {
-	CourseId     int64       `json:"courseId"     orm:"courseId"      description:""` //
-	CourseName   string      `json:"courseName"   orm:"courseName"    description:""` //
-	DescriptionC string      `json:"descriptionC" orm:"description_C" description:""` //
-	StartTime    *gtime.Time `json:"startTime"    orm:"startTime"     description:""` //
-	EndTime      *gtime.Time `json:"endTime"      orm:"endTime"       description:""` //
+	CourseId    int64       `json:"courseId"    orm:"courseId"    description:""` //
+	TeacherId   int64       `json:"teacherId"   orm:"teacherId"   description:""` //
+	CourseName  string      `json:"courseName"  orm:"courseName"  description:""` //
+	Description string      `json:"description" orm:"description" description:""` //
+	StartTime   *gtime.Time `json:"startTime"   orm:"startTime"   description:""` //
+	EndTime     *gtime.Time `json:"endTime"     orm:"endTime"     description:""` //
 }

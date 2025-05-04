@@ -1,0 +1,17 @@
+'use server';
+
+import { fetchCourses } from "@/app/lib/data";
+import { Course } from "@/app/lib/definitions";
+import CardWrapper from "@/app/ui/course/cards";
+import { CardsSkeleton } from "@/app/ui/skeletons";
+
+export default async function Page() {
+  const courses: Course[] = await fetchCourses();
+  return (
+    <main>
+      <div>
+        <CardWrapper courses={courses} />
+      </div>
+    </main>
+  );
+}

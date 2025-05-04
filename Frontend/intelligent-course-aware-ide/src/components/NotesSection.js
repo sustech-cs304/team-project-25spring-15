@@ -56,8 +56,8 @@ const NotesSection = () => {
         {
             id: uuidv4(),
             type: 'code',
-            content: '// 示例代码\nconsole.log("Hello World");',
-            language: 'javascript',
+            content: '// Example\nprint(\'Hello, World!\');',
+            language: 'python',
             executionResult: '',
         },
         {
@@ -85,8 +85,8 @@ const NotesSection = () => {
         const newCell = {
             id: uuidv4(),
             type: 'code',
-            content: '// 新的代码单元',
-            language: 'javascript',
+            content: '// Example\nprint(\'Hello, World!\');',
+            language: 'python',
             executionResult: '',
         };
         addCell(newCell);
@@ -169,7 +169,7 @@ const NotesSection = () => {
             let endpoint;
             switch (cell.language.toLowerCase()) {
                 case 'javascript':
-                    endpoint = '/jsRunner';
+                    endpoint = '/pythonRunner';
                     break;
                 case 'python':
                     endpoint = '/pythonRunner';
@@ -197,13 +197,13 @@ const NotesSection = () => {
                     code: cell.content
                 };
                 const response = await axios.get(endpoint, { params });
-                const result = response.data.result || '无返回结果';
+                console.log(response);
+                const result = response.data.data.result || '程序运行错误';
                 setCells(prevCells =>
                     prevCells.map(c =>
                         c.id === activeCellId ? { ...c, executionResult: result } : c
                     )
                 );
-                alert("运行结果:\n" + result);
             } catch (error) {
                 console.error("运行代码出错:", error);
                 setCells(prevCells =>

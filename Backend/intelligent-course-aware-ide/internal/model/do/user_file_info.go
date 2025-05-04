@@ -10,8 +10,8 @@ import (
 
 // UserFileInfo is the golang structure of table UserFileInfo for DAO operations like Where/Data.
 type UserFileInfo struct {
-	g.Meta    `orm:"table:UserFileInfo, do:true"`
-	UserId    interface{} //
-	FileId    interface{} //
-	Authority interface{} //
+	g.Meta       `orm:"table:UserFileInfo, do:true"`
+	UserId       interface{} //
+	AssignmentId interface{} //
+	FileId       interface{} //
 }

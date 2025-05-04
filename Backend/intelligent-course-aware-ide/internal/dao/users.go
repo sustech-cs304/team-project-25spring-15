@@ -8,20 +8,15 @@ import (
 	"intelligent-course-aware-ide/internal/dao/internal"
 )
 
-// internalUsersDao is an internal type for wrapping the internal DAO implementation.
-type internalUsersDao = *internal.UsersDao
-
-// usersDao is the data access object for the table users.
+// usersDao is the data access object for the table Users.
 // You can define custom methods on it to extend its functionality as needed.
 type usersDao struct {
-	internalUsersDao
+	*internal.UsersDao
 }
 
 var (
-	// Users is a globally accessible object for table users operations.
-	Users = usersDao{
-		internal.NewUsersDao(),
-	}
+	// Users is a globally accessible object for table Users operations.
+	Users = usersDao{internal.NewUsersDao()}
 )
 
 // Add your custom methods and functionality below.

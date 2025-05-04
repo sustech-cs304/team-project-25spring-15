@@ -1,88 +1,62 @@
-// This file contains type definitions for your data.
-// It describes the shape of the data, and what data type each property should accept.
-// For simplicity of teaching, we're manually defining these types.
-// However, these types are generated automatically if you're using an ORM such as Prisma.
+import { deepseek } from "@ai-sdk/deepseek";
+import { customProvider, extractReasoningMiddleware, wrapLanguageModel } from "ai";
+
+export const DEFAULT_CHAT_MODEL: string = 'chat-model';
+
+interface ChatModel {
+  id: string;
+  name: string;
+  description: string;
+}
+
+export const chatModels: Array<ChatModel> = [
+  {
+    id: 'chat-model',
+    name: 'Chat model',
+    description: 'Primary model for all-purpose chat',
+  },
+  {
+    id: 'chat-model-reasoning',
+    name: 'Reasoning model',
+    description: 'Uses advanced reasoning',
+  },
+];
+
+export const myProvider = customProvider({
+  languageModels: {
+    'chat-model': deepseek('deepseek-chat'),
+    'chat-model-reasoning': wrapLanguageModel({
+      model: deepseek('deepseek-reasoner'),
+      middleware: extractReasoningMiddleware({ tagName: 'think' }),
+    }),
+    'artifact-model': deepseek('deepseek-chat'),
+  }
+});
+
+export interface Exercise {
+  exerciseId: number;
+  publisherId: number;
+  title: string;
+  description: string;
+  deadLine: string;
+  score: number;
+}
+
+export interface Lecture {
+  id: string;
+  title: string;
+  status?: 'notStarted' | 'inProgress' | 'done';  // 可选: 添加状态属性
+}
+
+export interface Course {
+  id: string;
+  title: string;
+  lectures: Lecture[];
+}
+
 export type User = {
   id: string;
   name: string;
   email: string;
   password: string;
-};
-
-export type Customer = {
-  id: string;
-  name: string;
-  email: string;
-  image_url: string;
-};
-
-export type Invoice = {
-  id: string;
-  customer_id: string;
-  amount: number;
-  date: string;
-  // In TypeScript, this is called a string union type.
-  // It means that the "status" property can only be one of the two strings: 'pending' or 'paid'.
-  status: 'pending' | 'paid';
-};
-
-export type Revenue = {
-  month: string;
-  revenue: number;
-};
-
-export type LatestInvoice = {
-  id: string;
-  name: string;
-  image_url: string;
-  email: string;
-  amount: string;
-};
-
-// The database returns a number for amount, but we later format it to a string with the formatCurrency function
-export type LatestInvoiceRaw = Omit<LatestInvoice, 'amount'> & {
-  amount: number;
-};
-
-export type InvoicesTable = {
-  id: string;
-  customer_id: string;
-  name: string;
-  email: string;
-  image_url: string;
-  date: string;
-  amount: number;
-  status: 'pending' | 'paid';
-};
-
-export type CustomersTableType = {
-  id: string;
-  name: string;
-  email: string;
-  image_url: string;
-  total_invoices: number;
-  total_pending: number;
-  total_paid: number;
-};
-
-export type FormattedCustomersTable = {
-  id: string;
-  name: string;
-  email: string;
-  image_url: string;
-  total_invoices: number;
-  total_pending: string;
-  total_paid: string;
-};
-
-export type CustomerField = {
-  id: string;
-  name: string;
-};
-
-export type InvoiceForm = {
-  id: string;
-  customer_id: string;
-  amount: number;
-  status: 'pending' | 'paid';
 };

@@ -20,18 +20,24 @@ type TestcaseAndAnswerFilesDao struct {
 
 // TestcaseAndAnswerFilesColumns defines and stores column names for the table TestcaseAndAnswerFiles.
 type TestcaseAndAnswerFilesColumns struct {
-	AssignmentId string //
-	OwnerId      string //
-	TestcaseId   string //
-	AnswerId     string //
+	TestcaseAndAnswerId string //
+	AssignmentId        string //
+	PublisherId         string //
+	TestcaseId          string //
+	AnswerId            string //
+	Score               string //
+	FileType            string //
 }
 
 // testcaseAndAnswerFilesColumns holds the columns for the table TestcaseAndAnswerFiles.
 var testcaseAndAnswerFilesColumns = TestcaseAndAnswerFilesColumns{
-	AssignmentId: "assignmentId",
-	OwnerId:      "ownerId",
-	TestcaseId:   "testcaseId",
-	AnswerId:     "answerId",
+	TestcaseAndAnswerId: "testcaseAndAnswerId",
+	AssignmentId:        "assignmentId",
+	PublisherId:         "publisherId",
+	TestcaseId:          "testcaseId",
+	AnswerId:            "answerId",
+	Score:               "score",
+	FileType:            "fileType",
 }
 
 // NewTestcaseAndAnswerFilesDao creates and returns a new DAO object for table data access.

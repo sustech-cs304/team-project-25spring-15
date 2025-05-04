@@ -16,3 +16,9 @@ input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+.content-container {
+  height: calc(100% - 48px);
+  overflow: auto;
+  padding: 16px;
+}

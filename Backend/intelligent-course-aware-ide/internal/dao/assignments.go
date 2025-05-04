@@ -8,20 +8,15 @@ import (
 	"intelligent-course-aware-ide/internal/dao/internal"
 )
 
-// internalAssignmentsDao is an internal type for wrapping the internal DAO implementation.
-type internalAssignmentsDao = *internal.AssignmentsDao
-
-// assignmentsDao is the data access object for the table assignments.
+// assignmentsDao is the data access object for the table Assignments.
 // You can define custom methods on it to extend its functionality as needed.
 type assignmentsDao struct {
-	internalAssignmentsDao
+	*internal.AssignmentsDao
 }
 
 var (
-	// Assignments is a globally accessible object for table assignments operations.
-	Assignments = assignmentsDao{
-		internal.NewAssignmentsDao(),
-	}
+	// Assignments is a globally accessible object for table Assignments operations.
+	Assignments = assignmentsDao{internal.NewAssignmentsDao()}
 )
 
 // Add your custom methods and functionality below.

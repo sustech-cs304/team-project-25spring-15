@@ -8,20 +8,15 @@ import (
 	"intelligent-course-aware-ide/internal/dao/internal"
 )
 
-// internalCoursesDao is an internal type for wrapping the internal DAO implementation.
-type internalCoursesDao = *internal.CoursesDao
-
-// coursesDao is the data access object for the table courses.
+// coursesDao is the data access object for the table Courses.
 // You can define custom methods on it to extend its functionality as needed.
 type coursesDao struct {
-	internalCoursesDao
+	*internal.CoursesDao
 }
 
 var (
-	// Courses is a globally accessible object for table courses operations.
-	Courses = coursesDao{
-		internal.NewCoursesDao(),
-	}
+	// Courses is a globally accessible object for table Courses operations.
+	Courses = coursesDao{internal.NewCoursesDao()}
 )
 
 // Add your custom methods and functionality below.

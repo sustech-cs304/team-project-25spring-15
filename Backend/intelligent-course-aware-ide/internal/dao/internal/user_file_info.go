@@ -20,16 +20,16 @@ type UserFileInfoDao struct {
 
 // UserFileInfoColumns defines and stores column names for the table UserFileInfo.
 type UserFileInfoColumns struct {
-	UserId    string //
-	FileId    string //
-	Authority string //
+	UserId       string //
+	AssignmentId string //
+	FileId       string //
 }
 
 // userFileInfoColumns holds the columns for the table UserFileInfo.
 var userFileInfoColumns = UserFileInfoColumns{
-	UserId:    "userId",
-	FileId:    "fileId",
-	Authority: "authority",
+	UserId:       "userId",
+	AssignmentId: "assignmentId",
+	FileId:       "fileId",
 }
 
 // NewUserFileInfoDao creates and returns a new DAO object for table data access.

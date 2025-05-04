@@ -8,20 +8,15 @@ import (
 	"intelligent-course-aware-ide/internal/dao/internal"
 )
 
-// internalCommentsDao is an internal type for wrapping the internal DAO implementation.
-type internalCommentsDao = *internal.CommentsDao
-
 // commentsDao is the data access object for the table Comments.
 // You can define custom methods on it to extend its functionality as needed.
 type commentsDao struct {
-	internalCommentsDao
+	*internal.CommentsDao
 }
 
 var (
 	// Comments is a globally accessible object for table Comments operations.
-	Comments = commentsDao{
-		internal.NewCommentsDao(),
-	}
+	Comments = commentsDao{internal.NewCommentsDao()}
 )
 
 // Add your custom methods and functionality below.

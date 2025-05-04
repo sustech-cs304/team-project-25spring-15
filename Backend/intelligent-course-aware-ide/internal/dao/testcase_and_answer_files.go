@@ -8,20 +8,15 @@ import (
 	"intelligent-course-aware-ide/internal/dao/internal"
 )
 
-// internalTestcaseAndAnswerFilesDao is an internal type for wrapping the internal DAO implementation.
-type internalTestcaseAndAnswerFilesDao = *internal.TestcaseAndAnswerFilesDao
-
 // testcaseAndAnswerFilesDao is the data access object for the table TestcaseAndAnswerFiles.
 // You can define custom methods on it to extend its functionality as needed.
 type testcaseAndAnswerFilesDao struct {
-	internalTestcaseAndAnswerFilesDao
+	*internal.TestcaseAndAnswerFilesDao
 }
 
 var (
 	// TestcaseAndAnswerFiles is a globally accessible object for table TestcaseAndAnswerFiles operations.
-	TestcaseAndAnswerFiles = testcaseAndAnswerFilesDao{
-		internal.NewTestcaseAndAnswerFilesDao(),
-	}
+	TestcaseAndAnswerFiles = testcaseAndAnswerFilesDao{internal.NewTestcaseAndAnswerFilesDao()}
 )
 
 // Add your custom methods and functionality below.
