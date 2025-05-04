@@ -13,11 +13,11 @@ export async function GET(req: NextRequest) {
     return new NextResponse('Missing parameters', { status: 400 });
   }
 
-  const backendUrl = `${BACKEND_BASE_URL}/api/Files/lectureFile/pdf?courseId=${courseId}&lectureId=${lectureId}`;
+  const backendUrl = `${BACKEND_BASE_URL}/api/Files/lectureFile/${lectureId}`;
   const backendRes = await fetch(backendUrl);
 
   if (!backendRes.ok) {
-    return new NextResponse('PDF not found', { status: 404 });
+    return new NextResponse('PDF not found', { status: 500 });
   }
 
   const pdfBlob = await backendRes.blob();
