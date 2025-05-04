@@ -71,20 +71,18 @@ export default function CommentView() {
   const [expandedComments, setExpandedComments] = useState<Record<string, boolean>>({});
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  // 获取评论的函数
   const fetchComments = async (lectureId: string) => {
     try {
       const response = await axios.get(`https://m1.apifoxmock.com/m2/5989566-5677982-default/291721414`);
       console.log("获取评论成功:", response.data);
-      setComments(response.data); // 将获取到的评论数据设置到状态中
+      setComments(response.data);
     } catch (error) {
       console.error("获取评论失败:", error);
     }
   };
 
-  // 在组件加载时调用 fetchComments
   useEffect(() => {
-    fetchComments("lectureId"); // 替换为实际的 lectureId
+    fetchComments("lectureId"); // todo: 替换为实际的 lectureId
   }, ["lectureId"]);
 
   const formatDate = (dateString: string) => {
@@ -125,7 +123,7 @@ export default function CommentView() {
     try {
       const newCommentData = {
         content: newComment,
-        authorId: "currentUser", // 替换为实际的用户 ID
+        authorId: "currentUser", // todo: 替换为实际的用户 ID
         createTime: new Date().toISOString(),
         repliedToCommentId: replyTo ? replyTo.repliedToCommentId : null,
       };
@@ -143,7 +141,7 @@ export default function CommentView() {
   };
 
   const handleDeleteComment = async (commentId: string, authorId: string) => {
-    const currentUserId = "currentUser"; // 替换为实际的当前用户 ID
+    const currentUserId = "currentUser"; // todo: 替换为实际的当前用户 ID
 
     if (authorId !== currentUserId) {
       console.error("无法删除他人发布的评论");
