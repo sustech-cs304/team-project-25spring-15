@@ -3,3 +3,4 @@ tmp/*
 sustech_cs304_15.tar
 Backend\intelligent-course-aware-ide\hack\config.yaml
 Backend\intelligent-course-aware-ide\manifest\config\config.yaml
+Backend\intelligent-course-aware-ide\docker_database_connet
