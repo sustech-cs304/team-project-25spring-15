@@ -5,22 +5,23 @@ import (
 	"errors"
 	assignmentv1 "intelligent-course-aware-ide/api/assignment/v1"
 	runnerV1 "intelligent-course-aware-ide/api/runner/v1"
-	"intelligent-course-aware-ide/internal/controller/runner"
+	"intelligent-course-aware-ide/internal/consts"
 	"intelligent-course-aware-ide/internal/dao"
+	runnerLogic "intelligent-course-aware-ide/internal/logic/runner"
 	"intelligent-course-aware-ide/internal/model/entity"
 	"os/exec"
 	"path/filepath"
 	"strings"
 )
 
-func (a *Assignments) CheckAnswer(ctx context.Context, attemptForAssignment *assignmentv1.AttemptForAssignment, codeFile *entity.Files, testcaseAndAnswerFile *entity.TestcaseAndAnswerFiles, befScore int, totalScore int) (count int, allScore int, err error) {
+func (a *Assignments) CheckAnswer(ctx context.Context, runners *runnerLogic.Runners, attemptForAssignment *assignmentv1.AttemptForAssignment, codeFile *entity.Files, testcaseAndAnswerFile *entity.TestcaseAndAnswerFiles, befScore int, totalScore int) (count int, allScore int, err error) {
 	var testcaseFile, answerFile *entity.Files
 	err = dao.Files.Ctx(ctx).WherePri(testcaseAndAnswerFile.TestcaseId).Scan(&testcaseFile)
-	if err != nil {
+	if err != nil || testcaseFile == nil {
 		return befScore, totalScore, err
 	}
 	err = dao.Files.Ctx(ctx).WherePri(testcaseAndAnswerFile.AnswerId).Scan(&answerFile)
-	if err != nil {
+	if err != nil || answerFile == nil {
 		return befScore, totalScore, err
 	}
 
@@ -47,19 +48,19 @@ func (a *Assignments) CheckAnswer(ctx context.Context, attemptForAssignment *ass
 
 	var dockerName string
 	if attemptForAssignment.FileType == "c" || attemptForAssignment.FileType == "c++" || attemptForAssignment.FileType == "cpp" {
-		_, err = runner.RunCCode(ctx, &codeRunnerReq, codeFile.FileUrl, executableFilePath)
+		_, err = runners.RunCCode(ctx, &codeRunnerReq, codeFile.FileUrl, executableFilePath)
 		if err != nil {
 			return befScore, totalScore, err
 		}
-		dockerName = runner.TargetCDockerName
+		dockerName = consts.TargetCDockerName
 	} else if attemptForAssignment.FileType == "python" {
-		_, err = runner.RunPythonCode(ctx, &codeRunnerReq, codeFile.FileUrl)
+		_, err = runners.RunPythonCode(ctx, &codeRunnerReq, codeFile.FileUrl)
 		if err != nil {
 			return befScore, totalScore, err
 		}
-		dockerName = runner.TargetPythonDockerName
+		dockerName = consts.TargetPythonDockerName
 	} else if attemptForAssignment.FileType == "string" {
-		dockerName = runner.TargetDockerName
+		dockerName = consts.TargetDockerName
 		codeRunnerReq.OutputPath = codeFile.FileUrl
 	} else {
 		return befScore, totalScore, errors.New("only c/cpp and python are support to run")

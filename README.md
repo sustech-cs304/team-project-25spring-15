@@ -26,4 +26,8 @@ Here is the version of critical packages we install in the image:
 #### Unit Test(internal/logic)
 
 + user: 100%
-+
++ course: 100%
++ chat: 100%
++ chatMessage: 100%
++ assignment: 54.5%
++ runner: 23.7%

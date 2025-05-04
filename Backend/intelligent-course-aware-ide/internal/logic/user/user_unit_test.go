@@ -9,19 +9,25 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestNew(t *testing.T) {
+	answer := &Users{}
+	result := New()
+	assert.Equal(t, answer, result)
+}
+
 func TestCheckUserHasPermssionOfUser(t *testing.T) {
 	testcases := [8][2]int64{
 		{1, 1},
 		{2, 1},
-		{3, 1},
+		{4, 1},
 		{999, 1},
 		{1, 3},
+		{2, 3},
 		{3, 3},
-		{4, 3},
-		{4, 999},
+		{3, 999},
 	}
 	answers := [8]bool{
-		true, false, true, false, false, true, false, false,
+		true, true, false, false, false, false, true, false,
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
 	defer cancel()
@@ -32,4 +38,21 @@ func TestCheckUserHasPermssionOfUser(t *testing.T) {
 		assert.Equal(t, answers[index], result)
 	}
 
+}
+
+func TestCheckUserIsStudent(t *testing.T) {
+	testcases := [4]int64{
+		1, 2, 3, 999,
+	}
+	answers := [4]bool{
+		false, false, true, false,
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
+	defer cancel()
+	testUser := New()
+	for index, testcase := range testcases {
+		result := testUser.CheckUserIsStudent(ctx, testcase)
+		t.Log(index, testcase, result)
+		assert.Equal(t, answers[index], result)
+	}
 }
