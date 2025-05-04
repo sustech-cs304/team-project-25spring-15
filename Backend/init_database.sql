@@ -63,18 +63,18 @@ CREATE TABLE Assignments(
     FOREIGN KEY (courseId) REFERENCES Courses(courseId),
     FOREIGN KEY (lectureId) REFERENCES Lectures(lectureId)
 );
-CREATE TABLE Comments(
-    commentId INTEGER NOT NULL ,
-    fatherCommentId INTEGER DEFAULT 0,
-    subCommentId INTEGER DEFAULT 0,
-    courseId BIGINT,
-    lectureId INTEGER,
-    publisherId BIGINT,
-    comment_C VARCHAR(255) NOT NULL ,
-    FOREIGN KEY (courseId) REFERENCES Courses(courseId),
-    FOREIGN KEY (lectureId) REFERENCES Lectures(lectureId) ,
-    FOREIGN KEY (publisherId) REFERENCES Users(userId)
-);
+-- CREATE TABLE Comments(
+--     commentId INTEGER NOT NULL ,
+--     fatherCommentId INTEGER DEFAULT 0,
+--     subCommentId INTEGER DEFAULT 0,
+--     courseId BIGINT,
+--     lectureId INTEGER,
+--     publisherId BIGINT,
+--     comment_C VARCHAR(255) NOT NULL ,
+--     FOREIGN KEY (courseId) REFERENCES Courses(courseId),
+--     FOREIGN KEY (lectureId) REFERENCES Lectures(lectureId) ,
+--     FOREIGN KEY (publisherId) REFERENCES Users(userId)
+-- );
 CREATE TABLE Chats(
     chatId BIGINT AUTO_INCREMENT PRIMARY KEY,
     courseId BIGINT,
@@ -138,6 +138,15 @@ CREATE TABLE ChatMessageInfo(
     message VARCHAR(255) NOT NULL,
     FOREIGN KEY (chatId) REFERENCES Chats(chatId),
     FOREIGN KEY (ownerId) REFERENCES Users(userId)
+);
+CREATE TABLE Comment (
+  commentId BIGINT AUTO_INCREMENT PRIMARY KEY,
+  beingCommentedId BIGINT ,
+  lectureId BIGINT,
+  commentUserId BIGINT NOT NULL,
+  content VARCHAR(1023) NOT NUll,
+  createTime VARCHAR(255) NOT NULL,
+  FOREIGN KEY(commentUserId) REFERENCES Users(userId),
 );
 
 
