@@ -11,3 +11,11 @@ gfcli:
     build: "-a amd64 -s linux -p temp -ew"
     tagPrefixes:
       - my.image.pub/my-app
+
+  logger:
+    level: "all"  # "error", "debug", etc.
+    stdout: true  # 输出到标准输出
+    path: "./logs"
+
+  upload:
+    path: "./uploads"

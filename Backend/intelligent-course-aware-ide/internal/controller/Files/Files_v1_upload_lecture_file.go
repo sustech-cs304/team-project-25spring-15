@@ -3,7 +3,6 @@ package Files
 import (
 	"context"
 	"path/filepath"
-	"time"
 
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
@@ -28,8 +27,7 @@ func (c *ControllerV1) UploadLectureFile(ctx context.Context, req *v1.UploadLect
 
 	// Generate a unique file name
 	originalName := req.File.Filename
-	fileExt := filepath.Ext(originalName)
-	uniqueFileName := guid.S() + fileExt
+	req.File.Filename = guid.S() + req.File.Filename
 
 	uploadPath := g.Cfg().MustGet(ctx, "upload.path", "./uploads").String()
 	storagePath := filepath.Join(uploadPath, "lectures", gtime.Date())
@@ -40,9 +38,9 @@ func (c *ControllerV1) UploadLectureFile(ctx context.Context, req *v1.UploadLect
 		}
 	}
 
-	filePath := filepath.Join(storagePath, uniqueFileName)
+	fileUrl := filepath.Join(storagePath, req.File.Filename)
 
-	if _, err = req.File.Save(filePath); err != nil {
+	if _, err = req.File.Save(storagePath); err != nil {
 		return nil, gerror.New("Failed to save file")
 	}
 
@@ -50,6 +48,7 @@ func (c *ControllerV1) UploadLectureFile(ctx context.Context, req *v1.UploadLect
 
 	tx, err := g.DB().Begin(ctx)
 	if err != nil {
+		g.Log().Error(ctx, err)
 		return nil, err
 	}
 
@@ -60,12 +59,10 @@ func (c *ControllerV1) UploadLectureFile(ctx context.Context, req *v1.UploadLect
 	}()
 
 	fileInsertResult, err := tx.Model("Files").Insert(g.Map{
-		"fileName":      originalName,
-		"storePath":     filePath,
-		"fileSize":      fileSize,
-		"fileType":      req.File.Header.Get("Content-Type"),
-		"uploadTime":    time.Now(),
-		"relatedModule": "lecture",
+		"fileSize": fileSize,
+		"fileUrl":  fileUrl,
+		"fileName": originalName,
+		"fileType": req.File.Header.Get("Content-Type"),
 	})
 	if err != nil {
 		return nil, err
