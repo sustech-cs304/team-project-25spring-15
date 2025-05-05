@@ -62,17 +62,17 @@ func TestCheckAnswer(t *testing.T) {
 	var cnt1, cnt2 int
 	var err error
 	cnt1, cnt2, err = testAssignment.CheckAnswer(ctx, testRunner, &testcaseAttemptForAssignment1, &testcaseCodeFile1, &testcaseTestcaseAndAnswerFile1, 0, 0)
-	t.Log("1", cnt1, cnt2, err)
+	t.Log("0", cnt1, cnt2, err)
 	assert.Equal(t, 0, cnt1)
 	assert.Equal(t, 0, cnt2)
 
 	cnt1, cnt2, err = testAssignment.CheckAnswer(ctx, testRunner, &testcaseAttemptForAssignment1, &testcaseCodeFile1, &testcaseTestcaseAndAnswerFile2, 0, 0)
-	t.Log("2", cnt1, cnt2, err)
+	t.Log("1", cnt1, cnt2, err)
 	assert.Equal(t, 0, cnt1)
 	assert.Equal(t, 0, cnt2)
 
 	cnt1, cnt2, err = testAssignment.CheckAnswer(ctx, testRunner, &testcaseAttemptForAssignment1, &testcaseCodeFile1, &testcaseTestcaseAndAnswerFile3, 0, 0)
-	t.Log("3", cnt1, cnt2, err)
+	t.Log("2", cnt1, cnt2, err)
 	assert.Equal(t, 0, cnt1)
 	assert.Equal(t, 1, cnt2)
 }

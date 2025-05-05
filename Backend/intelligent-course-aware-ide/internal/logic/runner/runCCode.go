@@ -10,20 +10,20 @@ import (
 
 func (r *Runners) RunCCode(ctx context.Context, codeInfo *v1.RunnerReq, pathForCDocker string, pathForExecutableFile string) (codeFeedback *v1.RunnerRes, err error) {
 	var cmd *exec.Cmd
-	var compileErr string
+	var compileInfo, compileErr string
 	var stdout, stderr strings.Builder
 
-	cmdStr1 := "g++ " + pathForCDocker + " -o " + pathForExecutableFile
-	cmd = exec.CommandContext(ctx, "docker", "exec", consts.TargetCDockerName, cmdStr1)
+	cmd = exec.CommandContext(ctx, "docker", "exec", consts.TargetCDockerName, "g++", pathForCDocker, "-o", pathForExecutableFile)
 	cmd.Stdout = &stdout
 	cmd.Stderr = &stderr
 
 	cmd.Run()
 
+	compileInfo = stdout.String()
 	compileErr = stderr.String()
-	if compileErr != "" {
+	if compileInfo != "" || compileErr != "" {
 		codeFeedback = &v1.RunnerRes{
-			Result:   stdout.String(),
+			Result:   compileInfo,
 			Error:    compileErr,
 			FilePath: "",
 		}
@@ -34,7 +34,7 @@ func (r *Runners) RunCCode(ctx context.Context, codeInfo *v1.RunnerReq, pathForC
 	stdout.Reset()
 	stderr.Reset()
 
-	cmdStr2 := "pathForExecutableFile"
+	cmdStr2 := pathForExecutableFile
 	if codeInfo.Args != nil {
 		for _, arg := range codeInfo.Args {
 			cmdStr2 += " " + arg
@@ -49,7 +49,7 @@ func (r *Runners) RunCCode(ctx context.Context, codeInfo *v1.RunnerReq, pathForC
 	}
 
 	var cmdContext []string = []string{
-		"exec", "-it", consts.TargetCDockerName, "bash", "-c", cmdStr2,
+		"exec", consts.TargetCDockerName, cmdStr2,
 	}
 
 	cmd = exec.CommandContext(ctx, "docker", cmdContext...)
