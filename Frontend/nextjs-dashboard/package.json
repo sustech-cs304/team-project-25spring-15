@@ -16,10 +16,6 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@heroicons/react": "^2.2.0",
-    "@liveblocks/client": "^2.24.1",
-    "@liveblocks/react": "^2.24.1",
-    "@liveblocks/react-tiptap": "^2.24.1",
-    "@liveblocks/react-ui": "^2.24.1",
     "@mdxeditor/editor": "^3.31.0",
     "@mui/icons-material": "^7.0.2",
     "@mui/material": "^7.0.2",
@@ -29,6 +25,7 @@
     "@tiptap/extension-collaboration-cursor": "^2.11.9",
     "@tiptap/extension-document": "^2.11.9",
     "@tiptap/extension-paragraph": "^2.11.9",
+    "@tiptap/extension-placeholder": "^2.11.9",
     "@tiptap/extension-text": "^2.11.9",
     "@tiptap/pm": "^2.11.9",
     "@tiptap/react": "^2.11.9",
@@ -69,6 +66,7 @@
   "devDependencies": {
     "@types/node": "22.10.7",
     "@types/react": "19.0.7",
-    "@types/react-dom": "19.0.3"
+    "@types/react-dom": "19.0.3",
+    "sass": "^1.87.0"
   }
 }

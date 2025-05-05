@@ -1,3 +1,11 @@
+'use client';
+
+import dynamic from 'next/dynamic';
+
+const TiptapEditor = dynamic(() => import('../ui/collab/tiptap-editor'), {
+  ssr: false,
+});
+
 export default function Page() {
   return (
     <main>
@@ -5,6 +13,9 @@ export default function Page() {
         Dashboard
         {/* TODO: make this prettier */}
       </h1>
+      <div>
+        <TiptapEditor />
+      </div>
     </main>
   );
 }
