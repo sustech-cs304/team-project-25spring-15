@@ -10,16 +10,27 @@ import Collaboration from '@tiptap/extension-collaboration'
 import CollaborationCursor from '@tiptap/extension-collaboration-cursor'
 import Placeholder from '@tiptap/extension-placeholder'
 import * as Y from 'yjs'
-// import { WebrtcProvider } from 'y-webrtc'
-import { WebsocketProvider } from 'y-websocket'
 
 const doc = new Y.Doc() // Initialize Y.Doc for shared editing
-// const provider = new WebrtcProvider('my-roomname', doc);
-const wsProvider = new WebsocketProvider('ws://localhost:1234', 'my-roomname', doc)
 
-wsProvider.on('status', event => {
-  console.log(event.status) // logs "connected" or "disconnected"
-})
+import { HocuspocusProvider } from "@hocuspocus/provider";
+
+const provider = new HocuspocusProvider({
+  url: "ws://127.0.0.1:1234",
+  name: "example-document",
+  document: doc
+});
+
+// // Define `tasks` as an Array
+// const tasks = provider.document.getArray("tasks");
+
+// // Listen for changes
+// tasks.observe(() => {
+//   console.log("tasks were modified");
+// });
+
+// // Add a new task
+// tasks.push(["buy milk"]);
 
 export default function TiptapEditor() {
   const editor = useEditor({
@@ -31,7 +42,7 @@ export default function TiptapEditor() {
         document: doc, // Configure Y.Doc for collaboration
       }),
       CollaborationCursor.configure({
-        provider: wsProvider,
+        provider: provider,
         user: {
           name: 'Cyndi Lauper',
           color: '#f783ac',
