@@ -7,8 +7,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { usePathname } from "next/navigation";
 import { Course, Lecture } from "@/app/lib/definitions";
-import Link from "next/link";
-import { Card } from "@mui/material";
+import { Card, Typography } from "@mui/material";
 
 interface CardWrapperProps {
   courses: Course[];
@@ -37,51 +36,48 @@ export default function CardWrapper({ courses }: CardWrapperProps) {
     }
   }
 
-  if (currentLectures.length === 0) {
-    return (
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        <p>No lectures found</p>
-      </div>
-    );
-  }
-
   return (
-    <>
-      <Card
-        sx={{
-          flexGrow: 1,
-          height: "calc(94vh - 64px)",
-          overflow: "hidden",
-          padding: "24px",
-          borderColor: `2px solid #e0e0e0`,
-          borderRadius: "8px", // 增加一点圆角
-        }}
-      >
-        <h1 className={`mb-4 text-xl md:text-2xl`}>{currentCouseTitle}</h1>
-        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {currentLectures.map((lecture) => (
+    <Card
+      sx={{
+        flexGrow: 1,
+        height: "calc(94vh - 64px)",
+        overflow: "hidden",
+        padding: "24px",
+        borderColor: `2px solid #e0e0e0`,
+        borderRadius: "8px",
+        backgroundColor: "#f9f9f9",
+      }}
+    >
+      <Typography variant="h4" gutterBottom>
+        {currentCouseTitle || "请选择一个课程"}
+      </Typography>
+      <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {currentLectures.length > 0 ? (
+          currentLectures.map((lecture) => (
             <CourseCard
               key={lecture.id}
-              title={"lecture" + lecture.id}
-              value={lecture.title || ""}
+              title={lecture.title || "未命名讲座"}
+              value={lecture.status || "notStarted"}
               type={lecture.status || "notStarted"}
               courseId={pathname.split("/")[2]}
               lectureId={lecture.id}
             />
-          ))}
-        </div>
-      </Card>
-    </>
+          ))
+        ) : (
+          <Typography variant="body1">暂无讲座</Typography>
+        )}
+      </div>
+    </Card>
   );
 }
 
 export function CourseCard({
-  title,
-  value,
-  type,
-  lectureId,
-  courseId,
-}: {
+                             title,
+                             value,
+                             type,
+                             lectureId,
+                             courseId,
+                           }: {
   title: string;
   value: number | string;
   type: "done" | "inProgress" | "notStarted";
@@ -92,13 +88,6 @@ export function CourseCard({
 
   return (
     <div className="rounded-xl bg-gray-300 p-3 shadow-sm relative">
-      <Link
-        href={`/dashboard/${courseId}/${lectureId}`}
-        className="absolute inset-0 z-10"
-        aria-label={`查看讲座: ${title}`}
-      >
-        <span className="sr-only">查看讲座详情</span>
-      </Link>
       <div className="flex p-4 relative z-0">
         {Icon ? <Icon className="h-5 w-5 text-gray-700" /> : null}
         <h3 className="ml-2 text-sm font-medium">{title}</h3>
