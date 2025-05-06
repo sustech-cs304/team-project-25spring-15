@@ -1,21 +1,12 @@
-'use client';
+import TiptapWrapper from "@/app/ui/collab/tiptap-wrapper";
+import { auth } from "@/auth";
 
-import dynamic from 'next/dynamic';
+export default async function Page() {
+  const session = await auth();
 
-const TiptapEditor = dynamic(() => import('../ui/collab/tiptap-editor'), {
-  ssr: false,
-});
-
-export default function Page() {
   return (
     <main>
-      <h1 className={`mb-4 text-xl md:text-2xl`}>
-        Dashboard
-        {/* TODO: make this prettier */}
-      </h1>
-      <div>
-        <TiptapEditor />
-      </div>
+      <TiptapWrapper user={session?.user}/>
     </main>
   );
 }

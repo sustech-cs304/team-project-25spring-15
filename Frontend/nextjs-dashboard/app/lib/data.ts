@@ -3,18 +3,17 @@
 import { signIn, signOut } from '@/auth';
 import { AuthError } from 'next-auth';
 import { cookies } from 'next/headers';
+import axios from "axios";
 
 /**
  * Get course information for a user
  */
 export async function fetchCourses() {
   try {
-    let coursesUrl = 'https://m1.apifoxmock.com/m1/5989566-5677982-default/api/getCourses';
-    const response = await fetch(coursesUrl);
-    if (!response.ok) {
-      throw new Error(`Error: ${response.status}`);
-    }
-    const data = await response.json();
+    let coursesUrl = 'http://127.0.0.1:8000/api/course/getCourses';
+    const response = await axios.get(coursesUrl);
+    console.log('Fetched courses:', response);
+    const data = response.data;
     return data.courses;
   } catch (err) {
     console.error(`Failed to fetch courses infomation:`, err);
