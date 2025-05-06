@@ -1,6 +1,6 @@
 # SUSTech-CS304-SoftwareEngineering-Intelligent-Course-Aware-IDE
 
-## Set up
+## 1. Set up
 
 #### Backend:
 
@@ -21,7 +21,7 @@ Here is the version of critical packages we install in the image:
 2. gcc: gcc (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0
 3. python: Python 3.10.12
 
-## Test
+## 2. Test
 
 #### Unit Test(internal/logic)
 
