@@ -1,14 +1,16 @@
 'use client';
 
-import Document from '@tiptap/extension-document'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
+import React, { useEffect } from 'react'
 import { EditorContent, useEditor } from '@tiptap/react'
-import React from 'react'
+import { Box } from '@mui/material';
 
+import StarterKit from '@tiptap/starter-kit'
 import Collaboration from '@tiptap/extension-collaboration'
 import CollaborationCursor from '@tiptap/extension-collaboration-cursor'
 import Placeholder from '@tiptap/extension-placeholder'
+import Highlight from '@tiptap/extension-highlight'
+import Typography from '@tiptap/extension-typography'
+
 import * as Y from 'yjs'
 
 const doc = new Y.Doc() // Initialize Y.Doc for shared editing
@@ -18,7 +20,7 @@ import { HocuspocusProvider } from "@hocuspocus/provider";
 const provider = new HocuspocusProvider({
   url: "ws://127.0.0.1:1234",
   name: "example-document",
-  document: doc
+  document: doc,
 });
 
 // // Define `tasks` as an Array
@@ -34,10 +36,18 @@ const provider = new HocuspocusProvider({
 
 export default function TiptapEditor() {
   const editor = useEditor({
+    editorProps: {
+      attributes: {
+        class: 'prose prose-sm sm:prose-base lg:prose-lg xl:prose-2xl m-5 focus:outline-none',
+      },
+    },
+    immediatelyRender: false,
     extensions: [
-      Document,
-      Paragraph,
-      Text,
+      StarterKit.configure({
+        history: false,
+      }),
+      Highlight,
+      Typography,
       Collaboration.configure({
         document: doc, // Configure Y.Doc for collaboration
       }),
@@ -53,16 +63,23 @@ export default function TiptapEditor() {
           'Write something … It’ll be shared with everyone else looking at this example.',
       }),
     ],
-    content: `
-      <p>
-        This is a radically reduced version of Tiptap. It has support for a document, with paragraphs and text. That’s it. It’s probably too much for real minimalists though.
-      </p>
-      <p>
-        The paragraph extension is not really required, but you need at least one node. Sure, that node can be something different.
-      </p>
-    `,
   })
+
   return (
-    <EditorContent editor={editor} />
+    <Box
+      sx={{
+        background: '#fff',
+        borderRadius: 2,
+        boxShadow: 3,
+        p: { xs: 2, md: 4 },
+        mt: 2,
+        mb: 2,
+        minHeight: 300,
+        maxWidth: 900,
+        mx: 'auto',
+      }}
+    >
+      <EditorContent editor={editor} />
+    </Box>
   )
 }
