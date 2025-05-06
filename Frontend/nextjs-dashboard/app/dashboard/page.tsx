@@ -1,9 +1,12 @@
 import TiptapWrapper from "@/app/ui/collab/tiptap-wrapper";
+import { auth } from "@/auth";
 
-export default function Page() {
+export default async function Page() {
+  const session = await auth();
+
   return (
     <main>
-      <TiptapWrapper />
+      <TiptapWrapper user={session?.user}/>
     </main>
   );
 }
