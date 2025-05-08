@@ -2,7 +2,6 @@ package chat
 
 import (
 	"context"
-	"errors"
 	"intelligent-course-aware-ide/internal/dao"
 	"intelligent-course-aware-ide/internal/model/entity"
 )
@@ -10,12 +9,12 @@ import (
 func (c *Chats) CheckUserHasFullPermissionOfChat(ctx context.Context, userId int64, chatId int64) (success bool, err error) {
 	var user *entity.Users
 	err = dao.Users.Ctx(ctx).WherePri(userId).Scan(&user)
-	if err != nil {
+	if err != nil || user == nil {
 		return false, err
 	}
 	var chat *entity.Chats
 	err = dao.Chats.Ctx(ctx).WherePri(chatId).Scan(&chat)
-	if err != nil {
+	if err != nil || chat == nil {
 		return false, err
 	}
 
@@ -23,5 +22,5 @@ func (c *Chats) CheckUserHasFullPermissionOfChat(ctx context.Context, userId int
 		return true, nil
 	}
 
-	return false, errors.New("you are not the owner of the chat or superuser")
+	return false, nil
 }
