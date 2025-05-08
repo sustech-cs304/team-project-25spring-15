@@ -150,17 +150,16 @@ CREATE TABLE ChatMessageInfo(
     FOREIGN KEY (chatId) REFERENCES Chats(chatId) ON DELETE CASCADE,
     FOREIGN KEY (ownerId) REFERENCES Users(userId) ON DELETE CASCADE
 );
-<<<<<<< HEAD
 CREATE TABLE Comment (
   commentId BIGINT AUTO_INCREMENT PRIMARY KEY,
-  beingCommentedId BIGINT ,
+  repliedToCommentedId BIGINT ,
   lectureId BIGINT,
-  commentUserId BIGINT NOT NULL,
+  authorId BIGINT NOT NULL,
   content VARCHAR(1023) NOT NUll,
   createTime VARCHAR(255) NOT NULL,
-  FOREIGN KEY(commentUserId) REFERENCES Users(userId),
+  likes BIGINT,
+  FOREIGN KEY(authorIdId) REFERENCES Users(userId),
 );
-=======
 insert into Users(userId, userName, password, email, identity)
 VALUES (1, 'Y', '123456', 'Y', 'superuser');
 insert into Courses(COURSENAME, DESCRIPTION, teacherId)
@@ -180,6 +179,5 @@ insert into Files(fileId, fileSize, fileUrl, fileName, fileType) VALUES (5,1,'/u
 insert into TestcaseAndAnswerFiles(testcaseAndAnswerId, assignmentId, publisherId, testcaseId, answerId, fileType) VALUES (1,1,1,1,3,'code');
 insert into TestcaseAndAnswerFiles(testcaseAndAnswerId, assignmentId, publisherId, testcaseId, answerId, fileType) VALUES (2,1,1,2,4,'code');
 insert into TestcaseAndAnswerFiles(testcaseAndAnswerId, assignmentId, publisherId, testcaseId, answerId, fileType, score) VALUES (3,1,1,2,3,'code',2);
->>>>>>> 5c4f607682f42674a9c67a9934b609a643c37cf5
 
 select * from Chats;

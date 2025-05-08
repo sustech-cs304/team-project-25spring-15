@@ -7,10 +7,11 @@ import (
 type CommentInfo struct{
 	CommentId int64 `json:"id" dc:"Id of the comment"`
 	LectureId int64 `json:"lectureId" dc:"Id of the lecture the comment in"`
-	CommentedUser int64 `json:"commentedId" dc:"Id of the commented user"`
-	CommentingUser int64 `json:"commentingId" dc:"Id of the commenting user"`
+	AuthorId int64 `json:"authorId" dc:"Id of the commented user"`
+	RepliedToCommentId int64 `json:"repliedtocommentId" dc:"Id of the commenting user"`
 	Content string `json:"content" dc:"content of the comment"`
 	CreateTime string `json:"createTime" dc:" createTime of the comment"`
+	Likes int64 `json:"likes" dc:"The number of likes"`
 }
 type CreateCommentReq struct{
 	g.Meta `path:"/api/comment/createComment" method:"post" tags:"Comment" summary:"Create comment"`
@@ -37,4 +38,14 @@ type DeleteCommentReq struct {
 type DeleteCommentRes struct {
 	g.Meta  `mime:"text/html" example:"json"`
 	Success bool `json:"success" dc:"success or not"`
+}
+type UpdateCommentReq struct{
+	g.Meta `path:"/api/comment/updateComment" method:"put" tags:"Comment" summary:"update the comment(mainly likes) info"`
+	UserId int64 `json:"userId" v:"required" dc:"id of the user who want to update"`
+	CommentId int64 `json:"commentId" v:"required" dc:"id of the comment to update"`
+	Likes int64 `json:"likes" v:"required" dc:"the number of new likes"`
+}
+type UpdateCommentRes struct{
+	g.Meta `mime:"text/html" example:"json"`
+	Success bool  `json:"success" dc:"success or not"`
 }

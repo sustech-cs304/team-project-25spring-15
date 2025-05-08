@@ -21,22 +21,24 @@ type CommentDao struct {
 
 // CommentColumns defines and stores column names for the table Comment.
 type CommentColumns struct {
-	CommentId          string //
-	BeingCommentedUser string //
-	LectureId          string //
-	CommentUser        string //
-	Content            string //
-	CreateTime         string //
+	CommentId            string //
+	RepliedToCommentedId string //
+	LectureId            string //
+	AuthorId             string //
+	Content              string //
+	CreateTime           string //
+	Likes                string //
 }
 
 // commentColumns holds the columns for the table Comment.
 var commentColumns = CommentColumns{
-	CommentId:          "commentId",
-	BeingCommentedUser: "beingCommentedUser",
-	LectureId:          "lectureId",
-	CommentUser:        "commentUser",
-	Content:            "content",
-	CreateTime:         "createTime",
+	CommentId:            "commentId",
+	RepliedToCommentedId: "repliedToCommentedId",
+	LectureId:            "lectureId",
+	AuthorId:             "authorId",
+	Content:              "content",
+	CreateTime:           "createTime",
+	Likes:                "likes",
 }
 
 // NewCommentDao creates and returns a new DAO object for table data access.
