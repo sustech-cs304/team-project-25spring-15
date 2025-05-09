@@ -41,7 +41,7 @@ type CoursewareViewProps = {
 };
 
 export function PdfView({ fileUrl, courseId, lectureId }: PdfViewProps) {
-  if(!fileUrl) fileUrl='/mocked.pdf';
+  if (!fileUrl) fileUrl = '/mocked.pdf';
 
   const [numPages, setNumPages] = useState<number>();
   const [pageNumber, setPageNumber] = useState<number>(1);
@@ -101,7 +101,7 @@ export function PdfView({ fileUrl, courseId, lectureId }: PdfViewProps) {
               pageNumber={pageNumber}
               renderTextLayer={false}
               renderAnnotationLayer={false}
-              // width={window.innerWidth * 0.8} // 使用固定基准宽度
+            // width={window.innerWidth * 0.8} // 使用固定基准宽度
             />
           </Document>
         </PdfContainer>
@@ -136,33 +136,33 @@ export function PdfView({ fileUrl, courseId, lectureId }: PdfViewProps) {
 }
 
 
-export default function CoursewareView({ courseId, lectureId }: CoursewareViewProps){
+export default function CoursewareView({ courseId, lectureId }: CoursewareViewProps) {
   const [fileUrl, setFileUrl] = useState<string | null>(null);
 
-  useEffect(() => {
-    let url: string | null = null;
-    fetch(`/api/pdf?courseId=${courseId}&lectureId=${lectureId}`)
-      .then(res => {
-        if (!res.ok) throw new Error('fetch failed');
-        return res.blob();
-      })
-      .then(blob => {
-        url = URL.createObjectURL(blob);
-        setFileUrl(url);
-      })
-      .catch(() => {
-        setFileUrl('/mocked.pdf');
-      });
+  // useEffect(() => {
+  //   let url: string | null = null;
+  //   fetch(`/api/pdf?courseId=${courseId}&lectureId=${lectureId}`)
+  //     .then(res => {
+  //       if (!res.ok) throw new Error('fetch failed');
+  //       return res.blob();
+  //     })
+  //     .then(blob => {
+  //       url = URL.createObjectURL(blob);
+  //       setFileUrl(url);
+  //     })
+  //     .catch(() => {
+  //       setFileUrl('/mocked.pdf');
+  //     });
 
-    // 清理函数：组件卸载时释放 blob URL
-    return () => {
-      if (url) URL.revokeObjectURL(url);
-    };
-  }, [courseId, lectureId]);
+  //   // 清理函数：组件卸载时释放 blob URL
+  //   return () => {
+  //     if (url) URL.revokeObjectURL(url);
+  //   };
+  // }, [courseId, lectureId]);
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
-        <PdfView fileUrl={fileUrl} courseId={courseId} lectureId={lectureId}/>
+      <PdfView fileUrl={fileUrl} courseId={courseId} lectureId={lectureId} />
     </Box>
   );
 };

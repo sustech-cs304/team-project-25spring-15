@@ -7,14 +7,14 @@ import (
 
 type UploadLectureFileReq struct {
 	g.Meta    `path:"/api/Files/lectureFile/upload" method:"post" tags:"file" summary:"upload lectureFile"`
-	LectureId int64             `v:"required" json:"lectureId"`
-	File      *ghttp.UploadFile `v:"required" json:"file"`
+	LectureId int64             `p:"lectureId" v:"required"`
+	File      *ghttp.UploadFile `p:"file" v:"required"`
 }
 
 type UpdateLectureFileReq struct {
 	g.Meta `path:"/api/Files/lectureFile/{FileId}" method:"put" tags:"file" summary:"update a lectureFile"`
 	FileId int64             `v:"required" dc:"file id"`
-	File   *ghttp.UploadFile `v:"required" json:"file"`
+	File   *ghttp.UploadFile `p:"file" v:"required"`
 }
 
 type DeleteLectureFileReq struct {
@@ -29,12 +29,12 @@ type GetLectureFileReq struct {
 
 type UploadLectureFileRes struct {
 	Result bool  `json:"result" dc:"is OK or not"`
-	FileId int64 `json:"id" dc:"file id"`
+	FileId int64 `json:"fileId" dc:"file id"`
 }
 
 type UpdateLectureFileRes struct {
 	Result bool  `json:"result" dc:"is OK or not"`
-	FileId int64 `json:"id" dc:"file id"`
+	FileId int64 `json:"fileId" dc:"file id"`
 }
 
 type DeleteLectureFileRes struct {

@@ -2,11 +2,13 @@ package cmd
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/gogf/gf/v2/os/gcmd"
 
+	"intelligent-course-aware-ide/internal/controller/Files"
 	"intelligent-course-aware-ide/internal/controller/assignment"
 	"intelligent-course-aware-ide/internal/controller/chat"
 	"intelligent-course-aware-ide/internal/controller/course"
@@ -23,18 +25,48 @@ var (
 		Brief: "start http server",
 		Func: func(ctx context.Context, parser *gcmd.Parser) (err error) {
 			s := g.Server()
+
+			s.BindMiddlewareDefault(func(r *ghttp.Request) {
+				// 添加错误恢复机制
+				defer func() {
+					if err := recover(); err != nil {
+						g.Log().Error(r.GetCtx(), "Panic recovered:", err)
+						r.Response.WriteStatusExit(500, g.Map{
+							"code":    500,
+							"message": fmt.Sprintf("%v", err),
+						})
+					}
+				}()
+
+				// 在处理请求前记录
+				g.Log().Debug(r.GetCtx(), "Request started:", r.URL.Path)
+
+				r.Middleware.Next()
+
+				// 检查请求处理后是否有错误
+				if err := r.GetError(); err != nil {
+					g.Log().Error(r.GetCtx(), "Error occurred:", err)
+					r.Response.WriteJsonExit(g.Map{
+						"code":    500,
+						"message": err.Error(),
+					})
+				}
+			})
+
 			s.Group("/", func(group *ghttp.RouterGroup) {
 				group.Middleware(ghttp.MiddlewareHandlerResponse)
 				group.Bind(
 					example.NewV1(),
 					runner.NewV1(),
 					course.NewV1(),
+					Files.NewV1(),
 					user.NewV1(),
 					assignment.NewV1(),
 					lecture.NewV1(),
 					chat.NewV1(),
 				)
 			})
+
 			s.Run()
 			return nil
 		},
