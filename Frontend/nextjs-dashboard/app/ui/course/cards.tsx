@@ -28,11 +28,11 @@ export default function CardWrapper({ courses }: CardWrapperProps) {
     const courseId = pathname.split("/")[2];
 
     const currentCourse = courses?.find(
-      (course) => course.id.toString() === courseId
+      (course) => course.courseId.toString() === courseId
     );
     if (currentCourse) {
       currentLectures = currentCourse.lectures || [];
-      currentCouseTitle = currentCourse.title || "";
+      currentCouseTitle = currentCourse.courseName || "";
     }
   }
 
@@ -55,12 +55,12 @@ export default function CardWrapper({ courses }: CardWrapperProps) {
         {currentLectures.length > 0 ? (
           currentLectures.map((lecture) => (
             <CourseCard
-              key={lecture.id}
-              title={lecture.title || "未命名讲座"}
+              key={lecture.lectureId}
+              title={lecture.lectureName || "未命名讲座"}
               value={lecture.status || "notStarted"}
               type={lecture.status || "notStarted"}
               courseId={pathname.split("/")[2]}
-              lectureId={lecture.id}
+              lectureId={lecture.lectureId}
             />
           ))
         ) : (

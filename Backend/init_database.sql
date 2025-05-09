@@ -1,6 +1,7 @@
 create database if not exists mysqlTest;
 use mysqlTest;
 DROP TABLE IF EXISTS ChatMessageInfo;
+DROP TABLE IF EXISTS UserCourseInfo;
 DROP TABLE IF EXISTS TestcaseAndAnswerFiles;
 DROP TABLE IF EXISTS ChatUserInfo;
 DROP TABLE IF EXISTS AssignmentUserFeedback;
@@ -8,8 +9,6 @@ DROP TABLE IF EXISTS UserFileInfo;
 DROP TABLE IF EXISTS CourseAssistants;
 DROP TABLE IF EXISTS LectureFiles;
 DROP TABLE IF EXISTS AssignmentFiles;
-DROP TABLE IF EXISTS SharedFiles;
-DROP TABLE IF EXISTS SharedTasks;
 DROP TABLE IF EXISTS Files;
 DROP TABLE IF EXISTS Assignments;
 DROP TABLE IF EXISTS Comments;
@@ -93,6 +92,13 @@ CREATE TABLE AssignmentUserFeedback(
     FOREIGN KEY (assignmentId) REFERENCES Assignments(assignmentId) ON DELETE CASCADE,
     FOREIGN KEY (performerId) REFERENCES Users(userId) ON DELETE CASCADE
 );
+CREATE TABLE UserCourseInfo(
+    userId BIGINT NOT NULL,
+    courseId BIGINT NOT NULL,
+    PRIMARY KEY(userId, courseId),
+    FOREIGN KEY (userId) REFERENCES Users(userId) ON DELETE CASCADE,
+    FOREIGN KEY (courseId) REFERENCES Courses(courseId) ON DELETE CASCADE
+);
 CREATE TABLE UserFileInfo(
     userId BIGINT NOT NULL,
     assignmentId BIGINT NOT NULL,
@@ -153,27 +159,14 @@ CREATE TABLE ChatMessageInfo(
     FOREIGN KEY (ownerId) REFERENCES Users(userId) ON DELETE CASCADE
 );
 CREATE TABLE Comment (
-    commentId BIGINT AUTO_INCREMENT PRIMARY KEY,
-    repliedToCommentedId BIGINT,
-    lectureId BIGINT,
-    authorId BIGINT NOT NULL,
-    content VARCHAR(1023) NOT NUll,
-    createTime VARCHAR(255) NOT NULL,
-    likes BIGINT,
-    FOREIGN KEY(authorIdId) REFERENCES Users(userId),
-);
-CREATE TABLE SharedFiles (
-    sharedFileId BIGINT NOT NULL,
-    sharedLogId BIGINT NOT NULL,
-    FOREIGN KEY (sharedFileId) REFERENCES Files(fileId) ON DELETE CASCADE,
-    FOREIGN KEY (sharedLogId) REFERENCES Files(fileId) ON DELETE CASCADE
-);
-CREATE TABLE SharedTasks (
-    sharedFileId BIGINT NOT NULL,
-    userId BIGINT NOT NULL,
-    isOnline BOOLEAN NOT NULL,
-    FOREIGN KEY (sharedFileId) REFERENCES Files(fileId) ON DELETE CASCADE,
-    FOREIGN KEY (userId) REFERENCES Users(userId) ON DELETE CASCADE
+  commentId BIGINT AUTO_INCREMENT PRIMARY KEY,
+  repliedToCommentedId BIGINT ,
+  lectureId BIGINT,
+  authorId BIGINT NOT NULL,
+  content VARCHAR(1023) NOT NUll,
+  createTime VARCHAR(255) NOT NULL,
+  likes BIGINT,
+  FOREIGN KEY(authorIdId) REFERENCES Users(userId),
 );
 insert into Users(userId, userName, password, email, identity)
 VALUES (1, 'Y', '123456', 'Y', 'superuser');
@@ -185,75 +178,14 @@ insert into Users(userId, userName, password, email, identity)
 VALUES (5, '5', '123456', '5', 'teacher');
 insert into Users(userId, userName, password, email, identity)
 VALUES (6, '6', '123456', '6', 'student');
-insert into Assignments(assignmentId, publisherId, courseId, lectureId)
-VALUES (1, 1, 1, 1);
-insert into Files(fileId, fileSize, fileUrl, fileName, fileType)
-VALUES (
-        1,
-        1,
-        '/usr/Document/testcase_1.txt',
-        'testcase_1',
-        '1'
-    );
-insert into Files(fileId, fileSize, fileUrl, fileName, fileType)
-VALUES (
-        2,
-        1,
-        '/usr/Document/testcase_2.txt',
-        'testcase_2',
-        '1'
-    );
-insert into Files(fileId, fileSize, fileUrl, fileName, fileType)
-VALUES (
-        3,
-        1,
-        '/usr/Document/answer_1.txt',
-        'answer_1',
-        '1'
-    );
-insert into Files(fileId, fileSize, fileUrl, fileName, fileType)
-VALUES (
-        4,
-        1,
-        '/usr/Document/answer_2.txt',
-        'answer_2',
-        '1'
-    );
-insert into Files(fileId, fileSize, fileUrl, fileName, fileType)
-VALUES (
-        5,
-        1,
-        '/usr/Document/attempt.py',
-        'attempt.py',
-        '1'
-    );
-insert into TestcaseAndAnswerFiles(
-        testcaseAndAnswerId,
-        assignmentId,
-        publisherId,
-        testcaseId,
-        answerId,
-        fileType
-    )
-VALUES (1, 1, 1, 1, 3, 'code');
-insert into TestcaseAndAnswerFiles(
-        testcaseAndAnswerId,
-        assignmentId,
-        publisherId,
-        testcaseId,
-        answerId,
-        fileType
-    )
-VALUES (2, 1, 1, 2, 4, 'code');
-insert into TestcaseAndAnswerFiles(
-        testcaseAndAnswerId,
-        assignmentId,
-        publisherId,
-        testcaseId,
-        answerId,
-        fileType,
-        score
-    )
-VALUES (3, 1, 1, 2, 3, 'code', 2);
-select *
-from Chats;
+insert into Assignments(assignmentId, publisherId, courseId, lectureId) VALUES (1,1,1,1);
+insert into Files(fileId, fileSize, fileUrl, fileName, fileType) VALUES (1,1,'/usr/Document/testcase_1.txt','testcase_1', '1');
+insert into Files(fileId, fileSize, fileUrl, fileName, fileType) VALUES (2,1,'/usr/Document/testcase_2.txt','testcase_2', '1');
+insert into Files(fileId, fileSize, fileUrl, fileName, fileType) VALUES (3,1,'/usr/Document/answer_1.txt','answer_1', '1');
+insert into Files(fileId, fileSize, fileUrl, fileName, fileType) VALUES (4,1,'/usr/Document/answer_2.txt','answer_2', '1');
+insert into Files(fileId, fileSize, fileUrl, fileName, fileType) VALUES (5,1,'/usr/Document/attempt.py','attempt.py', '1');
+insert into TestcaseAndAnswerFiles(testcaseAndAnswerId, assignmentId, publisherId, testcaseId, answerId, fileType) VALUES (1,1,1,1,3,'code');
+insert into TestcaseAndAnswerFiles(testcaseAndAnswerId, assignmentId, publisherId, testcaseId, answerId, fileType) VALUES (2,1,1,2,4,'code');
+insert into TestcaseAndAnswerFiles(testcaseAndAnswerId, assignmentId, publisherId, testcaseId, answerId, fileType, score) VALUES (3,1,1,2,3,'code',2);
+
+select * from Chats;

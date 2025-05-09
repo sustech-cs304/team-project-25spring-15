@@ -10,7 +10,7 @@ export default async function Page() {
     return (
       <div className="flex flex-col h-full w-full">
       <Chat
-          id={'0'} // TODO: change this id, to make different lecture have different ai chatting
+          id={'0'} // TODO: change this lectureId, to make different lecture have different ai chatting
           initialMessages={[]}
           selectedChatModel={DEFAULT_CHAT_MODEL}
           isReadonly={false}
@@ -22,7 +22,7 @@ export default async function Page() {
   return (
     <div className="flex flex-col h-full w-full">
       <Chat
-          id={'0'} // TODO: change this id, to make different lecture have different ai chatting
+          id={'0'} // TODO: change this lectureId, to make different lecture have different ai chatting
           initialMessages={[]}
           selectedChatModel={chatModelFromCookie.value}
           isReadonly={false}
