@@ -12,4 +12,4 @@ logger:
 # https://goframe.org/docs/core/gdb-config-file
 database:
   default:
-    link: "mysql:Y:123456@tcp(127.0.0.1:3306)/mysqlTest"
+    link: "mysql:root:200481@tcp(127.0.0.1:3306)/software"

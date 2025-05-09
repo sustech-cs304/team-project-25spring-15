@@ -3,3 +3,36 @@
 // =================================================================================
 
 package chat
+
+import (
+	"context"
+	"errors"
+	"intelligent-course-aware-ide/internal/dao"
+	"intelligent-course-aware-ide/internal/model/entity"
+)
+
+func CheckWhetherUserHasFullPerrmissionOfChat(ctx context.Context, chatId int64, userId int64) (result bool, err error) {
+	var user *entity.Users
+	var chat *entity.Chats
+	err = dao.Users.Ctx(ctx).WherePri(userId).Scan(&user)
+	if err != nil {
+		return false, err
+	}
+	if user.IdentityU == "superuser" {
+		return true, nil
+	}
+
+	err = dao.Chats.Ctx(ctx).WherePri(chatId).Scan(&chat)
+	if err != nil {
+		return false, err
+	}
+
+	if chat.OwnerId == userId {
+		return true, err
+	}
+	return false, errors.New("please check whether you have perssion to the chat")
+}
+
+func CheckWhetherUserHasHalfPerrmissionOfChat(ctx context.Context, chatId int64, userId int64) (result bool, err error) {
+	return false, errors.New("please check whether you have perssion to the chat")
+}

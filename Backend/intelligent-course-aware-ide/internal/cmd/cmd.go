@@ -15,6 +15,7 @@ import (
 	"intelligent-course-aware-ide/internal/controller/lecture"
 	"intelligent-course-aware-ide/internal/controller/runner"
 	"intelligent-course-aware-ide/internal/controller/user"
+	"intelligent-course-aware-ide/internal/controller/comment"
 )
 
 var (
@@ -62,6 +63,7 @@ var (
 					assignment.NewV1(),
 					lecture.NewV1(),
 					chat.NewV1(),
+					comment.NewV1(),
 				)
 			})
 
