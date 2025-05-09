@@ -12,7 +12,6 @@ import (
 	"intelligent-course-aware-ide/internal/controller/assignment"
 	"intelligent-course-aware-ide/internal/controller/chat"
 	"intelligent-course-aware-ide/internal/controller/course"
-	"intelligent-course-aware-ide/internal/controller/example"
 	"intelligent-course-aware-ide/internal/controller/lecture"
 	"intelligent-course-aware-ide/internal/controller/runner"
 	"intelligent-course-aware-ide/internal/controller/user"
@@ -56,7 +55,6 @@ var (
 			s.Group("/", func(group *ghttp.RouterGroup) {
 				group.Middleware(ghttp.MiddlewareHandlerResponse)
 				group.Bind(
-					example.NewV1(),
 					runner.NewV1(),
 					course.NewV1(),
 					Files.NewV1(),
