@@ -50,25 +50,17 @@ jobs:
           fi
 
       - name: Go vet
-        run: |
-          cd Backend/intelligent-course-aware-ide
-          go vet ./...
+        working-directory: Backend/intelligent-course-aware-ide
+        run: go vet ./...
 
       - name: Go build (optional)
-        run: |
-          cd Backend/intelligent-course-aware-ide
-          go build ./...
-
-      - name: Install golangci-lint
         working-directory: Backend/intelligent-course-aware-ide
-        run: |
-          curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $HOME/bin v1.57.2
-          echo "$HOME/bin" >> $GITHUB_PATH
+        run: go build ./...
 
-      - name: Initialize Go modules
+      - name: Go syntax check (go run)
         working-directory: Backend/intelligent-course-aware-ide
-        run: go mod tidy
-
-      - name: Run golangci-lint
+        run: go run .
+      
+      - name: Go lint check (optional)
         working-directory: Backend/intelligent-course-aware-ide
-        run: golangci-lint run ./...
+        run: golint ./...
