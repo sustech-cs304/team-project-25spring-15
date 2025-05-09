@@ -49,7 +49,7 @@ type CreateCourseRes struct {
 }
 
 type GetCourseWithLecturesByCourseIdReq struct {
-	g.Meta   `path:"/api/course/searchCourseWithLectures/{courseId}" method:"get" tags:"Course" summary:"get course info"`
+	g.Meta   `path:"/api/course/searchCourseWithLectures/{courseId}" method:"get" tags:"Course" summary:"get course info and lectures with courseId"`
 	CourseId int64 `v:"required" dc:"id of the course to find"`
 }
 
@@ -59,7 +59,7 @@ type GetCourseWithLecturesByCourseIdRes struct {
 }
 
 type GetCourseWithLecturesByStudentIdReq struct {
-	g.Meta    `path:"/api/course/searchCourseWithLectures/{studentId}" method:"get" tags:"Course" summary:"get course info"`
+	g.Meta    `path:"/api/course/searchCourseWithLectures/{studentId}" method:"get" tags:"Course" summary:"get courses info and lectures info of a user"`
 	StudentId int64 `v:"required" dc:"id of the student to search his/her courses"`
 }
 
