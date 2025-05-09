@@ -1,6 +1,7 @@
 create database if not exists mysqlTest;
 use mysqlTest;
 DROP TABLE IF EXISTS ChatMessageInfo;
+DROP TABLE IF EXISTS UserCourseInfo;
 DROP TABLE IF EXISTS TestcaseAndAnswerFiles;
 DROP TABLE IF EXISTS ChatUserInfo;
 DROP TABLE IF EXISTS AssignmentUserFeedback;
@@ -90,6 +91,13 @@ CREATE TABLE AssignmentUserFeedback(
     PRIMARY KEY (assignmentId, performerId),
     FOREIGN KEY (assignmentId) REFERENCES Assignments(assignmentId) ON DELETE CASCADE,
     FOREIGN KEY (performerId) REFERENCES Users(userId) ON DELETE CASCADE
+);
+CREATE TABLE UserCourseInfo(
+    userId BIGINT NOT NULL,
+    courseId BIGINT NOT NULL,
+    PRIMARY KEY(userId, courseId),
+    FOREIGN KEY (userId) REFERENCES Users(userId) ON DELETE CASCADE,
+    FOREIGN KEY (courseId) REFERENCES Courses(courseId) ON DELETE CASCADE
 );
 CREATE TABLE UserFileInfo(
     userId BIGINT NOT NULL,

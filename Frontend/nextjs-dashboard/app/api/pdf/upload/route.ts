@@ -13,10 +13,9 @@ export async function POST(req: NextRequest) {
   }
 
   const backendForm = new FormData();
-  backendForm.append("file", file, file.name);
-  backendForm.append("lectureId", lectureId);
+  backendForm.append("LectureId", lectureId);
+  backendForm.append("File", file, file.name);
 
-  // 你可以根据需要添加 courseId 等其他字段
   // const courseId = formData.get("courseId");
   // if (courseId) backendForm.append("courseId", courseId);
 

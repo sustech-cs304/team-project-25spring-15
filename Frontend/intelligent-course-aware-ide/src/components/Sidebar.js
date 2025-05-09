@@ -86,7 +86,7 @@ import React, { useState } from 'react';
 
             const handleCloseCourseDialog = () => {
                 setOpenCourseDialog(false);
-                setNewCourse({ title: '', description: '' });
+                setNewCourse({ courseName: '', description: '' });
             };
 
             // 添加讲座对话框
@@ -96,7 +96,7 @@ import React, { useState } from 'react';
 
             const handleCloseLectureDialog = () => {
                 setOpenLectureDialog(false);
-                setNewLecture({ title: '', courseId: selectedCourseId });
+                setNewLecture({ courseName: '', courseId: selectedCourseId });
             };
 
             // 编辑课程对话框
@@ -395,7 +395,7 @@ import React, { useState } from 'react';
                                 fullWidth
                                 variant="outlined"
                                 value={newCourse.title}
-                                onChange={(e) => setNewCourse({ ...newCourse, title: e.target.value })}
+                                onChange={(e) => setNewCourse({ ...newCourse, courseName: e.target.value })}
                             />
                             <TextField
                                 margin="dense"
@@ -440,7 +440,7 @@ import React, { useState } from 'react';
                                 fullWidth
                                 variant="outlined"
                                 value={newLecture.title}
-                                onChange={(e) => setNewLecture({ ...newLecture, title: e.target.value })}
+                                onChange={(e) => setNewLecture({ ...newLecture, courseName: e.target.value })}
                             />
                         </DialogContent>
                         <DialogActions>

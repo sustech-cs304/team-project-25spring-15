@@ -9,12 +9,13 @@ import axios from "axios";
  * Get course information for a user
  */
 export async function fetchCourses() {
+  console.log('Feting courses123...')
   try {
-    let coursesUrl = 'http://127.0.0.1:8000/api/course/getCourses';
+    console.log('Feting courses...')
+    let coursesUrl = 'http://47.117.144.50:8000/api/course/getCourses';
     const response = await axios.get(coursesUrl);
-    console.log('Fetched courses:', response);
-    const data = response.data;
-    return data.courses;
+    console.log('Fetched courses in data.ts:', response.data.data);
+    return response.data.data.courses;
   } catch (err) {
     console.error(`Failed to fetch courses infomation:`, err);
   }
@@ -50,7 +51,7 @@ export async function authenticate(
   }
 }
 
-export async function userLogOut(){
+export async function userLogOut() {
   await signOut({ redirectTo: "/" });
 }
 

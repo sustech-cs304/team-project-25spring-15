@@ -11,6 +11,7 @@ interface LectureLayoutProps {
 
 export default async function LectureLayout({ children }: LectureLayoutProps) {
   const courses = await fetchCourses();
+  console.log("Fetched courses in layout:", courses);
 
   return (
     <div>

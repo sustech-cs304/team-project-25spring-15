@@ -43,22 +43,25 @@ export interface Exercise {
 }
 
 export interface Lecture {
-  id: string;
-  title: string;
+  lectureId: number;
+  lectureName: string;
   description?: string;
   status?: 'notStarted' | 'inProgress' | 'done';  // 可选: 添加状态属性
-  courseId?: string; // 添加课程ID引用
+  courseId?: number; // 添加课程ID引用
 }
 
 export interface Course {
-  id: string;
-  title: string;
+  courseId: number;
+  courseName: string;
   description?: string;
+  endTime: string;
+  startTime: string;
+  teacherId: number;
   lectures: Lecture[];
 }
 
 export type User = {
-  id: string;
+  id: number;
   name: string;
   email: string;
   password: string;

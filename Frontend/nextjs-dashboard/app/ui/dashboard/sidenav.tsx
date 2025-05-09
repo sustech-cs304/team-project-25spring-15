@@ -46,25 +46,25 @@ export default function SideNav({ courses }: SidebarProps) {
   const [openLectureDialog, setOpenLectureDialog] = useState(false);
   const [openEditCourseDialog, setOpenEditCourseDialog] = useState(false);
   const [openEditLectureDialog, setOpenEditLectureDialog] = useState(false);
-  const [newCourse, setNewCourse] = useState<Partial<Course>>({ title: '', description: '' });
-  const [newLecture, setNewLecture] = useState<Partial<Lecture>>({ title: '', courseId: '' });
+  const [newCourse, setNewCourse] = useState<Partial<Course>>({ courseName: '', description: '' });
+  const [newLecture, setNewLecture] = useState<Partial<Lecture>>({ lectureName: '', courseId: 0 });
   const [editingCourse, setEditingCourse] = useState<Course | null>(null);
   const [editingLecture, setEditingLecture] = useState<Lecture | null>(null);
-  const [selectedCourseId, setSelectedCourseId] = useState('');
+  const [selectedCourseId, setSelectedCourseId] = useState(0);
   const [localCourses, setLocalCourses] = useState<Course[]>(courses);
 
   // 菜单状态
   const [courseMenuAnchor, setCourseMenuAnchor] = useState<null | HTMLElement>(null);
   const [lectureMenuAnchor, setLectureMenuAnchor] = useState<null | HTMLElement>(null);
-  const [activeCourseId, setActiveCourseId] = useState<string | null>(null);
-  const [activeLectureId, setActiveLectureId] = useState<string | null>(null);
+  const [activeCourseId, setActiveCourseId] = useState<number | null>(null);
+  const [activeLectureId, setActiveLectureId] = useState<number | null>(null);
 
-  const handleCourseClick = (courseId: string) => {
+  const handleCourseClick = (courseId: number) => {
     setOpen((prev) => {
       const newState: Record<string, boolean> = {};
 
       localCourses?.forEach(course => {
-        newState[course.id] = false;
+        newState[course.courseId] = false;
       });
       newState[courseId] = !prev[courseId];
       return newState;
@@ -80,7 +80,7 @@ export default function SideNav({ courses }: SidebarProps) {
   };
 
   // 课程菜单操作
-  const handleCourseMenuOpen = (event: React.MouseEvent<HTMLElement>, courseId: string) => {
+  const handleCourseMenuOpen = (event: React.MouseEvent<HTMLElement>, courseId: number) => {
     event.stopPropagation();
     setCourseMenuAnchor(event.currentTarget);
     setActiveCourseId(courseId);
@@ -92,7 +92,7 @@ export default function SideNav({ courses }: SidebarProps) {
   };
 
   // 讲座菜单操作
-  const handleLectureMenuOpen = (event: React.MouseEvent<HTMLElement>, lectureId: string, courseId: string) => {
+  const handleLectureMenuOpen = (event: React.MouseEvent<HTMLElement>, lectureId: number, courseId: number) => {
     event.stopPropagation();
     setLectureMenuAnchor(event.currentTarget);
     setActiveLectureId(lectureId);
@@ -111,7 +111,7 @@ export default function SideNav({ courses }: SidebarProps) {
 
   const handleCloseCourseDialog = () => {
     setOpenCourseDialog(false);
-    setNewCourse({ title: '', description: '' });
+    setNewCourse({ courseName: '', description: '' });
   };
 
   // 添加讲座对话框
@@ -121,7 +121,7 @@ export default function SideNav({ courses }: SidebarProps) {
 
   const handleCloseLectureDialog = () => {
     setOpenLectureDialog(false);
-    setNewLecture({ title: '', courseId: selectedCourseId });
+    setNewLecture({ lectureName: '', courseId: selectedCourseId });
   };
 
   // 编辑课程对话框
@@ -150,14 +150,14 @@ export default function SideNav({ courses }: SidebarProps) {
 
   // 添加课程
   const handleAddCourse = async () => {
-    if (!newCourse.title) {
+    if (!newCourse.courseName) {
       alert('请输入课程名称');
       return;
     }
 
     try {
       const addedCourse = await CourseAPI.addCourse({
-        title: newCourse.title,
+        courseName: newCourse.courseName,
         description: newCourse.description || '',
       });
 
@@ -172,7 +172,7 @@ export default function SideNav({ courses }: SidebarProps) {
 
   // 添加讲座
   const handleAddLecture = async () => {
-    if (!newLecture.title) {
+    if (!newLecture.lectureName) {
       alert('请输入讲座名称');
       return;
     }
@@ -185,13 +185,13 @@ export default function SideNav({ courses }: SidebarProps) {
 
     try {
       const addedLecture = await LectureAPI.addLecture({
-        title: newLecture.title,
+        courseName: newLecture.lectureName,
         courseId,
       });
 
       setLocalCourses(prevCourses =>
         prevCourses.map(course =>
-          course.id === courseId
+          course.courseId === courseId
             ? {...course, lectures: [...course.lectures, addedLecture]}
             : course
         )
@@ -205,20 +205,20 @@ export default function SideNav({ courses }: SidebarProps) {
 
   // 编辑课程
   const handleEditCourse = async () => {
-    if (!editingCourse || !editingCourse.title) {
+    if (!editingCourse || !editingCourse.courseName) {
       alert('请输入课程名称');
       return;
     }
 
     try {
-      const updatedCourse = await CourseAPI.updateCourse(editingCourse.id, {
-        title: editingCourse.title,
+      const updatedCourse = await CourseAPI.updateCourse(editingCourse.courseId, {
+        courseName: editingCourse.courseName,
         description: editingCourse.description || '',
       });
 
       setLocalCourses(prevCourses =>
         prevCourses.map(course =>
-          course.id === updatedCourse.id ? {...updatedCourse, lectures: course.lectures} : course
+          course.courseId === updatedCourse.id ? {...updatedCourse, lectures: course.lectures} : course
         )
       );
       handleCloseEditCourseDialog();
@@ -230,23 +230,23 @@ export default function SideNav({ courses }: SidebarProps) {
 
   // 编辑讲座
   const handleEditLecture = async () => {
-    if (!editingLecture || !editingLecture.title) {
+    if (!editingLecture || !editingLecture.lectureName) {
       alert('请输入讲座名称');
       return;
     }
 
     try {
-      const updatedLecture = await LectureAPI.updateLecture(editingLecture.id, {
-        title: editingLecture.title,
+      const updatedLecture = await LectureAPI.updateLecture(editingLecture.lectureId, {
+        lectureName: editingLecture.lectureName,
       });
 
       setLocalCourses(prevCourses =>
         prevCourses.map(course =>
-          course.id === editingLecture.courseId
+          course.courseId === editingLecture.courseId
             ? {
               ...course,
               lectures: course.lectures.map(lecture =>
-                lecture.id === updatedLecture.id ? updatedLecture : lecture
+                lecture.lectureId === updatedLecture.id ? updatedLecture : lecture
               ),
             }
             : course
@@ -260,11 +260,11 @@ export default function SideNav({ courses }: SidebarProps) {
   };
 
   // 删除课程
-  const handleDeleteCourse = async (courseId: string) => {
+  const handleDeleteCourse = async (courseId: number) => {
     if (window.confirm('确定要删除该课程吗？所有该课程下的讲座也会被删除。')) {
       try {
         await CourseAPI.deleteCourse(courseId);
-        setLocalCourses(prevCourses => prevCourses.filter(course => course.id !== courseId));
+        setLocalCourses(prevCourses => prevCourses.filter(course => course.courseId !== courseId));
         handleCourseMenuClose();
       } catch (error) {
         console.error('删除课程失败:', error);
@@ -274,14 +274,14 @@ export default function SideNav({ courses }: SidebarProps) {
   };
 
   // 删除讲座
-  const handleDeleteLecture = async (lectureId: string, courseId: string) => {
+  const handleDeleteLecture = async (lectureId: number, courseId: number) => {
     if (window.confirm('确定要删除该讲座吗？')) {
       try {
         await LectureAPI.deleteLecture(lectureId);
         setLocalCourses(prevCourses =>
           prevCourses.map(course =>
-            course.id === courseId
-              ? {...course, lectures: course.lectures.filter(lecture => lecture.id !== lectureId)}
+            course.courseId === courseId
+              ? {...course, lectures: course.lectures.filter(lecture => lecture.lectureId !== lectureId)}
               : course
           )
         );
@@ -310,7 +310,7 @@ export default function SideNav({ courses }: SidebarProps) {
         }}
         component="nav"
         subheader={
-          <Box sx={{ display: 'flex', flexDirection: 'column', p: 1 }}>
+          <Box key="courses-subheader" sx={{ display: 'flex', flexDirection: 'column', p: 1 }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <ListSubheader component="div" sx={{ position: 'static' }}>
                 课程列表
@@ -341,13 +341,13 @@ export default function SideNav({ courses }: SidebarProps) {
         }
       >
         {localCourses?.map((course) => (
-          <div key={course.id}>
-            <ListItemButton onClick={() => handleCourseClick(course.id)}>
+          <div key={course.courseId}>
+            <ListItemButton onClick={() => handleCourseClick(course.courseId)}>
               <ListItemIcon>
                 <LibraryBooksIcon />
               </ListItemIcon>
               <ListItemText
-                primary={course.title}
+                primary={course.courseName}
                 slotProps={{
                   primary: {
                     sx: { fontSize: '18px' },
@@ -356,18 +356,18 @@ export default function SideNav({ courses }: SidebarProps) {
               />
               <IconButton
                 size="small"
-                onClick={(e) => handleCourseMenuOpen(e, course.id)}
+                onClick={(e) => handleCourseMenuOpen(e, course.courseId)}
                 sx={{ mr: 1 }}
               >
                 <MoreVertIcon fontSize="small" />
               </IconButton>
-              {open[course.id] ? <ExpandLess /> : <ExpandMore />}
+              {open[course.courseId] ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
-            <Collapse in={open[course.id]} timeout="auto" unmountOnExit>
+            <Collapse in={open[course.courseId]} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
                 {course.lectures?.map((lecture) => (
                   <ListItemButton
-                    key={lecture.id}
+                    key={lecture.lectureId}
                     sx={{ pl: 4 }}
                     onClick={() => handleSelectLecture(lecture)}
                   >
@@ -375,7 +375,7 @@ export default function SideNav({ courses }: SidebarProps) {
                       <AssignmentIcon />
                     </ListItemIcon>
                     <ListItemText
-                      primary={lecture.title}
+                      primary={lecture.lectureName}
                       slotProps={{
                         primary: {
                           sx: { fontSize: '16px' },
@@ -384,7 +384,7 @@ export default function SideNav({ courses }: SidebarProps) {
                     />
                     <IconButton
                       size="small"
-                      onClick={(e) => handleLectureMenuOpen(e, lecture.id, course.id)}
+                      onClick={(e) => handleLectureMenuOpen(e, lecture.lectureId, course.courseId)}
                     >
                       <MoreVertIcon fontSize="small" />
                     </IconButton>
@@ -404,7 +404,7 @@ export default function SideNav({ courses }: SidebarProps) {
       >
         <MenuItem
           onClick={() => {
-            const course = localCourses.find(course => course.id === activeCourseId);
+            const course = localCourses.find(course => course.courseId === activeCourseId);
             if (course) handleOpenEditCourseDialog(course);
           }}
         >
@@ -425,8 +425,8 @@ export default function SideNav({ courses }: SidebarProps) {
       >
         <MenuItem
           onClick={() => {
-            const course = localCourses.find(c => c.id === selectedCourseId);
-            const lecture = course?.lectures.find(l => l.id === activeLectureId);
+            const course = localCourses.find(c => c.courseId === selectedCourseId);
+            const lecture = course?.lectures.find(l => l.lectureId === activeLectureId);
             if (lecture) handleOpenEditLectureDialog(lecture);
           }}
         >
@@ -450,8 +450,8 @@ export default function SideNav({ courses }: SidebarProps) {
             type="text"
             fullWidth
             variant="outlined"
-            value={newCourse.title}
-            onChange={(e) => setNewCourse({ ...newCourse, title: e.target.value })}
+            value={newCourse.courseName}
+            onChange={(e) => setNewCourse({ ...newCourse, courseName: e.target.value })}
           />
           <TextField
             margin="dense"
@@ -480,11 +480,11 @@ export default function SideNav({ courses }: SidebarProps) {
             <Select
               value={newLecture.courseId || selectedCourseId}
               label="选择课程"
-              onChange={(e) => setNewLecture({ ...newLecture, courseId: e.target.value })}
+              onChange={(e) => setNewLecture({ ...newLecture, courseId: Number(e.target.value) })}
             >
               {localCourses.map((course) => (
-                <MenuItem key={course.id} value={course.id}>
-                  {course.title}
+                <MenuItem key={course.courseId} value={course.courseId}>
+                  {course.courseName}
                 </MenuItem>
               ))}
             </Select>
@@ -495,8 +495,8 @@ export default function SideNav({ courses }: SidebarProps) {
             type="text"
             fullWidth
             variant="outlined"
-            value={newLecture.title}
-            onChange={(e) => setNewLecture({ ...newLecture, title: e.target.value })}
+            value={newLecture.lectureName}
+            onChange={(e) => setNewLecture({ ...newLecture, lectureName: e.target.value })}
           />
         </DialogContent>
         <DialogActions>
@@ -516,8 +516,8 @@ export default function SideNav({ courses }: SidebarProps) {
             type="text"
             fullWidth
             variant="outlined"
-            value={editingCourse?.title || ''}
-            onChange={(e) => setEditingCourse(editingCourse ? {...editingCourse, title: e.target.value} : null)}
+            value={editingCourse?.courseName || ''}
+            onChange={(e) => setEditingCourse(editingCourse ? {...editingCourse, courseName: e.target.value} : null)}
           />
           <TextField
             margin="dense"
@@ -548,8 +548,8 @@ export default function SideNav({ courses }: SidebarProps) {
             type="text"
             fullWidth
             variant="outlined"
-            value={editingLecture?.title || ''}
-            onChange={(e) => setEditingLecture(editingLecture ? {...editingLecture, title: e.target.value} : null)}
+            value={editingLecture?.lectureName || ''}
+            onChange={(e) => setEditingLecture(editingLecture ? {...editingLecture, lectureName: e.target.value} : null)}
           />
         </DialogContent>
         <DialogActions>

@@ -16,10 +16,14 @@ type CourseInfo struct {
 	EndTime     *gtime.Time `json:"endTime" dc:"end time of this course"`
 }
 
-type LectureInfo struct {
-	LectureId         int64  `json:"id" dc:"Id of the lecture"`
-	LecutureName      string `json:"title" dc:"Name of the lecture"`
-	CourseDescription string `json:"description" dc:"description of the lecture"`
+type CourseInfoWithLecture struct {
+	CourseId    int64              `json:"courseId" dc:"id of this course"`
+	TeacherId   int64              `json:"teacherId" dc:"id of teacher"`
+	CourseName  string             `json:"courseName" dc:"name of this course"`
+	Description string             `json:"description" dc:"description of this course"`
+	StartTime   *gtime.Time        `json:"startTime" dc:"start time of this course"`
+	EndTime     *gtime.Time        `json:"endTime" dc:"end time of this course"`
+	Lectures    []*entity.Lectures `json:"lectures" dc:"lectures of this course"`
 }
 
 // 获取课程信息的requset
@@ -42,6 +46,26 @@ type CreateCourseReq struct {
 type CreateCourseRes struct {
 	g.Meta   `mime:"text/html" example:"json"`
 	CourseId int64 `json:"courseId" dc:"id of the new course"`
+}
+
+type GetCourseWithLecturesByCourseIdReq struct {
+	g.Meta   `path:"/api/course/searchCourseWithLectures/{courseId}" method:"get" tags:"Course" summary:"get course info and lectures with courseId"`
+	CourseId int64 `v:"required" dc:"id of the course to find"`
+}
+
+type GetCourseWithLecturesByCourseIdRes struct {
+	g.Meta `mime:"text/html" example:"json"`
+	Course CourseInfoWithLecture `json:"course" dc:"info of the course"`
+}
+
+type GetCourseWithLecturesByStudentIdReq struct {
+	g.Meta    `path:"/api/course/searchCourseWithLectures/{studentId}" method:"get" tags:"Course" summary:"get courses info and lectures info of a user"`
+	StudentId int64 `v:"required" dc:"id of the student to search his/her courses"`
+}
+
+type GetCourseWithLecturesByStudentIdRes struct {
+	g.Meta  `mime:"text/html" example:"json"`
+	Courses []CourseInfoWithLecture `json:"courses" dc:"info of the courses"`
 }
 
 type GetCourseReq struct {

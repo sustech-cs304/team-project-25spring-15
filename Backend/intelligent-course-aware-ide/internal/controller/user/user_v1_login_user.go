@@ -6,6 +6,7 @@ import (
 
 	v1 "intelligent-course-aware-ide/api/user/v1"
 	"intelligent-course-aware-ide/internal/dao"
+	"intelligent-course-aware-ide/utility"
 )
 
 func (c *ControllerV1) LoginUser(ctx context.Context, req *v1.LoginUserReq) (res *v1.LoginUserRes, err error) {
@@ -18,7 +19,7 @@ func (c *ControllerV1) LoginUser(ctx context.Context, req *v1.LoginUserReq) (res
 	if req.UserInfo.Password == "" {
 		return nil, errors.New("password should not be empty")
 	}
-	info := ConstructInfo(req.UserInfo)
+	info := utility.ConstructInfo(req.UserInfo, 0)
 	num, err := dao.Users.Ctx(ctx).Where(info).Count()
 	if err == nil && num == 1 {
 		res.Success = true
