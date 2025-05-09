@@ -1,7 +1,0 @@
-docker exec -it CS304 bash
-
-service mysql start
-
-mysql -u Y -p
-
-123456
