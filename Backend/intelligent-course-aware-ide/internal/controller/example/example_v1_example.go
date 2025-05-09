@@ -10,5 +10,5 @@ func (c *ControllerV1) Example(ctx context.Context, req *v1.ExampleReq) (res *v1
 	res = &v1.ExampleRes{
 		Result: "Success",
 	}
-	return 1, 2
+	return 2, 3
 }
