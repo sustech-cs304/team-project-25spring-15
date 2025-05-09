@@ -3,10 +3,10 @@ package comment
 import (
 	"context"
 
-	"github.com/gogf/gf/v2/frame/g"
-
 	v1 "intelligent-course-aware-ide/api/comment/v1"
 	"intelligent-course-aware-ide/internal/dao"
+
+	"github.com/gogf/gf/frame/g"
 )
 
 func (c *ControllerV1) UpdateComment(ctx context.Context, req *v1.UpdateCommentReq) (res *v1.UpdateCommentRes, err error) {
