@@ -9,9 +9,13 @@ import (
 )
 
 func (c *ControllerV1) GetCourseWithLecturesByStudentId(ctx context.Context, req *v1.GetCourseWithLecturesByStudentIdReq) (res *v1.GetCourseWithLecturesByStudentIdRes, err error) {
+	operatorId, err := c.logins.GetOperatorIdFromJWT(ctx)
+	if err != nil {
+		return nil, err
+	}
 	var courseList []*entity.UserCourseInfo
 	res = &v1.GetCourseWithLecturesByStudentIdRes{}
-	err = dao.UserCourseInfo.Ctx(ctx).Where("userId", req.StudentId).Scan(&courseList)
+	err = dao.UserCourseInfo.Ctx(ctx).Where("userId", operatorId).Scan(&courseList)
 	if err != nil {
 		return res, err
 	}

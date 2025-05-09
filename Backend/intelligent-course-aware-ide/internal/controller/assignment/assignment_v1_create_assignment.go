@@ -9,12 +9,16 @@ import (
 )
 
 func (c *ControllerV1) CreateAssignment(ctx context.Context, req *v1.CreateAssignmentReq) (res *v1.CreateAssignmentRes, err error) {
-	result1, err := c.courses.CheckUserHasFullPermissionOfCourse(ctx, req.UserId, req.NewAssignment.CourseId)
+	operatorId, err := c.logins.GetOperatorIdFromJWT(ctx)
+	if err != nil {
+		return nil, err
+	}
+	result1, err := c.courses.CheckUserHasFullPermissionOfCourse(ctx, operatorId, req.NewAssignment.CourseId)
 	if err != nil {
 		return nil, err
 	}
 
-	result2, err := c.courses.CheckUserHasHalfPermissionOfCourse(ctx, req.UserId, req.NewAssignment.CourseId)
+	result2, err := c.courses.CheckUserHasHalfPermissionOfCourse(ctx, operatorId, req.NewAssignment.CourseId)
 	if err != nil {
 		return nil, err
 	}

@@ -9,15 +9,19 @@ import (
 )
 
 func (c *ControllerV1) DeleteUserFromChat(ctx context.Context, req *v1.DeleteUserFromChatReq) (res *v1.DeleteUserFromChatRes, err error) {
+	operatorId, err := c.logins.GetOperatorIdFromJWT(ctx)
+	if err != nil {
+		return nil, err
+	}
 	res = &v1.DeleteUserFromChatRes{
 		Success: false,
 	}
-	result1, err := c.chats.CheckUserHasFullPermissionOfChat(ctx, req.OperatorId, req.ChatUser.ChatId)
+	result1, err := c.chats.CheckUserHasFullPermissionOfChat(ctx, operatorId, req.ChatUser.ChatId)
 	if err != nil {
 		return res, err
 	}
 
-	result3 := (req.OperatorId == req.ChatUser.ChatId)
+	result3 := (operatorId == req.ChatUser.ChatId)
 
 	if result1 || result3 {
 		_, err = dao.ChatUserInfo.Ctx(ctx).Where(req.ChatUser).Delete()

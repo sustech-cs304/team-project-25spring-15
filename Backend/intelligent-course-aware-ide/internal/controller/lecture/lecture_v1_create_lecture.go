@@ -9,11 +9,16 @@ import (
 )
 
 func (c *ControllerV1) CreateLecture(ctx context.Context, req *v1.CreateLectureReq) (res *v1.CreateLectureRes, err error) {
-	result1, err := c.courses.CheckUserHasFullPermissionOfCourse(ctx, req.UserId, req.NewLecture.CourseId)
+	operaterId, err := c.logins.GetOperatorIdFromJWT(ctx)
 	if err != nil {
 		return nil, err
 	}
-	result2, err := c.courses.CheckUserHasHalfPermissionOfCourse(ctx, req.UserId, req.NewLecture.CourseId)
+
+	result1, err := c.courses.CheckUserHasFullPermissionOfCourse(ctx, operaterId, req.NewLecture.CourseId)
+	if err != nil {
+		return nil, err
+	}
+	result2, err := c.courses.CheckUserHasHalfPermissionOfCourse(ctx, operaterId, req.NewLecture.CourseId)
 	if err != nil {
 		return nil, err
 	}

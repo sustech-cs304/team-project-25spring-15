@@ -64,7 +64,6 @@ type GetAllAssignmentInfoOfALectureRes struct {
 type CreateAssignmentReq struct {
 	g.Meta        `path:"/api/assignment/createAssignment" method:"post" tags:"Assignment" summary:"create assignment"`
 	NewAssignment AssignmentInfo `json:"assignment" dc:"Info of the assignment to create"`
-	UserId        int64          `json:"userId" dc:"Id of the user who want to create assignment"`
 }
 
 type CreateAssignmentRes struct {
@@ -86,7 +85,6 @@ type DeleteAssignmentReq struct {
 	g.Meta       `path:"/api/assignment/deleteAssignment" method:"delete" tags:"Assignment" summary:"delete assignment info"`
 	AssignmentId int64 `v:"required" dc:"id of the assignment to delete"`
 	CourseId     int64 `v:"required" dc:"id of the course"`
-	UserId       int64 `json:"userId" v:"required" dc:"id of the user who want to delete this assignment"`
 }
 
 type DeleteAssignmentRes struct {
@@ -97,7 +95,6 @@ type DeleteAssignmentRes struct {
 type UpdateAssignmentReq struct {
 	g.Meta           `path:"/api/assignment/updateAssignment" method:"put" tags:"Assignment" summary:"update assignment"`
 	UpdateAssignment AssignmentInfo `json:"assignment" dc:"Info of the assignment to update"`
-	UserId           int64          `json:"userId" v:"required" dc:"id of the user who want to update this assignment"`
 }
 
 type UpdateAssignmentRes struct {
@@ -119,7 +116,6 @@ type UploadTestcaseAndAnswerRes struct {
 type DeleteTestcaseAndAnswerReq struct {
 	g.Meta              `path:"/api/assignment/deleteTestcaseAndAnswer" method:"delete" tags:"Assignment" summary:"delete testcase and answer"`
 	TestcaseAndAnswerId int64 `json:"testcaseAndAnswerId" dc:"Id of the testcase and answer"`
-	UserId              int64 `v:"required" dc:"id of the user who want to delete the testcase"`
 	CourseId            int64 `v:"required" dc:"id of the course"`
 }
 
@@ -140,7 +136,6 @@ type AttemptForAssignmentRes struct {
 
 type GetAssignmentFeedbackOfAUserReq struct {
 	g.Meta       `path:"/api/assignment/getAssignmentFeedbackOfAUser" method:"get" tags:"Assignment" summary:"attempt assignment"`
-	UserId       int64 `json:"userId" dc:"Id of the user want to search for feedback"`
 	AssignmentId int64 `v:"required" dc:"id of the assignment to get"`
 }
 

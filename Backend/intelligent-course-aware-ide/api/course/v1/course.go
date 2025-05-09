@@ -40,7 +40,6 @@ type GetAllCoursesInfoRes struct {
 type CreateCourseReq struct {
 	g.Meta    `path:"/api/course/createCourse" method:"post" tags:"Course" summary:"create course"`
 	NewCourse CourseInfo `json:"course" dc:"Info of the course to create"`
-	UserId    int64      `json:"userId" dc:"Id of the user who want to create course"`
 }
 
 type CreateCourseRes struct {
@@ -59,8 +58,7 @@ type GetCourseWithLecturesByCourseIdRes struct {
 }
 
 type GetCourseWithLecturesByStudentIdReq struct {
-	g.Meta    `path:"/api/course/searchCourseWithLectures/{studentId}" method:"get" tags:"Course" summary:"get courses info and lectures info of a user"`
-	StudentId int64 `v:"required" dc:"id of the student to search his/her courses"`
+	g.Meta `path:"/api/course/searchCourseWithLectures/byStudentId" method:"get" tags:"Course" summary:"get courses info and lectures info of a user"`
 }
 
 type GetCourseWithLecturesByStudentIdRes struct {
@@ -81,7 +79,6 @@ type GetCourseRes struct {
 type DeleteCourseReq struct {
 	g.Meta   `path:"/api/course/deleteCourse" method:"delete" tags:"Course" summary:"delete course info"`
 	CourseId int64 `v:"required" dc:"id of the course to delete"`
-	UserId   int64 `json:"userId" v:"required" dc:"id of the user who want to delete this course"`
 }
 
 type DeleteCourseRes struct {
@@ -92,7 +89,6 @@ type DeleteCourseRes struct {
 type UpdateCourseReq struct {
 	g.Meta       `path:"/api/course/updateCourse" method:"put" tags:"Course" summary:"update course"`
 	UpdateCourse CourseInfo `json:"course" dc:"Info of the course to update"`
-	UserId       int64      `json:"userId" v:"required" dc:"id of the user who want to update this course"`
 }
 
 type UpdateCourseRes struct {
@@ -103,7 +99,6 @@ type UpdateCourseRes struct {
 type AssignCourseAssistantReq struct {
 	g.Meta      `path:"/api/course/assignCourseAssistant" method:"post" tags:"Course" summary:"assign course assistant"`
 	CourseId    int64 `json:"courseId" dc:"Id of the course"`
-	UserId      int64 `json:"userId" v:"required" dc:"id of the user who want to assign assistant"`
 	AssistantId int64 `json:"assistantId" v:"required" dc:"id of the user who will be the assistant"`
 }
 
@@ -115,7 +110,6 @@ type AssignCourseAssistantRes struct {
 type UnassignCourseAssistantReq struct {
 	g.Meta      `path:"/api/course/unassignCourseAssistant" method:"delete" tags:"Course" summary:"unassign course assistant"`
 	CourseId    int64 `json:"courseId" dc:"Id of the course"`
-	UserId      int64 `json:"userId" v:"required" dc:"id of the user who want to unassign assistant"`
 	AssistantId int64 `json:"assistantId" v:"required" dc:"id of the user who will not be the assistant any more"`
 }
 

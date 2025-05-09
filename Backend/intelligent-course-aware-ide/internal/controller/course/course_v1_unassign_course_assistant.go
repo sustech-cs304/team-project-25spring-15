@@ -10,11 +10,15 @@ import (
 )
 
 func (c *ControllerV1) UnassignCourseAssistant(ctx context.Context, req *v1.UnassignCourseAssistantReq) (res *v1.UnassignCourseAssistantRes, err error) {
-	result, err := c.courses.CheckUserHasFullPermissionOfCourse(ctx, req.UserId, req.CourseId)
+	operatorId, err := c.logins.GetOperatorIdFromJWT(ctx)
 	if err != nil {
 		return nil, err
 	}
-	if result || (req.AssistantId == req.UserId) {
+	result, err := c.courses.CheckUserHasFullPermissionOfCourse(ctx, operatorId, req.CourseId)
+	if err != nil {
+		return nil, err
+	}
+	if result || (req.AssistantId == operatorId) {
 		_, err := dao.CourseAssistants.Ctx(ctx).Where(do.CourseAssistants{
 			CourseId:    req.CourseId,
 			AssistantId: req.AssistantId,

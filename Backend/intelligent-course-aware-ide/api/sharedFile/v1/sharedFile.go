@@ -23,20 +23,20 @@ type UpdateSharedFileReq struct {
 type UpdateSharedFileRes struct {
 }
 
-type sharedFileUserGetInReq struct {
+type SharedFileUserGetInReq struct {
 	g.Meta `path:"/api/sharedFile/userGetIn" method:"post" tags:"sharedFile" summary:"user get in shared file"`
 	FileId int64 `p:"fileId" v:"required"`
 	UserId int64 `p:"userId" v:"required"`
 }
 
-type sharedFileUserGetInRes struct {
+type SharedFileUserGetInRes struct {
 }
 
-type sharedFileUserGetOutReq struct {
+type SharedFileUserGetOutReq struct {
 	g.Meta `path:"/api/sharedFile/userGetOut" method:"post" tags:"sharedFile" summary:"user get out shared file"`
 	FileId int64 `p:"fileId" v:"required"`
 	UserId int64 `p:"userId" v:"required"`
 }
 
-type sharedFileUserGetOutRes struct {
+type SharedFileUserGetOutRes struct {
 }

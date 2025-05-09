@@ -10,15 +10,20 @@ import (
 )
 
 func (c *ControllerV1) UpdateLecture(ctx context.Context, req *v1.UpdateLectureReq) (res *v1.UpdateLectureRes, err error) {
+	operaterId, err := c.logins.GetOperatorIdFromJWT(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	res = &v1.UpdateLectureRes{
 		Success: false,
 	}
 
-	result1, err := c.courses.CheckUserHasFullPermissionOfCourse(ctx, req.UserId, req.UpdateLecture.CourseId)
+	result1, err := c.courses.CheckUserHasFullPermissionOfCourse(ctx, operaterId, req.UpdateLecture.CourseId)
 	if err != nil {
 		return res, err
 	}
-	result2, err := c.courses.CheckUserHasHalfPermissionOfCourse(ctx, req.UserId, req.UpdateLecture.CourseId)
+	result2, err := c.courses.CheckUserHasHalfPermissionOfCourse(ctx, operaterId, req.UpdateLecture.CourseId)
 	if err != nil {
 		return res, err
 	}

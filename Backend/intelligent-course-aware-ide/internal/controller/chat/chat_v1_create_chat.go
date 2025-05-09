@@ -8,7 +8,11 @@ import (
 )
 
 func (c *ControllerV1) CreateChat(ctx context.Context, req *v1.CreateChatReq) (res *v1.CreateChatRes, err error) {
+	operatorId, err := c.logins.GetOperatorIdFromJWT(ctx)
+	if err != nil {
+		return nil, err
+	}
 	res = &v1.CreateChatRes{}
-	res.ChatId, err = dao.Chats.Ctx(ctx).Data("ownerId", req.UserId).InsertAndGetId()
+	res.ChatId, err = dao.Chats.Ctx(ctx).Data("ownerId", operatorId).InsertAndGetId()
 	return res, err
 }

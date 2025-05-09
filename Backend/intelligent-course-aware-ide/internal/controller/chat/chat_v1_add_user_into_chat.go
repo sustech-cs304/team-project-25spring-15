@@ -9,14 +9,18 @@ import (
 )
 
 func (c *ControllerV1) AddUserIntoChat(ctx context.Context, req *v1.AddUserIntoChatReq) (res *v1.AddUserIntoChatRes, err error) {
+	operatorId, err := c.logins.GetOperatorIdFromJWT(ctx)
+	if err != nil {
+		return nil, err
+	}
 	res = &v1.AddUserIntoChatRes{
 		Success: false,
 	}
-	result1, err := c.chats.CheckUserHasFullPermissionOfChat(ctx, req.OperatorId, req.ChatUser.ChatId)
+	result1, err := c.chats.CheckUserHasFullPermissionOfChat(ctx, operatorId, req.ChatUser.ChatId)
 	if err != nil {
 		return res, err
 	}
-	result2, err := c.chats.CheckUserHasHalfPermissionOfChat(ctx, req.OperatorId, req.ChatUser.ChatId)
+	result2, err := c.chats.CheckUserHasHalfPermissionOfChat(ctx, operatorId, req.ChatUser.ChatId)
 	if err != nil {
 		return res, err
 	}

@@ -9,10 +9,14 @@ import (
 )
 
 func (c *ControllerV1) DeleteChat(ctx context.Context, req *v1.DeleteChatReq) (res *v1.DeleteChatRes, err error) {
+	operatorId, err := c.logins.GetOperatorIdFromJWT(ctx)
+	if err != nil {
+		return nil, err
+	}
 	res = &v1.DeleteChatRes{
 		Success: false,
 	}
-	result1, err := c.chats.CheckUserHasFullPermissionOfChat(ctx, req.UserId, req.ChatId)
+	result1, err := c.chats.CheckUserHasFullPermissionOfChat(ctx, operatorId, req.ChatId)
 	if err != nil {
 		return res, err
 	}

@@ -10,7 +10,12 @@ import (
 )
 
 func (c *ControllerV1) CreateCourse(ctx context.Context, req *v1.CreateCourseReq) (res *v1.CreateCourseRes, err error) {
-	if c.users.CheckUserIsStudent(ctx, req.UserId) {
+	operaterId, err := c.logins.GetOperatorIdFromJWT(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	if c.users.CheckUserIsStudent(ctx, operaterId) {
 		return nil, errors.New("please check whether you are superuser or teacher")
 	}
 

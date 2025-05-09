@@ -1,5 +1,7 @@
 package consts
 
+import "time"
+
 // Operation url
 const TargetUrl string = "http://47.117.144.50:8000"
 
@@ -44,3 +46,9 @@ const TestRunnablePythonFilePath string = "/usr/test/attempt2.py"
 
 // Path of wrong python file
 const TestRPythonFilePath string = "/usr/test/attempt4.py"
+
+// JWT key
+const JWTKey string = "d8f3a29c4e7b16f5c0a9d3b1e4f6782a"
+
+// JWT valid time
+const JWTTime time.Duration = 6

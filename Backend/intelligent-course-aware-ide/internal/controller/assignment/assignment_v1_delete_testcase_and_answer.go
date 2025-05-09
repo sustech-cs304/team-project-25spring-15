@@ -9,12 +9,15 @@ import (
 )
 
 func (c *ControllerV1) DeleteTestcaseAndAnswer(ctx context.Context, req *v1.DeleteTestcaseAndAnswerReq) (res *v1.DeleteTestcaseAndAnswerRes, err error) {
-
-	result1, err := c.courses.CheckUserHasFullPermissionOfCourse(ctx, req.UserId, req.CourseId)
+	operatorId, err := c.logins.GetOperatorIdFromJWT(ctx)
 	if err != nil {
 		return nil, err
 	}
-	result2, err := c.courses.CheckUserHasHalfPermissionOfCourse(ctx, req.UserId, req.CourseId)
+	result1, err := c.courses.CheckUserHasFullPermissionOfCourse(ctx, operatorId, req.CourseId)
+	if err != nil {
+		return nil, err
+	}
+	result2, err := c.courses.CheckUserHasHalfPermissionOfCourse(ctx, operatorId, req.CourseId)
 	if err != nil {
 		return nil, err
 	}
