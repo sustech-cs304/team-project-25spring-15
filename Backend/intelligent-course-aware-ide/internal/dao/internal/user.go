@@ -21,7 +21,7 @@ type UserDao struct {
 
 // UserColumns defines and stores column names for the table user.
 type UserColumns struct {
-	Id     string // user lectureId
+	Id     string // user id
 	Name   string // user name
 	Status string // user status
 	Age    string // user age
@@ -29,7 +29,7 @@ type UserColumns struct {
 
 // userColumns holds the columns for the table user.
 var userColumns = UserColumns{
-	Id:     "lectureId",
+	Id:     "id",
 	Name:   "name",
 	Status: "status",
 	Age:    "age",

@@ -8,18 +8,22 @@ import (
 )
 
 type CourseInfo struct {
-	CourseId    int64       `json:"courseId" dc:"lectureId of this course"`
-	TeacherId   int64       `json:"teacherId" dc:"lectureId of teacher"`
-	CourseName  string      `json:"lectureName" dc:"name of this course"`
+	CourseId    int64       `json:"courseId" dc:"id of this course"`
+	TeacherId   int64       `json:"teacherId" dc:"id of teacher"`
+	CourseName  string      `json:"courseName" dc:"name of this course"`
 	Description string      `json:"description" dc:"description of this course"`
 	StartTime   *gtime.Time `json:"startTime" dc:"start time of this course"`
 	EndTime     *gtime.Time `json:"endTime" dc:"end time of this course"`
 }
 
-type LectureInfo struct {
-	LectureId         int64  `json:"lectureId" dc:"Id of the lecture"`
-	LecutureName      string `json:"lectureName" dc:"Name of the lecture"`
-	CourseDescription string `json:"description" dc:"description of the lecture"`
+type CourseInfoWithLecture struct {
+	CourseId    int64              `json:"courseId" dc:"id of this course"`
+	TeacherId   int64              `json:"teacherId" dc:"id of teacher"`
+	CourseName  string             `json:"courseName" dc:"name of this course"`
+	Description string             `json:"description" dc:"description of this course"`
+	StartTime   *gtime.Time        `json:"startTime" dc:"start time of this course"`
+	EndTime     *gtime.Time        `json:"endTime" dc:"end time of this course"`
+	Lectures    []*entity.Lectures `json:"lectures" dc:"lectures of this course"`
 }
 
 // 获取课程信息的requset
@@ -41,12 +45,32 @@ type CreateCourseReq struct {
 
 type CreateCourseRes struct {
 	g.Meta   `mime:"text/html" example:"json"`
-	CourseId int64 `json:"courseId" dc:"lectureId of the new course"`
+	CourseId int64 `json:"courseId" dc:"id of the new course"`
+}
+
+type GetCourseWithLecturesByCourseIdReq struct {
+	g.Meta   `path:"/api/course/searchCourseWithLectures/{courseId}" method:"get" tags:"Course" summary:"get course info"`
+	CourseId int64 `v:"required" dc:"id of the course to find"`
+}
+
+type GetCourseWithLecturesByCourseIdRes struct {
+	g.Meta `mime:"text/html" example:"json"`
+	Course CourseInfoWithLecture `json:"course" dc:"info of the course"`
+}
+
+type GetCourseWithLecturesByStudentIdReq struct {
+	g.Meta    `path:"/api/course/searchCourseWithLectures/{studentId}" method:"get" tags:"Course" summary:"get course info"`
+	StudentId int64 `v:"required" dc:"id of the student to search his/her courses"`
+}
+
+type GetCourseWithLecturesByStudentIdRes struct {
+	g.Meta  `mime:"text/html" example:"json"`
+	Courses []CourseInfoWithLecture `json:"courses" dc:"info of the courses"`
 }
 
 type GetCourseReq struct {
 	g.Meta   `path:"/api/course/searchCourse/{courseId}" method:"get" tags:"Course" summary:"get course info"`
-	CourseId int64 `v:"required" dc:"lectureId of the course to find"`
+	CourseId int64 `v:"required" dc:"id of the course to find"`
 }
 
 type GetCourseRes struct {
@@ -56,8 +80,8 @@ type GetCourseRes struct {
 
 type DeleteCourseReq struct {
 	g.Meta   `path:"/api/course/deleteCourse" method:"delete" tags:"Course" summary:"delete course info"`
-	CourseId int64 `v:"required" dc:"lectureId of the course to delete"`
-	UserId   int64 `json:"userId" v:"required" dc:"lectureId of the user who want to delete this course"`
+	CourseId int64 `v:"required" dc:"id of the course to delete"`
+	UserId   int64 `json:"userId" v:"required" dc:"id of the user who want to delete this course"`
 }
 
 type DeleteCourseRes struct {
@@ -68,7 +92,7 @@ type DeleteCourseRes struct {
 type UpdateCourseReq struct {
 	g.Meta       `path:"/api/course/updateCourse" method:"put" tags:"Course" summary:"update course"`
 	UpdateCourse CourseInfo `json:"course" dc:"Info of the course to update"`
-	UserId       int64      `json:"userId" v:"required" dc:"lectureId of the user who want to update this course"`
+	UserId       int64      `json:"userId" v:"required" dc:"id of the user who want to update this course"`
 }
 
 type UpdateCourseRes struct {
@@ -79,8 +103,8 @@ type UpdateCourseRes struct {
 type AssignCourseAssistantReq struct {
 	g.Meta      `path:"/api/course/assignCourseAssistant" method:"post" tags:"Course" summary:"assign course assistant"`
 	CourseId    int64 `json:"courseId" dc:"Id of the course"`
-	UserId      int64 `json:"userId" v:"required" dc:"lectureId of the user who want to assign assistant"`
-	AssistantId int64 `json:"assistantId" v:"required" dc:"lectureId of the user who will be the assistant"`
+	UserId      int64 `json:"userId" v:"required" dc:"id of the user who want to assign assistant"`
+	AssistantId int64 `json:"assistantId" v:"required" dc:"id of the user who will be the assistant"`
 }
 
 type AssignCourseAssistantRes struct {
@@ -91,8 +115,8 @@ type AssignCourseAssistantRes struct {
 type UnassignCourseAssistantReq struct {
 	g.Meta      `path:"/api/course/unassignCourseAssistant" method:"delete" tags:"Course" summary:"unassign course assistant"`
 	CourseId    int64 `json:"courseId" dc:"Id of the course"`
-	UserId      int64 `json:"userId" v:"required" dc:"lectureId of the user who want to unassign assistant"`
-	AssistantId int64 `json:"assistantId" v:"required" dc:"lectureId of the user who will not be the assistant any more"`
+	UserId      int64 `json:"userId" v:"required" dc:"id of the user who want to unassign assistant"`
+	AssistantId int64 `json:"assistantId" v:"required" dc:"id of the user who will not be the assistant any more"`
 }
 
 type UnassignCourseAssistantRes struct {

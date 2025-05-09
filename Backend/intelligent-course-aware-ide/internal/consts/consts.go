@@ -1,5 +1,7 @@
 package consts
 
+const TargetUrl string = "http://47.117.144.50:8000"
+
 const TargetDockerName string = "CS304"
 const TargetPythonDockerName string = TargetDockerName
 const TargetCDockerName string = TargetDockerName

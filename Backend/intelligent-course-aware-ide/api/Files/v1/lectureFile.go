@@ -13,28 +13,28 @@ type UploadLectureFileReq struct {
 
 type UpdateLectureFileReq struct {
 	g.Meta `path:"/api/Files/lectureFile/{FileId}" method:"put" tags:"file" summary:"update a lectureFile"`
-	FileId int64             `v:"required" dc:"file lectureId"`
+	FileId int64             `v:"required" dc:"file id"`
 	File   *ghttp.UploadFile `p:"file" v:"required"`
 }
 
 type DeleteLectureFileReq struct {
 	g.Meta `path:"/api/Files/lectureFile/{FileId}" method:"delete" tags:"file" summary:"delete lecture File"`
-	FileId int64 `v:"required" dc:"an unique file lectureId"`
+	FileId int64 `v:"required" dc:"an unique file id"`
 }
 
 type GetLectureFileReq struct {
 	g.Meta `path:"/api/Files/lectureFile/{FileId}" method:"get" tags:"file" summary:"get lecture File"`
-	FileId int64 `v:"required" dc:"an unique file lectureId"`
+	FileId int64 `v:"required" dc:"an unique file id"`
 }
 
 type UploadLectureFileRes struct {
 	Result bool  `json:"result" dc:"is OK or not"`
-	FileId int64 `json:"fileId" dc:"file lectureId"`
+	FileId int64 `json:"fileId" dc:"file id"`
 }
 
 type UpdateLectureFileRes struct {
 	Result bool  `json:"result" dc:"is OK or not"`
-	FileId int64 `json:"fileId" dc:"file lectureId"`
+	FileId int64 `json:"fileId" dc:"file id"`
 }
 
 type DeleteLectureFileRes struct {

@@ -22,7 +22,7 @@ func (c *ControllerV1) DeleteLectureFile(ctx context.Context, req *v1.DeleteLect
 	}
 
 	var filePath string
-	if err = g.DB().Model("Files").Where("lectureId", req.FileId).Fields("storePath").Scan(&filePath); err != nil {
+	if err = g.DB().Model("Files").Where("id", req.FileId).Fields("storePath").Scan(&filePath); err != nil {
 		return nil, err
 	}
 

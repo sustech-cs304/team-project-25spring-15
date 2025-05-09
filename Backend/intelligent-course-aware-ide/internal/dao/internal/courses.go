@@ -32,7 +32,7 @@ type CoursesColumns struct {
 var coursesColumns = CoursesColumns{
 	CourseId:    "courseId",
 	TeacherId:   "teacherId",
-	CourseName:  "lectureName",
+	CourseName:  "courseName",
 	Description: "description",
 	StartTime:   "startTime",
 	EndTime:     "endTime",
