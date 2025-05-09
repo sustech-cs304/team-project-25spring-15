@@ -175,7 +175,7 @@ CREATE TABLE SharedFiles(
     FOREIGN KEY (sharedLogId) REFERENCES Files(fileId) ON DELETE CASCADE
 );
 CREATE TABLE SharedTasks(
-    sharedFileId BIGINT NOT NULL,
+    sharedFileId BIGINT NOT NULL PRIMARY KEY,
     userId BIGINT NOT NULL,
     isOnline INT NOT NULL,
     FOREIGN KEY (sharedFileId) REFERENCES SharedFiles(sharedFileId) ON DELETE CASCADE,
