@@ -50,7 +50,8 @@ jobs:
           fi
 
       - name: Go vet
-        run: go vet team-project-25spring-15/Backend/intelligent-course-aware-ide/...
+        run: |
+          ls && go vet team-project-25spring-15/Backend/intelligent-course-aware-ide/...
 
       - name: Go build (optional)
         run: go build team-project-25spring-15/Backend/intelligent-course-aware-ide/...
