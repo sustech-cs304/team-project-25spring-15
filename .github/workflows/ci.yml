@@ -51,10 +51,13 @@ jobs:
 
       - name: Go vet
         run: |
-          ls && go vet team-project-25spring-15/Backend/intelligent-course-aware-ide/...
+          cd Backend/intelligent-course-aware-ide
+          go vet ./...
 
       - name: Go build (optional)
-        run: go build team-project-25spring-15/Backend/intelligent-course-aware-ide/...
+        run: |
+          cd Backend/intelligent-course-aware-ide
+          go build ./...
 
       - name: Install golangci-lint
         run: |
@@ -62,4 +65,6 @@ jobs:
           echo "$GITHUB_WORKSPACE/bin" >> $GITHUB_PATH
 
       - name: Run golangci-lint
-        run: golangci-lint run team-project-25spring-15/Backend/intelligent-course-aware-ide/...
+        run: |
+          cd Backend/intelligent-course-aware-ide
+          golangci-lint run ./...
