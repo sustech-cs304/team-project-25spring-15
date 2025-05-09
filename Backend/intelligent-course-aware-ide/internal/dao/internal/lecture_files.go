@@ -13,9 +13,10 @@ import (
 
 // LectureFilesDao is the data access object for the table LectureFiles.
 type LectureFilesDao struct {
-	table   string              // table is the underlying table name of the DAO.
-	group   string              // group is the database configuration group name of the current DAO.
-	columns LectureFilesColumns // columns contains all the column names of Table for convenient usage.
+	table    string              // table is the underlying table name of the DAO.
+	group    string              // group is the database configuration group name of the current DAO.
+	columns  LectureFilesColumns // columns contains all the column names of Table for convenient usage.
+	handlers []gdb.ModelHandler  // handlers for customized model modification.
 }
 
 // LectureFilesColumns defines and stores column names for the table LectureFiles.
@@ -31,11 +32,12 @@ var lectureFilesColumns = LectureFilesColumns{
 }
 
 // NewLectureFilesDao creates and returns a new DAO object for table data access.
-func NewLectureFilesDao() *LectureFilesDao {
+func NewLectureFilesDao(handlers ...gdb.ModelHandler) *LectureFilesDao {
 	return &LectureFilesDao{
-		group:   "default",
-		table:   "LectureFiles",
-		columns: lectureFilesColumns,
+		group:    "default",
+		table:    "LectureFiles",
+		columns:  lectureFilesColumns,
+		handlers: handlers,
 	}
 }
 
@@ -61,7 +63,11 @@ func (dao *LectureFilesDao) Group() string {
 
 // Ctx creates and returns a Model for the current DAO. It automatically sets the context for the current operation.
 func (dao *LectureFilesDao) Ctx(ctx context.Context) *gdb.Model {
-	return dao.DB().Model(dao.table).Safe().Ctx(ctx)
+	model := dao.DB().Model(dao.table)
+	for _, handler := range dao.handlers {
+		model = handler(model)
+	}
+	return model.Safe().Ctx(ctx)
 }
 
 // Transaction wraps the transaction logic using function f.

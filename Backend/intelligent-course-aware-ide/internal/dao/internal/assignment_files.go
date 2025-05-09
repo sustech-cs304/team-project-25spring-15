@@ -13,9 +13,10 @@ import (
 
 // AssignmentFilesDao is the data access object for the table AssignmentFiles.
 type AssignmentFilesDao struct {
-	table   string                 // table is the underlying table name of the DAO.
-	group   string                 // group is the database configuration group name of the current DAO.
-	columns AssignmentFilesColumns // columns contains all the column names of Table for convenient usage.
+	table    string                 // table is the underlying table name of the DAO.
+	group    string                 // group is the database configuration group name of the current DAO.
+	columns  AssignmentFilesColumns // columns contains all the column names of Table for convenient usage.
+	handlers []gdb.ModelHandler     // handlers for customized model modification.
 }
 
 // AssignmentFilesColumns defines and stores column names for the table AssignmentFiles.
@@ -33,11 +34,12 @@ var assignmentFilesColumns = AssignmentFilesColumns{
 }
 
 // NewAssignmentFilesDao creates and returns a new DAO object for table data access.
-func NewAssignmentFilesDao() *AssignmentFilesDao {
+func NewAssignmentFilesDao(handlers ...gdb.ModelHandler) *AssignmentFilesDao {
 	return &AssignmentFilesDao{
-		group:   "default",
-		table:   "AssignmentFiles",
-		columns: assignmentFilesColumns,
+		group:    "default",
+		table:    "AssignmentFiles",
+		columns:  assignmentFilesColumns,
+		handlers: handlers,
 	}
 }
 
@@ -63,7 +65,11 @@ func (dao *AssignmentFilesDao) Group() string {
 
 // Ctx creates and returns a Model for the current DAO. It automatically sets the context for the current operation.
 func (dao *AssignmentFilesDao) Ctx(ctx context.Context) *gdb.Model {
-	return dao.DB().Model(dao.table).Safe().Ctx(ctx)
+	model := dao.DB().Model(dao.table)
+	for _, handler := range dao.handlers {
+		model = handler(model)
+	}
+	return model.Safe().Ctx(ctx)
 }
 
 // Transaction wraps the transaction logic using function f.

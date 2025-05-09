@@ -11,60 +11,60 @@ import (
 	"github.com/gogf/gf/v2/frame/g"
 )
 
-// UserFileInfoDao is the data access object for the table UserFileInfo.
-type UserFileInfoDao struct {
-	table    string              // table is the underlying table name of the DAO.
-	group    string              // group is the database configuration group name of the current DAO.
-	columns  UserFileInfoColumns // columns contains all the column names of Table for convenient usage.
-	handlers []gdb.ModelHandler  // handlers for customized model modification.
+// SharedTasksDao is the data access object for the table SharedTasks.
+type SharedTasksDao struct {
+	table    string             // table is the underlying table name of the DAO.
+	group    string             // group is the database configuration group name of the current DAO.
+	columns  SharedTasksColumns // columns contains all the column names of Table for convenient usage.
+	handlers []gdb.ModelHandler // handlers for customized model modification.
 }
 
-// UserFileInfoColumns defines and stores column names for the table UserFileInfo.
-type UserFileInfoColumns struct {
+// SharedTasksColumns defines and stores column names for the table SharedTasks.
+type SharedTasksColumns struct {
+	SharedFileId string //
 	UserId       string //
-	AssignmentId string //
-	FileId       string //
+	IsOnline     string //
 }
 
-// userFileInfoColumns holds the columns for the table UserFileInfo.
-var userFileInfoColumns = UserFileInfoColumns{
+// sharedTasksColumns holds the columns for the table SharedTasks.
+var sharedTasksColumns = SharedTasksColumns{
+	SharedFileId: "sharedFileId",
 	UserId:       "userId",
-	AssignmentId: "assignmentId",
-	FileId:       "fileId",
+	IsOnline:     "isOnline",
 }
 
-// NewUserFileInfoDao creates and returns a new DAO object for table data access.
-func NewUserFileInfoDao(handlers ...gdb.ModelHandler) *UserFileInfoDao {
-	return &UserFileInfoDao{
+// NewSharedTasksDao creates and returns a new DAO object for table data access.
+func NewSharedTasksDao(handlers ...gdb.ModelHandler) *SharedTasksDao {
+	return &SharedTasksDao{
 		group:    "default",
-		table:    "UserFileInfo",
-		columns:  userFileInfoColumns,
+		table:    "SharedTasks",
+		columns:  sharedTasksColumns,
 		handlers: handlers,
 	}
 }
 
 // DB retrieves and returns the underlying raw database management object of the current DAO.
-func (dao *UserFileInfoDao) DB() gdb.DB {
+func (dao *SharedTasksDao) DB() gdb.DB {
 	return g.DB(dao.group)
 }
 
 // Table returns the table name of the current DAO.
-func (dao *UserFileInfoDao) Table() string {
+func (dao *SharedTasksDao) Table() string {
 	return dao.table
 }
 
 // Columns returns all column names of the current DAO.
-func (dao *UserFileInfoDao) Columns() UserFileInfoColumns {
+func (dao *SharedTasksDao) Columns() SharedTasksColumns {
 	return dao.columns
 }
 
 // Group returns the database configuration group name of the current DAO.
-func (dao *UserFileInfoDao) Group() string {
+func (dao *SharedTasksDao) Group() string {
 	return dao.group
 }
 
 // Ctx creates and returns a Model for the current DAO. It automatically sets the context for the current operation.
-func (dao *UserFileInfoDao) Ctx(ctx context.Context) *gdb.Model {
+func (dao *SharedTasksDao) Ctx(ctx context.Context) *gdb.Model {
 	model := dao.DB().Model(dao.table)
 	for _, handler := range dao.handlers {
 		model = handler(model)
@@ -78,6 +78,6 @@ func (dao *UserFileInfoDao) Ctx(ctx context.Context) *gdb.Model {
 //
 // Note: Do not commit or roll back the transaction in function f,
 // as it is automatically handled by this function.
-func (dao *UserFileInfoDao) Transaction(ctx context.Context, f func(ctx context.Context, tx gdb.TX) error) (err error) {
+func (dao *SharedTasksDao) Transaction(ctx context.Context, f func(ctx context.Context, tx gdb.TX) error) (err error) {
 	return dao.Ctx(ctx).Transaction(ctx, f)
 }
