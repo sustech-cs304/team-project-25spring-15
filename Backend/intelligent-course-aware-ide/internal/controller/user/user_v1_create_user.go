@@ -15,8 +15,8 @@ func (c *ControllerV1) CreateUser(ctx context.Context, req *v1.CreateUserReq) (r
 		UserSign:   req.NewUser.UserSign,
 		University: req.NewUser.University,
 		Birthday:   req.NewUser.Birthday,
-		IdentityU:   req.NewUser.Identity,
-		PasswordU:   req.NewUser.Password,
+		IdentityU:  req.NewUser.Identity,
+		PasswordU:  req.NewUser.Password,
 	}).InsertAndGetId()
 
 	if err != nil {

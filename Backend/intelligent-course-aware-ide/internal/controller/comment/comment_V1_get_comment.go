@@ -1,8 +1,8 @@
 package comment
 
 import (
-	"fmt"
 	"context"
+	"fmt"
 	//"github.com/gogf/gf/v2/frame/g"
 	"intelligent-course-aware-ide/api/comment/v1"
 	"intelligent-course-aware-ide/internal/dao"
@@ -15,5 +15,5 @@ func (c *ControllerV1) GetComment(ctx context.Context, req *v1.GetCommentReq) (r
 		LectureId: req.LectureId,
 	}).Scan(&res.Comments)
 	fmt.Println("Fetched Comments:", res.Comments)
-	return res,err
+	return res, err
 }

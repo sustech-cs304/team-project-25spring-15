@@ -12,12 +12,12 @@ func (c *ControllerV1) UpdateComment(ctx context.Context, req *v1.UpdateCommentR
 	res = &v1.UpdateCommentRes{
 		Success: false,
 	}
-	_,err = dao.Comment.Ctx(ctx).Data(g.Map{
-		"likes":req.Likes,
-	}).Where("commentId",req.CommentId).Update()
+	_, err = dao.Comment.Ctx(ctx).Data(g.Map{
+		"likes": req.Likes,
+	}).Where("commentId", req.CommentId).Update()
 	if err != nil {
-		return res,err
+		return res, err
 	}
 	res.Success = true
-	return res, nil 
+	return res, nil
 }

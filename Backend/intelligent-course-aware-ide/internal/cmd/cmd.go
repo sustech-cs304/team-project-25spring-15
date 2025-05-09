@@ -11,11 +11,11 @@ import (
 	"intelligent-course-aware-ide/internal/controller/Files"
 	"intelligent-course-aware-ide/internal/controller/assignment"
 	"intelligent-course-aware-ide/internal/controller/chat"
+	"intelligent-course-aware-ide/internal/controller/comment"
 	"intelligent-course-aware-ide/internal/controller/course"
 	"intelligent-course-aware-ide/internal/controller/lecture"
 	"intelligent-course-aware-ide/internal/controller/runner"
 	"intelligent-course-aware-ide/internal/controller/user"
-	"intelligent-course-aware-ide/internal/controller/comment"
 )
 
 var (

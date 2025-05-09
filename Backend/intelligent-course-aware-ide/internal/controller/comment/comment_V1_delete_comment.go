@@ -9,23 +9,23 @@ import (
 )
 
 func (c *ControllerV1) DeleteComment(ctx context.Context, req *v1.DeleteCommentReq) (res *v1.DeleteCommentRes, err error) {
-	result, err := CheckUserHasPermissionOfComment(ctx,req.UserId,req.CommentId)
+	result, err := CheckUserHasPermissionOfComment(ctx, req.UserId, req.CommentId)
 	if err != nil {
 		res = &v1.DeleteCommentRes{
 			Success: false,
 		}
-		return res,err
+		return res, err
 	}
 	if result {
-		_,err = dao.Comment.Ctx(ctx).WherePri(req.CommentId).Delete()
-		if err != nil{
-			return nil,err
+		_, err = dao.Comment.Ctx(ctx).WherePri(req.CommentId).Delete()
+		if err != nil {
+			return nil, err
 		}
 		res = &v1.DeleteCommentRes{
 			Success: true,
 		}
-		return res,nil
-	}else{
+		return res, nil
+	} else {
 		res = &v1.DeleteCommentRes{
 			Success: false,
 		}

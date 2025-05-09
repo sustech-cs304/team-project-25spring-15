@@ -9,17 +9,18 @@ import (
 	"errors"
 	"intelligent-course-aware-ide/internal/dao"
 )
+
 func CheckUserHasPermissionOfComment(ctx context.Context, userId int64, commentId int64) (result bool, err error) {
 	comment, err := dao.Comment.Ctx(ctx).
-	Fields("authorId").
-	Where("commentId",commentId).
-	One()
+		Fields("authorId").
+		Where("commentId", commentId).
+		One()
 	if err != nil {
-		return false,err
+		return false, err
 	}
-	if comment.IsEmpty(){
+	if comment.IsEmpty() {
 		err = errors.New("there is no this comment")
-		return false,err
+		return false, err
 	}
 	return comment["authorId"].Int64() == userId, nil
 }
