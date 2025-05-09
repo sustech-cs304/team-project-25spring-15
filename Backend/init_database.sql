@@ -168,6 +168,19 @@ CREATE TABLE Comment (
   likes BIGINT,
   FOREIGN KEY(authorIdId) REFERENCES Users(userId),
 );
+CREATE TABLE SharedFiles(
+    sharedFileId BIGINT NOT NULL,
+    sharedLogId BIGINT NOT NULL,
+    FOREIGN KEY (sharedFileId) REFERENCES Files(fileId) ON DELETE CASCADE,
+    FOREIGN KEY (sharedLogId) REFERENCES Files(fileId) ON DELETE CASCADE
+);
+CREATE TABLE SharedTasks(
+    sharedFileId BIGINT NOT NULL,
+    userId BIGINT NOT NULL,
+    isOnline INT NOT NULL,
+    FOREIGN KEY (sharedFileId) REFERENCES SharedFiles(sharedFileId) ON DELETE CASCADE,
+    FOREIGN KEY (userId) REFERENCES Users(userId) ON DELETE CASCADE
+);
 insert into Users(userId, userName, password, email, identity)
 VALUES (1, 'Y', '123456', 'Y', 'superuser');
 insert into Courses(COURSENAME, DESCRIPTION, teacherId)
