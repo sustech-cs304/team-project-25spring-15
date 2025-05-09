@@ -13,43 +13,41 @@ import (
 
 // UsersDao is the data access object for the table Users.
 type UsersDao struct {
-	table    string             // table is the underlying table name of the DAO.
-	group    string             // group is the database configuration group name of the current DAO.
-	columns  UsersColumns       // columns contains all the column names of Table for convenient usage.
-	handlers []gdb.ModelHandler // handlers for customized model modification.
+	table   string       // table is the underlying table name of the DAO.
+	group   string       // group is the database configuration group name of the current DAO.
+	columns UsersColumns // columns contains all the column names of Table for convenient usage.
 }
 
 // UsersColumns defines and stores column names for the table Users.
 type UsersColumns struct {
 	UserId     string //
 	UserName   string //
-	PasswordU  string //
+	Password   string //
 	Email      string //
 	UserSign   string //
 	University string //
 	Birthday   string //
-	IdentityU  string //
+	Identity   string //
 }
 
 // usersColumns holds the columns for the table Users.
 var usersColumns = UsersColumns{
 	UserId:     "userId",
 	UserName:   "userName",
-	PasswordU:  "password_U",
+	Password:   "password",
 	Email:      "email",
 	UserSign:   "userSign",
 	University: "university",
 	Birthday:   "birthday",
-	IdentityU:  "identity_U",
+	Identity:   "identity",
 }
 
 // NewUsersDao creates and returns a new DAO object for table data access.
-func NewUsersDao(handlers ...gdb.ModelHandler) *UsersDao {
+func NewUsersDao() *UsersDao {
 	return &UsersDao{
-		group:    "default",
-		table:    "Users",
-		columns:  usersColumns,
-		handlers: handlers,
+		group:   "default",
+		table:   "Users",
+		columns: usersColumns,
 	}
 }
 
@@ -75,11 +73,7 @@ func (dao *UsersDao) Group() string {
 
 // Ctx creates and returns a Model for the current DAO. It automatically sets the context for the current operation.
 func (dao *UsersDao) Ctx(ctx context.Context) *gdb.Model {
-	model := dao.DB().Model(dao.table)
-	for _, handler := range dao.handlers {
-		model = handler(model)
-	}
-	return model.Safe().Ctx(ctx)
+	return dao.DB().Model(dao.table).Safe().Ctx(ctx)
 }
 
 // Transaction wraps the transaction logic using function f.

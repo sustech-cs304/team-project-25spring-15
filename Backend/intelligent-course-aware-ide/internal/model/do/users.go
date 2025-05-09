@@ -14,10 +14,10 @@ type Users struct {
 	g.Meta     `orm:"table:Users, do:true"`
 	UserId     interface{} //
 	UserName   interface{} //
-	PasswordU  interface{} //
+	Password   interface{} //
 	Email      interface{} //
 	UserSign   interface{} //
 	University interface{} //
 	Birthday   *gtime.Time //
-	IdentityU  interface{} //
+	Identity   interface{} //
 }
