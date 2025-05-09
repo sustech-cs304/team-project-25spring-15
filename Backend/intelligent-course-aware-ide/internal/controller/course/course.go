@@ -20,7 +20,7 @@ func CheckUserIsSuperUserOrTeacher(ctx context.Context, userId int64) bool {
 		return false
 	}
 
-	if user.Identity == "superuser" || user.Identity == "teacher" {
+	if user.IdentityU == "superuser" || user.IdentityU == "teacher" {
 		return true
 	}
 
@@ -34,7 +34,7 @@ func CheckUserHasFullPermissionOfCourse(ctx context.Context, userId int64, cours
 		return false, err
 	}
 
-	if user.Identity == "superuser" {
+	if user.IdentityU == "superuser" {
 		return true, nil
 	}
 

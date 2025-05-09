@@ -20,7 +20,7 @@ func (c *Courses) CheckUserHasFullPermissionOfCourse(ctx context.Context, userId
 		return false, errors.New("maybe course does not exist")
 	}
 
-	if userId == course.TeacherId || user.Identity == "superuser" {
+	if userId == course.TeacherId || user.IdentityU == "superuser" {
 		return true, nil
 	}
 

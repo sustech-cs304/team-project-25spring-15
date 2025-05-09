@@ -13,7 +13,7 @@ func (u *Users) CheckUserIsStudent(ctx context.Context, userId int64) bool {
 		return false
 	}
 
-	if user.Identity == "student" {
+	if user.IdentityU == "student" {
 		return true
 	}
 

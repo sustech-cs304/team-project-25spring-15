@@ -18,7 +18,7 @@ func (c *Chats) CheckUserHasFullPermissionOfChat(ctx context.Context, userId int
 		return false, err
 	}
 
-	if chat.OwnerId == userId || user.Identity == "superuser" {
+	if chat.OwnerId == userId || user.IdentityU == "superuser" {
 		return true, nil
 	}
 
