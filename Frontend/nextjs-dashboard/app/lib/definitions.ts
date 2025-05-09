@@ -45,12 +45,15 @@ export interface Exercise {
 export interface Lecture {
   id: string;
   title: string;
+  description?: string;
   status?: 'notStarted' | 'inProgress' | 'done';  // 可选: 添加状态属性
+  courseId?: string; // 添加课程ID引用
 }
 
 export interface Course {
   id: string;
   title: string;
+  description?: string;
   lectures: Lecture[];
 }
 

@@ -16,6 +16,12 @@ type CourseInfo struct {
 	EndTime     *gtime.Time `json:"endTime" dc:"end time of this course"`
 }
 
+type LectureInfo struct {
+	LectureId         int64  `json:"id" dc:"Id of the lecture"`
+	LecutureName      string `json:"title" dc:"Name of the lecture"`
+	CourseDescription string `json:"description" dc:"description of the lecture"`
+}
+
 // 获取课程信息的requset
 type GetAllCoursesInfoReq struct {
 	g.Meta `path:"/api/course/getCourses" method:"get" tags:"Course" summary:"get info of all courses"`

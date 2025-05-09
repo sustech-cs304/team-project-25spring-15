@@ -6,10 +6,15 @@ package runner
 
 import (
 	"intelligent-course-aware-ide/api/runner"
+	runnerLogic "intelligent-course-aware-ide/internal/logic/runner"
 )
 
-type ControllerV1 struct{}
+type ControllerV1 struct {
+	runners *runnerLogic.Runners
+}
 
 func NewV1() runner.IRunnerV1 {
-	return &ControllerV1{}
+	return &ControllerV1{
+		runners: runnerLogic.New(),
+	}
 }

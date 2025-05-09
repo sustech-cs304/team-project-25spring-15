@@ -23,7 +23,7 @@ func (c *ControllerV1) AttemptForAssignment(ctx context.Context, req *v1.Attempt
 	var score float32 = 0
 	var count, totalCount int = 0, 0
 	for _, testcaseAndAnswerFile := range testcaseAndAnswerList {
-		count, totalCount, err = c.assignments.CheckAnswer(ctx, &req.AssignmentUserAttempt, codeFile, testcaseAndAnswerFile, count, totalCount)
+		count, totalCount, err = c.assignments.CheckAnswer(ctx, c.runners, &req.AssignmentUserAttempt, codeFile, testcaseAndAnswerFile, count, totalCount)
 		if err != nil {
 			return nil, err
 		}

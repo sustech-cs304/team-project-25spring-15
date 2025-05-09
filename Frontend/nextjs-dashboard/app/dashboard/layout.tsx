@@ -7,13 +7,19 @@ import { auth } from "@/auth";
 
 export const experimental_ppr = true;
 
-export default async function Layout({ children }: { children: React.ReactNode }) {
+export default async function Layout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const courses = await fetchCourses();
   const session = await auth();
 
+  console.log(session);
+
   return (
     <div className="flex flex-col h-screen">
-      <Topbar user={session?.user}/>
+      <Topbar user={session?.user} />
       <div className="flex flex-1 pt-16 md:pt-16">
         <div className="w-full flex-none md:w-64 border-r-4 border-gray-300">
           <SideNav courses={courses} />
