@@ -56,10 +56,6 @@ jobs:
       - name: Go build (optional)
         working-directory: Backend/intelligent-course-aware-ide
         run: go build ./...
-
-      - name: Go syntax check (go run)
-        working-directory: Backend/intelligent-course-aware-ide
-        run: go run .
       
       - name: Go lint check (optional)
         working-directory: Backend/intelligent-course-aware-ide
