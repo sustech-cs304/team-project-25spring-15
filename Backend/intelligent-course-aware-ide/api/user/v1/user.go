@@ -6,7 +6,7 @@ import (
 )
 
 type UserInfoWithPassword struct {
-	UserId     int64       `json:"userId" dc:"id of this user"`
+	UserId     int64       `json:"userId" dc:"lectureId of this user"`
 	UserName   string      `json:"userName" dc:"name of this user"`
 	Email      string      `json:"email" dc:"email of this user"`
 	UserSign   string      `json:"usersign" dc:"sign of this user"`
@@ -17,7 +17,7 @@ type UserInfoWithPassword struct {
 }
 
 type UserInfoWithoutPassword struct {
-	UserId     int64       `json:"userId" dc:"id of this user"`
+	UserId     int64       `json:"userId" dc:"lectureId of this user"`
 	UserName   string      `json:"userName" dc:"name of this user"`
 	Email      string      `json:"email" dc:"email of this user"`
 	UserSign   string      `json:"usersign" dc:"sign of this user"`
@@ -27,7 +27,7 @@ type UserInfoWithoutPassword struct {
 }
 
 type UserLoginInfo struct {
-	UserId   int64  `json:"userId" dc:"id of this user"`
+	UserId   int64  `json:"userId" dc:"lectureId of this user"`
 	Email    string `json:"email" dc:"email of this user"`
 	Password string `json:"password" dc:"password of this user"`
 }
@@ -48,12 +48,12 @@ type CreateUserReq struct {
 
 type CreateUserRes struct {
 	g.Meta `mime:"text/html" example:"json"`
-	UserId int64 `json:"userId" dc:"id of the new user"`
+	UserId int64 `json:"userId" dc:"lectureId of the new user"`
 }
 
 type GetUserReq struct {
 	g.Meta `path:"/api/user/searchUser/{userId}" method:"get" tags:"User" summary:"get user info"`
-	UserId int64 `v:"required" dc:"id of the user to find"`
+	UserId int64 `v:"required" dc:"lectureId of the user to find"`
 }
 
 type GetUserRes struct {
@@ -63,8 +63,8 @@ type GetUserRes struct {
 
 type DeleteUserReq struct {
 	g.Meta         `path:"/api/user/deleteUser" method:"delete" tags:"User" summary:"delete user info"`
-	UserToDeleteId int64 `v:"required" dc:"id of the user to delete"`
-	UserId         int64 `json:"userId" v:"required" dc:"id of the user who want to delete this user"`
+	UserToDeleteId int64 `v:"required" dc:"lectureId of the user to delete"`
+	UserId         int64 `json:"userId" v:"required" dc:"lectureId of the user who want to delete this user"`
 }
 
 type DeleteUserRes struct {

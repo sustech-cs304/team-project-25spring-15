@@ -13,6 +13,7 @@ export default async function Layout({
   children: React.ReactNode;
 }) {
   const courses = await fetchCourses();
+  console.log("Fetched courses in layout:", courses);
   const session = await auth();
 
   console.log(session);

@@ -23,7 +23,7 @@ export default function TaskForm({ initial, onClose, onSubmit }: TaskFormProps) 
   const [deadline, setDeadLine] = useState(initial?.deadline || "");
 
   const handleSubmit = () => {
-    onSubmit({ title, description, deadline });
+    onSubmit({ courseName: courseName, description, deadline });
   };
 
   return (
