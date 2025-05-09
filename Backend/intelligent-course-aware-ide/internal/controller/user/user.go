@@ -29,7 +29,7 @@ func CheckUserHasPermssion(ctx context.Context, UserToDeleteId int64, userId int
 		return false, errors.New("maybe it is because user not found")
 	}
 
-	if user.UserId == userToDelete.UserId || (user.IdentityU == "superuser" && userToDelete.IdentityU != "superuser") {
+	if user.UserId == userToDelete.UserId || (user.Identity == "superuser" && userToDelete.Identity != "superuser") {
 		return true, nil
 	} else {
 		return false, errors.New("user is not the user to be deleted or user to delete is superuser")

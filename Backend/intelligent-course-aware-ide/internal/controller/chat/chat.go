@@ -18,7 +18,7 @@ func CheckWhetherUserHasFullPerrmissionOfChat(ctx context.Context, chatId int64,
 	if err != nil {
 		return false, err
 	}
-	if user.IdentityU == "superuser" {
+	if user.Identity == "superuser" {
 		return true, nil
 	}
 
