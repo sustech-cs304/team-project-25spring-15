@@ -57,6 +57,10 @@ jobs:
         working-directory: Backend/intelligent-course-aware-ide
         run: go build ./...
       
+      - name: Install golint
+        run: |
+          go install golang.org/x/lint/golint@latest
+
       - name: Go lint check (optional)
         working-directory: Backend/intelligent-course-aware-ide
         run: golint ./...
