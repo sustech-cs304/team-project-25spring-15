@@ -10,10 +10,7 @@ import (
 )
 
 func (c *ControllerV1) AssignCourseAssistant(ctx context.Context, req *v1.AssignCourseAssistantReq) (res *v1.AssignCourseAssistantRes, err error) {
-	operatorId, err := c.logins.GetOperatorIdFromJWT(ctx)
-	if err != nil {
-		return nil, err
-	}
+	operatorId := ctx.Value("operatorId").(int64)
 	result, err := c.courses.CheckUserHasFullPermissionOfCourse(ctx, operatorId, req.CourseId)
 	if err != nil {
 		return nil, err

@@ -9,10 +9,7 @@ import (
 )
 
 func (c *ControllerV1) DeleteTestcaseAndAnswer(ctx context.Context, req *v1.DeleteTestcaseAndAnswerReq) (res *v1.DeleteTestcaseAndAnswerRes, err error) {
-	operatorId, err := c.logins.GetOperatorIdFromJWT(ctx)
-	if err != nil {
-		return nil, err
-	}
+	operatorId := ctx.Value("operatorId").(int64)
 	result1, err := c.courses.CheckUserHasFullPermissionOfCourse(ctx, operatorId, req.CourseId)
 	if err != nil {
 		return nil, err

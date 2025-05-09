@@ -9,10 +9,7 @@ import (
 )
 
 func (c *ControllerV1) AddUserIntoChat(ctx context.Context, req *v1.AddUserIntoChatReq) (res *v1.AddUserIntoChatRes, err error) {
-	operatorId, err := c.logins.GetOperatorIdFromJWT(ctx)
-	if err != nil {
-		return nil, err
-	}
+	operatorId := ctx.Value("operatorId").(int64)
 	res = &v1.AddUserIntoChatRes{
 		Success: false,
 	}

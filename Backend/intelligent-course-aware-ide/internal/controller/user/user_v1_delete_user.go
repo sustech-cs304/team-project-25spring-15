@@ -8,12 +8,9 @@ import (
 )
 
 func (c *ControllerV1) DeleteUser(ctx context.Context, req *v1.DeleteUserReq) (res *v1.DeleteUserRes, err error) {
-	operaterId, err := c.logins.GetOperatorIdFromJWT(ctx)
-	if err != nil {
-		return nil, err
-	}
+	operatorId := ctx.Value("operatorId").(int64)
 
-	success, err := c.users.CheckUserHasPermssionOfUser(ctx, req.UserToDeleteId, operaterId)
+	success, err := c.users.CheckUserHasPermssionOfUser(ctx, req.UserToDeleteId, operatorId)
 	if err != nil || !success {
 		return nil, err
 	}

@@ -8,7 +8,6 @@ import (
 	"intelligent-course-aware-ide/api/assignment"
 	assignmentLogic "intelligent-course-aware-ide/internal/logic/assignment"
 	courseLogic "intelligent-course-aware-ide/internal/logic/course"
-	loginLogic "intelligent-course-aware-ide/internal/logic/login"
 	runnerLogic "intelligent-course-aware-ide/internal/logic/runner"
 )
 
@@ -16,7 +15,6 @@ type ControllerV1 struct {
 	assignments *assignmentLogic.Assignments
 	courses     *courseLogic.Courses
 	runners     *runnerLogic.Runners
-	logins      *loginLogic.Logins
 }
 
 func NewV1() assignment.IAssignmentV1 {
@@ -24,6 +22,5 @@ func NewV1() assignment.IAssignmentV1 {
 		assignments: assignmentLogic.New(),
 		courses:     courseLogic.New(),
 		runners:     runnerLogic.New(),
-		logins:      loginLogic.New(),
 	}
 }

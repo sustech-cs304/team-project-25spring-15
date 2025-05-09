@@ -9,10 +9,7 @@ import (
 )
 
 func (c *ControllerV1) DeleteUserFromChat(ctx context.Context, req *v1.DeleteUserFromChatReq) (res *v1.DeleteUserFromChatRes, err error) {
-	operatorId, err := c.logins.GetOperatorIdFromJWT(ctx)
-	if err != nil {
-		return nil, err
-	}
+	operatorId := ctx.Value("operatorId").(int64)
 	res = &v1.DeleteUserFromChatRes{
 		Success: false,
 	}

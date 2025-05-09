@@ -10,10 +10,7 @@ import (
 )
 
 func (c *ControllerV1) UpdateAssignment(ctx context.Context, req *v1.UpdateAssignmentReq) (res *v1.UpdateAssignmentRes, err error) {
-	operatorId, err := c.logins.GetOperatorIdFromJWT(ctx)
-	if err != nil {
-		return nil, err
-	}
+	operatorId := ctx.Value("operatorId").(int64)
 	res = &v1.UpdateAssignmentRes{
 		Success: false,
 	}

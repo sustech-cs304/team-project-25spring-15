@@ -74,3 +74,12 @@ type UpdateUserRes struct {
 	g.Meta  `mime:"text/html" example:"json"`
 	Success bool `json:"success" dc:"success or not"`
 }
+
+type LogoutUserReq struct {
+	g.Meta `path:"/api/user/logoutUser" method:"post" tags:"User" summary:"logout user"`
+}
+
+type LogoutUserRes struct {
+	g.Meta  `mime:"text/html" example:"json"`
+	Success bool `json:"success" dc:"success or not"`
+}

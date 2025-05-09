@@ -11,6 +11,7 @@ import (
 	"intelligent-course-aware-ide/internal/model/entity"
 	"intelligent-course-aware-ide/utility"
 
+	"github.com/gogf/gf/frame/g"
 	"github.com/golang-jwt/jwt/v5"
 )
 
@@ -28,6 +29,10 @@ func (c *ControllerV1) LoginUser(ctx context.Context, req *v1.LoginUserReq) (res
 	var user *entity.Users
 	err = dao.Users.Ctx(ctx).Where(info).Scan(&user)
 	if err == nil && user != nil {
+		_, err := dao.Users.Ctx(ctx).Where("userId", req.UserInfo.UserId).Update(g.Map{"login": 1})
+		if err != nil {
+			return nil, err
+		}
 		res.Success = true
 		uc := &v1.JWTClaims{
 			UserId: user.UserId,
