@@ -9,12 +9,12 @@ import (
 	"github.com/gogf/gf/v2/os/gcmd"
 
 	"intelligent-course-aware-ide/internal/controller/Files"
+	"intelligent-course-aware-ide/internal/controller/account"
 	"intelligent-course-aware-ide/internal/controller/assignment"
 	"intelligent-course-aware-ide/internal/controller/chat"
 	"intelligent-course-aware-ide/internal/controller/comment"
 	"intelligent-course-aware-ide/internal/controller/course"
 	"intelligent-course-aware-ide/internal/controller/lecture"
-	"intelligent-course-aware-ide/internal/controller/login"
 	"intelligent-course-aware-ide/internal/controller/runner"
 	"intelligent-course-aware-ide/internal/controller/user"
 	"intelligent-course-aware-ide/internal/logic/middleware"
@@ -59,7 +59,7 @@ var (
 				group.Middleware(ghttp.MiddlewareHandlerResponse)
 				group.Group("/", func(group *ghttp.RouterGroup) {
 					group.Bind(
-						login.NewV1(),
+						account.NewV1(),
 					)
 					group.Group("/", func(group *ghttp.RouterGroup) {
 						group.Middleware(middleware.Auth)

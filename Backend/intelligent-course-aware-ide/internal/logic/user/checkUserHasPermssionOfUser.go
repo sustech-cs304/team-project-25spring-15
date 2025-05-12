@@ -20,7 +20,7 @@ func (u *Users) CheckUserHasPermssionOfUser(ctx context.Context, userId int64, o
 		return false, errors.New("maybe it is because user not found")
 	}
 
-	if operatorId == userId || (operator.Identity == "superuser" && user.Identity != "superuser") {
+	if operatorId == userId || (operator.Identity == "superuser" && (user.Identity != "superuser" && user.Identity != "bot")) {
 		return true, nil
 	} else {
 		return false, errors.New("user is not the user to be deleted or user to delete is superuser")

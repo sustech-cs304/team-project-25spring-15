@@ -1,14 +1,19 @@
-package user
+package account
 
 import (
 	"context"
+	"errors"
 
-	v1 "intelligent-course-aware-ide/api/user/v1"
+	v1 "intelligent-course-aware-ide/api/account/v1"
 	"intelligent-course-aware-ide/internal/dao"
 	"intelligent-course-aware-ide/internal/model/do"
 )
 
 func (c *ControllerV1) CreateUser(ctx context.Context, req *v1.CreateUserReq) (res *v1.CreateUserRes, err error) {
+	if req.NewUser.Identity == "bot" {
+		return nil, errors.New("no new bot could be added")
+	}
+
 	userId, err := dao.Users.Ctx(ctx).Data(do.Users{
 		UserName:   req.NewUser.UserName,
 		Email:      req.NewUser.Email,

@@ -9,13 +9,13 @@ import (
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/golang-jwt/jwt/v5"
 
-	loginv1 "intelligent-course-aware-ide/api/login/v1"
+	accountv1 "intelligent-course-aware-ide/api/account/v1"
 )
 
 func Auth(r *ghttp.Request) {
 	tokenString := r.Header.Get("Authorization")
 
-	tokenClaims, err := jwt.ParseWithClaims(tokenString, &loginv1.JWTClaims{}, func(token *jwt.Token) (interface{}, error) {
+	tokenClaims, err := jwt.ParseWithClaims(tokenString, &accountv1.JWTClaims{}, func(token *jwt.Token) (interface{}, error) {
 		return []byte(consts.JWTKey), nil
 	})
 
@@ -24,7 +24,7 @@ func Auth(r *ghttp.Request) {
 		r.Exit()
 	}
 
-	if claims, ok := tokenClaims.Claims.(*loginv1.JWTClaims); ok {
+	if claims, ok := tokenClaims.Claims.(*accountv1.JWTClaims); ok {
 		cnt, err := g.DB().Model("users").Where(g.Map{"userId": claims.UserId, "login": 1}).Count()
 		if err != nil || cnt != 1 {
 			r.Response.WriteStatus(http.StatusInternalServerError)

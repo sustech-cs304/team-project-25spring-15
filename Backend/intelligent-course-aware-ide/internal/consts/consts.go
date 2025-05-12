@@ -52,3 +52,6 @@ const JWTKey string = "d8f3a29c4e7b16f5c0a9d3b1e4f6782a"
 
 // JWT valid time
 const JWTTime time.Duration = 6
+
+// Bot user id
+const BotId int64 = 1

@@ -35,16 +35,6 @@ type GetAllUsersInfoRes struct {
 	Users  []UserInfoWithoutPassword `json:"users" dc:"Info of all users"`
 }
 
-type CreateUserReq struct {
-	g.Meta  `path:"/api/user/createUser" method:"post" tags:"User" summary:"create user"`
-	NewUser UserInfoWithPassword `json:"user" dc:"Info of the user to create"`
-}
-
-type CreateUserRes struct {
-	g.Meta `mime:"text/html" example:"json"`
-	UserId int64 `json:"userId" dc:"id of the new user"`
-}
-
 type GetUserReq struct {
 	g.Meta `path:"/api/user/searchUser/{userId}" method:"get" tags:"User" summary:"get user info"`
 	UserId int64 `v:"required" dc:"id of the user to find"`

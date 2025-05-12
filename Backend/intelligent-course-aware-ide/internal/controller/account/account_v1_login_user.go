@@ -1,11 +1,11 @@
-package login
+package account
 
 import (
 	"context"
 	"errors"
 	"time"
 
-	v1 "intelligent-course-aware-ide/api/login/v1"
+	v1 "intelligent-course-aware-ide/api/account/v1"
 	"intelligent-course-aware-ide/internal/consts"
 	"intelligent-course-aware-ide/internal/dao"
 	"intelligent-course-aware-ide/internal/model/entity"
