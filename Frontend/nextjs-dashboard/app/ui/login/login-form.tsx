@@ -18,14 +18,11 @@ export default function LoginForm() {
   const callbackUrl = searchParams.get('callbackUrl') || '/dashboard';
   const router = useRouter();
 
-  // 使用本地状态来存储错误信息和加载状态
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-  // 获取全局状态中的方法
   const { setUserInfo, setLoggedIn } = useStore();
 
-  // 处理表单提交
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsLoading(true);
@@ -37,7 +34,6 @@ export default function LoginForm() {
     console.log('email: ', email, 'password: ', password);
 
     try {
-      // 发送登录请求到后端
       const response = await api.post('/user/loginUser', {
         userLogin: {
           email: email,
@@ -52,7 +48,6 @@ export default function LoginForm() {
       console.log('success: ', success, 'userInfo: ', userInfo, 'token: ', token);
 
       if (success) {
-        // 存储用户信息到全局状态
         setUserInfo({
           userId: userInfo.userId,
           username: userInfo.username,
@@ -61,9 +56,8 @@ export default function LoginForm() {
         });
         setLoggedIn(true);
 
-        // 如果有token，可以存储
         if (response.data.token) {
-          // 可以存储到localStorage或cookie
+          // 存储token到localStorage
           localStorage.setItem('token', response.data.token);
         }
 
@@ -81,7 +75,6 @@ export default function LoginForm() {
       console.error('登录失败', error);
 
       if (axios.isAxiosError(error) && error.response) {
-        // 处理特定的错误响应
         if (error.response.status === 401) {
           setErrorMessage('用户名或密码错误');
         } else if (error.response.status === 429) {
