@@ -25,9 +25,10 @@ type LoginUserReq struct {
 }
 
 type LoginUserRes struct {
-	g.Meta  `mime:"text/html" example:"json"`
-	Success bool   `json:"success" dc:"success or not"`
-	Token   string `json:"token" dc:"token of this time"`
+	g.Meta   `mime:"text/html" example:"json"`
+	Success  bool                           `json:"success" dc:"success or not"`
+	UserInfo userv1.UserInfoWithoutPassword `json:"userInfo" dc:"info of user"`
+	Token    string                         `json:"token" dc:"token of this time"`
 }
 
 type CreateUserReq struct {

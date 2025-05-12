@@ -8,7 +8,6 @@ import (
 	v1 "intelligent-course-aware-ide/api/account/v1"
 	"intelligent-course-aware-ide/internal/consts"
 	"intelligent-course-aware-ide/internal/dao"
-	"intelligent-course-aware-ide/internal/model/entity"
 	"intelligent-course-aware-ide/utility"
 
 	"github.com/gogf/gf/frame/g"
@@ -26,17 +25,16 @@ func (c *ControllerV1) LoginUser(ctx context.Context, req *v1.LoginUserReq) (res
 		return nil, errors.New("password should not be empty")
 	}
 	info := utility.ConstructInfo(req.UserInfo, 0)
-	var user *entity.Users
-	err = dao.Users.Ctx(ctx).Where(info).Scan(&user)
-	if err == nil && user != nil {
+	err = dao.Users.Ctx(ctx).Where(info).Scan(&res.UserInfo)
+	if err == nil {
 		_, err := dao.Users.Ctx(ctx).Where("userId", req.UserInfo.UserId).Update(g.Map{"login": 1})
 		if err != nil {
 			return nil, err
 		}
 		res.Success = true
 		uc := &v1.JWTClaims{
-			UserId: user.UserId,
-			Email:  user.Email,
+			UserId: res.UserInfo.UserId,
+			Email:  res.UserInfo.Email,
 			RegisteredClaims: jwt.RegisteredClaims{
 				ExpiresAt: jwt.NewNumericDate(time.Now().Add(consts.JWTTime * time.Hour)),
 			},
