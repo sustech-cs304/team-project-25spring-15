@@ -28,7 +28,7 @@ var (
 		Func: func(ctx context.Context, parser *gcmd.Parser) (err error) {
 			s := g.Server()
 
-			s.BindMiddlewareDefault(func(r *ghttp.Request) {
+			s.BindMiddlewareDefault(middleware.MiddlewareCORS, func(r *ghttp.Request) {
 				// 添加错误恢复机制
 				defer func() {
 					if err := recover(); err != nil {
