@@ -9,9 +9,8 @@ import axios from "axios";
  * Get course information for a user
  */
 export async function fetchCourses() {
-  console.log('Feting courses123...')
   try {
-    console.log('Feting courses...')
+    console.log('Fetching courses...')
     let coursesUrl = 'http://47.117.144.50:8000/api/course/getCourses';
     const response = await axios.get(coursesUrl);
     console.log('Fetched courses in data.ts:', response.data.data);

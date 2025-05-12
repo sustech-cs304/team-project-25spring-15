@@ -1,7 +1,7 @@
 "use client";
 
 import { CourseAPI, LectureAPI } from "@/app/lib/api";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   List,
   ListItemButton,
@@ -33,25 +33,33 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { usePathname, useRouter } from 'next/navigation';
 import { Course, Lecture } from '@/app/lib/definitions';
+import { fetchCourses } from "@/app/lib/data";
+import { useStore } from '@/store/useStore';
 
-interface SidebarProps {
-  courses: Course[];
-}
-
-export default function SideNav({ courses }: SidebarProps) {
+export default function SideNav() {
   const router = useRouter();
   const pathname = usePathname();
+
+  // —— 全局状态 ——
+  const { courses, setCourses } = useStore(state => ({
+    courses: state.courses,
+    setCourses: state.setCourses,
+  }));
+
+  // 本地 UI 状态
   const [open, setOpen] = useState<Record<string, boolean>>({});
+  const [newCourse, setNewCourse] = useState<Partial<Course>>({ courseName: '', description: '' });
+  const [newLecture, setNewLecture] = useState<Partial<Lecture>>({ lectureName: '', description: '', courseId: undefined });
+  const [selectedCourseId, setSelectedCourseId] = useState<number | undefined>(undefined);
+
+  // 对话框状态
   const [openCourseDialog, setOpenCourseDialog] = useState(false);
   const [openLectureDialog, setOpenLectureDialog] = useState(false);
   const [openEditCourseDialog, setOpenEditCourseDialog] = useState(false);
   const [openEditLectureDialog, setOpenEditLectureDialog] = useState(false);
-  const [newCourse, setNewCourse] = useState<Partial<Course>>({ courseName: '', description: '' });
-  const [newLecture, setNewLecture] = useState<Partial<Lecture>>({ lectureName: '', courseId: 0 });
+
   const [editingCourse, setEditingCourse] = useState<Course | null>(null);
   const [editingLecture, setEditingLecture] = useState<Lecture | null>(null);
-  const [selectedCourseId, setSelectedCourseId] = useState(0);
-  const [localCourses, setLocalCourses] = useState<Course[]>(courses);
 
   // 菜单状态
   const [courseMenuAnchor, setCourseMenuAnchor] = useState<null | HTMLElement>(null);
@@ -59,13 +67,21 @@ export default function SideNav({ courses }: SidebarProps) {
   const [activeCourseId, setActiveCourseId] = useState<number | null>(null);
   const [activeLectureId, setActiveLectureId] = useState<number | null>(null);
 
+  useEffect(() => {
+    async function load() {
+      try {
+        const list = await fetchCourses();
+        setCourses(list);
+      } catch (err) {
+        console.error('拉取课程失败', err);
+      }
+    }
+    load();
+  }, [setCourses]);
+
   const handleCourseClick = (courseId: number) => {
     setOpen((prev) => {
-      const newState: Record<string, boolean> = {};
-
-      localCourses?.forEach(course => {
-        newState[course.courseId] = false;
-      });
+      const newState = { ...prev };
       newState[courseId] = !prev[courseId];
       return newState;
     });
@@ -117,11 +133,12 @@ export default function SideNav({ courses }: SidebarProps) {
   // 添加讲座对话框
   const handleOpenLectureDialog = () => {
     setOpenLectureDialog(true);
+    setNewLecture({ lectureName: '', description: '', courseId: selectedCourseId });
   };
 
   const handleCloseLectureDialog = () => {
     setOpenLectureDialog(false);
-    setNewLecture({ lectureName: '', courseId: selectedCourseId });
+    setNewLecture({ lectureName: '', description: '', courseId: undefined });
   };
 
   // 编辑课程对话框
@@ -148,153 +165,111 @@ export default function SideNav({ courses }: SidebarProps) {
     setEditingLecture(null);
   };
 
+  const reloadCourses = async () => {
+    try {
+      const list = await fetchCourses();
+      setCourses(list);
+    } catch (e) {
+      console.error('刷新课程列表失败', e);
+      alert('刷新课程列表失败');
+    }
+  };
+
   // 添加课程
   const handleAddCourse = async () => {
-    if (!newCourse.courseName) {
-      alert('请输入课程名称');
-      return;
-    }
-
+    if (!newCourse.courseName) return alert('请输入课程名');
     try {
-      const addedCourse = await CourseAPI.addCourse({
+      await CourseAPI.addCourse({
         courseName: newCourse.courseName,
-        description: newCourse.description || '',
+        description: newCourse.description || ''
       });
-
-      setLocalCourses([...localCourses, {...addedCourse, lectures: []}]);
+      await reloadCourses();
       handleCloseCourseDialog();
-      setOpen((prev) => ({...prev, [addedCourse.id]: true}));
     } catch (error) {
-      console.error('添加课程失败:', error);
-      alert('添加课程失败，请稍后重试');
+      console.error('添加课程失败', error);
+      alert('添加课程失败');
     }
   };
 
   // 添加讲座
   const handleAddLecture = async () => {
-    if (!newLecture.lectureName) {
-      alert('请输入讲座名称');
-      return;
-    }
+    if (!newLecture.lectureName) return alert('请输入讲座名称');
+    if (!newLecture.courseId && !selectedCourseId) return alert('请选择课程');
 
     const courseId = newLecture.courseId || selectedCourseId;
-    if (!courseId) {
-      alert('请选择课程');
-      return;
-    }
-
     try {
-      const addedLecture = await LectureAPI.addLecture({
-        courseName: newLecture.lectureName,
-        courseId,
+      await LectureAPI.addLecture(courseId!, {
+        lectureName: newLecture.lectureName,
+        description: newLecture.description || ''
       });
-
-      setLocalCourses(prevCourses =>
-        prevCourses.map(course =>
-          course.courseId === courseId
-            ? {...course, lectures: [...course.lectures, addedLecture]}
-            : course
-        )
-      );
+      await reloadCourses();
       handleCloseLectureDialog();
     } catch (error) {
-      console.error('添加讲座失败:', error);
-      alert('添加讲座失败，请稍后重试');
+      console.error('添加讲座失败', error);
+      alert('添加讲座失败');
     }
   };
 
   // 编辑课程
   const handleEditCourse = async () => {
-    if (!editingCourse || !editingCourse.courseName) {
-      alert('请输入课程名称');
-      return;
-    }
-
+    if (!editingCourse) return;
     try {
-      const updatedCourse = await CourseAPI.updateCourse(editingCourse.courseId, {
+      await CourseAPI.updateCourse(editingCourse.courseId, {
         courseName: editingCourse.courseName,
-        description: editingCourse.description || '',
+        description: editingCourse.description || ''
       });
-
-      setLocalCourses(prevCourses =>
-        prevCourses.map(course =>
-          course.courseId === updatedCourse.id ? {...updatedCourse, lectures: course.lectures} : course
-        )
-      );
+      await reloadCourses();
       handleCloseEditCourseDialog();
     } catch (error) {
-      console.error('编辑课程失败:', error);
-      alert('编辑课程失败，请稍后重试');
+      console.error('编辑课程失败', error);
+      alert('编辑课程失败');
     }
   };
 
   // 编辑讲座
   const handleEditLecture = async () => {
-    if (!editingLecture || !editingLecture.lectureName) {
-      alert('请输入讲座名称');
-      return;
-    }
-
+    if (!editingLecture) return;
     try {
-      const updatedLecture = await LectureAPI.updateLecture(editingLecture.lectureId, {
+      await LectureAPI.updateLecture(editingLecture.lectureId, {
         lectureName: editingLecture.lectureName,
+        description: editingLecture.description || ''
       });
-
-      setLocalCourses(prevCourses =>
-        prevCourses.map(course =>
-          course.courseId === editingLecture.courseId
-            ? {
-              ...course,
-              lectures: course.lectures.map(lecture =>
-                lecture.lectureId === updatedLecture.id ? updatedLecture : lecture
-              ),
-            }
-            : course
-        )
-      );
+      await reloadCourses();
       handleCloseEditLectureDialog();
     } catch (error) {
-      console.error('编辑讲座失败:', error);
-      alert('编辑讲座失败，请稍后重试');
+      console.error('编辑讲座失败', error);
+      alert('编辑讲座失败');
     }
   };
 
   // 删除课程
   const handleDeleteCourse = async (courseId: number) => {
-    if (window.confirm('确定要删除该课程吗？所有该课程下的讲座也会被删除。')) {
-      try {
-        await CourseAPI.deleteCourse(courseId);
-        setLocalCourses(prevCourses => prevCourses.filter(course => course.courseId !== courseId));
-        handleCourseMenuClose();
-      } catch (error) {
-        console.error('删除课程失败:', error);
-        alert('删除课程失败，请稍后重试');
-      }
+    if (!confirm('确认删除此课程？')) return;
+    try {
+      await CourseAPI.deleteCourse(courseId);
+      await reloadCourses();
+      handleCourseMenuClose();
+    } catch (error) {
+      console.error('删除课程失败', error);
+      alert('删除课程失败');
     }
   };
 
   // 删除讲座
-  const handleDeleteLecture = async (lectureId: number, courseId: number) => {
-    if (window.confirm('确定要删除该讲座吗？')) {
-      try {
-        await LectureAPI.deleteLecture(lectureId);
-        setLocalCourses(prevCourses =>
-          prevCourses.map(course =>
-            course.courseId === courseId
-              ? {...course, lectures: course.lectures.filter(lecture => lecture.lectureId !== lectureId)}
-              : course
-          )
-        );
-        handleLectureMenuClose();
-      } catch (error) {
-        console.error('删除讲座失败:', error);
-        alert('删除讲座失败，请稍后重试');
-      }
+  const handleDeleteLecture = async (lectureId: number) => {
+    if (!confirm('确认删除此讲座？')) return;
+    try {
+      await LectureAPI.deleteLecture(lectureId);
+      await reloadCourses();
+      handleLectureMenuClose();
+    } catch (error) {
+      console.error('删除讲座失败', error);
+      alert('删除讲座失败');
     }
   };
 
-  const handleSelectLecture = (lecture: Lecture) => {
-    console.log('Selected lecture:', lecture);
+  const handleSelectLecture = (courseId: number, lecture: Lecture) => {
+    router.push(`/dashboard/${courseId}/${lecture.lectureId}`);
   };
 
   return (
@@ -340,7 +315,7 @@ export default function SideNav({ courses }: SidebarProps) {
           </Box>
         }
       >
-        {localCourses?.map((course) => (
+        {courses?.map((course) => (
           <div key={course.courseId}>
             <ListItemButton onClick={() => handleCourseClick(course.courseId)}>
               <ListItemIcon>
@@ -369,7 +344,7 @@ export default function SideNav({ courses }: SidebarProps) {
                   <ListItemButton
                     key={lecture.lectureId}
                     sx={{ pl: 4 }}
-                    onClick={() => handleSelectLecture(lecture)}
+                    onClick={() => handleSelectLecture(course.courseId, lecture)}
                   >
                     <ListItemIcon>
                       <AssignmentIcon />
@@ -404,7 +379,7 @@ export default function SideNav({ courses }: SidebarProps) {
       >
         <MenuItem
           onClick={() => {
-            const course = localCourses.find(course => course.courseId === activeCourseId);
+            const course = courses.find(course => course.courseId === activeCourseId);
             if (course) handleOpenEditCourseDialog(course);
           }}
         >
@@ -425,15 +400,15 @@ export default function SideNav({ courses }: SidebarProps) {
       >
         <MenuItem
           onClick={() => {
-            const course = localCourses.find(c => c.courseId === selectedCourseId);
-            const lecture = course?.lectures.find(l => l.lectureId === activeLectureId);
+            const course = courses.find(c => c.courseId === selectedCourseId);
+            const lecture = course?.lectures?.find(l => l.lectureId === activeLectureId);
             if (lecture) handleOpenEditLectureDialog(lecture);
           }}
         >
           <EditIcon fontSize="small" sx={{ mr: 1 }} />
           编辑讲座
         </MenuItem>
-        <MenuItem onClick={() => activeLectureId && selectedCourseId && handleDeleteLecture(activeLectureId, selectedCourseId)}>
+        <MenuItem onClick={() => activeLectureId && handleDeleteLecture(activeLectureId)}>
           <DeleteIcon fontSize="small" sx={{ mr: 1 }} />
           删除讲座
         </MenuItem>
@@ -478,11 +453,11 @@ export default function SideNav({ courses }: SidebarProps) {
           <FormControl fullWidth margin="dense">
             <InputLabel>选择课程</InputLabel>
             <Select
-              value={newLecture.courseId || selectedCourseId}
+              value={newLecture.courseId || selectedCourseId || ''}
               label="选择课程"
               onChange={(e) => setNewLecture({ ...newLecture, courseId: Number(e.target.value) })}
             >
-              {localCourses.map((course) => (
+              {courses.map((course) => (
                 <MenuItem key={course.courseId} value={course.courseId}>
                   {course.courseName}
                 </MenuItem>
@@ -497,6 +472,17 @@ export default function SideNav({ courses }: SidebarProps) {
             variant="outlined"
             value={newLecture.lectureName}
             onChange={(e) => setNewLecture({ ...newLecture, lectureName: e.target.value })}
+          />
+          <TextField
+            margin="dense"
+            label="讲座描述"
+            type="text"
+            fullWidth
+            multiline
+            rows={4}
+            variant="outlined"
+            value={newLecture.description}
+            onChange={(e) => setNewLecture({ ...newLecture, description: e.target.value })}
           />
         </DialogContent>
         <DialogActions>
@@ -550,6 +536,17 @@ export default function SideNav({ courses }: SidebarProps) {
             variant="outlined"
             value={editingLecture?.lectureName || ''}
             onChange={(e) => setEditingLecture(editingLecture ? {...editingLecture, lectureName: e.target.value} : null)}
+          />
+          <TextField
+            margin="dense"
+            label="讲座描述"
+            type="text"
+            fullWidth
+            multiline
+            rows={4}
+            variant="outlined"
+            value={editingLecture?.description || ''}
+            onChange={(e) => setEditingLecture(editingLecture ? {...editingLecture, description: e.target.value} : null)}
           />
         </DialogContent>
         <DialogActions>

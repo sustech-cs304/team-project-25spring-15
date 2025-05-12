@@ -33,6 +33,13 @@ export const myProvider = customProvider({
   }
 });
 
+export interface UserInfo {
+  userId: number;
+  username: string;
+  email: string;
+  token: string;
+}
+
 export interface Exercise {
   exerciseId: number;
   publisherId: number;

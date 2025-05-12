@@ -7,23 +7,101 @@ import {
   KeyIcon,
 } from '@heroicons/react/24/outline';
 import { Button } from '@mui/material';
-import { useActionState } from 'react';
-import { authenticate } from '@/app/lib/data';
-import { useSearchParams } from 'next/navigation';
+import { useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import axios from 'axios';
+import { useStore } from '@/store/useStore';
+import { api } from '@/api';
 
 export default function LoginForm() {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl') || '/dashboard';
-  const [errorMessage, formAction, isPending] = useActionState(
-    authenticate,
-    undefined,
-  );
+  const router = useRouter();
+
+  // 使用本地状态来存储错误信息和加载状态
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  // 获取全局状态中的方法
+  const { setUserInfo, setLoggedIn } = useStore();
+
+  // 处理表单提交
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setIsLoading(true);
+    setErrorMessage('');
+
+    const formData = new FormData(event.currentTarget);
+    const email = formData.get('email') as string;
+    const password = formData.get('password') as string;
+    console.log('email: ', email, 'password: ', password);
+
+    try {
+      // 发送登录请求到后端
+      const response = await api.post('/user/loginUser', {
+        userLogin: {
+          email: email,
+          password: password
+        }
+      });
+
+      console.log('登录成功的响应数据', response.data);
+
+      const { success, userInfo, token } = response.data.data;
+
+      console.log('success: ', success, 'userInfo: ', userInfo, 'token: ', token);
+
+      if (success) {
+        // 存储用户信息到全局状态
+        setUserInfo({
+          userId: userInfo.userId,
+          username: userInfo.username,
+          email: userInfo.email,
+          token: token,
+        });
+        setLoggedIn(true);
+
+        // 如果有token，可以存储
+        if (response.data.token) {
+          // 可以存储到localStorage或cookie
+          localStorage.setItem('token', response.data.token);
+        }
+
+        console.log('准备跳转到:', callbackUrl);
+        try {
+          router.push(callbackUrl);
+          console.log('路由跳转已执行');
+        } catch (error) {
+          console.error('路由跳转出错:', error);
+        }
+      } else {
+        setErrorMessage('登录失败：无效的响应格式');
+      }
+    } catch (error) {
+      console.error('登录失败', error);
+
+      if (axios.isAxiosError(error) && error.response) {
+        // 处理特定的错误响应
+        if (error.response.status === 401) {
+          setErrorMessage('用户名或密码错误');
+        } else if (error.response.status === 429) {
+          setErrorMessage('请求过于频繁，请稍后再试');
+        } else {
+          setErrorMessage(`登录失败: ${error.response.data?.message || '未知错误'}`);
+        }
+      } else {
+        setErrorMessage('登录失败：网络错误或服务器无响应');
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
-    <form action={formAction} className="space-y-3">
+    <form onSubmit={handleSubmit} className="space-y-3">
       <div className="flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8">
         <h1 className={`${lusitana.className} mb-3 text-2xl`}>
-          Please log in to continue.
+          请登录以继续
         </h1>
         <div className="w-full">
           <div>
@@ -31,7 +109,7 @@ export default function LoginForm() {
               className="mb-3 mt-5 block text-s font-medium text-gray-900"
               htmlFor="email"
             >
-              Email
+              邮箱
             </label>
             <div className="relative">
               <input
@@ -39,7 +117,7 @@ export default function LoginForm() {
                 id="email"
                 type="email"
                 name="email"
-                placeholder="Enter your email address"
+                placeholder="请输入邮箱地址"
                 required
               />
               <AtSymbolIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
@@ -50,7 +128,7 @@ export default function LoginForm() {
               className="mb-3 mt-5 block text-s font-medium text-gray-900"
               htmlFor="password"
             >
-              Password
+              密码
             </label>
             <div className="relative">
               <input
@@ -58,7 +136,7 @@ export default function LoginForm() {
                 id="password"
                 type="password"
                 name="password"
-                placeholder="Enter password"
+                placeholder="请输入密码"
                 required
                 minLength={6}
               />
@@ -66,26 +144,24 @@ export default function LoginForm() {
             </div>
           </div>
         </div>
-        <input type="hidden" name="redirectTo" value={callbackUrl} />
         <Button
           type="submit"
           variant="contained"
           color="primary"
+          disabled={isLoading}
           fullWidth
           sx={{
             mt: 2,
-            // py: 1.5,
-            // fontWeight: 'bold',
             fontSize: '1.2rem',
             textTransform: 'none',
-            backgroundColor: 'black', // 背景色
-            borderRadius: '12px', // 圆角
+            backgroundColor: 'black',
+            borderRadius: '12px',
             '&:hover': {
-              backgroundColor: '#222', // 悬停时更深色
+              backgroundColor: '#222',
             },
           }}
         >
-          Log in
+          {isLoading ? '登录中...' : '登录'}
         </Button>
         <div className="flex h-8 items-end space-x-1">
           {errorMessage && (

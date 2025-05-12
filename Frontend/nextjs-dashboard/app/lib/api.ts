@@ -1,41 +1,51 @@
 import axios from 'axios';
 
-const base_url = 'http://127.0.0.1:8000';
+const base_url = 'http://47.117.144.50:8000';
 // 课程相关接口
+let base_url_course;
 export const CourseAPI = {
+  base_url_course: `${base_url}/api/course`,
   // 添加课程
   addCourse: async (course: { courseName: string; description: string }) => {
     console.log("Adding course:", course);
-    const url = ``; // 后端添加课程的接口 URL
-    const response = await axios.post(url, course);
-    return response.data;
+    await axios.post(`${base_url_course}/createCourse`, course);
   },
 
   // 删除课程
   deleteCourse: async (courseId: number) => {
-    console.log("Deleting course with ID:", courseId);
-    const url = ''; // 后端删除课程的接口 URL
-    const response = await axios.delete(`${url}/${courseId}`);
+    console.log(`Deleting course with ID: ${courseId}`);
+    const response = await axios.delete(`${base_url_course}/deleteCourse`,
+      {
+        params: {
+          CourseId: courseId,
+        }
+      }
+    );
     return response.data;
   },
 
   // 修改课程
   updateCourse: async (courseId: number, updatedCourse: { courseName: string; description: string }) => {
     console.log("Updating course with ID:", courseId, "to:", updatedCourse);
-    const url = ''; // 后端修改课程的接口 URL
-    const response = await axios.put(`${url}/${courseId}`, updatedCourse);
-    return response.data;
+    await axios.put(`${base_url_course}/${courseId}`, updatedCourse);
   },
 };
 
 // 讲座相关接口
 export const LectureAPI = {
+  base_url_lecture: `${base_url}/api/course`,
   // 添加讲座
-  addLecture: async (lecture: { courseName: string; courseId: number }) => {
-    console.log("Adding lecture:", lecture);
-    const url = ''; // 后端添加讲座的接口 URL
-    const response = await axios.post(url, lecture);
-    return response.data;
+  addLecture: async (
+    courseId: number,
+    payload: { lectureName: string; description: string }
+  ): Promise<void> => {
+    console.log("Adding lecture to course", courseId, "with data:", payload);
+    const url = `${base_url_course}/addLecture`;
+    await axios.post(url, {
+      courseId,
+      lectureName: payload.lectureName,
+      description: payload.description,
+    });
   },
 
   // 删除讲座
@@ -43,14 +53,12 @@ export const LectureAPI = {
     console.log("Deleting lecture with ID:", lectureId);
     const url = ''; // 后端删除讲座的接口 URL
     const response = await axios.delete(`${url}/${lectureId}`);
-    return response.data;
   },
 
   // 修改讲座
-  updateLecture: async (lectureId: number, updatedLecture: { lectureName: string }) => {
+  updateLecture: async (lectureId: number, updatedLecture: { lectureName: string, description: string }) => {
     console.log("Updating lecture with ID:", lectureId, "to:", updatedLecture);
     const url = ''; // 后端修改讲座的接口 URL
     const response = await axios.put(`${url}/${lectureId}`, updatedLecture);
-    return response.data;
   },
 };
