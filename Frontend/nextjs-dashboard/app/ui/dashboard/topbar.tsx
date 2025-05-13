@@ -77,7 +77,7 @@ export default function Topbar({ user }: TopbarProps) {
             >
               <Box sx={{ px: 2, py: 1 }}>
                 <Typography variant="subtitle1" fontWeight="bold">
-                  {user?.name || 'unknown'}
+                  {user?.userName || 'unknown'}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                   {user?.email || 'unknown'}
