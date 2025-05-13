@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const BACKEND_UPLOAD_URL = "http://localhost:8000/api/Files/lectureFile/upload";
+const BACKEND_UPLOAD_URL = "http://47.117.144.50:8000/api/Files/lectureFile/upload";
 
 export async function POST(req: NextRequest) {
   // 获取前端上传的 formData

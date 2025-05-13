@@ -3,11 +3,7 @@ import Credentials from 'next-auth/providers/credentials';
 import { authConfig } from './auth.config';
 import { z } from 'zod';
 import type { User } from '@/app/lib/definitions';
-import bcrypt from 'bcryptjs';
-import postgres from 'postgres';
 import { fakeUser } from './app/lib/mocked-data';
-
-const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 
 // async function getUser(email: string): Promise<User | undefined> {
 //   try {
@@ -18,12 +14,6 @@ const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 //     throw new Error('Failed to fetch user.');
 //   }
 // }
-async function getUser(email: string) {
-  const res = await fetch(`https://your-backend.com/api/user?email=${encodeURIComponent(email)}`);
-  if (!res.ok) throw new Error('Failed to fetch user');
-  const data = await res.json();
-  return data as User;
-}
 
 export const { auth, signIn, signOut } = NextAuth({
   ...authConfig,
@@ -37,10 +27,31 @@ export const { auth, signIn, signOut } = NextAuth({
         if (parsedCredentials.success) {
           const { email, password } = parsedCredentials.data;
           // const user = await getUser(email);
-          const user = fakeUser; // Should be removed once the database is set.
-          if (!user) return null;
-          const passwordsMatch = await bcrypt.compare(password, user.password);
-          if (passwordsMatch) return user;
+
+          // 调用后端登录接口
+          const response = await fetch('http://47.117.144.50:8000/api/user/loginUser', {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ "userLogin": { "email": email, "password": password } })
+          });
+
+          if (!response.ok) return null;
+
+          const responseText = await response.text();
+          console.log('response body:', responseText);
+
+          const response_json = JSON.parse(responseText);
+          const data = response_json.data;
+
+          if (data && data.token && data.userInfo) {
+          // 把 token 和用户信息都返回，token 会存到 session 里
+            return {
+              ...data.userInfo,
+              token: data.token,
+            };
+          }
+
+          return null;
         }
 
         console.log('Invalid credentials');
@@ -48,4 +59,5 @@ export const { auth, signIn, signOut } = NextAuth({
       },
     }),
   ],
+
 });
