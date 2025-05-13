@@ -33,13 +33,6 @@ export const myProvider = customProvider({
   }
 });
 
-export interface UserInfo {
-  userId: number;
-  username: string;
-  email: string;
-  token: string;
-}
-
 export interface Exercise {
   exerciseId: number;
   publisherId: number;
@@ -67,9 +60,20 @@ export interface Course {
   lectures: Lecture[];
 }
 
-export type User = {
-  id: number;
-  name: string;
+export type UserInfo = {
+  userId: string;
+  userName: string;
+  usersign?: string;
+  university?: string;
+  birthday?: string;
+  identity?: string;
   email: string;
-  password: string;
 };
+
+export type LoginResponse = {
+  data: {
+    token: string;
+    userInfo: UserInfo;
+  };
+};
+
