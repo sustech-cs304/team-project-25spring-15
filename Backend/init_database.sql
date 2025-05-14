@@ -11,10 +11,11 @@ DROP TABLE IF EXISTS LectureFiles;
 DROP TABLE IF EXISTS AssignmentFiles;
 DROP TABLE IF EXISTS Files;
 DROP TABLE IF EXISTS Assignments;
+DROP TABLE IF EXISTS Comment;
 DROP TABLE IF EXISTS Comments;
 DROP TABLE IF EXISTS Lectures;
-DROP TABLE IF EXISTS Chats;
 DROP TABLE IF EXISTS Courses;
+DROP TABLE IF EXISTS Chats;
 DROP TABLE IF EXISTS Users;
 CREATE TABLE Users (
     userId BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -24,7 +25,8 @@ CREATE TABLE Users (
     userSign TEXT,
     university VARCHAR(255),
     birthday TIMESTAMP,
-    identity ENUM('teacher', 'student', 'superuser') DEFAULT 'student'
+    login INT DEFAULT 0,
+    identity ENUM('teacher', 'student', 'superuser', 'bot') DEFAULT 'student'
 );
 CREATE TABLE Files (
     fileId BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -37,6 +39,12 @@ CREATE TABLE Files (
     lastModified DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (uploaderId) REFERENCES Users(userId) ON DELETE CASCADE
 );
+CREATE TABLE Chats(
+    chatId BIGINT AUTO_INCREMENT PRIMARY KEY,
+    ownerId BIGINT NOT NULL,
+    chatName VARCHAR(50) NOT NULL ,
+    FOREIGN KEY (ownerId) REFERENCES Users(userId) ON DELETE CASCADE
+);
 CREATE TABLE Courses(
     courseId BIGINT AUTO_INCREMENT PRIMARY KEY,
     teacherId BIGINT NOT NULL,
@@ -44,6 +52,8 @@ CREATE TABLE Courses(
     description VARCHAR(255),
     startTime TIMESTAMP,
     endTime TIMESTAMP,
+    chatId BIGINT,
+    FOREIGN KEY (chatId) REFERENCES Chats(chatId) ON DELETE CASCADE ,
     FOREIGN KEY (teacherId) REFERENCES Users(userId) ON DELETE CASCADE
 );
 CREATE TABLE Lectures(
@@ -77,11 +87,6 @@ CREATE TABLE Assignments(
 --     FOREIGN KEY (lectureId) REFERENCES Lectures(lectureId) ,
 --     FOREIGN KEY (publisherId) REFERENCES Users(userId)
 -- );
-CREATE TABLE Chats(
-    chatId BIGINT AUTO_INCREMENT PRIMARY KEY,
-    ownerId BIGINT NOT NULL,
-    FOREIGN KEY (ownerId) REFERENCES Users(userId) ON DELETE CASCADE
-);
 CREATE TABLE AssignmentUserFeedback(
     assignmentId BIGINT NOT NULL,
     performerId BIGINT NOT NULL,
@@ -146,6 +151,7 @@ CREATE TABLE TestcaseAndAnswerFiles(
 CREATE TABLE ChatUserInfo(
     userId BIGINT NOT NULL,
     chatId BIGINT NOT NULL,
+    hasRead BIGINT NOT NULL DEFAULT 0,
     PRIMARY KEY (userId, chatId),
     FOREIGN KEY (userId) REFERENCES Users(userId) ON DELETE CASCADE,
     FOREIGN KEY (chatId) REFERENCES Chats(chatId) ON DELETE CASCADE
@@ -155,6 +161,7 @@ CREATE TABLE ChatMessageInfo(
     chatId BIGINT NOT NULL,
     ownerId BIGINT NOT NULL,
     message VARCHAR(255) NOT NULL,
+    totalNum BIGINT,
     FOREIGN KEY (chatId) REFERENCES Chats(chatId) ON DELETE CASCADE,
     FOREIGN KEY (ownerId) REFERENCES Users(userId) ON DELETE CASCADE
 );
@@ -166,31 +173,27 @@ CREATE TABLE Comment (
   content VARCHAR(1023) NOT NUll,
   createTime VARCHAR(255) NOT NULL,
   likes BIGINT,
-  FOREIGN KEY(authorIdId) REFERENCES Users(userId),
-);
-CREATE TABLE SharedFiles(
-    sharedFileId BIGINT NOT NULL,
-    sharedLogId BIGINT NOT NULL,
-    FOREIGN KEY (sharedFileId) REFERENCES Files(fileId) ON DELETE CASCADE,
-    FOREIGN KEY (sharedLogId) REFERENCES Files(fileId) ON DELETE CASCADE
-);
-CREATE TABLE SharedTasks(
-    sharedFileId BIGINT NOT NULL PRIMARY KEY,
-    userId BIGINT NOT NULL,
-    isOnline INT NOT NULL,
-    FOREIGN KEY (sharedFileId) REFERENCES SharedFiles(sharedFileId) ON DELETE CASCADE,
-    FOREIGN KEY (userId) REFERENCES Users(userId) ON DELETE CASCADE
+  FOREIGN KEY(authorId) REFERENCES Users(userId)
 );
 insert into Users(userId, userName, password, email, identity)
-VALUES (1, 'Y', '123456', 'Y', 'superuser');
+VALUES (1, 'Y', '123456', 'Y1', 'superuser');
+insert into Users(userId, userName, password, email, identity)
+VALUES (2, 'Y', '123456', 'Y2', 'bot');
+insert into Users(userId, userName, password, email, identity)
+VALUES (3, 'Y', '12346', 'Y3', 'superuser');
+insert into Users(userId, userName, password, email, identity)
+VALUES (4, 'Y', '12346', 'Y4', 'student');
 insert into Courses(COURSENAME, DESCRIPTION, teacherId)
 values ('1', '1', 1);
+insert into UserCourseInfo(USERID, COURSEID) VALUES (3, 1);
 insert into Lectures(courseId, lectureName, description)
 values (1, '1', '1');
 insert into Users(userId, userName, password, email, identity)
 VALUES (5, '5', '123456', '5', 'teacher');
 insert into Users(userId, userName, password, email, identity)
 VALUES (6, '6', '123456', '6', 'student');
+insert into Users(userId, userName, password, email, identity)
+VALUES (7, '7', '123456', '11111111@mail.sustech.edu.cn', 'student');
 insert into Assignments(assignmentId, publisherId, courseId, lectureId) VALUES (1,1,1,1);
 insert into Files(fileId, fileSize, fileUrl, fileName, fileType) VALUES (1,1,'/usr/Document/testcase_1.txt','testcase_1', '1');
 insert into Files(fileId, fileSize, fileUrl, fileName, fileType) VALUES (2,1,'/usr/Document/testcase_2.txt','testcase_2', '1');
@@ -201,4 +204,4 @@ insert into TestcaseAndAnswerFiles(testcaseAndAnswerId, assignmentId, publisherI
 insert into TestcaseAndAnswerFiles(testcaseAndAnswerId, assignmentId, publisherId, testcaseId, answerId, fileType) VALUES (2,1,1,2,4,'code');
 insert into TestcaseAndAnswerFiles(testcaseAndAnswerId, assignmentId, publisherId, testcaseId, answerId, fileType, score) VALUES (3,1,1,2,3,'code',2);
 
-select * from Chats;
+select * from Courses;
