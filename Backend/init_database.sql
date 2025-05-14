@@ -14,9 +14,9 @@ DROP TABLE IF EXISTS Assignments;
 DROP TABLE IF EXISTS Comment;
 DROP TABLE IF EXISTS Comments;
 DROP TABLE IF EXISTS Lectures;
+DROP TABLE IF EXISTS Tasks;
 DROP TABLE IF EXISTS Courses;
 DROP TABLE IF EXISTS Chats;
-DROP TABLE IF EXISTS Tasks;
 DROP TABLE IF EXISTS Users;
 CREATE TABLE Users (
     userId BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -174,18 +174,24 @@ CREATE TABLE Comment (
   content VARCHAR(1023) NOT NUll,
   createTime VARCHAR(255) NOT NULL,
   likes BIGINT,
-  FOREIGN KEY(authorId) REFERENCES Users(userId)
+  FOREIGN KEY(authorId) REFERENCES Users(userId) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Tasks(
     taskId BIGINT AUTO_INCREMENT PRIMARY KEY ,
-    reviewerId BIGINT NOT NULL ,
+    targetApproverId BIGINT NOT NULL ,
     publisherId BIGINT NOT NULL ,
+    publisherName VARCHAR(255) NOT NULL ,
+    reviewerId BIGINT NOT NULL ,
+    courseId BIGINT NOT NULL ,
     decision TINYINT DEFAULT 0,
     kind ENUM('join_course'),
     taskInfo VARCHAR(255),
-    FOREIGN KEY (reviewerId) REFERENCES Users(userId),
-    FOREIGN KEY (publisherId) REFERENCES Users(userId)
+    comment VARCHAR(255),
+    FOREIGN KEY (targetApproverId) REFERENCES Users(userId) ON DELETE CASCADE,
+    FOREIGN KEY (publisherId) REFERENCES Users(userId) ON DELETE CASCADE,
+    FOREIGN KEY (reviewerId) REFERENCES Users(userId) ON DELETE CASCADE,
+    FOREIGN KEY (courseId) REFERENCES Courses(courseId) ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS fuzzy_search_adv;
@@ -393,3 +399,5 @@ insert into TestcaseAndAnswerFiles(testcaseAndAnswerId, assignmentId, publisherI
 insert into TestcaseAndAnswerFiles(testcaseAndAnswerId, assignmentId, publisherId, testcaseId, answerId, fileType, score) VALUES (3,1,1,2,3,'code',2);
 
 select * from Courses;
+
+call fuzzy_search_result_multi('1,Y,','',10);

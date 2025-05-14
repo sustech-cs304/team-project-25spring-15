@@ -13,7 +13,7 @@ import (
 type ICourseV1 interface {
 	GetAllCoursesInfo(ctx context.Context, req *v1.GetAllCoursesInfoReq) (res *v1.GetAllCoursesInfoRes, err error)
 	SearchCourse(ctx context.Context, req *v1.SearchCourseReq) (res *v1.SearchCourseRes, err error)
-	RecommandCourse(ctx context.Context, req *v1.RecommandCourseReq) (res *v1.RecommandCourseRes, err error)
+	RecommendCourse(ctx context.Context, req *v1.RecommendCourseReq) (res *v1.RecommendCourseRes, err error)
 	CreateCourse(ctx context.Context, req *v1.CreateCourseReq) (res *v1.CreateCourseRes, err error)
 	GetCourseWithLecturesByCourseId(ctx context.Context, req *v1.GetCourseWithLecturesByCourseIdReq) (res *v1.GetCourseWithLecturesByCourseIdRes, err error)
 	GetCourseWithLecturesByStudentId(ctx context.Context, req *v1.GetCourseWithLecturesByStudentIdReq) (res *v1.GetCourseWithLecturesByStudentIdRes, err error)

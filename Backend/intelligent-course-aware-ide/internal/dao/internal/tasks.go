@@ -20,22 +20,30 @@ type TasksDao struct {
 
 // TasksColumns defines and stores column names for the table Tasks.
 type TasksColumns struct {
-	TaskId      string //
-	ReviewerId  string //
-	PublisherId string //
-	Decision    string //
-	Kind        string //
-	TaskInfo    string //
+	TaskId           string //
+	TargetApproverId string //
+	PublisherId      string //
+	PublisherName    string //
+	ReviewerId       string //
+	CourseId         string //
+	Decision         string //
+	Kind             string //
+	TaskInfo         string //
+	Comment          string //
 }
 
 // tasksColumns holds the columns for the table Tasks.
 var tasksColumns = TasksColumns{
-	TaskId:      "taskId",
-	ReviewerId:  "reviewerId",
-	PublisherId: "publisherId",
-	Decision:    "decision",
-	Kind:        "kind",
-	TaskInfo:    "taskInfo",
+	TaskId:           "taskId",
+	TargetApproverId: "targetApproverId",
+	PublisherId:      "publisherId",
+	PublisherName:    "publisherName",
+	ReviewerId:       "reviewerId",
+	CourseId:         "courseId",
+	Decision:         "decision",
+	Kind:             "kind",
+	TaskInfo:         "taskInfo",
+	Comment:          "comment",
 }
 
 // NewTasksDao creates and returns a new DAO object for table data access.

@@ -12,4 +12,5 @@ import (
 
 type ITaskV1 interface {
 	GetAllTaskInfoWithUserId(ctx context.Context, req *v1.GetAllTaskInfoWithUserIdReq) (res *v1.GetAllTaskInfoWithUserIdRes, err error)
+	HandleTask(ctx context.Context, req *v1.HandleTaskReq) (res *v1.HandleTaskRes, err error)
 }

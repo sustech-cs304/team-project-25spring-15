@@ -40,22 +40,24 @@ type GetAllCoursesInfoRes struct {
 }
 
 type SearchCourseReq struct {
-	g.Meta   `path:"/api/course/searchCourses" method:"get" tags:"Course" summary:"search courses with keyword"`
-	Keywords string `json:"keywords" dc:"keywords of this search"`
+	g.Meta       `path:"/api/course/searchCourses" method:"get" tags:"Course" summary:"search courses with keyword"`
+	Keywords     string `json:"keywords" dc:"keywords of this search"`
+	SourceTable  string `json:"kind" dc:"which kind of info will be included this search"`
+	RecommendNum int    `json:"recommendNum" dc:"number of the result to show"`
 }
 
 type SearchCourseRes struct {
 	g.Meta  `mime:"text/html" example:"json"`
-	Courses []*entity.Courses `json:"courses" dc:"Info of all courses"`
+	Courses []*entity.FuzzySearchAdv `json:"courses" dc:"Info of all courses"`
 }
 
-type RecommandCourseReq struct {
-	g.Meta `path:"/api/course/recommandCourses" method:"get" tags:"Course" summary:"recommand courses"`
+type RecommendCourseReq struct {
+	g.Meta `path:"/api/course/recommendCourses" method:"get" tags:"Course" summary:"recommend courses"`
 }
 
-type RecommandCourseRes struct {
+type RecommendCourseRes struct {
 	g.Meta  `mime:"text/html" example:"json"`
-	Courses []*entity.Courses `json:"courses" dc:"Info of all courses"`
+	Courses []*entity.FuzzySearchAdv `json:"courses" dc:"Info of all courses"`
 }
 
 type CreateCourseReq struct {

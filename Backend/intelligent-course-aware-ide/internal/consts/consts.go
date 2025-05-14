@@ -55,3 +55,6 @@ const JWTTime time.Duration = 6
 
 // Bot user id
 const BotId int64 = 1
+
+// Recommend number
+const RecommendNum = 5
