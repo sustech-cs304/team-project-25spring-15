@@ -24,6 +24,13 @@ func (c *ControllerV1) UploadTestcaseAndAnswer(ctx context.Context, req *v1.Uplo
 			return nil, err
 		}
 
+		operatorName := ctx.Value("operatorName").(string)
+		systemInfo := operatorName + "update testcase for course:" + req.CourseName
+		success, err := c.chats.SendSystemMessage(ctx, systemInfo, req.ChatId)
+		if !success || err != nil {
+			return nil, errors.New("fail to send message")
+		}
+
 		res = &v1.UploadTestcaseAndAnswerRes{
 			TestcaseAndAnswerId: testcaseAndAnswerId,
 		}

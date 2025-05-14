@@ -30,6 +30,14 @@ func (c *ControllerV1) UpdateAssignment(ctx context.Context, req *v1.UpdateAssig
 		if err != nil {
 			return res, err
 		}
+
+		operatorName := ctx.Value("operatorName").(string)
+		systemInfo := operatorName + "update assignment for course:" + req.CourseName
+		success, err := c.chats.SendSystemMessage(ctx, systemInfo, req.ChatId)
+		if !success || err != nil {
+			return nil, errors.New("fail to send message")
+		}
+
 		res.Success = true
 		return res, err
 	}

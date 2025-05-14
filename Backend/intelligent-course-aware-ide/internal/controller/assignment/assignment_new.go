@@ -7,6 +7,7 @@ package assignment
 import (
 	"intelligent-course-aware-ide/api/assignment"
 	assignmentLogic "intelligent-course-aware-ide/internal/logic/assignment"
+	chatLogic "intelligent-course-aware-ide/internal/logic/chat"
 	courseLogic "intelligent-course-aware-ide/internal/logic/course"
 	runnerLogic "intelligent-course-aware-ide/internal/logic/runner"
 )
@@ -15,6 +16,7 @@ type ControllerV1 struct {
 	assignments *assignmentLogic.Assignments
 	courses     *courseLogic.Courses
 	runners     *runnerLogic.Runners
+	chats       *chatLogic.Chats
 }
 
 func NewV1() assignment.IAssignmentV1 {
@@ -22,5 +24,6 @@ func NewV1() assignment.IAssignmentV1 {
 		assignments: assignmentLogic.New(),
 		courses:     courseLogic.New(),
 		runners:     runnerLogic.New(),
+		chats:       chatLogic.New(),
 	}
 }

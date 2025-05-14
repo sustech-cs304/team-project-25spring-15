@@ -39,6 +39,25 @@ type GetAllCoursesInfoRes struct {
 	Courses []*entity.Courses `json:"courses" dc:"Info of all courses"`
 }
 
+type SearchCourseReq struct {
+	g.Meta   `path:"/api/course/searchCourses" method:"get" tags:"Course" summary:"search courses with keyword"`
+	Keywords string `json:"keywords" dc:"keywords of this search"`
+}
+
+type SearchCourseRes struct {
+	g.Meta  `mime:"text/html" example:"json"`
+	Courses []*entity.Courses `json:"courses" dc:"Info of all courses"`
+}
+
+type RecommandCourseReq struct {
+	g.Meta `path:"/api/course/recommandCourses" method:"get" tags:"Course" summary:"recommand courses"`
+}
+
+type RecommandCourseRes struct {
+	g.Meta  `mime:"text/html" example:"json"`
+	Courses []*entity.Courses `json:"courses" dc:"Info of all courses"`
+}
+
 type CreateCourseReq struct {
 	g.Meta    `path:"/api/course/createCourse" method:"post" tags:"Course" summary:"create course"`
 	NewCourse CourseInfo `json:"course" dc:"Info of the course to create"`
@@ -118,4 +137,15 @@ type UnassignCourseAssistantReq struct {
 type UnassignCourseAssistantRes struct {
 	g.Meta  `mime:"text/html" example:"json"`
 	Success bool `json:"success" dc:"success or not"`
+}
+
+type ApplyToJoinCourseReq struct {
+	g.Meta          `path:"/api/course/applyToJoinCourse" method:"post" tags:"Course" summary:"student apply to join in the course"`
+	CourseId        int64  `json:"courseId" dc:"Id of the course"`
+	ApplicationInfo string `json:"applicationInfo" dc:"Info of this application"`
+}
+
+type ApplyToJoinCourseRes struct {
+	g.Meta  `mime:"text/html" example:"json"`
+	Success bool `json:"success" dc:"success or not(attention here: this success does not mean the student has join in the course, he has to wait for teacher or superuser to review this aplication)"`
 }

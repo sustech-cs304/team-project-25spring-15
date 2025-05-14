@@ -25,6 +25,13 @@ func (c *ControllerV1) DeleteTestcaseAndAnswer(ctx context.Context, req *v1.Dele
 			return nil, err
 		}
 
+		operatorName := ctx.Value("operatorName").(string)
+		systemInfo := operatorName + "delete testcase for course:" + req.CourseName
+		success, err := c.chats.SendSystemMessage(ctx, systemInfo, req.ChatId)
+		if !success || err != nil {
+			return nil, errors.New("fail to send message")
+		}
+
 		res = &v1.DeleteTestcaseAndAnswerRes{
 			Success: true,
 		}

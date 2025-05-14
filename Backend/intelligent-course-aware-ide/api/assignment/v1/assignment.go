@@ -64,6 +64,8 @@ type GetAllAssignmentInfoOfALectureRes struct {
 type CreateAssignmentReq struct {
 	g.Meta        `path:"/api/assignment/createAssignment" method:"post" tags:"Assignment" summary:"create assignment"`
 	NewAssignment AssignmentInfo `json:"assignment" dc:"Info of the assignment to create"`
+	CourseName    string         `json:"courseName" dc:"name of this course"`
+	ChatId        int64          `json:"chatId" dc:"chat id of this course"`
 }
 
 type CreateAssignmentRes struct {
@@ -83,8 +85,10 @@ type GetAssignmentRes struct {
 
 type DeleteAssignmentReq struct {
 	g.Meta       `path:"/api/assignment/deleteAssignment" method:"delete" tags:"Assignment" summary:"delete assignment info"`
-	AssignmentId int64 `v:"required" dc:"id of the assignment to delete"`
-	CourseId     int64 `v:"required" dc:"id of the course"`
+	AssignmentId int64  `v:"required" dc:"id of the assignment to delete"`
+	CourseId     int64  `v:"required" dc:"id of the course"`
+	CourseName   string `json:"courseName" dc:"name of this course"`
+	ChatId       int64  `json:"chatId" dc:"chat id of this course"`
 }
 
 type DeleteAssignmentRes struct {
@@ -95,6 +99,8 @@ type DeleteAssignmentRes struct {
 type UpdateAssignmentReq struct {
 	g.Meta           `path:"/api/assignment/updateAssignment" method:"put" tags:"Assignment" summary:"update assignment"`
 	UpdateAssignment AssignmentInfo `json:"assignment" dc:"Info of the assignment to update"`
+	CourseName       string         `json:"courseName" dc:"name of this course"`
+	ChatId           int64          `json:"chatId" dc:"chat id of this course"`
 }
 
 type UpdateAssignmentRes struct {
@@ -106,6 +112,8 @@ type UploadTestcaseAndAnswerReq struct {
 	g.Meta            `path:"/api/assignment/uploadTestcaseAndAnswer" method:"post" tags:"Assignment" summary:"update testcase and answer for this assignment"`
 	TestcaseAndAnswer TestcaseAndAnswerInfo `json:"testcaseAndAnswer" dc:"Info of the testcase and answer"`
 	CourseId          int64                 `v:"required" dc:"id of the course"`
+	CourseName        string                `json:"courseName" dc:"name of this course"`
+	ChatId            int64                 `json:"chatId" dc:"chat id of this course"`
 }
 
 type UploadTestcaseAndAnswerRes struct {
@@ -115,8 +123,10 @@ type UploadTestcaseAndAnswerRes struct {
 
 type DeleteTestcaseAndAnswerReq struct {
 	g.Meta              `path:"/api/assignment/deleteTestcaseAndAnswer" method:"delete" tags:"Assignment" summary:"delete testcase and answer"`
-	TestcaseAndAnswerId int64 `json:"testcaseAndAnswerId" dc:"Id of the testcase and answer"`
-	CourseId            int64 `v:"required" dc:"id of the course"`
+	TestcaseAndAnswerId int64  `json:"testcaseAndAnswerId" dc:"Id of the testcase and answer"`
+	CourseId            int64  `v:"required" dc:"id of the course"`
+	CourseName          string `json:"courseName" dc:"name of this course"`
+	ChatId              int64  `json:"chatId" dc:"chat id of this course"`
 }
 
 type DeleteTestcaseAndAnswerRes struct {

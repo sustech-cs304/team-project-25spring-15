@@ -16,6 +16,7 @@ DROP TABLE IF EXISTS Comments;
 DROP TABLE IF EXISTS Lectures;
 DROP TABLE IF EXISTS Courses;
 DROP TABLE IF EXISTS Chats;
+DROP TABLE IF EXISTS Tasks;
 DROP TABLE IF EXISTS Users;
 CREATE TABLE Users (
     userId BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -175,6 +176,193 @@ CREATE TABLE Comment (
   likes BIGINT,
   FOREIGN KEY(authorId) REFERENCES Users(userId)
 );
+
+CREATE TABLE IF NOT EXISTS Tasks(
+    taskId BIGINT AUTO_INCREMENT PRIMARY KEY ,
+    reviewerId BIGINT NOT NULL ,
+    publisherId BIGINT NOT NULL ,
+    decision TINYINT DEFAULT 0,
+    kind ENUM('join_course'),
+    taskInfo VARCHAR(255),
+    FOREIGN KEY (reviewerId) REFERENCES Users(userId),
+    FOREIGN KEY (publisherId) REFERENCES Users(userId)
+);
+
+DROP TABLE IF EXISTS fuzzy_search_adv;
+CREATE TABLE IF NOT EXISTS fuzzy_search_adv(
+    fuzzy_search_id INT AUTO_INCREMENT PRIMARY KEY ,
+    id BIGINT NOT NULL ,
+    match_count BIGINT DEFAULT 0,
+    info VARCHAR(255),
+    name VARCHAR(255),
+    source_table VARCHAR(255)
+);
+
+DROP FUNCTION IF EXISTS process_substring;
+DELIMITER $$
+CREATE FUNCTION process_substring(keyword TEXT)
+RETURNS TEXT
+DETERMINISTIC
+BEGIN
+    DECLARE i INT DEFAULT 1;
+    DECLARE len INT DEFAULT CHAR_LENGTH(keyword);
+    DECLARE result TEXT DEFAULT '';
+    WHILE i <= len DO
+        IF i + 2 < len THEN
+            SET result = CONCAT(result, ',', SUBSTRING(keyword, i, 2));
+            SET i = i + 2;
+        ELSE
+            SET result = CONCAT(result, ',', SUBSTRING(keyword, i));
+            SET i = len + 1;
+        END IF;
+    END WHILE;
+    RETURN TRIM(BOTH ',' FROM result);
+END$$
+
+DELIMITER ;
+
+DROP TABLE IF EXISTS temp_matches;
+CREATE TEMPORARY TABLE temp_matches (
+   source_table VARCHAR(50),
+   id BIGINT,
+   name VARCHAR(255),
+   info VARCHAR(255),
+   match_count BIGINT DEFAULT 0
+);
+
+DROP PROCEDURE IF EXISTS fuzzy_search;
+DELIMITER $$
+
+CREATE PROCEDURE fuzzy_search(IN keywordAll TEXT)
+BEGIN
+    DECLARE done INT DEFAULT FALSE;
+    DECLARE substring TEXT;
+    DECLARE keyword TEXT;
+    DECLARE temp_pattern TEXT;
+    DECLARE split_cursor CURSOR FOR SELECT TRIM(split_part) FROM temp_keywords;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+
+    -- 创建临时关键词表
+    DROP TEMPORARY TABLE IF EXISTS temp_keywords;
+    CREATE TEMPORARY TABLE temp_keywords (split_part TEXT);
+
+    -- 清空表
+    TRUNCATE temp_matches;
+    TRUNCATE fuzzy_search_adv;
+
+    -- 拆分 keywordAll，逐个处理
+    WHILE LOCATE(',', keywordAll) > 0 DO
+        SET substring = SUBSTRING_INDEX(keywordAll, ',', 1);
+        SET keywordAll = SUBSTRING(keywordAll, LOCATE(',', keywordAll) + 1);
+
+        SET @sub_keywords = process_substring(substring);
+
+        WHILE LOCATE(',', @sub_keywords) > 0 DO
+            INSERT INTO temp_keywords (split_part) VALUES (SUBSTRING_INDEX(@sub_keywords, ',', 1));
+            SET @sub_keywords = SUBSTRING(@sub_keywords, LOCATE(',', @sub_keywords) + 1);
+        END WHILE;
+        INSERT INTO temp_keywords (split_part) VALUES (@sub_keywords);  -- 最后一个
+    END WHILE;
+
+    -- 处理最后一个关键词（如果没有逗号）
+    IF CHAR_LENGTH(keywordAll) > 0 THEN
+        SET @sub_keywords = process_substring(keywordAll);
+        WHILE LOCATE(',', @sub_keywords) > 0 DO
+            INSERT INTO temp_keywords (split_part) VALUES (SUBSTRING_INDEX(@sub_keywords, ',', 1));
+            SET @sub_keywords = SUBSTRING(@sub_keywords, LOCATE(',', @sub_keywords) + 1);
+        END WHILE;
+        INSERT INTO temp_keywords (split_part) VALUES (@sub_keywords);
+    END IF;
+
+    -- 遍历关键词并执行模糊匹配
+    OPEN split_cursor;
+    read_loop: LOOP
+        FETCH split_cursor INTO keyword;
+        IF done THEN
+            LEAVE read_loop;
+        END IF;
+
+        SET temp_pattern = CONCAT('%', keyword, '%');
+
+        -- 用户名
+        INSERT INTO temp_matches
+        SELECT 'User', userId, userName, userSign,
+               IF(LOCATE(keyword, userName) > 0, 1, 0)
+        FROM Users;
+
+        -- 用户签名
+        INSERT INTO temp_matches
+        SELECT 'User', userId, userName, userSign,
+               IF(LOCATE(keyword, userSign) > 0, 1, 0)
+        FROM Users;
+
+        -- 课程名
+        INSERT INTO temp_matches
+        SELECT 'Course', courseId, courseName, description,
+               IF(LOCATE(keyword, courseName) > 0, 1, 0)
+        FROM Courses;
+
+        -- 课程描述
+        INSERT INTO temp_matches
+        SELECT 'Course', courseId, courseName, description,
+               IF(LOCATE(keyword, description) > 0, 1, 0)
+        FROM Courses;
+    END LOOP;
+
+    CLOSE split_cursor;
+
+    -- 汇总写入 fuzzy_search_adv
+    INSERT INTO fuzzy_search_adv (source_table, id, name, info, match_count)
+    SELECT source_table, id, name, info, SUM(match_count)
+    FROM temp_matches
+    GROUP BY source_table, id, name, info;
+END$$
+
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS fuzzy_search_result_multi;
+DELIMITER $$
+
+CREATE PROCEDURE fuzzy_search_result_multi(IN keywordAll TEXT, IN source_list TEXT, IN limit_count INT)
+BEGIN
+    DECLARE src TEXT;
+
+    -- 创建临时表存储分割后的 source_table
+    DROP TEMPORARY TABLE IF EXISTS temp_source_list;
+    CREATE TEMPORARY TABLE temp_source_list (source_table VARCHAR(50));
+
+    CALL fuzzy_search(keywordAll);
+
+    -- 拆分 source_list（如 'User,Course'）
+    WHILE LOCATE(',', source_list) > 0 DO
+        SET src = SUBSTRING_INDEX(source_list, ',', 1);
+        INSERT INTO temp_source_list VALUES (TRIM(src));
+        SET source_list = SUBSTRING(source_list, LOCATE(',', source_list) + 1);
+    END WHILE;
+
+    -- 插入最后一个
+    IF CHAR_LENGTH(source_list) > 0 THEN
+        INSERT INTO temp_source_list VALUES (TRIM(source_list));
+    END IF;
+
+    -- 如果传入为空，默认查询全部
+    IF (SELECT COUNT(*) FROM temp_source_list) = 0 THEN
+        SELECT * FROM fuzzy_search_adv
+        WHERE match_count > 0
+        ORDER BY match_count DESC LIMIT limit_count;
+    ELSE
+        -- 查询匹配的 source_table
+        SELECT * FROM fuzzy_search_adv
+        WHERE match_count > 0
+          AND source_table IN (SELECT source_table FROM temp_source_list)
+        ORDER BY match_count DESC LIMIT limit_count;
+    END IF;
+END$$
+
+DELIMITER ;
+
+
+
 insert into Users(userId, userName, password, email, identity)
 VALUES (1, 'Y', '123456', 'Y1', 'superuser');
 insert into Users(userId, userName, password, email, identity)
