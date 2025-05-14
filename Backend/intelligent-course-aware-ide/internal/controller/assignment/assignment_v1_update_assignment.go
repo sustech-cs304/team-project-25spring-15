@@ -25,7 +25,7 @@ func (c *ControllerV1) UpdateAssignment(ctx context.Context, req *v1.UpdateAssig
 	}
 
 	if result1 || result2 {
-		info := utility.ConstructInfo(req.UpdateAssignment, 1)
+		info := utility.ConstructInfo(req.UpdateAssignment, 1, 0)
 		_, err = dao.Assignments.Ctx(ctx).Data(info).WherePri(req.UpdateAssignment.AssignmentId).Update()
 		if err != nil {
 			return res, err

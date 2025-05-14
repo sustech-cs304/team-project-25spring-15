@@ -26,6 +26,13 @@ func (c *ControllerV1) CreateLecture(ctx context.Context, req *v1.CreateLectureR
 			return nil, err
 		}
 
+		operatorName := ctx.Value("operatorName").(string)
+		systemInfo := operatorName + "create lecture:" + req.NewLecture.LectureName
+		success, err := c.chats.SendSystemMessage(ctx, systemInfo, req.ChatId)
+		if !success || err != nil {
+			return nil, errors.New("fail to send message")
+		}
+
 		res = &v1.CreateLectureRes{
 			LectureId: lectureId,
 		}

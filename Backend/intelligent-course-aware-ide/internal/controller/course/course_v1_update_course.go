@@ -25,10 +25,17 @@ func (c *ControllerV1) UpdateCourse(ctx context.Context, req *v1.UpdateCourseReq
 	}
 
 	if result1 || result2 {
-		info := utility.ConstructInfo(req.UpdateCourse, 1)
+		info := utility.ConstructInfo(req.UpdateCourse, 1, -1)
 		_, err = dao.Courses.Ctx(ctx).Data(info).WherePri(req.UpdateCourse.CourseId).Update()
 		if err != nil {
 			return res, err
+		}
+
+		operatorName := ctx.Value("operatorName").(string)
+		systemInfo := operatorName + "update course:" + req.UpdateCourse.CourseName
+		success, err := c.chats.SendSystemMessage(ctx, systemInfo, req.UpdateCourse.ChatId)
+		if !success || err != nil {
+			return res, errors.New("fail to send message")
 		}
 		res.Success = true
 		return res, err

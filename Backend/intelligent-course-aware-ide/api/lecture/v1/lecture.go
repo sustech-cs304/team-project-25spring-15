@@ -26,6 +26,7 @@ type GetAllLectureOfACourseInfoRes struct {
 type CreateLectureReq struct {
 	g.Meta     `path:"/api/lecture/createLecture" method:"post" tags:"Lecture" summary:"create lecture"`
 	NewLecture LectureInfo `json:"lecture" dc:"Info of the lecture to create"`
+	ChatId     int64       `json:"chatId" dc:"chat id of this course"`
 }
 
 type CreateLectureRes struct {
@@ -44,9 +45,11 @@ type GetLectureRes struct {
 }
 
 type DeleteLectureReq struct {
-	g.Meta    `path:"/api/lecture/deleteLecture" method:"delete" tags:"Lecture" summary:"delete lecture info"`
-	LectureId int64 `v:"required" dc:"id of the lecture to delete"`
-	CourseId  int64 `v:"required" dc:"id of the course"`
+	g.Meta      `path:"/api/lecture/deleteLecture" method:"delete" tags:"Lecture" summary:"delete lecture info"`
+	LectureId   int64  `v:"required" dc:"id of the lecture to delete"`
+	CourseId    int64  `v:"required" dc:"id of the course"`
+	LectureName string `dc:"name of the lecture to delete"`
+	ChatId      int64  `json:"chatId" dc:"chat id of this course"`
 }
 
 type DeleteLectureRes struct {
@@ -57,6 +60,7 @@ type DeleteLectureRes struct {
 type UpdateLectureReq struct {
 	g.Meta        `path:"/api/lecture/updateLecture" method:"put" tags:"Lecture" summary:"update lecture"`
 	UpdateLecture LectureInfo `json:"lecture" dc:"Info of the lecture to update"`
+	ChatId        int64       `json:"chatId" dc:"chat id of this course"`
 }
 
 type UpdateLectureRes struct {

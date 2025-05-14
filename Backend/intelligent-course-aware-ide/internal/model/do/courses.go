@@ -18,4 +18,5 @@ type Courses struct {
 	Description interface{} //
 	StartTime   *gtime.Time //
 	EndTime     *gtime.Time //
+	ChatId      interface{} //
 }

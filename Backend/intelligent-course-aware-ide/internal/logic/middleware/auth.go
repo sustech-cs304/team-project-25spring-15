@@ -31,6 +31,7 @@ func Auth(r *ghttp.Request) {
 			r.Exit()
 		}
 		r.SetCtxVar("operatorId", claims.UserId)
+		r.SetCtxVar("operatorName", claims.UserName)
 	}
 
 	r.Middleware.Next()

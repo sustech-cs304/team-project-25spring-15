@@ -5,6 +5,7 @@ import (
 	"errors"
 
 	v1 "intelligent-course-aware-ide/api/account/v1"
+	"intelligent-course-aware-ide/internal/consts"
 	"intelligent-course-aware-ide/internal/dao"
 	"intelligent-course-aware-ide/internal/model/do"
 )
@@ -26,6 +27,28 @@ func (c *ControllerV1) CreateUser(ctx context.Context, req *v1.CreateUserReq) (r
 
 	if err != nil {
 		return nil, err
+	}
+
+	chatId, err := dao.Chats.Ctx(ctx).Data(do.Chats{
+		OwnerId: consts.BotId,
+	}).InsertAndGetId()
+	if err != nil {
+		return nil, err
+	}
+
+	_, err = dao.ChatUserInfo.Ctx(ctx).Data(do.ChatUserInfo{
+		ChatId: chatId,
+		UserId: userId,
+	}).Insert()
+
+	if err != nil {
+		return nil, err
+	}
+
+	systemInfo := "Welcome to use this software, hope you have a good experience."
+	success, err := c.chats.SendSystemMessage(ctx, systemInfo, chatId)
+	if !success || err != nil {
+		return nil, errors.New("fail to send message")
 	}
 
 	res = &v1.CreateUserRes{

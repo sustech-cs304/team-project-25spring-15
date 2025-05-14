@@ -26,6 +26,7 @@ type CoursesColumns struct {
 	Description string //
 	StartTime   string //
 	EndTime     string //
+	ChatId      string //
 }
 
 // coursesColumns holds the columns for the table Courses.
@@ -36,6 +37,7 @@ var coursesColumns = CoursesColumns{
 	Description: "description",
 	StartTime:   "startTime",
 	EndTime:     "endTime",
+	ChatId:      "chatId",
 }
 
 // NewCoursesDao creates and returns a new DAO object for table data access.

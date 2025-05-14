@@ -14,8 +14,9 @@ type UserLoginInfo struct {
 }
 
 type JWTClaims struct {
-	UserId int64
-	Email  string
+	UserId   int64
+	Email    string
+	UserName string
 	jwt.RegisteredClaims
 }
 

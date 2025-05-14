@@ -14,6 +14,7 @@ type CourseInfo struct {
 	Description string      `json:"description" dc:"description of this course"`
 	StartTime   *gtime.Time `json:"startTime" dc:"start time of this course"`
 	EndTime     *gtime.Time `json:"endTime" dc:"end time of this course"`
+	ChatId      int64       `json:"chatId" dc:"chat id of this course"`
 }
 
 type CourseInfoWithLecture struct {
@@ -23,6 +24,7 @@ type CourseInfoWithLecture struct {
 	Description string             `json:"description" dc:"description of this course"`
 	StartTime   *gtime.Time        `json:"startTime" dc:"start time of this course"`
 	EndTime     *gtime.Time        `json:"endTime" dc:"end time of this course"`
+	ChatId      int64              `json:"chatId" dc:"chat id of this course"`
 	Lectures    []*entity.Lectures `json:"lectures" dc:"lectures of this course"`
 }
 

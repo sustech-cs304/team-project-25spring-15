@@ -27,6 +27,16 @@ type GetAllChatMessageOfAChatInfoRes struct {
 	ChatMessages []*entity.ChatMessageInfo `json:"chatMessages" dc:"Info of all message of the chat"`
 }
 
+type GetAllChatInfoOfAUserReq struct {
+	g.Meta `path:"/api/chat/getChatMessageOfAChat/{userId}" method:"get" tags:"Chat" summary:"get all chat info of this user"`
+	UserId int64 `json:"userId" dc:"Id of this user"`
+}
+
+type GetAllChatInfoOfAUserRes struct {
+	g.Meta       `mime:"text/html" example:"json"`
+	ChatMessages []*entity.ChatMessageInfo `json:"chatMessages" dc:"Info of all message of the chat"`
+}
+
 type CreateChatMessageReq struct {
 	g.Meta      `path:"/api/chat/createChatMessage" method:"post" tags:"Chat" summary:"Create a chat message"`
 	ChatMessage MessageInfo `json:"chatMessage" dc:"Info of the chat message"`

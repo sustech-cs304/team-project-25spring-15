@@ -10,4 +10,5 @@ type ChatMessageInfo struct {
 	ChatId    int64  `json:"chatId"    orm:"chatId"    description:""` //
 	OwnerId   int64  `json:"ownerId"   orm:"ownerId"   description:""` //
 	Message   string `json:"message"   orm:"message"   description:""` //
+	TotalNum  int64  `json:"totalNum"  orm:"totalNum"  description:""` //
 }

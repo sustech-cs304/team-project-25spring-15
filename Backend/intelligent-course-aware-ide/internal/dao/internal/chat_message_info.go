@@ -24,6 +24,7 @@ type ChatMessageInfoColumns struct {
 	ChatId    string //
 	OwnerId   string //
 	Message   string //
+	TotalNum  string //
 }
 
 // chatMessageInfoColumns holds the columns for the table ChatMessageInfo.
@@ -32,6 +33,7 @@ var chatMessageInfoColumns = ChatMessageInfoColumns{
 	ChatId:    "chatId",
 	OwnerId:   "ownerId",
 	Message:   "message",
+	TotalNum:  "totalNum",
 }
 
 // NewChatMessageInfoDao creates and returns a new DAO object for table data access.

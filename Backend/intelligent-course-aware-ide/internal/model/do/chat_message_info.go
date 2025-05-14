@@ -15,4 +15,5 @@ type ChatMessageInfo struct {
 	ChatId    interface{} //
 	OwnerId   interface{} //
 	Message   interface{} //
+	TotalNum  interface{} //
 }

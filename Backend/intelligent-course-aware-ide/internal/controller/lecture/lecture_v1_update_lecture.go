@@ -25,11 +25,19 @@ func (c *ControllerV1) UpdateLecture(ctx context.Context, req *v1.UpdateLectureR
 	}
 
 	if result1 || result2 {
-		info := utility.ConstructInfo(req.UpdateLecture, 2)
+		info := utility.ConstructInfo(req.UpdateLecture, 2, 0)
 		_, err = dao.Lectures.Ctx(ctx).Data(info).WherePri(req.UpdateLecture.LectureId).Update()
 		if err != nil {
 			return res, err
 		}
+
+		operatorName := ctx.Value("operatorName").(string)
+		systemInfo := operatorName + "update lecture:" + req.UpdateLecture.LectureName
+		success, err := c.chats.SendSystemMessage(ctx, systemInfo, req.ChatId)
+		if !success || err != nil {
+			return res, errors.New("fail to send message")
+		}
+
 		res.Success = true
 		return res, err
 	}

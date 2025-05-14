@@ -24,7 +24,7 @@ func (c *ControllerV1) LoginUser(ctx context.Context, req *v1.LoginUserReq) (res
 	if req.UserInfo.Password == "" {
 		return nil, errors.New("password should not be empty")
 	}
-	info := utility.ConstructInfo(req.UserInfo, 0)
+	info := utility.ConstructInfo(req.UserInfo, 0, 0)
 	err = dao.Users.Ctx(ctx).Where(info).Scan(&res.UserInfo)
 	if err == nil {
 		_, err := dao.Users.Ctx(ctx).Where("userId", req.UserInfo.UserId).Update(g.Map{"login": 1})
@@ -33,8 +33,9 @@ func (c *ControllerV1) LoginUser(ctx context.Context, req *v1.LoginUserReq) (res
 		}
 		res.Success = true
 		uc := &v1.JWTClaims{
-			UserId: res.UserInfo.UserId,
-			Email:  res.UserInfo.Email,
+			UserId:   res.UserInfo.UserId,
+			UserName: res.UserInfo.UserName,
+			Email:    res.UserInfo.Email,
 			RegisteredClaims: jwt.RegisteredClaims{
 				ExpiresAt: jwt.NewNumericDate(time.Now().Add(consts.JWTTime * time.Hour)),
 			},

@@ -16,12 +16,21 @@ func (c *ControllerV1) CreateCourse(ctx context.Context, req *v1.CreateCourseReq
 		return nil, errors.New("please check whether you are superuser or teacher")
 	}
 
+	chatId, err := dao.Chats.Ctx(ctx).Data(do.Chats{
+		OwnerId: operatorId,
+	}).InsertAndGetId()
+
+	if err != nil {
+		return nil, err
+	}
+
 	courseId, err := dao.Courses.Ctx(ctx).Data(do.Courses{
 		TeacherId:   req.NewCourse.TeacherId,
 		CourseName:  req.NewCourse.CourseName,
 		Description: req.NewCourse.Description,
 		StartTime:   req.NewCourse.StartTime,
 		EndTime:     req.NewCourse.EndTime,
+		ChatId:      chatId,
 	}).InsertAndGetId()
 	if err != nil {
 		return nil, err

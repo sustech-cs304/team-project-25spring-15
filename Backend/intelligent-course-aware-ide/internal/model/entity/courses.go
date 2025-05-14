@@ -16,4 +16,5 @@ type Courses struct {
 	Description string      `json:"description" orm:"description" description:""` //
 	StartTime   *gtime.Time `json:"startTime"   orm:"startTime"   description:""` //
 	EndTime     *gtime.Time `json:"endTime"     orm:"endTime"     description:""` //
+	ChatId      int64       `json:"chatId"      orm:"chatId"      description:""` //
 }

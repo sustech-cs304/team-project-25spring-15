@@ -10,7 +10,8 @@ import (
 
 // ChatUserInfo is the golang structure of table ChatUserInfo for DAO operations like Where/Data.
 type ChatUserInfo struct {
-	g.Meta `orm:"table:ChatUserInfo, do:true"`
-	UserId interface{} //
-	ChatId interface{} //
+	g.Meta  `orm:"table:ChatUserInfo, do:true"`
+	UserId  interface{} //
+	ChatId  interface{} //
+	HasRead interface{} //
 }

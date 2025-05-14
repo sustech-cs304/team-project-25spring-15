@@ -6,10 +6,15 @@ package account
 
 import (
 	"intelligent-course-aware-ide/api/account"
+	chatLogic "intelligent-course-aware-ide/internal/logic/chat"
 )
 
-type ControllerV1 struct{}
+type ControllerV1 struct {
+	chats *chatLogic.Chats
+}
 
 func NewV1() account.IAccountV1 {
-	return &ControllerV1{}
+	return &ControllerV1{
+		chats: chatLogic.New(),
+	}
 }
