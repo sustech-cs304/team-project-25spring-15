@@ -17,7 +17,8 @@ func (c *ControllerV1) CreateCourse(ctx context.Context, req *v1.CreateCourseReq
 	}
 
 	chatId, err := dao.Chats.Ctx(ctx).Data(do.Chats{
-		OwnerId: operatorId,
+		OwnerId:  operatorId,
+		ChatName: req.NewCourse.CourseName,
 	}).InsertAndGetId()
 
 	if err != nil {

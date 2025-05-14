@@ -20,14 +20,16 @@ type ChatsDao struct {
 
 // ChatsColumns defines and stores column names for the table Chats.
 type ChatsColumns struct {
-	ChatId  string //
-	OwnerId string //
+	ChatId   string //
+	OwnerId  string //
+	ChatName string //
 }
 
 // chatsColumns holds the columns for the table Chats.
 var chatsColumns = ChatsColumns{
-	ChatId:  "chatId",
-	OwnerId: "ownerId",
+	ChatId:   "chatId",
+	OwnerId:  "ownerId",
+	ChatName: "chatName",
 }
 
 // NewChatsDao creates and returns a new DAO object for table data access.

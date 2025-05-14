@@ -58,7 +58,8 @@ type DeleteChatMessageRes struct {
 }
 
 type CreateChatReq struct {
-	g.Meta `path:"/api/chat/createChat" method:"post" tags:"Chat" summary:"Create a chat"`
+	g.Meta   `path:"/api/chat/createChat" method:"post" tags:"Chat" summary:"Create a chat"`
+	ChatName string `json:"chatName" dc:"Name of this chat"`
 }
 
 type CreateChatRes struct {

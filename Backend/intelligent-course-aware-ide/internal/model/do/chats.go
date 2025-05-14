@@ -10,7 +10,8 @@ import (
 
 // Chats is the golang structure of table Chats for DAO operations like Where/Data.
 type Chats struct {
-	g.Meta  `orm:"table:Chats, do:true"`
-	ChatId  interface{} //
-	OwnerId interface{} //
+	g.Meta   `orm:"table:Chats, do:true"`
+	ChatId   interface{} //
+	OwnerId  interface{} //
+	ChatName interface{} //
 }

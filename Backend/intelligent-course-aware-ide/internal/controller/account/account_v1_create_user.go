@@ -30,7 +30,8 @@ func (c *ControllerV1) CreateUser(ctx context.Context, req *v1.CreateUserReq) (r
 	}
 
 	chatId, err := dao.Chats.Ctx(ctx).Data(do.Chats{
-		OwnerId: consts.BotId,
+		OwnerId:  consts.BotId,
+		ChatName: "System message",
 	}).InsertAndGetId()
 	if err != nil {
 		return nil, err
