@@ -50,7 +50,7 @@ func (s *createfileLogicImpl) CreateChangeLog(ctx context.Context) (int64, error
 		"fileName": logName,
 		"fileUrl":  fullPath,
 		"fileSize": 0,
-		"fileType": "application/jsonl",
+		"fileType": "text/plain",
 	})
 	if err != nil {
 		return 0, err
