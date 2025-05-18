@@ -19,6 +19,5 @@ type Users struct {
 	UserSign   interface{} //
 	University interface{} //
 	Birthday   *gtime.Time //
-	Login      interface{} //
 	Identity   interface{} //
 }
