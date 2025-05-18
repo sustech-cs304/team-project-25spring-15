@@ -17,7 +17,25 @@ func (c *ControllerV1) SharedFileUserGetIn(ctx context.Context, req *v1.SharedFi
 		return nil, err
 	}
 	if fileExists == 0 {
-		return nil, gerror.New("Lecture not found")
+		return nil, gerror.New("file not found")
+	}
+
+	// check if the user exists
+	userExists, err := g.DB().Model("Users").Where("userId", req.UserId).Count()
+	if err != nil {
+		return nil, err
+	}
+	if userExists == 0 {
+		return nil, gerror.New("user not found")
+	}
+
+	// check if the user is the partner of the sharedFile
+	partnerExists, err := g.DB().Model("SharedFilePartners").Where("userId", req.UserId).Count()
+	if err != nil {
+		return nil, err
+	}
+	if partnerExists != 0 {
+		return nil, gerror.New("user has been a partner")
 	}
 
 	// insert into database
@@ -39,6 +57,11 @@ func (c *ControllerV1) SharedFileUserGetIn(ctx context.Context, req *v1.SharedFi
 		"isManager":    false,
 	})
 	if err != nil {
+		return nil, err
+	}
+
+	// Commit the transaction
+	if err = tx.Commit(); err != nil {
 		return nil, err
 	}
 

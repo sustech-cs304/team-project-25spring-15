@@ -53,6 +53,10 @@ func (c *ControllerV1) CreateSharedFile(ctx context.Context, req *v1.CreateShare
 			return gerror.WrapCodef(gcode.CodeDbOperationError, err, "Failure to create a manager partner record")
 		}
 
+		if err = tx.Commit(); err != nil {
+			return gerror.WrapCodef(gcode.CodeDbOperationError, err, "Failure to commit to the database")
+		}
+
 		return nil
 	})
 	if err != nil {
