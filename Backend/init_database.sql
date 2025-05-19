@@ -1,5 +1,8 @@
 create database if not exists mysqlTest;
 use mysqlTest;
+DROP TABLE IF EXISTS SharedFilePartners;
+DROP TABLE IF EXISTS SharedFileContents;
+DROP TABLE IF EXISTS SharedFileOperations;
 DROP TABLE IF EXISTS ChatMessageInfo;
 DROP TABLE IF EXISTS UserCourseInfo;
 DROP TABLE IF EXISTS TestcaseAndAnswerFiles;
@@ -176,12 +179,6 @@ CREATE TABLE Comment (
     likes BIGINT,
     FOREIGN KEY(authorId) REFERENCES Users(userId) ON DELETE CASCADE
 );
-CREATE TABLE SharedFiles (
-    sharedFileId BIGINT PRIMARY KEY,
-    sharedLogId BIGINT NOT NULL,
-    FOREIGN KEY(SharedFileId) REFERENCES Files(fileId) ON DELETE CASCADE,
-    FOREIGN KEY(SharedLogId) REFERENCES Files(fileId) ON DELETE CASCADE
-);
 CREATE TABLE SharedFilePartners (
     sharedFileId BIGINT NOT NULL,
     userId BIGINT NOT NULL,
@@ -189,6 +186,28 @@ CREATE TABLE SharedFilePartners (
     isManager BOOLEAN NOT NULL,
     PRIMARY KEY(sharedFileId, userId),
     FOREIGN KEY(sharedFileId) REFERENCES Files(fileId) ON DELETE CASCADE,
+    FOREIGN KEY(userId) REFERENCES Users(userId) ON DELETE CASCADE
+);
+-- 存储文件内容和当前状态
+CREATE TABLE SharedFileContents (
+    fileId BIGINT PRIMARY KEY,
+    content TEXT NOT NULL,
+    lastUpdatedAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    version INT NOT NULL DEFAULT 1,
+    FOREIGN KEY(fileId) REFERENCES Files(fileId) ON DELETE CASCADE
+);
+-- 记录文件编辑历史
+CREATE TABLE SharedFileOperations (
+    operationId BIGINT AUTO_INCREMENT PRIMARY KEY,
+    fileId BIGINT NOT NULL,
+    userId BIGINT NOT NULL,
+    operationType ENUM('INSERT', 'DELETE', 'UPDATE', 'MOVE') NOT NULL,
+    position INT NOT NULL,
+    content TEXT,
+    timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    isUndoOperation BOOLEAN NOT NULL DEFAULT FALSE,
+    undoForOperationId BIGINT NULL,
+    FOREIGN KEY(fileId) REFERENCES Files(fileId) ON DELETE CASCADE,
     FOREIGN KEY(userId) REFERENCES Users(userId) ON DELETE CASCADE
 );
 CREATE TABLE IF NOT EXISTS Tasks(
