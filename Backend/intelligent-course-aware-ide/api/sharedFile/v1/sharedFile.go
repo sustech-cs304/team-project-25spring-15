@@ -60,4 +60,5 @@ type GetSharedFileContentReq struct {
 }
 
 type GetSharedFileContentRes struct {
+	Content g.Map `p:"content"`
 }

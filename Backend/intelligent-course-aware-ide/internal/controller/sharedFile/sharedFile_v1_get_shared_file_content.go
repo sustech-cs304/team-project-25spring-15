@@ -3,12 +3,17 @@ package sharedFile
 import (
 	"context"
 
-	"github.com/gogf/gf/v2/errors/gcode"
-	"github.com/gogf/gf/v2/errors/gerror"
-
-	"intelligent-course-aware-ide/api/sharedFile/v1"
+	v1 "intelligent-course-aware-ide/api/sharedFile/v1"
+	"intelligent-course-aware-ide/internal/logic/socket"
 )
 
 func (c *ControllerV1) GetSharedFileContent(ctx context.Context, req *v1.GetSharedFileContentReq) (res *v1.GetSharedFileContentRes, err error) {
-	return nil, gerror.NewCode(gcode.CodeNotImplemented)
+	content, err := socket.GetFileContent(ctx, req.FileId, req.UserId)
+	if err != nil {
+		return nil, err
+	}
+
+	return &v1.GetSharedFileContentRes{
+		Content: content,
+	}, nil
 }
