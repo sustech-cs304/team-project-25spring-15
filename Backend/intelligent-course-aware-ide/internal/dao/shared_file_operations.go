@@ -8,15 +8,15 @@ import (
 	"intelligent-course-aware-ide/internal/dao/internal"
 )
 
-// sharedFilesDao is the data access object for the table SharedFiles.
+// sharedFileOperationsDao is the data access object for the table SharedFileOperations.
 // You can define custom methods on it to extend its functionality as needed.
-type sharedFilesDao struct {
-	*internal.SharedFilesDao
+type sharedFileOperationsDao struct {
+	*internal.SharedFileOperationsDao
 }
 
 var (
-	// SharedFiles is a globally accessible object for table SharedFiles operations.
-	SharedFiles = sharedFilesDao{internal.NewSharedFilesDao()}
+	// SharedFileOperations is a globally accessible object for table SharedFileOperations operations.
+	SharedFileOperations = sharedFileOperationsDao{internal.NewSharedFileOperationsDao()}
 )
 
 // Add your custom methods and functionality below.
