@@ -16,7 +16,7 @@ import { LoginResponse, UserInfo } from './app/lib/definitions';
 
 declare module "next-auth" {
   interface User {
-    userId: string;
+    userId: number;
     userName: string;
     usersign?: string;
     university?: string;
@@ -55,6 +55,8 @@ export const { auth, signIn, signOut } = NextAuth({
           const responseJson = JSON.parse(responseText) as LoginResponse;
           const data = responseJson.data;
 
+
+
           if (data && typeof data.token === "string" && typeof data.userInfo === "object") {
             const { token, userInfo } = data as { token: string; userInfo: UserInfo };
             // 把 token 和用户信息都返回，token 会存到 session 里
@@ -84,7 +86,7 @@ export const { auth, signIn, signOut } = NextAuth({
     // 把 token 里的所有字段挂到 session.user 上
       session.user = {
         ...(session.user || {}),
-        userId: token.userId as string,
+        userId: token.userId as number,
         userName: token.userName as string,
         email: token.email || "",
         usersign: token.usersign as string,

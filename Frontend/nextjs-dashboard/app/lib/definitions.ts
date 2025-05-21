@@ -47,7 +47,7 @@ export interface Lecture {
   lectureName: string;
   description?: string;
   status?: 'notStarted' | 'inProgress' | 'done';  // 可选: 添加状态属性
-  courseId?: number; // 添加课程ID引用
+  courseId: number; // 添加课程ID引用
 }
 
 export interface Course {
@@ -57,11 +57,12 @@ export interface Course {
   endTime: string;
   startTime: string;
   teacherId: number;
+  chatId: number;
   lectures: Lecture[];
 }
 
 export type UserInfo = {
-  userId: string;
+  userId: number;
   userName: string;
   usersign?: string;
   university?: string;

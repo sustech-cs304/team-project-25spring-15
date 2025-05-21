@@ -1,6 +1,6 @@
 "use client";
 
-import { CourseAPI, LectureAPI } from "@/app/lib/api";
+import { CourseAPI, LectureAPI } from "@/app/lib/client-api";
 import React, { useEffect, useState } from 'react';
 import {
   List,
@@ -33,7 +33,6 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { usePathname, useRouter } from 'next/navigation';
 import { Course, Lecture } from '@/app/lib/definitions';
-import { fetchCourses } from "@/app/lib/data";
 import { useStore } from '@/store/useStore';
 
 export default function SideNav() {
@@ -41,16 +40,14 @@ export default function SideNav() {
   const pathname = usePathname();
 
   // —— 全局状态 ——
-  const { courses, setCourses } = useStore(state => ({
-    courses: state.courses,
-    setCourses: state.setCourses,
-  }));
+  const courses    = useStore(state => state.courses);
+  const setCourses = useStore(state => state.setCourses);
 
   // 本地 UI 状态
   const [open, setOpen] = useState<Record<string, boolean>>({});
   const [newCourse, setNewCourse] = useState<Partial<Course>>({ courseName: '', description: '' });
   const [newLecture, setNewLecture] = useState<Partial<Lecture>>({ lectureName: '', description: '', courseId: undefined });
-  const [selectedCourseId, setSelectedCourseId] = useState<number | undefined>(undefined);
+  const [selectedCourseId, setSelectedCourseId] = useState<number>(0);
 
   // 对话框状态
   const [openCourseDialog, setOpenCourseDialog] = useState(false);
@@ -64,13 +61,14 @@ export default function SideNav() {
   // 菜单状态
   const [courseMenuAnchor, setCourseMenuAnchor] = useState<null | HTMLElement>(null);
   const [lectureMenuAnchor, setLectureMenuAnchor] = useState<null | HTMLElement>(null);
-  const [activeCourseId, setActiveCourseId] = useState<number | null>(null);
-  const [activeLectureId, setActiveLectureId] = useState<number | null>(null);
+  const [activeCourseId, setActiveCourseId] = useState<number>(0);
+  const [activeLectureId, setActiveLectureId] = useState<number>(0);
 
   useEffect(() => {
     async function load() {
       try {
-        const list = await fetchCourses();
+        const list = await CourseAPI.fetchCourses();
+        console.log('Fetched courses in sidenav:', list);
         setCourses(list);
       } catch (err) {
         console.error('拉取课程失败', err);
@@ -104,7 +102,7 @@ export default function SideNav() {
 
   const handleCourseMenuClose = () => {
     setCourseMenuAnchor(null);
-    setActiveCourseId(null);
+    setActiveCourseId(0);
   };
 
   // 讲座菜单操作
@@ -117,7 +115,7 @@ export default function SideNav() {
 
   const handleLectureMenuClose = () => {
     setLectureMenuAnchor(null);
-    setActiveLectureId(null);
+    setActiveLectureId(0);
   };
 
   // 添加课程对话框
@@ -155,7 +153,9 @@ export default function SideNav() {
 
   // 编辑讲座对话框
   const handleOpenEditLectureDialog = (lecture: Lecture) => {
-    setEditingLecture({...lecture});
+    setEditingLecture({
+      ...lecture,
+    });
     setOpenEditLectureDialog(true);
     handleLectureMenuClose();
   };
@@ -167,7 +167,8 @@ export default function SideNav() {
 
   const reloadCourses = async () => {
     try {
-      const list = await fetchCourses();
+      const list = await CourseAPI.fetchCourses();
+      console.log('刷新课程列表:', list);
       setCourses(list);
     } catch (e) {
       console.error('刷新课程列表失败', e);
@@ -229,8 +230,17 @@ export default function SideNav() {
   // 编辑讲座
   const handleEditLecture = async () => {
     if (!editingLecture) return;
+
+    const courseId  = editingLecture.courseId!;
+
+    const course    = courses.find(c => c.courseId === courseId);
+
+    if (!course) {
+      return alert('找不到该讲座所属的课程');
+    }
+
     try {
-      await LectureAPI.updateLecture(editingLecture.lectureId, {
+      await LectureAPI.updateLecture(course.chatId, editingLecture.courseId, editingLecture.lectureId, {
         lectureName: editingLecture.lectureName,
         description: editingLecture.description || ''
       });
@@ -256,10 +266,10 @@ export default function SideNav() {
   };
 
   // 删除讲座
-  const handleDeleteLecture = async (lectureId: number) => {
+  const handleDeleteLecture = async (courseId: number, lectureId: number) => {
     if (!confirm('确认删除此讲座？')) return;
     try {
-      await LectureAPI.deleteLecture(lectureId);
+      await LectureAPI.deleteLecture(courseId, lectureId);
       await reloadCourses();
       handleLectureMenuClose();
     } catch (error) {
@@ -408,7 +418,7 @@ export default function SideNav() {
           <EditIcon fontSize="small" sx={{ mr: 1 }} />
           编辑讲座
         </MenuItem>
-        <MenuItem onClick={() => activeLectureId && handleDeleteLecture(activeLectureId)}>
+        <MenuItem onClick={() => activeLectureId && handleDeleteLecture(selectedCourseId, activeLectureId)}>
           <DeleteIcon fontSize="small" sx={{ mr: 1 }} />
           删除讲座
         </MenuItem>
@@ -457,7 +467,7 @@ export default function SideNav() {
               label="选择课程"
               onChange={(e) => setNewLecture({ ...newLecture, courseId: Number(e.target.value) })}
             >
-              {courses.map((course) => (
+              {courses?.map((course) => (
                 <MenuItem key={course.courseId} value={course.courseId}>
                   {course.courseName}
                 </MenuItem>
