@@ -26,13 +26,22 @@ func (c *ControllerV1) CreateCourse(ctx context.Context, req *v1.CreateCourseReq
 	}
 
 	courseId, err := dao.Courses.Ctx(ctx).Data(do.Courses{
-		TeacherId:   req.NewCourse.TeacherId,
+		TeacherId:   operatorId,
 		CourseName:  req.NewCourse.CourseName,
 		Description: req.NewCourse.Description,
 		StartTime:   req.NewCourse.StartTime,
 		EndTime:     req.NewCourse.EndTime,
 		ChatId:      chatId,
 	}).InsertAndGetId()
+	if err != nil {
+		return nil, err
+	}
+
+	_, err = dao.UserCourseInfo.Ctx(ctx).Data(do.UserCourseInfo{
+		UserId: operatorId,
+		CourseId: courseId,
+	}).Insert()
+
 	if err != nil {
 		return nil, err
 	}
