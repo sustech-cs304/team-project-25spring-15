@@ -27,7 +27,7 @@ func (c *ControllerV1) LoginUser(ctx context.Context, req *v1.LoginUserReq) (res
 	info := utility.ConstructInfo(req.UserInfo, 0, 0)
 	err = dao.Users.Ctx(ctx).Where(info).Scan(&res.UserInfo)
 	if err == nil {
-		_, err := dao.Users.Ctx(ctx).Where("userId", req.UserInfo.UserId).Update(g.Map{"login": 1})
+		_, err := dao.Users.Ctx(ctx).Where("userId", res.UserInfo.UserId).Update(g.Map{"login": 1})
 		if err != nil {
 			return nil, err
 		}

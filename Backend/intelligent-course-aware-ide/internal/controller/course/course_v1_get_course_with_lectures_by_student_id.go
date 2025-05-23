@@ -16,6 +16,11 @@ func (c *ControllerV1) GetCourseWithLecturesByStudentId(ctx context.Context, req
 	if err != nil {
 		return res, err
 	}
+	if courseList == nil{
+		var courses []v1.CourseInfoWithLecture
+		res.Courses = courses
+		return res, nil
+	}
 	for _, studentCourseInfo := range courseList {
 		var courseInfo v1.CourseInfoWithLecture
 		err = dao.Courses.Ctx(ctx).WherePri(studentCourseInfo.CourseId).Scan(&courseInfo)
