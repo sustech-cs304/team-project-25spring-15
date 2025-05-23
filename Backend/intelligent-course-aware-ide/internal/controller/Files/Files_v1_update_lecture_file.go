@@ -49,7 +49,7 @@ func (c *ControllerV1) UpdateLectureFile(ctx context.Context, req *v1.UpdateLect
 	fileSize := req.File.Size
 
 	var oldFilePath string
-	if err = g.DB().Model("Files").Where("id", req.FileId).Fields("storePath").Scan(&oldFilePath); err != nil {
+	if err = g.DB().Model("Files").Where("fileId", req.FileId).Fields("storePath").Scan(&oldFilePath); err != nil {
 		return nil, err
 	}
 

@@ -12,7 +12,7 @@ import (
 // GetLectureFile handles downloading a lecture file
 func (c *ControllerV1) GetLectureFile(ctx context.Context, req *v1.GetLectureFileReq) (res *v1.GetLectureFileRes, err error) {
 	var filePath string
-	err = g.DB().Model("Files").Where("id", req.FileId).Fields("storePath").Scan(&filePath)
+	err = g.DB().Model("Files").Where("fileId", req.FileId).Fields("storePath").Scan(&filePath)
 	if err != nil {
 		return nil, err
 	}

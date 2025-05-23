@@ -3,7 +3,6 @@
 import React, { useEffect } from 'react'
 import { EditorContent, useEditor } from '@tiptap/react'
 import { Box } from '@mui/material';
-import { User } from 'next-auth';
 
 import StarterKit from '@tiptap/starter-kit'
 import Collaboration from '@tiptap/extension-collaboration'
@@ -15,12 +14,13 @@ import Typography from '@tiptap/extension-typography'
 import * as Y from 'yjs'
 
 interface TopbarProps {
-  user?: User;
+  user?: UserInfo;
 }
 
 const doc = new Y.Doc() // Initialize Y.Doc for shared editing
 
 import { HocuspocusProvider } from "@hocuspocus/provider";
+import { UserInfo } from '@/app/lib/definitions';
 
 const provider = new HocuspocusProvider({
   url: "ws://127.0.0.1:1234",
@@ -52,7 +52,7 @@ export default function TiptapEditor({ user }: TopbarProps) {
     return colors[Math.abs(hash) % colors.length]
   }
 
-  const userName = user?.name || "Anonymous";
+  const userName = user?.userName || "Anonymous";
   const userColor = getUserColor(user?.email || userName)
 
   const editor = useEditor({

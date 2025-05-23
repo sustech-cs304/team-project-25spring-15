@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { Card } from "@mui/material";
 import ContentLinks from "@/app/ui/lecture/content-link"; // 导入标签栏组件
-import { fetchCourses } from "@/app/lib/data";
+import { fetchCourses } from "@/app/lib/server-api";
 
 export const experimental_ppr = true;
 
@@ -10,7 +10,7 @@ interface LectureLayoutProps {
 }
 
 export default async function LectureLayout({ children }: LectureLayoutProps) {
-  const courses = await fetchCourses();
+  const courses = fetchCourses();
   console.log("Fetched courses in layout:", courses);
 
   return (

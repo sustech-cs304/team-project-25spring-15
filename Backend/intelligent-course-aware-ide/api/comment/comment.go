@@ -15,4 +15,5 @@ type ICommentV1 interface {
 	GetComment(ctx context.Context, req *v1.GetCommentReq) (res *v1.GetCommentRes, err error)
 	DeleteComment(ctx context.Context, req *v1.DeleteCommentReq) (res *v1.DeleteCommentRes, err error)
 	UpdateComment(ctx context.Context, req *v1.UpdateCommentReq) (res *v1.UpdateCommentRes, err error)
+	GetHotWords(ctx context.Context, req *v1.GetHotWordsReq) (res *v1.GetHotWordsRes, err error)
 }

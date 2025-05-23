@@ -3,6 +3,9 @@ import { create } from 'zustand';
 import { UserInfo, Course, Lecture } from '@/app/lib/definitions';
 
 interface Store {
+  token: string | null;
+  setToken: (token: string | null) => void;
+
   userInfo: UserInfo | null;
   setUserInfo: (info: UserInfo | null) => void;
   isLoggedIn: boolean;
@@ -23,6 +26,7 @@ interface Store {
 
 export const useStore = create<Store>((set) => ({
   // —— 初始 State ——
+  token: null,
   userInfo: null,
   isLoggedIn: false,
   courses: [],
@@ -31,6 +35,7 @@ export const useStore = create<Store>((set) => ({
   selectedLectureId: null,
 
   // —— 修改方法 ——
+  setToken: (token) => set({ token }),
   setUserInfo: (info) => set({ userInfo: info }),
   setLoggedIn: (status) => set({ isLoggedIn: status }),
 

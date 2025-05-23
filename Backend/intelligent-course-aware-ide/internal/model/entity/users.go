@@ -17,6 +17,5 @@ type Users struct {
 	UserSign   string      `json:"userSign"   orm:"userSign"   description:""` //
 	University string      `json:"university" orm:"university" description:""` //
 	Birthday   *gtime.Time `json:"birthday"   orm:"birthday"   description:""` //
-	Login      int         `json:"login"      orm:"login"      description:""` //
 	Identity   string      `json:"identity"   orm:"identity"   description:""` //
 }

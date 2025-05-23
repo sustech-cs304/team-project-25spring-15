@@ -20,6 +20,7 @@ const iconMap = {
 };
 
 export default function CardWrapper({ courses }: CardWrapperProps) {
+  console.log("courses in CardWrapper:", courses);
   const pathname = usePathname();
   let currentCouseTitle = "";
   let currentLectures: Lecture[] = [];

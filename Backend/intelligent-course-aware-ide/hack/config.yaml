@@ -19,3 +19,12 @@ gfcli:
 
   upload:
     path: "./uploads"
+
+  redis:
+  default:
+    address: 127.0.0.1:6379
+    db: 0
+    # 如有密码，取消下面注释并填写
+    # pass: yourpassword
+    idleTimeout: 600
+    maxActive: 100
