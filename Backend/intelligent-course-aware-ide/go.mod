@@ -10,6 +10,7 @@ require (
 	github.com/gogf/gf/v2 v2.9.0
 	github.com/golang-jwt/jwt/v5 v5.2.2
 	github.com/stretchr/testify v1.10.0
+	github.com/yanyiwu/gojieba v1.4.5
 )
 
 require (

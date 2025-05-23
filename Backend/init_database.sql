@@ -178,6 +178,14 @@ CREATE TABLE Comment (
     createTime VARCHAR(255) NOT NULL,
     likes BIGINT,
     FOREIGN KEY(authorId) REFERENCES Users(userId) ON DELETE CASCADE
+  commentId BIGINT AUTO_INCREMENT PRIMARY KEY,
+  repliedToCommentId BIGINT ,
+  lectureId BIGINT,
+  authorId BIGINT NOT NULL,
+  content VARCHAR(1023) NOT NUll,
+  createTime VARCHAR(255) NOT NULL,
+  likes BIGINT,
+  FOREIGN KEY(authorIdId) REFERENCES Users(userId),
 );
 CREATE TABLE SharedFilePartners (
     sharedFileId BIGINT NOT NULL,

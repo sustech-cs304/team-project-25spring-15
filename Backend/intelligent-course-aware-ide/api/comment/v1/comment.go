@@ -9,14 +9,16 @@ type CommentInfo struct {
 	CommentId          int64  `json:"id" dc:"Id of the comment"`
 	LectureId          int64  `json:"lectureId" dc:"Id of the lecture the comment in"`
 	AuthorId           int64  `json:"authorId" dc:"Id of the commented user"`
-	RepliedToCommentId int64  `json:"repliedtocommentId" dc:"Id of the commenting user"`
+	AuthorName         string `json:"authorName" dc:"Name of the comment user"`
+	RepliedToCommentId int64  `json:"repliedTocommentId" dc:"Id of the commented comment"`
+	RepliedToUserName  string `json:"repliedToUserName" dc:"Name of the commented user"`
 	Content            string `json:"content" dc:"content of the comment"`
 	CreateTime         string `json:"createTime" dc:" createTime of the comment"`
 	Likes              int64  `json:"likes" dc:"The number of likes"`
 }
 type CreateCommentReq struct {
 	g.Meta     `path:"/api/comment/createComment" method:"post" tags:"Comment" summary:"Create comment"`
-	NewComment CommentInfo `json:"comment" dc:"Info of the comment"`
+	NewComment entity.Comment `json:"comment" dc:"Info of the comment"`
 }
 type CreateCommentRes struct {
 	g.Meta    `mime:"text/html" example:"json"`
@@ -28,7 +30,7 @@ type GetCommentReq struct {
 }
 type GetCommentRes struct {
 	g.Meta   `mime:"text/html" example:"json"`
-	Comments []*entity.Comment `json:"comment" dc:"info of the comment"`
+	Comments []*CommentInfo `json:"comment" dc:"info of the comment"`
 }
 type DeleteCommentReq struct {
 	g.Meta    `path:"/api/comment/deleteComment" method:"delete" tags:"Comment" summary:"delete comment info"`
@@ -49,4 +51,16 @@ type UpdateCommentReq struct {
 type UpdateCommentRes struct {
 	g.Meta  `mime:"text/html" example:"json"`
 	Success bool `json:"success" dc:"success or not"`
+}
+type GetHotWordsReq struct {
+	g.Meta `path:"/api/comment/getHotWords/{lectureId}" method:"get" tags:"Comment" summary:"Get high frequency words from comments"`
+	LectureId int64 `json:"lectureId" dc:"Lecture ID"`
+}
+type HotWord struct {
+	Word  string `json:"word" dc:"High frequency word"`
+	Count int    `json:"count" dc:"Word count"`
+}
+type GetHotWordsRes struct {
+	g.Meta `mime:"text/json" example:"json"`
+	List   []*HotWord `json:"list" dc:"List of hot words"`
 }
