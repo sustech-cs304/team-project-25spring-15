@@ -388,6 +388,10 @@ insert into Users(userId, userName, password, email, identity)
 VALUES (6, '6', '123456', '6', 'student');
 insert into Users(userId, userName, password, email, identity)
 VALUES (7, '7', '123456', '11111111@mail.sustech.edu.cn', 'student');
+insert into Users(userId, userName, password, email, identity)
+VALUES (8, '8', '123456', '22222222@mail.sustech.edu.cn', 'teacher');
+insert into Users(userId, userName, password, email, identity)
+VALUES (9, '9', '123456', '33333333@mail.sustech.edu.cn', 'superuser');
 insert into Assignments(assignmentId, publisherId, courseId, lectureId) VALUES (1,1,1,1);
 insert into Files(fileId, fileSize, fileUrl, fileName, fileType) VALUES (1,1,'/usr/Document/testcase_1.txt','testcase_1', '1');
 insert into Files(fileId, fileSize, fileUrl, fileName, fileType) VALUES (2,1,'/usr/Document/testcase_2.txt','testcase_2', '1');
@@ -398,6 +402,7 @@ insert into TestcaseAndAnswerFiles(testcaseAndAnswerId, assignmentId, publisherI
 insert into TestcaseAndAnswerFiles(testcaseAndAnswerId, assignmentId, publisherId, testcaseId, answerId, fileType) VALUES (2,1,1,2,4,'code');
 insert into TestcaseAndAnswerFiles(testcaseAndAnswerId, assignmentId, publisherId, testcaseId, answerId, fileType, score) VALUES (3,1,1,2,3,'code',2);
 
+select * from Users;
 select * from Courses;
 
 call fuzzy_search_result_multi('1,Y,','',10);
