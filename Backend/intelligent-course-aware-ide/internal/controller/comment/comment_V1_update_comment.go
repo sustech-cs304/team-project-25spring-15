@@ -2,9 +2,10 @@ package comment
 
 import (
 	"context"
+
 	"github.com/gogf/gf/v2/frame/g"
 
-	"intelligent-course-aware-ide/api/comment/v1"
+	v1 "intelligent-course-aware-ide/api/comment/v1"
 	"intelligent-course-aware-ide/internal/dao"
 )
 

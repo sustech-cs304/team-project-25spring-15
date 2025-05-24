@@ -3,11 +3,13 @@ package comment
 import (
 	"context"
 	"sort"
+
 	"github.com/gogf/gf/v2/container/gmap"
 	"github.com/yanyiwu/gojieba"
 
-	"intelligent-course-aware-ide/api/comment/v1"
+	v1 "intelligent-course-aware-ide/api/comment/v1"
 )
+
 var stopWords = map[string]bool{
 	"我": true, "你": true, "是": true, "啊": true, "的": true, "了": true, "吗": true, "在": true, "和": true,
 }
@@ -16,10 +18,11 @@ type cComment struct{}
 
 var Comment = cComment{}
 var jieba *gojieba.Jieba
-func init(){
+
+func init() {
 	jieba = gojieba.NewJieba()
 }
-func cleanup(){
+func cleanup() {
 	jieba.Free()
 }
 func (c *ControllerV1) GetHotWords(ctx context.Context, req *v1.GetHotWordsReq) (res *v1.GetHotWordsRes, err error) {
@@ -58,4 +61,3 @@ func (c *ControllerV1) GetHotWords(ctx context.Context, req *v1.GetHotWordsReq) 
 	}
 	return
 }
-
