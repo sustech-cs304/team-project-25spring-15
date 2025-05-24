@@ -13,7 +13,7 @@ export default async function Layout({
   children: React.ReactNode;
 }) {
   const session = await auth();
-  console.log("用户身份信息：", session);
+  // console.log("用户身份信息：", session);
 
   return (
     <div className="flex flex-col h-screen">
