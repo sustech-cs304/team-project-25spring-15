@@ -7,8 +7,6 @@ import (
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gctx"
 
-	"intelligent-course-aware-ide/internal/boot"
-	_ "intelligent-course-aware-ide/internal/boot"
 	_ "intelligent-course-aware-ide/internal/logic"
 	_ "intelligent-course-aware-ide/internal/packed"
 
@@ -27,7 +25,7 @@ func init() {
 	// 输出一条测试日志确认配置生效
 	g.Log().Debug(context.Background(), "日志系统初始化完成")
 
-	go boot.StartRedisSubscriber()
+	// go boot.StartRedisSubscriber()
 }
 
 func main() {
