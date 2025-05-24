@@ -27,20 +27,22 @@ import { formatDistanceToNow, format, differenceInDays } from "date-fns";
 import { zhCN } from "date-fns/locale";
 import axios from "axios";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { CommentAPI } from "@/app/lib/client-api";
+import { useStore } from "@/store/useStore";
 
 interface Comment {
-  id: string;
+  id: number;
   content: string;
-  authorId: string;
+  authorId: number;
   authorName: string;
   createTime: string;
   likes: number;
-  repliedToCommentId: string | null;
-  repliedToUserId?: string;
+  repliedToCommentId: number | null;
+  repliedToUserId?: number;
   repliedToUserName?: string;
 }
 
-const getAvatarColor = (userId: string): string => {
+const getAvatarColor = (userId: number): string => {
   const colors = [
     '#1976d2',
     '#388e3c',
@@ -54,36 +56,32 @@ const getAvatarColor = (userId: string): string => {
     '#fbc02d'
   ];
 
-  const hash = userId.split('').reduce((sum, char) => sum + char.charCodeAt(0), 0);
+  const hash = userId.toString().split('').reduce((sum, char) => sum + char.charCodeAt(0), 0);
   return colors[hash % colors.length];
 };
-
-const currentUserId = "currentUser";
 
 const mockComments: Comment[] = [
 
 ];
 
-export default function CommentView() {
+interface CommentViewProps {
+  courseId: number;
+  lectureId: number;
+}
+
+export default function CommentView({ courseId, lectureId }: CommentViewProps) {
   const [comments, setComments] = useState<Comment[]>(mockComments);
   const [newComment, setNewComment] = useState("");
-  const [replyTo, setReplyTo] = useState<{ repliedToCommentId: string, repliedToUserName: string } | null>(null);
-  const [expandedComments, setExpandedComments] = useState<Record<string, boolean>>({});
+  const [replyTo, setReplyTo] = useState<{ repliedToCommentId: number, repliedToUserName: string } | null>(null);
+  const [expandedComments, setExpandedComments] = useState<Record<number, boolean>>({});
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const fetchComments = async (lectureId: string) => {
-    try {
-      const response = await axios.get(`https://m1.apifoxmock.com/m2/5989566-5677982-default/291721414`);
-      console.log("获取评论成功:", response.data);
-      setComments(response.data);
-    } catch (error) {
-      console.error("获取评论失败:", error);
-    }
-  };
-
   useEffect(() => {
-    fetchComments("lectureId"); // todo: 替换为实际的 lectureId
+    CommentAPI.fetchComments(lectureId) // todo: 替换为实际的 lectureId
   }, ["lectureId"]);
+
+  const userInfo = useStore(state => state.userInfo);
+  const currentUserId = userInfo?.userId ?? null;
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -100,14 +98,14 @@ export default function CommentView() {
     }
   };
 
-  const handleToggleReplies = (commentId: string) => {
+  const handleToggleReplies = (commentId: number) => {
     setExpandedComments(prev => ({
       ...prev,
       [commentId]: !prev[commentId]
     }));
   };
 
-  const handleReply = (repliedToCommentId: string, repliedToUserName: string) => {
+  const handleReply = (repliedToCommentId: number, repliedToUserName: string) => {
     setReplyTo({ repliedToCommentId: repliedToCommentId, repliedToUserName: repliedToUserName });
     setDialogOpen(true);
   };
@@ -130,7 +128,7 @@ export default function CommentView() {
 
       await axios.post(`https://m1.apifoxmock.com/m2/5989566-5677982-default/291721414`, newCommentData);
 
-      await fetchComments("lectureId");
+      await CommentAPI.fetchComments(lectureId);
 
       setNewComment("");
       setReplyTo(null);
@@ -140,8 +138,7 @@ export default function CommentView() {
     }
   };
 
-  const handleDeleteComment = async (commentId: string, authorId: string) => {
-    const currentUserId = "currentUser"; // todo: 替换为实际的当前用户 ID
+  const handleDeleteComment = async (commentId: number, authorId: number) => {
 
     if (authorId !== currentUserId) {
       console.error("无法删除他人发布的评论");
@@ -151,13 +148,13 @@ export default function CommentView() {
     try {
       await axios.delete(`https://m1.apifoxmock.com/m2/5989566-5677982-default/291721414/${commentId}`);
 
-      await fetchComments("lectureId");
+      await CommentAPI.fetchComments(lectureId);
     } catch (error) {
       console.error("删除评论失败:", error);
     }
   };
 
-  const handleLike = (commentId: string) => {
+  const handleLike = (commentId: number) => {
     setComments(comments.map(comment =>
       comment.id === commentId
         ? { ...comment, likes: comment.likes + 1 }
@@ -165,7 +162,7 @@ export default function CommentView() {
     ));
   };
 
-  const getReplies = (commentId: string): Comment[] => {
+  const getReplies = (commentId: number): Comment[] => {
     const directReplies = comments
       .filter(comment => comment.repliedToCommentId === commentId)
       .sort((a, b) => new Date(a.createTime).getTime() - new Date(b.createTime).getTime());
