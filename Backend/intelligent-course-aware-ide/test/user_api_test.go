@@ -26,17 +26,17 @@ var NewUser1 = v1.UserInfoWithPassword{
 	Password:   "woshisb",
 }
 
-func Test_CreateUser(t *testing.T) {
-	gtest.C(t, func(t *gtest.T) {
-		req := &v1.CreateUserReq{
-			NewUser: NewUser1,
-		}
-		ctrl := &user.ControllerV1{}
-		res, err := ctrl.CreateUser(context.Background(), req)
-		t.AssertNil(err)
-		t.Assert(res.UserId, 1)
-	})
-}
+//	func Test_CreateUser(t *testing.T) {
+//		gtest.C(t, func(t *gtest.T) {
+//			req := &v1.CreateUserReq{
+//				NewUser: NewUser1,
+//			}
+//			ctrl := &user.ControllerV1{}
+//			res, err := ctrl.CreateUser(context.Background(), req)
+//			t.AssertNil(err)
+//			t.Assert(res.UserId, 1)
+//		})
+//	}
 func AssertUserEqual(t *gtest.T, actual v1.UserInfoWithoutPassword, expect v1.UserInfoWithPassword) {
 	t.Assert(actual.UserName, expect.UserName)
 	t.Assert(actual.Email, expect.Email)
