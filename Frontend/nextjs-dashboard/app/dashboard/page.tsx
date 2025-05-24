@@ -6,7 +6,8 @@ const codestring = `
 ### Here is some JavaScript code:
 
 ~~~js test.ts
-console.log('It works!')
+console.log('It works!'); 
+const name = 'hello';
 ~~~
 `
 

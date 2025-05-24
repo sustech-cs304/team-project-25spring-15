@@ -1,11 +1,15 @@
 'use client';
 
 import React, { useId, useState } from 'react';
-import ReactMarkdown, { Components } from 'react-markdown';
-import CodeIcon from '@mui/icons-material/Code';
 import Link from 'next/link';
+import ReactMarkdown, { Components } from 'react-markdown';
+import rehypeHighlight from "rehype-highlight";
+
+import CodeIcon from '@mui/icons-material/Code';
 import { Box } from '@mui/material';
+
 import CopyButton from './copy-button';
+import RunButton from './run-button';
 
 const components: Partial<Components> = {
   code: ({ node, className, children, ...props }) => {
@@ -22,10 +26,13 @@ const components: Partial<Components> = {
             </p>
           </div>
           <CopyButton targetId={id} />
+          <RunButton targetId={id} />
         </div>
         <div className="overflow-x-auto">
-          <div id={id} className="p-4">
-            {children}
+          <div className="overflow-x-auto">
+            <pre id={id} className="p-4 overflow-x-auto">
+              {children}
+            </pre>
           </div>
         </div>
       </div>
@@ -142,7 +149,10 @@ export default function MarkdownWithRunner({ content }: { content: string }) {
         p: 3,
       }}
     >
-      <ReactMarkdown components={components}>
+      <ReactMarkdown
+        components={components}
+        rehypePlugins={[rehypeHighlight]}
+      >
         {content}
       </ReactMarkdown>
     </Box>
