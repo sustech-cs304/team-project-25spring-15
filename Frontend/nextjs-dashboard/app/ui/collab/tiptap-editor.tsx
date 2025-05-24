@@ -21,7 +21,7 @@ interface TopbarProps {
   user?: UserInfo;
 }
 
-const len = 25;
+const len = 100;
 
 const docs = Array.from({length: len}, (_, i) => new Y.Doc()); // Initialize Y.Doc for shared editing
 
