@@ -13,33 +13,40 @@ import Typography from '@tiptap/extension-typography'
 
 import * as Y from 'yjs'
 
+import { HocuspocusProvider } from "@hocuspocus/provider";
+import { UserInfo } from '@/app/lib/definitions';
+import { useParams } from 'next/navigation';
+
 interface TopbarProps {
   user?: UserInfo;
 }
 
-import { HocuspocusProvider } from "@hocuspocus/provider";
-import { UserInfo } from '@/app/lib/definitions';
+const len = 25;
 
-const doc = new Y.Doc() // Initialize Y.Doc for shared editing
-// // Define `tasks` as an Array
-// const tasks = provider.document.getArray("tasks");
+const docs = Array.from({length: len}, (_, i) => new Y.Doc()); // Initialize Y.Doc for shared editing
 
-// // Listen for changes
-// tasks.observe(() => {
-//   console.log("tasks were modified");
-// });
-
-// // Add a new task
-// tasks.push(["buy milk"]);
+const providers = Array.from({ length: len }, (_, i) =>
+  new HocuspocusProvider({
+    url: "ws://127.0.0.1:1234",
+    name: `lecture-${i}`, // 每个 provider 一个唯一 name
+    document: docs[i],
+  })
+);
 
 export default function TiptapEditor({ user }: TopbarProps) {
-  console.log(user?.userName || "example");
+  const params = useParams();
+  const { courseId, lectureId } = params;
 
-  const provider = new HocuspocusProvider({
-    url: "ws://127.0.0.1:1234",
-    name: user?.userName || "example",
-    document: doc,
-  });
+  // Ensure courseId and lectureId are defined and numbers
+  const courseIdNum = typeof courseId === 'string' ? parseInt(courseId, 10) : Array.isArray(courseId) ? parseInt(courseId[0], 10) : undefined;
+  const lectureIdNum = typeof lectureId === 'string' ? parseInt(lectureId, 10) : Array.isArray(lectureId) ? parseInt(lectureId[0], 10) : undefined;
+  const thisIndex = (typeof courseIdNum === 'number' && !isNaN(courseIdNum) && typeof lectureIdNum === 'number' && !isNaN(lectureIdNum))
+    ? (courseIdNum * 6 + lectureIdNum)
+    : 0; // fallback to 0 if undefined
+
+  console.log(thisIndex);
+  const provider = providers[thisIndex];
+  const doc = docs[thisIndex];
 
   // 生成用户颜色（可根据用户ID或邮箱hash等自定义）
   function getUserColor(nameOrEmail: string) {
