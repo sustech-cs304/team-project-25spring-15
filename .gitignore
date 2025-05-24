@@ -22,3 +22,4 @@ Backend/intelligent-course-aware-ide/internal/model/entity/shared_file_contents.
 Backend/intelligent-course-aware-ide/internal/model/entity/shared_file_operations.go
 Backend/intelligent-course-aware-ide/internal/model/entity/shared_file_partners.go
 Backend/intelligent-course-aware-ide/internal/logic/socket/*
+Backend/intelligent-course-aware-ide/internal/boot/*
