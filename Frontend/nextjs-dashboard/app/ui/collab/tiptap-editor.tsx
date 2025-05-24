@@ -17,17 +17,10 @@ interface TopbarProps {
   user?: UserInfo;
 }
 
-const doc = new Y.Doc() // Initialize Y.Doc for shared editing
-
 import { HocuspocusProvider } from "@hocuspocus/provider";
 import { UserInfo } from '@/app/lib/definitions';
 
-const provider = new HocuspocusProvider({
-  url: "ws://127.0.0.1:1234",
-  name: "example-document",
-  document: doc,
-});
-
+const doc = new Y.Doc() // Initialize Y.Doc for shared editing
 // // Define `tasks` as an Array
 // const tasks = provider.document.getArray("tasks");
 
@@ -40,6 +33,13 @@ const provider = new HocuspocusProvider({
 // tasks.push(["buy milk"]);
 
 export default function TiptapEditor({ user }: TopbarProps) {
+  console.log(user?.userName || "example");
+
+  const provider = new HocuspocusProvider({
+    url: "ws://127.0.0.1:1234",
+    name: user?.userName || "example",
+    document: doc,
+  });
 
   // 生成用户颜色（可根据用户ID或邮箱hash等自定义）
   function getUserColor(nameOrEmail: string) {
