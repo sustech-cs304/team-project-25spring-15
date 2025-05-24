@@ -94,7 +94,7 @@ export default function TiptapEditor({ user }: TopbarProps) {
         p: { xs: 2, md: 4 },
         mt: 2,
         mb: 2,
-        minHeight: 300,
+        minHeight: 600,
         maxWidth: 900,
         mx: 'auto',
       }}
