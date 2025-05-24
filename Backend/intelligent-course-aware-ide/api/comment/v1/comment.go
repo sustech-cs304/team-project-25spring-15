@@ -1,8 +1,9 @@
 package v1
 
 import (
-	"github.com/gogf/gf/v2/frame/g"
 	"intelligent-course-aware-ide/internal/model/entity"
+
+	"github.com/gogf/gf/v2/frame/g"
 )
 
 type CommentInfo struct {
@@ -53,7 +54,7 @@ type UpdateCommentRes struct {
 	Success bool `json:"success" dc:"success or not"`
 }
 type GetHotWordsReq struct {
-	g.Meta `path:"/api/comment/getHotWords/{lectureId}" method:"get" tags:"Comment" summary:"Get high frequency words from comments"`
+	g.Meta    `path:"/api/comment/getHotWords/{lectureId}" method:"get" tags:"Comment" summary:"Get high frequency words from comments"`
 	LectureId int64 `json:"lectureId" dc:"Lecture ID"`
 }
 type HotWord struct {
