@@ -1,8 +1,8 @@
 nohup: ignoring input
-2025-05-21T16:56:42.968+08:00 [DEBU] 日志系统初始化完成
-2025-05-21T16:56:43.045+08:00 [INFO] pid[17104]: http server started listening on [:8000]
-2025-05-21T16:56:43.046+08:00 [INFO] swagger ui is serving at address: http://127.0.0.1:8000/swagger/
-2025-05-21T16:56:43.047+08:00 [INFO] openapi specification is serving at address: http://127.0.0.1:8000/api.json
+2025-05-24T00:54:39.049+08:00 [DEBU] 日志系统初始化完成
+2025-05-24T00:54:39.168+08:00 [INFO] swagger ui is serving at address: http://127.0.0.1:8000/swagger/
+2025-05-24T00:54:39.169+08:00 [INFO] openapi specification is serving at address: http://127.0.0.1:8000/api.json
+2025-05-24T00:54:39.168+08:00 [INFO] pid[132214]: http server started listening on [:8000]
 
   ADDRESS | METHOD |                      ROUTE                       |                                                  HANDLER                                                   |           MIDDLEWARE             
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
@@ -88,6 +88,9 @@ nohup: ignoring input
   :8000   | GET    | /api/comment/getComment/{lectureId}              | intelligent-course-aware-ide/internal/controller/comment.(*ControllerV1).GetComment                        | ghttp.MiddlewareHandlerResponse  
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
+  :8000   | GET    | /api/comment/getHotWords/{lectureId}             | intelligent-course-aware-ide/internal/controller/comment.(*ControllerV1).GetHotWords                       | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.Auth                  
+----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | PUT    | /api/comment/updateComment                       | intelligent-course-aware-ide/internal/controller/comment.(*ControllerV1).UpdateComment                     | ghttp.MiddlewareHandlerResponse  
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
@@ -164,130 +167,38 @@ nohup: ignoring input
   :8000   | ALL    | /swagger/*                                       | github.com/gogf/gf/v2/net/ghttp.(*Server).swaggerUI                                                        | HOOK_BEFORE_SERVE                
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
 
-2025-05-21T17:03:42.133+08:00 [DEBU] {287636a6697f4118d1e1e33841a8a2ae} Request started: /api/course/getCourses
-2025-05-21T17:03:43.219+08:00 [DEBU] {e7aeede6697f4118d4e1e338eef7b4cf} Request started: /api/course/getCourses
-2025-05-21T17:03:43.830+08:00 [DEBU] {c3575a0b6a7f4118d6e1e3385c953e9b} Request started: /api/course/getCourses
-2025-05-21T17:03:44.538+08:00 [DEBU] {537098356a7f4118d8e1e33867bc59b4} Request started: /api/course/getCourses
-2025-05-21T17:03:45.113+08:00 [DEBU] {7c0ada576a7f4118dae1e3383d343a3c} Request started: /api/course/getCourses
-2025-05-21T17:05:40.497+08:00 [DEBU] {e82d4735857f4118dce1e338c75f714a} Request started: /
-2025-05-21T17:10:20.272+08:00 [DEBU] {2e042059c67f4118dde1e3383d0e3259} Request started: /api/course/getCourses
-2025-05-21T17:10:20.299+08:00 [DEBU] {3d54bd5ac67f4118dfe1e3384d0b41cc} Request started: /api/course/getCourses
-2025-05-21T17:10:21.095+08:00 [DEBU] {23d1348ac67f4118e1e1e3384aaf76a5} Request started: /api/course/getCourses
-2025-05-21T17:10:21.784+08:00 [DEBU] {f14d4db3c67f4118e3e1e33800f1911c} Request started: /api/course/getCourses
-2025-05-21T17:10:22.063+08:00 [DEBU] {70b4e1c3c67f4118e5e1e3386fb4d7fd} Request started: /api/course/getCourses
-2025-05-21T17:10:22.969+08:00 [DEBU] {bf68edf9c67f4118e7e1e338f6c0644d} Request started: /api/course/getCourses
-2025-05-21T17:10:23.164+08:00 [DEBU] {58ee8805c77f4118e9e1e338993ca331} Request started: /api/course/getCourses
-2025-05-21T17:10:24.347+08:00 [DEBU] {3a860a4cc77f4118ebe1e338d72f5bf1} Request started: /api/course/getCourses
-2025-05-21T17:13:10.384+08:00 [DEBU] {06d59af4ed7f4118ede1e338417ed981} Request started: /api/course/getCourses
-2025-05-21T17:13:10.651+08:00 [DEBU] {75848b04ee7f4118efe1e338f0e797d1} Request started: /api/course/getCourses
-2025-05-21T17:13:11.345+08:00 [DEBU] {0ce4e62dee7f4118f1e1e3381f0b76d1} Request started: /api/course/getCourses
-2025-05-21T17:13:11.917+08:00 [DEBU] {7636fb4fee7f4118f3e1e3384462506f} Request started: /api/course/getCourses
-2025-05-21T17:13:12.174+08:00 [DEBU] {ba324a5fee7f4118f5e1e3380e8465d3} Request started: /api/course/getCourses
-2025-05-21T17:13:12.749+08:00 [DEBU] {cc299981ee7f4118f7e1e338b71a04de} Request started: /api/course/getCourses
-2025-05-21T17:13:13.156+08:00 [DEBU] {9225c799ee7f4118f9e1e338f249d6e5} Request started: /api/course/getCourses
-2025-05-21T17:13:14.306+08:00 [DEBU] {3f9e5ddeee7f4118fbe1e3383cef8cce} Request started: /api/course/getCourses
-2025-05-21T17:13:34.378+08:00 [DEBU] {a679be8af37f4118fde1e3382156cac0} Request started: /api/course/getCourses
-2025-05-21T17:13:34.382+08:00 [DEBU] {ccb6fc8af37f4118ffe1e3385ebed027} Request started: /api/course/getCourses
-2025-05-21T17:13:36.195+08:00 [DEBU] {2a5b13f7f37f411801e2e338dd9275b2} Request started: /api/course/getCourses
-2025-05-21T17:13:36.589+08:00 [DEBU] {30e6900ef47f411803e2e338cbf7379c} Request started: /api/course/getCourses
-2025-05-21T17:13:37.085+08:00 [DEBU] {ef801e2cf47f411805e2e338f9c5d452} Request started: /api/course/getCourses
-2025-05-21T17:13:37.526+08:00 [DEBU] {36f86146f47f411807e2e338334be872} Request started: /api/course/getCourses
-2025-05-21T17:13:38.008+08:00 [DEBU] {57972163f47f411809e2e338ff906c84} Request started: /api/course/getCourses
-2025-05-21T17:13:38.423+08:00 [DEBU] {1361d97bf47f41180be2e338a5503bb5} Request started: /api/course/getCourses
-2025-05-21T17:13:42.532+08:00 [DEBU] {5d72ce70f57f41180de2e338fb2f1811} Request started: /api/course/getCourses
-2025-05-21T17:13:42.580+08:00 [DEBU] {90cba373f57f41180fe2e33867815ea1} Request started: /api/course/getCourses
-2025-05-21T17:13:43.375+08:00 [DEBU] {8e0908a3f57f411811e2e33875e287c8} Request started: /api/course/getCourses
-2025-05-21T17:13:43.988+08:00 [DEBU] {257e95c7f57f411813e2e338812a3834} Request started: /api/course/getCourses
-2025-05-21T17:13:44.220+08:00 [DEBU] {081c6dd5f57f411815e2e33835dc675a} Request started: /api/course/getCourses
-2025-05-21T17:13:44.825+08:00 [DEBU] {593779f9f57f411817e2e33834a04e00} Request started: /api/course/getCourses
-2025-05-21T17:13:45.181+08:00 [DEBU] {f978ab0ef67f411819e2e338ba1b4fa3} Request started: /api/course/getCourses
-2025-05-21T17:13:46.651+08:00 [DEBU] {c2004866f67f41181be2e338cf8d443e} Request started: /api/course/getCourses
-2025-05-21T17:15:35.959+08:00 [DEBU] {46d98cd90f8041181de2e3382c703f19} Request started: /api/course/getCourses
-2025-05-21T17:15:35.959+08:00 [DEBU] {a9588fd90f8041181ee2e3381efe9a99} Request started: /api/course/getCourses
-2025-05-21T17:15:37.269+08:00 [DEBU] {1ef49e271080411821e2e33811cc830d} Request started: /api/course/getCourses
-2025-05-21T17:15:38.366+08:00 [DEBU] {43ad09691080411823e2e33826ca9346} Request started: /api/course/getCourses
-2025-05-21T17:15:38.656+08:00 [DEBU] {b03a507a1080411825e2e338e25baac5} Request started: /api/course/getCourses
-2025-05-21T17:15:39.166+08:00 [DEBU] {d747b2981080411827e2e3384011568d} Request started: /api/course/getCourses
-2025-05-21T17:15:40.883+08:00 [DEBU] {8bb80fff1080411829e2e338c583705e} Request started: /api/course/getCourses
-2025-05-21T17:15:44.156+08:00 [DEBU] {50b821c2118041182be2e338e4ee3d38} Request started: /api/course/getCourses
-2025-05-21T17:30:03.579+08:00 [DEBU] {07cac4dbd98041182de2e33845b4dccf} Request started: /api/course/getCourses
-2025-05-21T17:30:03.596+08:00 [DEBU] {3ce9bcdcd98041182fe2e338da180534} Request started: /api/course/getCourses
-2025-05-21T17:30:04.757+08:00 [DEBU] {1d5dfb21da80411831e2e33838e535f8} Request started: /api/course/getCourses
-2025-05-21T17:30:05.156+08:00 [DEBU] {4ec4c339da80411833e2e338d1c5ada4} Request started: /api/course/getCourses
-2025-05-21T17:30:05.340+08:00 [DEBU] {d951b744da80411835e2e338541326bc} Request started: /api/course/getCourses
-2025-05-21T17:30:05.781+08:00 [DEBU] {e153fe5eda80411837e2e338fcfaad7a} Request started: /api/course/getCourses
-2025-05-21T17:30:06.286+08:00 [DEBU] {e0a7127dda80411839e2e338de36cb34} Request started: /api/course/getCourses
-2025-05-21T17:30:06.375+08:00 [DEBU] {5b266082da8041183be2e338c3061304} Request started: /api/course/getCourses
-2025-05-21T17:30:07.402+08:00 [DEBU] {7634a0bfda8041183de2e338f19ecf8d} Request started: /api/course/getCourses
-2025-05-21T17:30:07.414+08:00 [DEBU] {039d52c0da8041183fe2e3380cbb3be2} Request started: /api/course/getCourses
-2025-05-21T17:32:28.889+08:00 [DEBU] {7e93e9b0fb80411841e2e338900dc619} Request started: /api/course/getCourses
-2025-05-21T17:32:30.146+08:00 [DEBU] {c3d9d8fbfb80411843e2e338f649fb90} Request started: /api/course/getCourses
-2025-05-21T17:32:30.617+08:00 [DEBU] {b50ce817fc80411845e2e338ac97823f} Request started: /api/course/getCourses
-2025-05-21T17:32:31.163+08:00 [DEBU] {b6517438fc80411847e2e33874cabd98} Request started: /api/course/getCourses
-2025-05-21T17:32:32.100+08:00 [DEBU] {1a784370fc80411849e2e338a5e4fa05} Request started: /api/course/getCourses
-2025-05-21T17:32:32.446+08:00 [DEBU] {794cf084fc8041184be2e3381795208e} Request started: /api/course/getCourses
-2025-05-21T17:34:28.536+08:00 [DEBU] {13d26b8c178141184de2e33894a460d8} Request started: /api/course/getCourses
-2025-05-21T17:34:29.724+08:00 [DEBU] {8ca834d3178141184fe2e338fbc82704} Request started: /api/course/getCourses
-2025-05-21T17:34:30.259+08:00 [DEBU] {d2eb1ff31781411851e2e338215cbdba} Request started: /api/course/getCourses
-2025-05-21T17:34:31.707+08:00 [DEBU] {770665491881411853e2e33836548246} Request started: /api/course/getCourses
-2025-05-21T17:34:31.975+08:00 [DEBU] {4b1e6a591881411855e2e3387e860c4a} Request started: /api/course/getCourses
-2025-05-21T17:34:32.568+08:00 [DEBU] {8b8dbf7c1881411857e2e3387cae77b3} Request started: /api/course/getCourses
-2025-05-21T17:43:32.461+08:00 [DEBU] {0203dc309681411859e2e33850c4fe93} Request started: /api/course/getCourses
-2025-05-21T17:46:20.122+08:00 [DEBU] {920a3b3abd8141185be2e3389c26b65f} Request started: /api/course/getCourses
-2025-05-21T17:46:34.123+08:00 [DEBU] {d7cac77cc08141185de2e338f3e9b12e} Request started: /api/course/getCourses
-2025-05-21T17:46:34.346+08:00 [DEBU] {920a0f8ac08141185fe2e3383b37e83e} Request started: /api/course/getCourses
-2025-05-21T17:46:34.627+08:00 [DEBU] {60a8d39ac081411861e2e338a8c467d0} Request started: /api/course/getCourses
-2025-05-21T17:46:34.935+08:00 [DEBU] {6bc930adc081411863e2e338e044ca2a} Request started: /api/course/getCourses
-2025-05-21T17:46:35.171+08:00 [DEBU] {401d3cbbc081411865e2e3385522bfe5} Request started: /api/course/getCourses
-2025-05-21T17:50:34.192+08:00 [DEBU] {59070462f881411867e2e3381f80062a} Request started: /api/course/getCourses
-2025-05-21T17:53:23.909+08:00 [DEBU] {22b3e9e51f82411869e2e3389b95b023} Request started: /api/course/getCourses
-2025-05-21T17:54:26.468+08:00 [DEBU] {e78fc0762e8241186be2e338a6927782} Request started: /api.json
-2025-05-21T17:54:26.532+08:00 [DEBU] {813a887a2e8241186ce2e3381735b3a0} Request started: /favicon.ico
-2025-05-21T18:02:58.160+08:00 [DEBU] {e304f599a58241186de2e338febc23e2} Request started: /
-2025-05-21T18:04:59.389+08:00 [DEBU] {3411c2d3c18241186ee2e338caf923dc} Request started: /
-2025-05-21T18:04:59.539+08:00 [DEBU] {95aeb7dcc18241186fe2e33818194f50} Request started: /favicon.ico
-2025-05-21T19:39:50.543+08:00 [DEBU] {6963f1e6ee87411870e2e338aac1e0bf} Request started: /
-2025-05-21T19:39:50.901+08:00 [DEBU] {2ac94efcee87411871e2e338c4e4c004} Request started: /login
-2025-05-21T19:44:45.385+08:00 [DEBU] {1b89e98c3388411872e2e33883890336} Request started: /
-2025-05-21T19:54:32.327+08:00 [DEBU] {8d2a6435bc88411873e2e3384f2eb6fd} Request started: /
-2025-05-21T21:19:41.936+08:00 [DEBU] {6059d4e1618d411874e2e3385ca417e9} Request started: /
-2025-05-21T21:19:51.206+08:00 [DEBU] {6217540a648d411875e2e33857bc915b} Request started: /
-2025-05-21T21:19:51.710+08:00 [DEBU] {24bc6a28648d411876e2e338b1abbed6} Request started: *
-2025-05-21T21:19:55.241+08:00 [DEBU] {8027dcfa648d411877e2e338ffd32289} Request started: /favicon.ico
-2025-05-21T21:37:23.938+08:00 [DEBU] {5fa11426598e411878e2e338b56e87c5} Request started: /
-2025-05-21T22:22:45.918+08:00 [DEBU] {7101b4e8d290411879e2e338aa92a5d7} Request started: /
-2025-05-21T22:38:48.382+08:00 [DEBU] {879a0e00b39141187ae2e338548f44d2} Request started: /api/course/getCourses
-2025-05-21T22:38:57.426+08:00 [DEBU] {95fa1a1bb59141187ce2e338d49d65f1} Request started: /api/course/getCourses
-2025-05-21T22:38:57.507+08:00 [DEBU] {7c39ed1fb59141187ee2e338f1a784fe} Request started: /api/course/getCourses
-2025-05-21T22:47:07.398+08:00 [DEBU] {a394ba2f2792411880e2e33804ea2cdf} Request started: /api.json
-2025-05-21T22:47:07.402+08:00 [DEBU] {6891f12f2792411881e2e3381fd0a54c} Request started: /favicon.ico
-2025-05-21T22:59:56.296+08:00 [DEBU] {e0b79f35da92411882e2e338edf97873} Request started: /api/course/getCourses
-2025-05-21T23:13:48.487+08:00 [DEBU] {10fb0ef89b93411883e2e3387b462322} Request started: /api/course/getCourses
-2025-05-21T23:14:08.256+08:00 [DEBU] {da2f6492a093411884e2e338ce4d7acb} Request started: /api/course/getCourses
-2025-05-21T23:15:02.328+08:00 [DEBU] {f6c05129ad93411885e2e33822e30170} Request started: /api/course/getCourses
-2025-05-21T23:15:56.573+08:00 [DEBU] {5d8392cab993411886e2e33818fbe8e2} Request started: /api/course/getCourses
-2025-05-21T23:30:47.415+08:00 [DEBU] {8b10ee348994411887e2e338ff57c7b7} Request started: /api/course/getCourses
-2025-05-21T23:32:24.737+08:00 [DEBU] {e7f0bcdd9f94411888e2e338b14addc5} Request started: /api/course/getCourses
-2025-05-21T23:33:27.427+08:00 [DEBU] {4f955d76ae94411889e2e338c0c8a6b1} Request started: /api/user/loginUser
-2025-05-21T23:33:28.313+08:00 [DEBU] {bf2030abae9441188ae2e338e2dd4395} Request started: /api/course/getCourses
-2025-05-21T23:33:28.575+08:00 [DEBU] {f6e5ccbaae9441188ce2e3386d784849} Request started: /api/course/getCourses
-2025-05-21T23:34:43.858+08:00 [DEBU] {8567fd41c09441188ee2e338022c03e5} Request started: /api/course/getCourses
-2025-05-21T23:37:20.349+08:00 [DEBU] {e90692b1e494411890e2e3389b34aa5f} Request started: /api/course/getCourses
-2025-05-21T23:37:21.953+08:00 [DEBU] {cc843711e594411892e2e3386949f788} Request started: /api/course/getCourses
-2025-05-21T23:37:25.774+08:00 [DEBU] {1a94f5f4e594411894e2e3387c72a7ac} Request started: /api/course/getCourses
-2025-05-21T23:38:35.836+08:00 [DEBU] {f27cf244f694411896e2e338a5430b13} Request started: /api/course/getCourses
-2025-05-21T23:38:37.104+08:00 [DEBU] {e7fa9290f694411898e2e3385316e84d} Request started: /api/course/getCourses
-2025-05-21T23:38:43.944+08:00 [DEBU] {6cd44328f89441189ae2e3383bc3a15b} Request started: /api/course/getCourses
-2025-05-21T23:38:44.195+08:00 [DEBU] {b89e3037f89441189ce2e33831631888} Request started: /api/course/getCourses
-2025-05-21T23:40:16.242+08:00 [DEBU] {a748a8a50d9541189ee2e338bfa47be3} Request started: /api/course/getCourses
-2025-05-21T23:40:16.599+08:00 [DEBU] {5a7ce6ba0d954118a0e2e33830f45292} Request started: /api/course/getCourses
-2025-05-21T23:41:12.624+08:00 [DEBU] {4f0d47c61a954118a2e2e338abdd9a6d} Request started: /api/course/getCourses
-2025-05-21T23:41:12.926+08:00 [DEBU] {756640d81a954118a4e2e3383ab6e3e7} Request started: /api/course/getCourses
-2025-05-21T23:42:41.813+08:00 [DEBU] {eb3c568a2f954118a6e2e338e5fc8680} Request started: /api/course/getCourses
-2025-05-21T23:42:42.048+08:00 [DEBU] {d2e358982f954118a8e2e338666b8d98} Request started: /api/course/getCourses
-2025-05-21T23:43:53.875+08:00 [DEBU] {81d6905140954118aae2e338b8225e68} Request started: /api/course/getCourses
-2025-05-21T23:43:54.183+08:00 [DEBU] {1b11f56340954118ace2e33811a1314e} Request started: /api/course/getCourses
-2025-05-21T23:44:02.137+08:00 [DEBU] {19bf013e42954118aee2e33897d08e6e} Request started: /api/course/getCourses
-2025-05-21T23:44:02.421+08:00 [DEBU] {15d0f44e42954118b0e2e338ee05ab3e} Request started: /api/course/getCourses
-2025-05-21T23:45:11.790+08:00 17104: server gracefully shutting down by signal: terminated
-2025-05-21T23:45:11.790+08:00 [INFO] pid[17104]: all servers shutdown
+2025-05-24T02:03:57.377+08:00 [DEBU] {102eed0b0e3a4218453c3450b9652451} Request started: /
+2025-05-24T02:03:57.904+08:00 [DEBU] {5e1b602b0e3a4218463c34500f53266c} Request started: /login
+2025-05-24T02:52:10.059+08:00 [DEBU] {29cc3a8daf3c4218473c3450749ed4c6} Request started: /
+2025-05-24T03:02:03.393+08:00 [DEBU] {8ef3abb2393d4218483c3450607843df} Request started: /
+2025-05-24T03:02:08.368+08:00 [DEBU] {3e9433db3a3d4218493c34504c9a5484} Request started: *
+2025-05-24T03:02:27.076+08:00 [DEBU] {f7a152363f3d42184a3c34508d75ac82} Request started: /favicon.ico
+2025-05-24T04:55:48.575+08:00 [DEBU] {8cb335cf6e4342184b3c345046c4a57e} Request started: /
+2025-05-24T07:20:09.978+08:00 [DEBU] {b2b21a734f4b42184c3c3450e7086d13} Request started: /
+2025-05-24T08:02:04.424+08:00 [DEBU] {86fec2e3984d42184d3c345004debe05} Request started: /
+2025-05-24T10:38:17.172+08:00 [DEBU] {ae140c271f5642184e3c34507d6b50c8} Request started: /
+2025-05-24T10:44:54.713+08:00 [DEBU] {1c5c55b67b5642184f3c345096131adf} Request started: /api/user/loginUser
+2025-05-24T10:45:00.772+08:00 [DEBU] {383a7d1f7d564218503c34502cb36b6d} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-24T10:45:00.884+08:00 [DEBU] {aa0a2e267d564218523c3450580cb67c} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-24T10:45:45.096+08:00 [DEBU] {b973627187564218543c34502defe3f6} Request started: /api/user/loginUser
+2025-05-24T10:45:45.521+08:00 [DEBU] {66ecc38a87564218553c3450882b4e29} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-24T10:46:34.617+08:00 [DEBU] {464e15f992564218573c3450b8f37c3d} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-24T10:46:37.266+08:00 [DEBU] {f00e039793564218593c345018e7f8b4} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-24T10:47:12.944+08:00 [DEBU] {048895e59b5642185b3c3450d16bb0c3} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-24T10:47:17.233+08:00 [DEBU] {94b32de59c5642185d3c3450ed90e1ae} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-24T11:23:00.318+08:00 [DEBU] {322800df8f5842185f3c345008172d61} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-24T11:23:13.191+08:00 [DEBU] {f84156de92584218613c3450e82fab00} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-24T11:23:56.637+08:00 [DEBU] {ef1ee4fb9c584218633c345018b7e44d} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-24T11:23:57.764+08:00 [DEBU] {5cc1183f9d584218653c3450452d389d} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-24T11:24:01.368+08:00 [DEBU] {db02e1159e584218673c34509b38b875} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-24T11:24:29.252+08:00 [DEBU] {9d49e793a4584218693c345011457832} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-24T11:24:29.630+08:00 [DEBU] {78246aaaa45842186b3c3450f9953d24} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-24T11:24:33.667+08:00 [DEBU] {cb7a159ba55842186d3c34501d1e42a2} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-24T11:24:34.060+08:00 [DEBU] {5bf980b2a55842186f3c3450a7af3dc3} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-24T11:28:37.400+08:00 [DEBU] {8fa2af5ade584218713c3450f6293178} Request started: /
+2025-05-24T11:31:47.714+08:00 [DEBU] {c44044aa0a594218723c3450653c913e} Request started: /
+2025-05-24T11:34:46.260+08:00 [DEBU] {26db793c34594218733c345015a65109} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-24T11:57:50.680+08:00 [DEBU] {3fb65392765a4218753c3450f32b76d6} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-24T11:58:11.199+08:00 [DEBU] {bc655c597b5a4218773c34503e7fbe92} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-24T12:07:03.024+08:00 [DEBU] {7e8b8c2cf75a4218793c3450d39c817f} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-24T12:08:09.651+08:00 [DEBU] {681dddaf065b42187b3c34504252c0a3} Request started: /api/course/searchCourseWithLectures/byStudentId
