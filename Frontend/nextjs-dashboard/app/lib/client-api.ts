@@ -120,8 +120,21 @@ export const LectureAPI = {
       }
     }
     console.log("Payload in updateLecture:", payload);
-    await axios.put(url, {
-      payload
-    }, { headers });
+    await axios.put(url, payload, { headers });
   },
 };
+
+export const CommentAPI = {
+  fetchComments : async (lectureId: number) => {
+    try {
+      // ✅ 把 lectureId 放到 path 里
+      const headers = await getAuthHeader();
+      console.log("Fetching comments for lectureId:", lectureId);
+      const response = await axios.get(`/api/comment/getComment/${lectureId}`, {headers});
+      console.log("获取评论成功:", response.data);
+      return response.data;
+    } catch (error) {
+      console.error("获取评论失败:", error);
+    }
+  },
+}
