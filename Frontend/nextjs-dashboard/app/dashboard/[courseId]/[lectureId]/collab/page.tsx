@@ -2,12 +2,11 @@ import TiptapWrapper from "@/app/ui/collab/tiptap-wrapper";
 import { auth } from "@/auth";
 
 export default async function Page() {
+  const session = await auth();
+
   return (
-    <div>
-      <h1 className={`mb-4 text-xl md:text-2xl`}>
-        Dashboard
-        {/* TODO: make this prettier */}
-      </h1>
-    </div>
+    <main>
+      <TiptapWrapper user={session?.user}/>
+    </main>
   );
 }

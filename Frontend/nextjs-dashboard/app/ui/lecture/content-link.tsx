@@ -8,6 +8,7 @@ import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import ChatIcon from "@mui/icons-material/Chat";
 import SmartToyIcon from "@mui/icons-material/SmartToy";
+import PsychologyIcon from "@mui/icons-material/Psychology";
 
 export default function ContentTabs() {
   const router = useRouter();
@@ -19,6 +20,7 @@ export default function ContentTabs() {
     if (pathname.includes('/exercises')) return 1;
     if (pathname.includes('/comments')) return 2;
     if (pathname.includes('/ai')) return 3;
+    if (pathname.includes('/collab')) return 4;
     return false; // 默认不选中任何标签
   };
 
@@ -44,6 +46,9 @@ export default function ContentTabs() {
       case 3:
         targetPath = `${basePath}/ai`;
         break;
+      case 4:
+        targetPath = `${basePath}/collab`;
+        break;
     }
 
     router.push(targetPath);
@@ -68,6 +73,7 @@ export default function ContentTabs() {
         <Tab icon={<AssignmentIcon />} label="练习" />
         <Tab icon={<ChatIcon />} label="评论" />
         <Tab icon={<SmartToyIcon />} label="AI" />
+        <Tab icon={<PsychologyIcon />} label="头脑风暴" />
       </Tabs>
     </Box>
   );
