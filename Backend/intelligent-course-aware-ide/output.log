@@ -1,8 +1,8 @@
 nohup: ignoring input
-2025-05-24T00:54:39.049+08:00 [DEBU] 日志系统初始化完成
-2025-05-24T00:54:39.168+08:00 [INFO] swagger ui is serving at address: http://127.0.0.1:8000/swagger/
-2025-05-24T00:54:39.169+08:00 [INFO] openapi specification is serving at address: http://127.0.0.1:8000/api.json
-2025-05-24T00:54:39.168+08:00 [INFO] pid[132214]: http server started listening on [:8000]
+2025-05-25T22:39:39.814+08:00 [DEBU] 日志系统初始化完成
+2025-05-25T22:39:39.845+08:00 [INFO] pid[238298]: http server started listening on [:8000]
+2025-05-25T22:39:39.845+08:00 [INFO] swagger ui is serving at address: http://127.0.0.1:8000/swagger/
+2025-05-25T22:39:39.845+08:00 [INFO] openapi specification is serving at address: http://127.0.0.1:8000/api.json
 
   ADDRESS | METHOD |                      ROUTE                       |                                                  HANDLER                                                   |           MIDDLEWARE             
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
@@ -10,13 +10,16 @@ nohup: ignoring input
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | ALL    | /api.json                                        | github.com/gogf/gf/v2/net/ghttp.(*Server).openapiSpec                                                      |                                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
+  :8000   | GET    | /api/Files/lectureFile/file/{FileId}             | intelligent-course-aware-ide/internal/controller/Files.(*ControllerV1).GetLectureFile                      | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.Auth                  
+----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
+  :8000   | GET    | /api/Files/lectureFile/lecture/{LectureId}       | intelligent-course-aware-ide/internal/controller/Files.(*ControllerV1).GetFileWithLectureId                | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.Auth                  
+----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | POST   | /api/Files/lectureFile/upload                    | intelligent-course-aware-ide/internal/controller/Files.(*ControllerV1).UploadLectureFile                   | ghttp.MiddlewareHandlerResponse  
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | DELETE | /api/Files/lectureFile/{FileId}                  | intelligent-course-aware-ide/internal/controller/Files.(*ControllerV1).DeleteLectureFile                   | ghttp.MiddlewareHandlerResponse  
-          |        |                                                  |                                                                                                            | middleware.Auth                  
-----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
-  :8000   | GET    | /api/Files/lectureFile/{FileId}                  | intelligent-course-aware-ide/internal/controller/Files.(*ControllerV1).GetLectureFile                      | ghttp.MiddlewareHandlerResponse  
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | PUT    | /api/Files/lectureFile/{FileId}                  | intelligent-course-aware-ide/internal/controller/Files.(*ControllerV1).UpdateLectureFile                   | ghttp.MiddlewareHandlerResponse  
@@ -167,38 +170,56 @@ nohup: ignoring input
   :8000   | ALL    | /swagger/*                                       | github.com/gogf/gf/v2/net/ghttp.(*Server).swaggerUI                                                        | HOOK_BEFORE_SERVE                
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
 
-2025-05-24T02:03:57.377+08:00 [DEBU] {102eed0b0e3a4218453c3450b9652451} Request started: /
-2025-05-24T02:03:57.904+08:00 [DEBU] {5e1b602b0e3a4218463c34500f53266c} Request started: /login
-2025-05-24T02:52:10.059+08:00 [DEBU] {29cc3a8daf3c4218473c3450749ed4c6} Request started: /
-2025-05-24T03:02:03.393+08:00 [DEBU] {8ef3abb2393d4218483c3450607843df} Request started: /
-2025-05-24T03:02:08.368+08:00 [DEBU] {3e9433db3a3d4218493c34504c9a5484} Request started: *
-2025-05-24T03:02:27.076+08:00 [DEBU] {f7a152363f3d42184a3c34508d75ac82} Request started: /favicon.ico
-2025-05-24T04:55:48.575+08:00 [DEBU] {8cb335cf6e4342184b3c345046c4a57e} Request started: /
-2025-05-24T07:20:09.978+08:00 [DEBU] {b2b21a734f4b42184c3c3450e7086d13} Request started: /
-2025-05-24T08:02:04.424+08:00 [DEBU] {86fec2e3984d42184d3c345004debe05} Request started: /
-2025-05-24T10:38:17.172+08:00 [DEBU] {ae140c271f5642184e3c34507d6b50c8} Request started: /
-2025-05-24T10:44:54.713+08:00 [DEBU] {1c5c55b67b5642184f3c345096131adf} Request started: /api/user/loginUser
-2025-05-24T10:45:00.772+08:00 [DEBU] {383a7d1f7d564218503c34502cb36b6d} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-24T10:45:00.884+08:00 [DEBU] {aa0a2e267d564218523c3450580cb67c} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-24T10:45:45.096+08:00 [DEBU] {b973627187564218543c34502defe3f6} Request started: /api/user/loginUser
-2025-05-24T10:45:45.521+08:00 [DEBU] {66ecc38a87564218553c3450882b4e29} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-24T10:46:34.617+08:00 [DEBU] {464e15f992564218573c3450b8f37c3d} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-24T10:46:37.266+08:00 [DEBU] {f00e039793564218593c345018e7f8b4} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-24T10:47:12.944+08:00 [DEBU] {048895e59b5642185b3c3450d16bb0c3} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-24T10:47:17.233+08:00 [DEBU] {94b32de59c5642185d3c3450ed90e1ae} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-24T11:23:00.318+08:00 [DEBU] {322800df8f5842185f3c345008172d61} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-24T11:23:13.191+08:00 [DEBU] {f84156de92584218613c3450e82fab00} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-24T11:23:56.637+08:00 [DEBU] {ef1ee4fb9c584218633c345018b7e44d} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-24T11:23:57.764+08:00 [DEBU] {5cc1183f9d584218653c3450452d389d} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-24T11:24:01.368+08:00 [DEBU] {db02e1159e584218673c34509b38b875} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-24T11:24:29.252+08:00 [DEBU] {9d49e793a4584218693c345011457832} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-24T11:24:29.630+08:00 [DEBU] {78246aaaa45842186b3c3450f9953d24} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-24T11:24:33.667+08:00 [DEBU] {cb7a159ba55842186d3c34501d1e42a2} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-24T11:24:34.060+08:00 [DEBU] {5bf980b2a55842186f3c3450a7af3dc3} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-24T11:28:37.400+08:00 [DEBU] {8fa2af5ade584218713c3450f6293178} Request started: /
-2025-05-24T11:31:47.714+08:00 [DEBU] {c44044aa0a594218723c3450653c913e} Request started: /
-2025-05-24T11:34:46.260+08:00 [DEBU] {26db793c34594218733c345015a65109} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-24T11:57:50.680+08:00 [DEBU] {3fb65392765a4218753c3450f32b76d6} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-24T11:58:11.199+08:00 [DEBU] {bc655c597b5a4218773c34503e7fbe92} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-24T12:07:03.024+08:00 [DEBU] {7e8b8c2cf75a4218793c3450d39c817f} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-24T12:08:09.651+08:00 [DEBU] {681dddaf065b42187b3c34504252c0a3} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-25T22:41:52.362+08:00 [DEBU] {29a85e1b30cc42185c54da182c7b8099} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-25T22:41:52.933+08:00 [DEBU] {6ba45b3d30cc42185f54da18d6190a69} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-25T22:41:52.944+08:00 [DEBU] {721c0b3e30cc42186154da180341adef} Request started: /api/comment/getComment/2
+Fetched Comments: [0xc0000d1a40]
+2025-05-25T22:44:53.585+08:00 [DEBU] {111c174d5acc42186354da187b12b5d9} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-25T22:44:54.459+08:00 [DEBU] {4ada2d815acc42186554da1811492664} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-25T22:44:54.463+08:00 [DEBU] {9dc564815acc42186754da18632c5e37} Request started: /api/comment/getComment/2
+Fetched Comments: [0xc00014caf0]
+2025-05-25T22:46:33.053+08:00 [DEBU] {3920d87571cc42186954da18ab224c63} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-25T22:46:33.700+08:00 [DEBU] {83525f9c71cc42186b54da18a2a102df} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-25T22:46:33.731+08:00 [DEBU] {a015389e71cc42186d54da189cbfbb05} Request started: /api/comment/getComment/2
+Fetched Comments: [0xc0000d0b60]
+2025-05-25T22:52:39.474+08:00 [DEBU] {540233c6c6cc42186f54da18c7303779} Request started: /api/Files/lectureFile/lecture/1
+2025-05-25T22:52:39.482+08:00 [ERRO] {540233c6c6cc42186f54da18c7303779} Error occurred: The LecutreId field is required 
+Stack:
+1.  intelligent-course-aware-ide/internal/cmd.init.func1.1
+    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:50
+2.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
+    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
+
+2025-05-25T22:52:39.483+08:00 [ERRO] {540233c6c6cc42186f54da18c7303779} Panic recovered: exit 
+Stack:
+1.  intelligent-course-aware-ide/internal/cmd.init.func1.1.1
+    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:35
+2.  intelligent-course-aware-ide/internal/cmd.init.func1.1
+    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:51
+3.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
+    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
+
+2025-05-25T22:52:39.484+08:00 {540233c6c6cc42186f54da18c7303779} 500 "GET http 47.117.144.50:8000 /api/Files/lectureFile/lecture/1 HTTP/1.1" 10386.562, 110.65.147.206, "http://localhost:3000/dashboard/1/1/courseware", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36", 51, "Validation Failed", ""
+Stack:
+The LecutreId field is required
+2025-05-25T22:52:39.764+08:00 [DEBU] {b3517fd7c6cc42187154da18fae17320} Request started: /api/Files/lectureFile/lecture/1
+2025-05-25T22:52:39.767+08:00 [ERRO] {b3517fd7c6cc42187154da18fae17320} Error occurred: The LecutreId field is required 
+Stack:
+1.  intelligent-course-aware-ide/internal/cmd.init.func1.1
+    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:50
+2.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
+    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
+
+2025-05-25T22:52:39.768+08:00 [ERRO] {b3517fd7c6cc42187154da18fae17320} Panic recovered: exit 
+Stack:
+1.  intelligent-course-aware-ide/internal/cmd.init.func1.1.1
+    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:35
+2.  intelligent-course-aware-ide/internal/cmd.init.func1.1
+    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:51
+3.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
+    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
+
+2025-05-25T22:52:39.768+08:00 {b3517fd7c6cc42187154da18fae17320} 500 "GET http 47.117.144.50:8000 /api/Files/lectureFile/lecture/1 HTTP/1.1" 4573.115, 110.65.147.206, "http://localhost:3000/dashboard/1/1/courseware", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36", 51, "Validation Failed", ""
+Stack:
+The LecutreId field is required
+2025-05-25T22:54:35.691+08:00 [DEBU] {ca0e48d5e1cc42187354da18c0a11d86} Request started: /api/comment/createComment
