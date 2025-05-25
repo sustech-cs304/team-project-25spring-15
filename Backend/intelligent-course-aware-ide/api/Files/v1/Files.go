@@ -37,7 +37,7 @@ type DeleteLectureFileRes struct {
 }
 
 type GetLectureFileReq struct {
-	g.Meta `path:"/api/Files/lectureFile/{FileId}" method:"get" tags:"file" summary:"get lecture File"`
+	g.Meta `path:"/api/Files/lectureFile/file/{FileId}" method:"get" tags:"file" summary:"get lecture File"`
 	FileId int64 `v:"required" dc:"an unique file id"`
 }
 
@@ -45,7 +45,7 @@ type GetLectureFileRes struct {
 }
 
 type GetFileWithLectureIdReq struct {
-	g.Meta    `path:"/api/Files/lectureFile/{LectureId}" method:"get" tags:"file" summary:"get lecture File"`
+	g.Meta    `path:"/api/Files/lectureFile/lecture/{LectureId}" method:"get" tags:"file" summary:"get lecture File"`
 	LecutreId int64 `v:"required" dc:"an unique lecture id"`
 }
 
