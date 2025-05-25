@@ -9,7 +9,7 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
-func buildCtx(tokenString string) (ctx context.Context, err error) {
+func BuildCtx(tokenString string) (ctx context.Context, err error) {
 	tokenClaims, err := jwt.ParseWithClaims(tokenString, &accountv1.JWTClaims{}, func(token *jwt.Token) (interface{}, error) {
 		return []byte(consts.JWTKey), nil
 	})
