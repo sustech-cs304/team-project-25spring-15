@@ -1,6 +1,7 @@
 import TiptapWrapper from "@/app/ui/collab/tiptap-wrapper";
 import { auth } from "@/auth";
 import MarkdownWithRunner from "@/app/ui/lecture/courseware/markdown-with-runner";
+import { mocked_markdown_example } from "../lib/mocked-data";
 
 const codestring = `
 ### Example
@@ -21,7 +22,7 @@ export default async function Page() {
         {/* TODO: make this prettier */}
       </h1>
       <div>
-        <MarkdownWithRunner content={codestring} />
+        <MarkdownWithRunner content={mocked_markdown_example} />
       </div>
     </div>
   );

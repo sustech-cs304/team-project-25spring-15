@@ -4,6 +4,7 @@ import React, { useId, useState } from 'react';
 import Link from 'next/link';
 import ReactMarkdown, { Components } from 'react-markdown';
 import rehypeHighlight from "rehype-highlight";
+import remarkGfm from "remark-gfm";
 
 import CodeIcon from '@mui/icons-material/Code';
 import { Box } from '@mui/material';
@@ -146,6 +147,34 @@ const components: Partial<Components> = {
       </h6>
     );
   },
+  table: ({ children, ...props }) => (
+    <table className="min-w-full border border-gray-300 my-4 text-base" {...props}>
+      {children}
+    </table>
+  ),
+  thead: ({ children, ...props }) => (
+    <thead className="bg-gray-100 dark:bg-zinc-800" {...props}>
+      {children}
+    </thead>
+  ),
+  tbody: ({ children, ...props }) => (
+    <tbody {...props}>{children}</tbody>
+  ),
+  tr: ({ children, ...props }) => (
+    <tr className="border-b border-gray-200" {...props}>
+      {children}
+    </tr>
+  ),
+  th: ({ children, ...props }) => (
+    <th className="px-4 py-2 font-bold text-left border border-gray-300 bg-gray-50 dark:bg-zinc-700" {...props}>
+      {children}
+    </th>
+  ),
+  td: ({ children, ...props }) => (
+    <td className="px-4 py-2 border border-gray-300" {...props}>
+      {children}
+    </td>
+  ),
 };
 
 export default function MarkdownWithRunner({ content }: { content: string }) {
@@ -167,6 +196,7 @@ export default function MarkdownWithRunner({ content }: { content: string }) {
       <ReactMarkdown
         components={components}
         rehypePlugins={[rehypeHighlight]}
+        remarkPlugins={[remarkGfm]}
       >
         {content}
       </ReactMarkdown>
