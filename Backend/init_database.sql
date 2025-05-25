@@ -169,12 +169,13 @@ CREATE TABLE ChatMessageInfo(
 CREATE TABLE Comment (
   commentId BIGINT AUTO_INCREMENT PRIMARY KEY,
   repliedToCommentedId BIGINT ,
-  lectureId BIGINT,
+  lectureId BIGINT NOT NULL ,
   authorId BIGINT NOT NULL,
   content VARCHAR(1023) NOT NUll,
   createTime VARCHAR(255) NOT NULL,
-  likes BIGINT,
-  FOREIGN KEY(authorId) REFERENCES Users(userId) ON DELETE CASCADE
+  likes BIGINT DEFAULT 0,
+  FOREIGN KEY(authorId) REFERENCES Users(userId) ON DELETE CASCADE,
+  FOREIGN KEY (lectureId) REFERENCES Lectures(lectureId) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Tasks(
