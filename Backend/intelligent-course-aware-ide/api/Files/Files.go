@@ -15,4 +15,5 @@ type IFilesV1 interface {
 	UpdateLectureFile(ctx context.Context, req *v1.UpdateLectureFileReq) (res *v1.UpdateLectureFileRes, err error)
 	DeleteLectureFile(ctx context.Context, req *v1.DeleteLectureFileReq) (res *v1.DeleteLectureFileRes, err error)
 	GetLectureFile(ctx context.Context, req *v1.GetLectureFileReq) (res *v1.GetLectureFileRes, err error)
+	GetFileWithLectureId(ctx context.Context, req *v1.GetFileWithLectureIdReq) (res *v1.GetFileWithLectureIdRes, err error)
 }

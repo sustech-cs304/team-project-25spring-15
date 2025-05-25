@@ -43,3 +43,11 @@ type GetLectureFileReq struct {
 
 type GetLectureFileRes struct {
 }
+
+type GetFileWithLectureIdReq struct {
+	g.Meta    `path:"/api/Files/lectureFile/{LectureId}" method:"get" tags:"file" summary:"get lecture File"`
+	LecutreId int64 `v:"required" dc:"an unique file id"`
+}
+
+type GetFileWithLectureIdRes struct {
+}
