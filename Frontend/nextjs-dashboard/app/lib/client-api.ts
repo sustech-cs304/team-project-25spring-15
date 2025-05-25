@@ -3,14 +3,37 @@ import {auth} from "@/auth";
 import { useStore } from '@/store/useStore';
 
 const base_url = 'http://47.117.144.50:8000';
-const base_url_course = `${base_url}/api/course`;
-const base_url_lecture = `${base_url}/api/lecture`;
 // 课程相关接口
 
 // 获取认证信息的辅助函数
 async function getAuthHeader() {
   const token = useStore.getState().token;
   return token ? { Authorization: `Bearer ${token}` } : {};
+}
+
+export const CourseWareAPI = {
+  uploadPdf: async (file: File, lectureId: string) => {
+    const headers = await getAuthHeader();
+
+    console.log("uploading pdf...");
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("lectureId", lectureId);
+    const res = axios.post("/api/Files/lectureFile/upload", formData, {headers});
+
+    console.log(res);
+    return res;
+  },
+  getPdf: async (lectureId: string) => {
+    const headers = await getAuthHeader();
+    console.log("fetching pdf...");
+
+    const res = await axios.get(
+      `/api/Files/lectureFile/lecture/${lectureId}`,
+      { headers, responseType: 'blob' }
+    );
+    return res;
+  }
 }
 
 export const CodeAPI = {

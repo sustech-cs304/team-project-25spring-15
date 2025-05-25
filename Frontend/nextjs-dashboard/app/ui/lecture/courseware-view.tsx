@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Box, Typography, Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Document, Page } from 'react-pdf';
+import { CourseWareAPI } from '@/app/lib/client-api'
 
 import { pdfjs } from 'react-pdf';
 
@@ -29,23 +30,32 @@ const PdfContainer = styled('div')({
   }
 });
 
-type PdfViewProps = {
-  fileUrl: string | null;
-  courseId: string;
-  lectureId: string;
-};
-
 type CoursewareViewProps = {
   courseId: string;
   lectureId: string;
 };
 
-export function PdfView({ fileUrl, courseId, lectureId }: PdfViewProps) {
-  if (!fileUrl) fileUrl = '/mocked.pdf';
-
+export default function CoursewareView({ courseId, lectureId }: CoursewareViewProps) {
+  const [fileUrl, setFileUrl] = useState<string>();
   const [numPages, setNumPages] = useState<number>();
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [uploading, setUploading] = useState(false);
+
+  useEffect(() => {
+    const featchPdf = async () => {
+      try {
+        const res = await CourseWareAPI.getPdf(lectureId);
+        const fileBlob = res.data;
+        const url = URL.createObjectURL(fileBlob);
+        console.log(`file url: ${fileUrl}`);
+        setFileUrl(url);
+      } catch (e) {
+        setFileUrl('/mocked.pdf');
+        console.log(`file url: mocked`);
+      };
+    }
+    featchPdf();
+  }, [lectureId]);
 
   // 移除 width 状态和 ResizeObserver
   function onDocumentLoadSuccess({ numPages }: { numPages: number }): void {
@@ -64,16 +74,17 @@ export function PdfView({ fileUrl, courseId, lectureId }: PdfViewProps) {
     formData.append("lectureId", lectureId);
 
     try {
-      const res = await fetch("/api/pdf/upload", {
-        method: "POST",
-        body: formData,
-      });
-      if (res.ok) {
+      const res = await CourseWareAPI.uploadPdf(file, lectureId);
+      if (res.status === 200) {
         alert("上传成功！");
         window.location.reload();
       } else {
         alert("上传失败");
       }
+      const blob = await CourseWareAPI.getPdf(lectureId);
+      const fileBlob = blob.data;
+      const fileUrl = URL.createObjectURL(fileBlob);
+      // setFileUrl()
     } catch {
       alert("上传出错");
     } finally {
@@ -134,35 +145,3 @@ export function PdfView({ fileUrl, courseId, lectureId }: PdfViewProps) {
     </div>
   );
 }
-
-
-export default function CoursewareView({ courseId, lectureId }: CoursewareViewProps) {
-  const [fileUrl, setFileUrl] = useState<string | null>(null);
-
-  // useEffect(() => {
-  //   let url: string | null = null;
-  //   fetch(`/api/pdf?courseId=${courseId}&lectureId=${lectureId}`)
-  //     .then(res => {
-  //       if (!res.ok) throw new Error('fetch failed');
-  //       return res.blob();
-  //     })
-  //     .then(blob => {
-  //       url = URL.createObjectURL(blob);
-  //       setFileUrl(url);
-  //     })
-  //     .catch(() => {
-  //       setFileUrl('/mocked.pdf');
-  //     });
-
-  //   // 清理函数：组件卸载时释放 blob URL
-  //   return () => {
-  //     if (url) URL.revokeObjectURL(url);
-  //   };
-  // }, [courseId, lectureId]);
-
-  return (
-    <Box sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
-      <PdfView fileUrl={fileUrl} courseId={courseId} lectureId={lectureId} />
-    </Box>
-  );
-};

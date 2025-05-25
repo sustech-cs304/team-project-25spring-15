@@ -12,7 +12,7 @@ export default async function Page({ params }: PageProps) {
 
   return (
     <main>
-      <CoursewareView courseId={courseId} lectureId={lectureId}/>
+      <CoursewareView courseId={courseId || '1'} lectureId={lectureId}/>
     </main>
   );
 }
