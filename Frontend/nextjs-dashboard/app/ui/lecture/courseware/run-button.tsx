@@ -1,8 +1,9 @@
 import React from "react";
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
+import { CodeAPI } from "@/app/lib/client-api";
 
 const RunButton = ({ targetId, onRun, language }: { targetId: string; onRun: (output: string) => void; language: string}) => {
-  const handleRun = (lang: string) => {
+  const handleRun = async (lang: string) => {
     try {
       const code = document.getElementById(targetId)?.innerText || "";
       if (lang === 'js' || lang === 'javascript') {
@@ -17,7 +18,8 @@ const RunButton = ({ targetId, onRun, language }: { targetId: string; onRun: (ou
         console.log = originalLog;
         onRun(output ? output.trim() : String(result));
       } else if (lang === 'C' || lang === 'c' || lang === 'python') {
-        //TODO: link to api
+        const result = await CodeAPI.runCode(code, lang);
+        onRun(result);
       } else {
         onRun(`Language ${lang} is not supported`);
       }
