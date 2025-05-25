@@ -17,8 +17,8 @@ const components: Partial<Components> = {
   code: ({ node, className, children, ...props }) => {
     const id = useId();
     const match = /language-(\w+)/.exec(className || "");
+    const language = match?.[1];
 
-    const isJs = match?.[1] === 'js' || match?.[1] === 'javascript';
     const [output, setOutput] = useState<string>("");
 
     if (match?.length) {
@@ -35,9 +35,7 @@ const components: Partial<Components> = {
             </div>
             <div className="flex items-center gap-2">
               <CopyButton targetId={id} />
-              {isJs && (
-                <RunButton targetId={id} onRun={setOutput} />
-              )}
+              <RunButton targetId={id} onRun={setOutput} language={language || 'plain text'}/>
             </div>
           </div>
           <div className="overflow-x-auto">
@@ -47,12 +45,10 @@ const components: Partial<Components> = {
               </pre>
             </div>
           </div>
-          {isJs && (
             <div className="bg-gray-100 dark:bg-zinc-800 rounded px-4 py-2 mx-4 mb-4 text-base min-h-[24px] mt-2">
               <span className="text-sm text-gray-500">运行结果：</span>
               <div>{output}</div>
             </div>
-          )}
         </div>
       );
     } else {
