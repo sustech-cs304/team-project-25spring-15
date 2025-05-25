@@ -38,10 +38,9 @@ export default function TiptapEditor({ user }: TopbarProps) {
   const { courseId, lectureId } = params;
 
   // Ensure courseId and lectureId are defined and numbers
-  const courseIdNum = typeof courseId === 'string' ? parseInt(courseId, 10) : Array.isArray(courseId) ? parseInt(courseId[0], 10) : undefined;
   const lectureIdNum = typeof lectureId === 'string' ? parseInt(lectureId, 10) : Array.isArray(lectureId) ? parseInt(lectureId[0], 10) : undefined;
-  const thisIndex = (typeof courseIdNum === 'number' && !isNaN(courseIdNum) && typeof lectureIdNum === 'number' && !isNaN(lectureIdNum))
-    ? (courseIdNum * 6 + lectureIdNum)
+  const thisIndex = (typeof lectureIdNum === 'number' && !isNaN(lectureIdNum))
+    ? (lectureIdNum)
     : 0; // fallback to 0 if undefined
 
   console.log(thisIndex);
