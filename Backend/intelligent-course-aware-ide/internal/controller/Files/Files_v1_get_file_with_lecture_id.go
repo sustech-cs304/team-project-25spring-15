@@ -7,21 +7,37 @@ import (
 	"github.com/gogf/gf/v2/frame/g"
 
 	v1 "intelligent-course-aware-ide/api/Files/v1"
+	"intelligent-course-aware-ide/internal/dao"
 )
 
 func (c *ControllerV1) GetFileWithLectureId(ctx context.Context, req *v1.GetFileWithLectureIdReq) (res *v1.GetFileWithLectureIdRes, err error) {
-	var filePath string
-	err = g.DB().Model("Files").Where("LectureId", req.LecutreId).Fields("storePath").Scan(&filePath)
+	// 1. 从 LectureFiles 表里根据 lectureId 查出 fileId
+	var fileId int64
+	err = dao.LectureFiles.Ctx(ctx).
+		Where("lectureId", req.LectureId).
+		Scan(&fileId)
 	if err != nil {
-		return nil, err
+		return nil, gerror.Wrap(err, "查询 LectureFiles 失败")
 	}
-	if filePath == "" {
-		return nil, gerror.New("文件不存在")
+	if fileId == 0 {
+		return nil, gerror.New("对应的文件不存在")
+	}
+
+	// 2. 从 Files 表根据 fileId 查出 fileUrl
+	var fileUrl string
+	err = dao.Files.Ctx(ctx).
+		WherePri(fileId).
+		Fields("fileUrl").
+		Scan(&fileUrl)
+	if err != nil {
+		return nil, gerror.Wrap(err, "查询 Files 失败")
+	}
+	if fileUrl == "" {
+		return nil, gerror.New("文件 URL 不存在")
 	}
 
 	r := g.RequestFromCtx(ctx)
-
-	r.Response.ServeFileDownload(filePath)
+	r.Response.ServeFileDownload(fileUrl)
 
 	return nil, nil
 }
