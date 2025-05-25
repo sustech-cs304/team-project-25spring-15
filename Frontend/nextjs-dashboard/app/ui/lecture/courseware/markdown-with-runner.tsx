@@ -46,7 +46,7 @@ const components: Partial<Components> = {
               </pre>
             </div>
           </div>
-            <div className="bg-gray-100 dark:bg-zinc-800 rounded px-4 py-2 mx-4 mb-4 text-base min-h-[24px] mt-2">
+            <div className="bg-gray-100 dark:bg-zinc-800 rounded px-4 py-2 mx-4 mb-4 text-base min-h-[24px] mt-2 whitespace-pre-wrap">
               <span className="text-sm text-gray-500">运行结果：</span>
               <div>{output}</div>
             </div>
@@ -190,7 +190,6 @@ export default function MarkdownWithRunner({ content }: { content: string }) {
         mx: 'auto',
         my: 4,
         p: 3,
-        fontSize: 18,
       }}
     >
       <ReactMarkdown

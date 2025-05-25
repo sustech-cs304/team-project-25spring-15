@@ -13,6 +13,34 @@ async function getAuthHeader() {
   return token ? { Authorization: `Bearer ${token}` } : {};
 }
 
+export const CodeAPI = {
+  runCode: async (code_str: string, lang: string) => {
+    const headers = await getAuthHeader();
+    console.log("running code...");
+    const payload = {
+      codeInfo: {
+        code: code_str,
+      },
+      type: lang
+    };
+    const res = await axios.post(`/api/codeRunner/run`, payload, {headers});
+    const response = res.data.data.codeFeedback;
+    console.log('Code running result:', response);
+
+    try {
+      if(response.error && response.error.trim() !== "") {
+        return response.error;
+      } else if (response.result) {
+        return response.result;
+      } else {
+        console.error("Nothing to show, please check!");
+      }
+    } catch(e) {
+      console.error(`Failed to fetch courses infomation:`, e);
+    }
+  }
+}
+
 export const CourseAPI = {
   // 获取课程列表和讲座列表
   async fetchCourses() {
