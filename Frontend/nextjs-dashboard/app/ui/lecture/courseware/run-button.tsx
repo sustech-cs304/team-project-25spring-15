@@ -1,6 +1,7 @@
 import React from "react";
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import { CodeAPI } from "@/app/lib/client-api";
+import Tooltip from "@mui/material/Tooltip";
 
 const RunButton = ({ targetId, onRun, language }: { targetId: string; onRun: (output: string) => void; language: string}) => {
   const handleRun = async (lang: string) => {
@@ -29,14 +30,16 @@ const RunButton = ({ targetId, onRun, language }: { targetId: string; onRun: (ou
   };
 
   return (
-    <button
-      type="button"
-      onClick={() => handleRun(language)}
-      className="relative inline-flex rounded-md p-2 hover:bg-zinc-200 dark:hover:bg-zinc-800"
-      aria-label="复制代码"
-    >
-      <RocketLaunchIcon fontSize="small" />
-    </button>
+    <Tooltip title="运行代码">
+      <button
+        type="button"
+        onClick={() => handleRun(language)}
+        className="relative inline-flex rounded-md p-2 hover:bg-zinc-200 dark:hover:bg-zinc-800"
+        aria-label="运行代码"
+      >
+        <RocketLaunchIcon fontSize="small" />
+      </button>
+    </Tooltip>
   );
 };
 
