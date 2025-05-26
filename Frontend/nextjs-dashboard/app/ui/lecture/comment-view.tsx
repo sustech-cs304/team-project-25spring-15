@@ -53,12 +53,15 @@ const mockComments: Comment[] = [
 
 ];
 
-interface CommentViewProps {
-  courseId: number;
-  lectureId: number;
-}
+type CommentViewProps = {
+  courseIdString: string;
+  lectureIdString: string;
+};
 
-export default function CommentView({ courseId, lectureId }: CommentViewProps) {
+export default function CommentView({ courseIdString, lectureIdString }: CommentViewProps) {
+  const courseId = parseInt(courseIdString, 10);
+  const lectureId = parseInt(lectureIdString, 10);
+
   const [comments, setComments] = useState<Comment[]>(mockComments);
   const [newComment, setNewComment] = useState("");
   const [replyTo, setReplyTo] = useState<{ repliedToCommentId: number, repliedToUserName: string } | null>(null);
