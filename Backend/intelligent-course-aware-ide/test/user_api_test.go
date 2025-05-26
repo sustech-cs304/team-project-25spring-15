@@ -1,4 +1,4 @@
-package api_test
+package test
 
 import (
 	"context"
@@ -62,6 +62,7 @@ var TestUsers = []v1.UserInfoWithPassword{
 		Password:   "password5",
 	},
 }
+
 var NewUser1 = v1.UserInfoWithPassword{
 	UserId:     1,
 	UserName:   "zyc1",
@@ -100,6 +101,7 @@ func Test_CreateUser(t *testing.T) {
 //			t.Assert(res.UserId, 1)
 //		})
 //	}
+
 func AssertUserEqual(t *gtest.T, actual v1.UserInfoWithoutPassword, expect v1.UserInfoWithPassword) {
 	t.Assert(actual.UserName, expect.UserName)
 	t.Assert(actual.Email, expect.Email)
@@ -108,6 +110,7 @@ func AssertUserEqual(t *gtest.T, actual v1.UserInfoWithoutPassword, expect v1.Us
 	t.Assert(actual.Birthday.Time.UTC().Add(8*time.Hour), expect.Birthday.Time.UTC())
 	t.Assert(actual.Identity, expect.Identity)
 }
+
 func Test_GetAllUser(t *testing.T) {
 	gtest.C(t, func(t *gtest.T) {
 		req := &v1.GetAllUsersInfoReq{}
@@ -119,6 +122,7 @@ func Test_GetAllUser(t *testing.T) {
 		}
 	})
 }
+
 func Test_GetUser(t *testing.T) {
 	gtest.C(t, func(t *gtest.T) {
 		ctrl := &user.ControllerV1{}
@@ -133,6 +137,7 @@ func Test_GetUser(t *testing.T) {
 		}
 	})
 }
+
 func Test_UpdateUser(t *testing.T) {
 	gtest.C(t, func(t *gtest.T) {
 		ctrl := &user.ControllerV1{}
