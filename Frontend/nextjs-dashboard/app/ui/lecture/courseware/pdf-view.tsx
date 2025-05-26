@@ -47,7 +47,7 @@ export default function PdfView({ courseId, lectureId }: PdfViewProps) {
         const res = await CourseWareAPI.getPdf(lectureId);
         const fileBlob = res.data;
         const url = URL.createObjectURL(fileBlob);
-        console.log(`file url: ${fileUrl}`);
+        console.log(`file url: ${url}`);
         setFileUrl(url);
       } catch (e) {
         setFileUrl('/mocked.pdf');
