@@ -1,8 +1,6 @@
 package v1
 
 import (
-	"intelligent-course-aware-ide/internal/model/entity"
-
 	"github.com/gogf/gf/v2/frame/g"
 )
 
@@ -19,7 +17,7 @@ type CommentInfo struct {
 }
 type CreateCommentReq struct {
 	g.Meta     `path:"/api/comment/createComment" method:"post" tags:"Comment" summary:"Create comment"`
-	NewComment entity.Comment `json:"comment" dc:"Info of the comment"`
+	NewComment CommentInfo `json:"comment" dc:"Info of the comment"`
 }
 type CreateCommentRes struct {
 	g.Meta    `mime:"text/html" example:"json"`

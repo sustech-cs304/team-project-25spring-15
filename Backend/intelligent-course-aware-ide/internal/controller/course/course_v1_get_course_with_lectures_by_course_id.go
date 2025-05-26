@@ -9,7 +9,7 @@ import (
 
 func (c *ControllerV1) GetCourseWithLecturesByCourseId(ctx context.Context, req *v1.GetCourseWithLecturesByCourseIdReq) (res *v1.GetCourseWithLecturesByCourseIdRes, err error) {
 	res = &v1.GetCourseWithLecturesByCourseIdRes{}
-	err = dao.Courses.Ctx(ctx).Where("courseId", req.CourseId).Scan(res.Course)
+	err = dao.Courses.Ctx(ctx).Where("courseId", req.CourseId).Scan(&res.Course)
 	if err != nil {
 		return res, err
 	}

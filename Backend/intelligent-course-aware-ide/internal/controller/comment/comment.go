@@ -7,14 +7,16 @@ package comment
 import (
 	"context"
 	"errors"
+	"fmt"
 	"intelligent-course-aware-ide/internal/dao"
 )
 
 func CheckUserHasPermissionOfComment(ctx context.Context, userId int64, commentId int64) (result bool, err error) {
 	comment, err := dao.Comment.Ctx(ctx).
-		Fields("authorId").
+		Fields("AuthorId").
 		Where("commentId", commentId).
 		One()
+	
 	if err != nil {
 		return false, err
 	}
@@ -22,5 +24,6 @@ func CheckUserHasPermissionOfComment(ctx context.Context, userId int64, commentI
 		err = errors.New("there is no this comment")
 		return false, err
 	}
-	return comment["authorId"].Int64() == userId, nil
+	fmt.Println(comment.IsEmpty())
+	return comment["AuthorId"].Int64() == userId, nil
 }
