@@ -5,10 +5,14 @@ import (
 	"errors"
 
 	v1 "intelligent-course-aware-ide/api/runner/v1"
+	"intelligent-course-aware-ide/internal/consts"
 )
 
 func (c *ControllerV1) GeneralRunner(ctx context.Context, req *v1.GeneralRunnerReq) (res *v1.GeneralRunnerRes, err error) {
 	res = &v1.GeneralRunnerRes{}
+	if req.CodeInfo.Name == "" {
+		req.CodeInfo.Name = consts.TmpFileName
+	}
 	if req.CodeType == "c" || req.CodeType == "c++" || req.CodeType == "cpp" {
 		var pathForCDocker, pathForExecutableFile string
 		pathForCDocker, pathForExecutableFile, err = c.runners.CCodeRunner(ctx, &req.CodeInfo)
