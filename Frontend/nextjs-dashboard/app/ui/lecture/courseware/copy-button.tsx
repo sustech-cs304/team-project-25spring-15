@@ -1,5 +1,6 @@
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import CheckIcon from '@mui/icons-material/Check';
+import Tooltip from "@mui/material/Tooltip";
 import { useState } from "react";
 
 const CopyButton = ({ targetId }: { targetId: string }) => {
@@ -17,21 +18,23 @@ const CopyButton = ({ targetId }: { targetId: string }) => {
   };
 
   return (
-    <button
-      type="button"
-      onClick={onCopy}
-      className="relative inline-flex rounded-md p-2 hover:bg-zinc-200 dark:hover:bg-zinc-800"
-      aria-label="复制代码"
-    >
-      <ContentCopyIcon
-        fontSize="small"
-        className={`transition-all ${copied ? "scale-0" : "scale-100"}`}
-      />
-      <CheckIcon
-        fontSize="small"
-        className={`absolute transition-all ${copied ? "scale-100" : "scale-0"}`}
-      />
-    </button>
+    <Tooltip title={copied ? "复制成功" : "复制代码"}>
+      <button
+        type="button"
+        onClick={onCopy}
+        className="relative inline-flex rounded-md p-2 hover:bg-zinc-200 dark:hover:bg-zinc-800"
+        aria-label="复制代码"
+      >
+        <ContentCopyIcon
+          fontSize="small"
+          className={`transition-all ${copied ? "scale-0" : "scale-100"}`}
+        />
+        <CheckIcon
+          fontSize="small"
+          className={`absolute transition-all ${copied ? "scale-100" : "scale-0"}`}
+        />
+      </button>
+    </Tooltip>
   );
 };
 

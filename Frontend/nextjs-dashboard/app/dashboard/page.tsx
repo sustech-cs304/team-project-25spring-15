@@ -1,18 +1,3 @@
-import TiptapWrapper from "@/app/ui/collab/tiptap-wrapper";
-import { auth } from "@/auth";
-import MarkdownWithRunner from "@/app/ui/lecture/courseware/markdown-with-runner";
-
-const codestring = `
-### Example
-
-Here is a piece of JavaScript code:
-
-~~~js test.ts
-console.log('It works!');
-const name = 'hello';
-~~~
-`
-
 export default async function Page() {
   return (
     <div>
@@ -20,9 +5,6 @@ export default async function Page() {
         Dashboard
         {/* TODO: make this prettier */}
       </h1>
-      <div>
-        <MarkdownWithRunner content={codestring} />
-      </div>
     </div>
   );
 }

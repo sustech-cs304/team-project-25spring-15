@@ -3,7 +3,7 @@ package test
 import (
 	"context"
 	V1 "intelligent-course-aware-ide/api/account/v1"
-	"intelligent-course-aware-ide/api/user/v1"
+	v1 "intelligent-course-aware-ide/api/user/v1"
 	"intelligent-course-aware-ide/internal/controller/account"
 	"intelligent-course-aware-ide/internal/controller/user"
 	middleware "intelligent-course-aware-ide/internal/logic/middleware"
@@ -100,6 +100,7 @@ func Test_CreateUser(t *testing.T) {
 //			t.Assert(res.UserId, 1)
 //		})
 //	}
+
 func AssertUserEqual(t *gtest.T, actual v1.UserInfoWithoutPassword, expect v1.UserInfoWithPassword) {
 	t.Assert(actual.UserName, expect.UserName)
 	t.Assert(actual.Email, expect.Email)
@@ -108,6 +109,7 @@ func AssertUserEqual(t *gtest.T, actual v1.UserInfoWithoutPassword, expect v1.Us
 	t.Assert(actual.Birthday.Time.UTC().Add(8*time.Hour), expect.Birthday.Time.UTC())
 	t.Assert(actual.Identity, expect.Identity)
 }
+
 func Test_GetAllUser(t *testing.T) {
 	gtest.C(t, func(t *gtest.T) {
 		req := &v1.GetAllUsersInfoReq{}
