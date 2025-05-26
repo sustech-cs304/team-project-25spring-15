@@ -234,3 +234,4 @@ Fetched Comments: []
 2025-05-26T18:21:44.389+08:00 [DEBU] {f572f6a8920c4318304ddd41ddcc3aea} Request started: /api/course/searchCourseWithLectures/byStudentId
 2025-05-26T20:23:09.391+08:00 [DEBU] {b7ebe8d432134318324ddd411a40a9c7} Request started: /
 2025-05-26T20:28:56.006+08:00 [DEBU] {4d77cb8883134318334ddd41abd922f0} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T21:33:58.482+08:00 [DEBU] {21a17d2610174318354ddd411a861c5a} Request started: /
