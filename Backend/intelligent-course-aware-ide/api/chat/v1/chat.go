@@ -7,10 +7,10 @@ import (
 )
 
 type MessageInfo struct {
-	MessageId   int64  `json:"messageId" dc:"Id of this chat message"`
-	ChatId      int64  `json:"chatId" dc:"Id of this chat"`
-	Message string `json:"Message" dc:"Content of this chat"`
-	OwnerId     int64  `json:"ownerId" dc:"Id of this chat message owner"`
+	MessageId int64  `json:"messageId" dc:"Id of this chat message"`
+	ChatId    int64  `json:"chatId" dc:"Id of this chat"`
+	Message   string `json:"message" dc:"Content of this chat"`
+	OwnerId   int64  `json:"ownerId" dc:"Id of this chat message owner"`
 }
 
 type ChatUserInfo struct {
@@ -34,8 +34,8 @@ type GetAllChatInfoOfAUserReq struct {
 }
 
 type GetAllChatInfoOfAUserRes struct {
-	g.Meta       `mime:"text/html" example:"json"`
-	ChatMessages []*entity.ChatMessageInfo `json:"chatMessages" dc:"Info of all message of the chat"`
+	g.Meta `mime:"text/html" example:"json"`
+	Chats  []*entity.ChatUserInfo `json:"chats" dc:"Info of all message of the chat"`
 }
 
 type CreateChatMessageReq struct {
