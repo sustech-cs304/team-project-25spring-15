@@ -15,6 +15,7 @@ import (
 
 // the API for uploading lecture files
 func (c *ControllerV1) UploadLectureFile(ctx context.Context, req *v1.UploadLectureFileReq) (res *v1.UploadLectureFileRes, err error) {
+
 	res = &v1.UploadLectureFileRes{}
 
 	lectureExists, err := g.DB().Model("Lectures").Where("lectureId", req.LectureId).Count()

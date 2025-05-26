@@ -1,8 +1,8 @@
 nohup: ignoring input
-2025-05-24T00:54:39.049+08:00 [DEBU] 日志系统初始化完成
-2025-05-24T00:54:39.168+08:00 [INFO] swagger ui is serving at address: http://127.0.0.1:8000/swagger/
-2025-05-24T00:54:39.169+08:00 [INFO] openapi specification is serving at address: http://127.0.0.1:8000/api.json
-2025-05-24T00:54:39.168+08:00 [INFO] pid[132214]: http server started listening on [:8000]
+2025-05-26T17:11:57.673+08:00 [DEBU] 日志系统初始化完成
+2025-05-26T17:11:57.685+08:00 [INFO] pid[23515]: http server started listening on [:8000]
+2025-05-26T17:11:57.685+08:00 [INFO] swagger ui is serving at address: http://127.0.0.1:8000/swagger/
+2025-05-26T17:11:57.686+08:00 [INFO] openapi specification is serving at address: http://127.0.0.1:8000/api.json
 
   ADDRESS | METHOD |                      ROUTE                       |                                                  HANDLER                                                   |           MIDDLEWARE             
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
@@ -10,13 +10,16 @@ nohup: ignoring input
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | ALL    | /api.json                                        | github.com/gogf/gf/v2/net/ghttp.(*Server).openapiSpec                                                      |                                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
+  :8000   | GET    | /api/Files/lectureFile/file/{FileId}             | intelligent-course-aware-ide/internal/controller/Files.(*ControllerV1).GetLectureFile                      | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.Auth                  
+----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
+  :8000   | GET    | /api/Files/lectureFile/lecture/{LectureId}       | intelligent-course-aware-ide/internal/controller/Files.(*ControllerV1).GetFileWithLectureId                | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.Auth                  
+----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | POST   | /api/Files/lectureFile/upload                    | intelligent-course-aware-ide/internal/controller/Files.(*ControllerV1).UploadLectureFile                   | ghttp.MiddlewareHandlerResponse  
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | DELETE | /api/Files/lectureFile/{FileId}                  | intelligent-course-aware-ide/internal/controller/Files.(*ControllerV1).DeleteLectureFile                   | ghttp.MiddlewareHandlerResponse  
-          |        |                                                  |                                                                                                            | middleware.Auth                  
-----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
-  :8000   | GET    | /api/Files/lectureFile/{FileId}                  | intelligent-course-aware-ide/internal/controller/Files.(*ControllerV1).GetLectureFile                      | ghttp.MiddlewareHandlerResponse  
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | PUT    | /api/Files/lectureFile/{FileId}                  | intelligent-course-aware-ide/internal/controller/Files.(*ControllerV1).UpdateLectureFile                   | ghttp.MiddlewareHandlerResponse  
@@ -167,38 +170,68 @@ nohup: ignoring input
   :8000   | ALL    | /swagger/*                                       | github.com/gogf/gf/v2/net/ghttp.(*Server).swaggerUI                                                        | HOOK_BEFORE_SERVE                
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
 
-2025-05-24T02:03:57.377+08:00 [DEBU] {102eed0b0e3a4218453c3450b9652451} Request started: /
-2025-05-24T02:03:57.904+08:00 [DEBU] {5e1b602b0e3a4218463c34500f53266c} Request started: /login
-2025-05-24T02:52:10.059+08:00 [DEBU] {29cc3a8daf3c4218473c3450749ed4c6} Request started: /
-2025-05-24T03:02:03.393+08:00 [DEBU] {8ef3abb2393d4218483c3450607843df} Request started: /
-2025-05-24T03:02:08.368+08:00 [DEBU] {3e9433db3a3d4218493c34504c9a5484} Request started: *
-2025-05-24T03:02:27.076+08:00 [DEBU] {f7a152363f3d42184a3c34508d75ac82} Request started: /favicon.ico
-2025-05-24T04:55:48.575+08:00 [DEBU] {8cb335cf6e4342184b3c345046c4a57e} Request started: /
-2025-05-24T07:20:09.978+08:00 [DEBU] {b2b21a734f4b42184c3c3450e7086d13} Request started: /
-2025-05-24T08:02:04.424+08:00 [DEBU] {86fec2e3984d42184d3c345004debe05} Request started: /
-2025-05-24T10:38:17.172+08:00 [DEBU] {ae140c271f5642184e3c34507d6b50c8} Request started: /
-2025-05-24T10:44:54.713+08:00 [DEBU] {1c5c55b67b5642184f3c345096131adf} Request started: /api/user/loginUser
-2025-05-24T10:45:00.772+08:00 [DEBU] {383a7d1f7d564218503c34502cb36b6d} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-24T10:45:00.884+08:00 [DEBU] {aa0a2e267d564218523c3450580cb67c} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-24T10:45:45.096+08:00 [DEBU] {b973627187564218543c34502defe3f6} Request started: /api/user/loginUser
-2025-05-24T10:45:45.521+08:00 [DEBU] {66ecc38a87564218553c3450882b4e29} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-24T10:46:34.617+08:00 [DEBU] {464e15f992564218573c3450b8f37c3d} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-24T10:46:37.266+08:00 [DEBU] {f00e039793564218593c345018e7f8b4} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-24T10:47:12.944+08:00 [DEBU] {048895e59b5642185b3c3450d16bb0c3} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-24T10:47:17.233+08:00 [DEBU] {94b32de59c5642185d3c3450ed90e1ae} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-24T11:23:00.318+08:00 [DEBU] {322800df8f5842185f3c345008172d61} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-24T11:23:13.191+08:00 [DEBU] {f84156de92584218613c3450e82fab00} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-24T11:23:56.637+08:00 [DEBU] {ef1ee4fb9c584218633c345018b7e44d} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-24T11:23:57.764+08:00 [DEBU] {5cc1183f9d584218653c3450452d389d} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-24T11:24:01.368+08:00 [DEBU] {db02e1159e584218673c34509b38b875} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-24T11:24:29.252+08:00 [DEBU] {9d49e793a4584218693c345011457832} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-24T11:24:29.630+08:00 [DEBU] {78246aaaa45842186b3c3450f9953d24} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-24T11:24:33.667+08:00 [DEBU] {cb7a159ba55842186d3c34501d1e42a2} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-24T11:24:34.060+08:00 [DEBU] {5bf980b2a55842186f3c3450a7af3dc3} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-24T11:28:37.400+08:00 [DEBU] {8fa2af5ade584218713c3450f6293178} Request started: /
-2025-05-24T11:31:47.714+08:00 [DEBU] {c44044aa0a594218723c3450653c913e} Request started: /
-2025-05-24T11:34:46.260+08:00 [DEBU] {26db793c34594218733c345015a65109} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-24T11:57:50.680+08:00 [DEBU] {3fb65392765a4218753c3450f32b76d6} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-24T11:58:11.199+08:00 [DEBU] {bc655c597b5a4218773c34503e7fbe92} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-24T12:07:03.024+08:00 [DEBU] {7e8b8c2cf75a4218793c3450d39c817f} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-24T12:08:09.651+08:00 [DEBU] {681dddaf065b42187b3c34504252c0a3} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:12:44.748+08:00 [DEBU] {6ea121d3ce084318c14cdd41753378c7} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:12:45.625+08:00 [DEBU] {e7366c07cf084318c44cdd414755f6df} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:13:02.289+08:00 [DEBU] {6dd4ade8d2084318c64cdd4195159295} Request started: /api/user/loginUser
+2025-05-26T17:13:02.659+08:00 [DEBU] {bdd2b2fed2084318c74cdd4189e1ccfd} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:13:02.768+08:00 [DEBU] {65633105d3084318c94cdd417690ef20} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:13:07.450+08:00 [DEBU] {93394c1cd4084318cb4cdd41d638c6f7} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:13:09.014+08:00 [DEBU] {a1407f79d4084318cd4cdd416ad14497} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:13:11.585+08:00 [DEBU] {8174c312d5084318cf4cdd4116f425bf} Request started: /api/Files/lectureFile/lecture/1
+2025-05-26T17:15:47.415+08:00 [DEBU] {00aef15af9084318d14cdd4141e42048} Request started: /api/Files/lectureFile/upload
+2025-05-26T17:15:52.391+08:00 [DEBU] {11738c83fa084318d44cdd4145264a75} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:15:53.411+08:00 [DEBU] {bb4f52c0fa084318d64cdd41edf4ec09} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:18:07.169+08:00 [DEBU] {189feee419094318d84cdd41cd5ef549} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:18:22.882+08:00 [DEBU] {9c0b818d1d094318da4cdd412d76b483} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:18:23.990+08:00 [DEBU] {905b8ccf1d094318dc4cdd41d5b8c504} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:22:23.525+08:00 [DEBU] {6164ec9455094318de4cdd41f1cfd98e} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:22:23.730+08:00 [DEBU] {7d7d21a155094318e04cdd41462aba43} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:22:23.891+08:00 [DEBU] {6570c7aa55094318e24cdd41bbcadd73} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:22:24.211+08:00 [DEBU] {2e2cd4bd55094318e44cdd41687317e6} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:22:24.404+08:00 [DEBU] {ed9253c955094318e64cdd41c96f13bf} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:22:24.534+08:00 [DEBU] {60c219d155094318e84cdd41ee3fb485} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:22:42.367+08:00 [DEBU] {0b4e07f859094318ea4cdd41af70a588} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:22:42.847+08:00 [DEBU] {24bc99145a094318ec4cdd410b61828e} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:22:56.210+08:00 [DEBU] {a7be1a315d094318ee4cdd4137fb9d8c} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:22:57.187+08:00 [DEBU] {172c4f6b5d094318f04cdd41578dbfd5} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:25:50.106+08:00 [DEBU] {ca4f18ae85094318f24cdd41ba252e0b} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:25:50.360+08:00 [DEBU] {745646bd85094318f44cdd41de91fbba} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:25:50.558+08:00 [DEBU] {e8c808c985094318f64cdd41b7dce667} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:25:50.817+08:00 [DEBU] {d3727cd885094318f84cdd41fd738219} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:25:50.965+08:00 [DEBU] {6d2755e185094318fa4cdd411399b3ad} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:25:51.165+08:00 [DEBU] {466343ed85094318fc4cdd4120f5d255} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:29:22.719+08:00 [DEBU] {3729d92eb7094318fe4cdd4101613663} Request started: /api/comment/getComment/1
+Fetched Comments: []
+2025-05-26T17:29:22.850+08:00 [DEBU] {179ca436b7094318004ddd4103a3481b} Request started: /api/comment/getComment/1
+Fetched Comments: []
+2025-05-26T17:29:27.594+08:00 [DEBU] {ba1b6a51b8094318024ddd41e0304ab8} Request started: /
+2025-05-26T17:45:12.527+08:00 [DEBU] {85b5cd53940a4318034ddd41a778b907} Request started: /api.json
+2025-05-26T17:45:12.586+08:00 [DEBU] {38514d57940a4318044ddd417e08b300} Request started: /favicon.ico
+2025-05-26T17:45:16.965+08:00 [DEBU] {f4034f5c950a4318054ddd41f8cba2ae} Request started: /api.json
+2025-05-26T17:52:33.613+08:00 [DEBU] {3b6c9206fb0a4318064ddd41c7a84d85} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T18:01:15.039+08:00 [DEBU] {db2bfb6d740b4318084ddd4169c9e086} Request started: /
+2025-05-26T18:01:15.118+08:00 [DEBU] {4275b872740b4318094ddd410b1ea529} Request started: /favicon.ico
+2025-05-26T18:01:51.852+08:00 [DEBU] {cf2141007d0b43180a4ddd41d81f2b41} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T18:02:15.380+08:00 [DEBU] {b6e09e7a820b43180c4ddd41e18833fe} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T18:02:59.546+08:00 [DEBU] {17861dc38c0b43180e4ddd41e861cd72} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T18:03:51.066+08:00 [DEBU] {e67ae8c1980b4318104ddd4108d6008e} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T18:03:51.749+08:00 [DEBU] {9bd7a7ea980b4318124ddd412274cf87} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T18:05:49.784+08:00 [DEBU] {ecec0e66b40b4318144ddd418eaff3e1} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T18:05:51.732+08:00 [DEBU] {890830dab40b4318164ddd419bd6b897} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T18:05:52.977+08:00 [DEBU] {82bc6724b50b4318184ddd4164f81375} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T18:15:55.992+08:00 [DEBU] {b076df8a410c43181a4ddd419a8a3768} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T18:15:56.374+08:00 [DEBU] {7d7ea6a1410c43181c4ddd415c5d5a48} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T18:20:47.176+08:00 [DEBU] {8b57c856850c43181e4ddd417fb6c153} Request started: /api/user/loginUser
+2025-05-26T18:20:47.444+08:00 [DEBU] {1d2bc166850c43181f4ddd4126ca0bbf} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T18:20:47.553+08:00 [DEBU] {c4504d6d850c4318214ddd41a23a6ad0} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T18:20:55.499+08:00 [DEBU] {dfb4e546870c4318234ddd41f5de8f1d} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T18:20:57.002+08:00 [DEBU] {4a8078a0870c4318254ddd4100b90b1f} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T18:21:17.718+08:00 [DEBU] {9f733f738c0c4318274ddd4146ecbf46} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T18:21:18.066+08:00 [DEBU] {dfc900888c0c4318294ddd4156d2b459} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T18:21:43.344+08:00 [DEBU] {185fae6a920c43182b4ddd416aca34af} Request started: /api/user/loginUser
+2025-05-26T18:21:43.770+08:00 [DEBU] {d6371384920c43182c4ddd4118afeb06} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T18:21:44.284+08:00 [DEBU] {92e4b9a2920c43182e4ddd41b526116d} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T18:21:44.389+08:00 [DEBU] {f572f6a8920c4318304ddd41ddcc3aea} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T20:23:09.391+08:00 [DEBU] {b7ebe8d432134318324ddd411a40a9c7} Request started: /
+2025-05-26T20:28:56.006+08:00 [DEBU] {4d77cb8883134318334ddd41abd922f0} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T21:33:58.482+08:00 [DEBU] {21a17d2610174318354ddd411a861c5a} Request started: /

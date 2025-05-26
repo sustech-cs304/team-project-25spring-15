@@ -3,7 +3,7 @@ package test
 import (
 	"context"
 	V1 "intelligent-course-aware-ide/api/account/v1"
-	"intelligent-course-aware-ide/api/user/v1"
+	v1 "intelligent-course-aware-ide/api/user/v1"
 	"intelligent-course-aware-ide/internal/controller/account"
 	"intelligent-course-aware-ide/internal/controller/user"
 	middleware "intelligent-course-aware-ide/internal/logic/middleware"
@@ -14,6 +14,7 @@ import (
 	"github.com/gogf/gf/v2/os/gtime"
 	"github.com/gogf/gf/v2/test/gtest"
 )
+
 var TestUsers = []v1.UserInfoWithPassword{
 	{
 		UserName:   "zyc",
@@ -61,30 +62,31 @@ var TestUsers = []v1.UserInfoWithPassword{
 		Password:   "password5",
 	},
 }
-var  NewUser1 = v1.UserInfoWithPassword{
-		UserId: 1,
-		UserName:   "zyc1",
-		Email:      "user@example.com",
-		UserSign:   "I am a user",
-		University: "SUSTECH",
-		Birthday:   gtime.New(time.Date(2004, 3, 10, 0, 0, 0, 0, time.FixedZone("CST", 8*60*60))),
-		Identity:   "student",
-		Password:   "woshisb",
-	}
 
-func Test_CreateUser(t *testing.T){
-	gtest.C(t,func(t *gtest.T){
+var NewUser1 = v1.UserInfoWithPassword{
+	UserId:     1,
+	UserName:   "zyc1",
+	Email:      "user@example.com",
+	UserSign:   "I am a user",
+	University: "SUSTECH",
+	Birthday:   gtime.New(time.Date(2004, 3, 10, 0, 0, 0, 0, time.FixedZone("CST", 8*60*60))),
+	Identity:   "student",
+	Password:   "woshisb",
+}
+
+func Test_CreateUser(t *testing.T) {
+	gtest.C(t, func(t *gtest.T) {
 		req := &V1.CreateUserReq{}
 		ctrl := &account.ControllerV1{}
-		for i := range [5]int64{}{
+		for i := range [5]int64{} {
 			req = &V1.CreateUserReq{
 				NewUser: TestUsers[i],
 			}
-			res, err := ctrl.CreateUser(context.Background(),req)
-			t.AssertNil(err)	
-			t.Assert(res.UserId,i + 1)
+			res, err := ctrl.CreateUser(context.Background(), req)
+			t.AssertNil(err)
+			t.Assert(res.UserId, i+1)
 		}
-		
+
 	})
 }
 
@@ -99,6 +101,7 @@ func Test_CreateUser(t *testing.T){
 //			t.Assert(res.UserId, 1)
 //		})
 //	}
+
 func AssertUserEqual(t *gtest.T, actual v1.UserInfoWithoutPassword, expect v1.UserInfoWithPassword) {
 	t.Assert(actual.UserName, expect.UserName)
 	t.Assert(actual.Email, expect.Email)
@@ -107,67 +110,69 @@ func AssertUserEqual(t *gtest.T, actual v1.UserInfoWithoutPassword, expect v1.Us
 	t.Assert(actual.Birthday.Time.UTC().Add(8*time.Hour), expect.Birthday.Time.UTC())
 	t.Assert(actual.Identity, expect.Identity)
 }
+
 func Test_GetAllUser(t *testing.T) {
 	gtest.C(t, func(t *gtest.T) {
 		req := &v1.GetAllUsersInfoReq{}
 		ctrl := &user.ControllerV1{}
 		res, err := ctrl.GetAllUsersInfo(context.Background(), req)
 		t.AssertNil(err)
-		for i,user := range res.Users{
-			AssertUserEqual(t,user,TestUsers[i])
-		}	
-	})
-}
-func Test_GetUser(t *testing.T){
-	gtest.C(t,func (t *gtest.T)  {
-		ctrl := &user.ControllerV1{}
-		req := &v1.GetUserReq{}
-		for i := range[5]int{}{
-			req = &v1.GetUserReq{
-				UserId: int64(i + 1),
-			}
-			res,err := ctrl.GetUser(context.Background(),req)
-			t.AssertNil(err)
-			AssertUserEqual(t,res.User,TestUsers[i])
+		for i, user := range res.Users {
+			AssertUserEqual(t, user, TestUsers[i])
 		}
 	})
 }
-func Test_UpdateUser(t *testing.T){
-	gtest.C(t,func (t *gtest.T)  {
+
+func Test_GetUser(t *testing.T) {
+	gtest.C(t, func(t *gtest.T) {
+		ctrl := &user.ControllerV1{}
+		req := &v1.GetUserReq{}
+		for i := range [5]int{} {
+			req = &v1.GetUserReq{
+				UserId: int64(i + 1),
+			}
+			res, err := ctrl.GetUser(context.Background(), req)
+			t.AssertNil(err)
+			AssertUserEqual(t, res.User, TestUsers[i])
+		}
+	})
+}
+
+func Test_UpdateUser(t *testing.T) {
+	gtest.C(t, func(t *gtest.T) {
 		ctrl := &user.ControllerV1{}
 		req := &v1.UpdateUserReq{
 			UpdateUser: NewUser1,
 		}
-		res,err := ctrl.UpdateUser(context.Background(),req)
+		res, err := ctrl.UpdateUser(context.Background(), req)
 		t.AssertNil(err)
-		t.Assert(res.Success,true)
+		t.Assert(res.Success, true)
 	})
 }
-func Test_LoginUser_DeleteUser(t *testing.T){
-	gtest.C(t,func (t *gtest.T)  {
+func Test_LoginUser_DeleteUser(t *testing.T) {
+	gtest.C(t, func(t *gtest.T) {
 		ctrl := &account.ControllerV1{}
 		ctrlUser := &user.ControllerV1{}
-		req :=&V1.LoginUserReq{}
-		for i := range [5]int{}{
+		req := &V1.LoginUserReq{}
+		for i := range [5]int{} {
 			userinfo := V1.UserLoginInfo{
-				UserId: int64(i + 1),
+				UserId:   int64(i + 1),
 				Password: TestUsers[i].Password,
 			}
 			req = &V1.LoginUserReq{
 				UserInfo: userinfo,
 			}
-			res,err := ctrl.LoginUser(context.Background(),req)
+			res, err := ctrl.LoginUser(context.Background(), req)
 			//fmt.Println(res.Token)
-			cxt,_ := middleware.BuildCtx(res.Token)
+			cxt, _ := middleware.BuildCtx(res.Token)
 			reqDelete := &v1.DeleteUserReq{
 				UserToDeleteId: int64(i + 1),
 			}
-			resDelete, errDelete :=ctrlUser.DeleteUser(cxt,reqDelete)
+			resDelete, errDelete := ctrlUser.DeleteUser(cxt, reqDelete)
 			t.AssertNil(err)
-			t.Assert(res.Success,true)
+			t.Assert(res.Success, true)
 			t.AssertNil(errDelete)
-			t.Assert(resDelete.Success,true)
+			t.Assert(resDelete.Success, true)
 		}
 	})
 }
-

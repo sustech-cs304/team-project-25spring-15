@@ -1,52 +1,100 @@
-'use client';
+"use client";
 
-import React, { useId, useState } from 'react';
-import Link from 'next/link';
-import ReactMarkdown, { Components } from 'react-markdown';
+import React, { useId, useState } from "react";
+import Link from "next/link";
+import ReactMarkdown, { Components } from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
 
-import CodeIcon from '@mui/icons-material/Code';
-import { Box } from '@mui/material';
+import CodeIcon from "@mui/icons-material/Code";
+import { Box } from "@mui/material";
 
 import "highlight.js/styles/atom-one-dark.css";
 
-import CopyButton from './copy-button';
-import RunButton from './run-button';
+import CopyButton from "./copy-button";
+import RunButton from "./run-button";
+import EditButton from "./edit-button";
+
+function childrenToString(children: React.ReactNode): string {
+  if (typeof children === "string") return children;
+  if (Array.isArray(children)) {
+    return children.map(childrenToString).join("");
+  }
+  if (React.isValidElement<any>(children)) {
+    // 处理 <br /> 换行
+    if (children.type === "br") return "\n";
+    // 递归处理其子节点
+    return childrenToString((children as React.ReactElement<any>).props.children);
+  }
+  return "";
+}
 
 const components: Partial<Components> = {
   code: ({ node, className, children, ...props }) => {
     const id = useId();
+    const id2 = useId();
     const match = /language-(\w+)/.exec(className || "");
-    const language = match?.[1];
+    const language = match?.[1] || 'text';
+    const codeStr = childrenToString(children);
+    // console.log(`temp code: ${codeStr}`);
+    const [editing, setEditing] = useState(false);
+    const [editableCode, setEditableCode] = useState(codeStr);
 
     const [output, setOutput] = useState<string>("");
 
     if (match?.length) {
-      const codeStr = String(children).trim();
-
       return (
         <div className="not-prose rounded-md border">
           <div className="flex h-12 items-center justify-between bg-zinc-100 px-4 dark:bg-zinc-900">
             <div className="flex items-center gap-2">
               <CodeIcon />
               <p className="text-base font-semibold text-zinc-600 dark:text-zinc-400">
+                {language}
+              </p>
+              <p className="text-base font-semibold text-zinc-600 dark:text-zinc-400">
                 {node?.data?.meta}
               </p>
             </div>
             <div className="flex items-center gap-2">
               <CopyButton targetId={id} />
-              <RunButton targetId={id} onRun={setOutput} language={language || 'plain text'}/>
+              <RunButton
+                targetId={id}
+                onRun={setOutput}
+                language={language || "plain text"}
+              />
+              <EditButton
+                editing={editing}
+                onToggle={() => setEditing(e => !e)}
+              />
             </div>
           </div>
           <div className="overflow-x-auto">
+            {editing ? (
+              <textarea
+                id={id2}
+                className="w-full p-4 text-base font-mono bg-white dark:bg-zinc-900 border-none outline-none"
+                style={{ minHeight: 180, resize: "none" }}
+                value={editableCode}
+                onChange={e => setEditableCode(e.target.value)}
+              />
+            ) : (
+              <pre
+                id={id}
+                className="w-full p-4 text-base font-mono bg-white dark:bg-zinc-900 border-none outline-none"
+                style={{ minHeight: 180, resize: "none" }}
+              >
+                {editableCode}
+              </pre>
+            )}
+          </div>
+          {/* <div className="overflow-x-auto">
             <div className="overflow-x-auto">
-              <pre id={id} className="p-4 overflow-x-auto text-base">
+              <pre className="p-4 overflow-x-auto text-base">
                 {children}
               </pre>
             </div>
-          </div>
-            <div className="bg-gray-100 dark:bg-zinc-800 rounded px-4 py-2 mx-4 mb-4 text-base min-h-[24px] mt-2">
+          </div> */}
+            <div className="bg-gray-100 dark:bg-zinc-800 rounded px-4 py-2 mx-4 mb-4 text-base min-h-[24px] mt-2 whitespace-pre-wrap">
               <span className="text-sm text-gray-500">运行结果：</span>
               <div>{output}</div>
             </div>
@@ -148,7 +196,10 @@ const components: Partial<Components> = {
     );
   },
   table: ({ children, ...props }) => (
-    <table className="min-w-full border border-gray-300 my-4 text-base" {...props}>
+    <table
+      className="min-w-full border border-gray-300 my-4 text-base"
+      {...props}
+    >
       {children}
     </table>
   ),
@@ -157,16 +208,17 @@ const components: Partial<Components> = {
       {children}
     </thead>
   ),
-  tbody: ({ children, ...props }) => (
-    <tbody {...props}>{children}</tbody>
-  ),
+  tbody: ({ children, ...props }) => <tbody {...props}>{children}</tbody>,
   tr: ({ children, ...props }) => (
     <tr className="border-b border-gray-200" {...props}>
       {children}
     </tr>
   ),
   th: ({ children, ...props }) => (
-    <th className="px-4 py-2 font-bold text-left border border-gray-300 bg-gray-50 dark:bg-zinc-700" {...props}>
+    <th
+      className="px-4 py-2 font-bold text-left border border-gray-300 bg-gray-50 dark:bg-zinc-700"
+      {...props}
+    >
       {children}
     </th>
   ),
@@ -181,16 +233,15 @@ export default function MarkdownWithRunner({ content }: { content: string }) {
   return (
     <Box
       sx={{
-        bgcolor: 'background.paper',
+        bgcolor: "background.paper",
         borderRadius: 2,
         boxShadow: 2,
-        width: '100%',
-        height: '100%',
+        width: "100%",
+        height: "100%",
         maxWidth: 800,
-        mx: 'auto',
+        mx: "auto",
         my: 4,
         p: 3,
-        fontSize: 18,
       }}
     >
       <ReactMarkdown

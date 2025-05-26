@@ -18,7 +18,7 @@ const TargetCDockerName string = TargetDockerName
 const TmpFileName string = "temp_script"
 
 // Default path of script on host
-const PathForHost string = "C:\\Users\\sunyy\\Desktop\\SUSTECH\\Software_Engineering\\code\\Project\\team-project-25spring-15\\tmp\\"
+const PathForHost string = "/home/admin/data/"
 
 // Default path of script on docker
 const PathForDocker string = "/usr/Document/"
