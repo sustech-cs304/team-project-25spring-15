@@ -9,8 +9,7 @@ import { Messages } from './ai/messages';
 import { MultimodalInput } from './ai/multimodel-input';
 import { fetcher, generateUUID } from '@/app/lib/utils';
 import { toast } from 'sonner';
-import useSWR, { useSWRConfig } from 'swr';
-import { unstable_serialize } from 'swr/infinite';
+import { useParams } from 'next/navigation';
 // import { getChatHistoryPaginationKey } from './sidebar-history';
 
 export function Chat({
@@ -25,6 +24,10 @@ export function Chat({
   isReadonly: boolean;
 }) {
   // const { mutate } = useSWRConfig();
+  const params = useParams();
+  const {courseId, lectureId} = params;
+  const combinedId = `${courseId}.${lectureId}`;
+  console.log(combinedId);
 
   const {
     messages,
@@ -37,8 +40,8 @@ export function Chat({
     stop,
     reload,
   } = useChat({
-    id,
-    body: { id, selectedChatModel: selectedChatModel },
+    id: combinedId,
+    body: { id: combinedId, selectedChatModel: selectedChatModel },
     initialMessages,
     experimental_throttle: 100,
     sendExtraMessageFields: true,

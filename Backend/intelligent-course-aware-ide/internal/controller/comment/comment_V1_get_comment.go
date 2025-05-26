@@ -3,8 +3,9 @@ package comment
 import (
 	"context"
 	"fmt"
+
 	//"github.com/gogf/gf/v2/frame/g"
-	"intelligent-course-aware-ide/api/comment/v1"
+	v1 "intelligent-course-aware-ide/api/comment/v1"
 	"intelligent-course-aware-ide/internal/dao"
 	//"intelligent-course-aware-ide/internal/model/do"
 )
@@ -13,7 +14,7 @@ func (c *ControllerV1) GetComment(ctx context.Context, req *v1.GetCommentReq) (r
 	res = &v1.GetCommentRes{}
 	err = dao.Comment.Ctx(ctx).As("c").
 		LeftJoin(dao.Users.Table()+" as u1", "u1.userId = c.authorId").
-		LeftJoin(dao.Comment.Table()+" as parent", "parent.authorId = c.repliedToCommentId").
+		LeftJoin(dao.Comment.Table()+" as parent", "parent.authorId = c.repliedToCommentedId").
 		LeftJoin(dao.Users.Table()+" as u2", "u2.userId = parent.authorId").
 		Where("c.lectureId = ?", req.LectureId).
 		Fields(`
@@ -21,7 +22,7 @@ func (c *ControllerV1) GetComment(ctx context.Context, req *v1.GetCommentReq) (r
         c.commentId as commentId,
         c.lectureId,
         c.authorId,
-        c.repliedToCommentId,
+        c.repliedToCommentedId,
         c.content,
         c.createTime,
         c.likes,

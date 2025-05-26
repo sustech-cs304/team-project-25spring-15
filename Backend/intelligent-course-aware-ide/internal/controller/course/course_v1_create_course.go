@@ -38,7 +38,7 @@ func (c *ControllerV1) CreateCourse(ctx context.Context, req *v1.CreateCourseReq
 	}
 
 	_, err = dao.UserCourseInfo.Ctx(ctx).Data(do.UserCourseInfo{
-		UserId: operatorId,
+		UserId:   operatorId,
 		CourseId: courseId,
 	}).Insert()
 

@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 
-	"intelligent-course-aware-ide/api/comment/v1"
+	v1 "intelligent-course-aware-ide/api/comment/v1"
 	"intelligent-course-aware-ide/internal/dao"
 )
 

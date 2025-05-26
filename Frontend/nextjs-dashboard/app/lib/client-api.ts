@@ -3,14 +3,65 @@ import {auth} from "@/auth";
 import { useStore } from '@/store/useStore';
 
 const base_url = 'http://47.117.144.50:8000';
-const base_url_course = `${base_url}/api/course`;
-const base_url_lecture = `${base_url}/api/lecture`;
 // 课程相关接口
 
 // 获取认证信息的辅助函数
 async function getAuthHeader() {
   const token = useStore.getState().token;
   return token ? { Authorization: `Bearer ${token}` } : {};
+}
+
+export const CourseWareAPI = {
+  uploadPdf: async (file: File, lectureId: string) => {
+    const headers = await getAuthHeader();
+
+    console.log("uploading pdf...");
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("lectureId", lectureId);
+    const res = axios.post("/api/Files/lectureFile/upload", formData, {headers});
+
+    console.log(res);
+    return res;
+  },
+  getPdf: async (lectureId: string) => {
+    const headers = await getAuthHeader();
+    console.log("fetching pdf...");
+
+    const res = await axios.get(
+      `/api/Files/lectureFile/lecture/${lectureId}`,
+      { headers, responseType: 'blob' }
+    );
+    return res;
+  }
+}
+
+export const CodeAPI = {
+  runCode: async (code_str: string, lang: string) => {
+    const headers = await getAuthHeader();
+    console.log("running code...");
+    const payload = {
+      codeInfo: {
+        code: code_str,
+      },
+      type: lang
+    };
+    const res = await axios.post(`/api/codeRunner/run`, payload, {headers});
+    const response = res.data.data.codeFeedback;
+    console.log('Code running result:', response);
+
+    try {
+      if(response.error && response.error.trim() !== "") {
+        return response.error;
+      } else if (response.result) {
+        return response.result;
+      } else {
+        console.error("Nothing to show, please check!");
+      }
+    } catch(e) {
+      console.error(`Failed to fetch courses infomation:`, e);
+    }
+  }
 }
 
 export const CourseAPI = {
@@ -120,8 +171,21 @@ export const LectureAPI = {
       }
     }
     console.log("Payload in updateLecture:", payload);
-    await axios.put(url, {
-      payload
-    }, { headers });
+    await axios.put(url, payload, { headers });
   },
 };
+
+export const CommentAPI = {
+  fetchComments : async (lectureId: number) => {
+    try {
+      // ✅ 把 lectureId 放到 path 里
+      const headers = await getAuthHeader();
+      console.log("Fetching comments for lectureId:", lectureId);
+      const response = await axios.get(`/api/comment/getComment/${lectureId}`, {headers});
+      console.log("获取评论成功:", response.data);
+      return response.data;
+    } catch (error) {
+      console.error("获取评论失败:", error);
+    }
+  },
+}

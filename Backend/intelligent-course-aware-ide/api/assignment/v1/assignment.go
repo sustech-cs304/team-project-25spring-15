@@ -8,13 +8,14 @@ import (
 )
 
 type AssignmentInfo struct {
-	AssignmentId int64       `json:"assignmentId" dc:"id of this assignment"`
-	PublisherId  int64       `json:"publisherId" dc:"id of publisher"`
-	CourseId     int64       `json:"courseId" dc:"id of this course"`
-	LectureId    int64       `json:"lectureId" dc:"id of this lecture"`
-	Description  string      `json:"description" dc:"description of this assignment"`
-	DeadLine     *gtime.Time `json:"deadLine" dc:"end time of this assignment"`
-	Completeness int32       `json:"completeness" dc:"num of the student who has finished this"`
+	AssignmentId   int64       `json:"assignmentId" dc:"id of this assignment"`
+	AssignmentName int64       `json:"assignmentName" dc:"name of this assignment"`
+	PublisherId    int64       `json:"publisherId" dc:"id of publisher"`
+	CourseId       int64       `json:"courseId" dc:"id of this course"`
+	LectureId      int64       `json:"lectureId" dc:"id of this lecture"`
+	Description    string      `json:"description" dc:"description of this assignment"`
+	DeadLine       *gtime.Time `json:"deadLine" dc:"end time of this assignment"`
+	Completeness   int32       `json:"completeness" dc:"num of the student who has finished this"`
 }
 
 type AttemptForAssignment struct {
@@ -145,7 +146,7 @@ type AttemptForAssignmentRes struct {
 }
 
 type GetAssignmentFeedbackOfAUserReq struct {
-	g.Meta       `path:"/api/assignment/getAssignmentFeedbackOfAUser" method:"get" tags:"Assignment" summary:"attempt assignment"`
+	g.Meta       `path:"/api/assignment/getAssignmentFeedbackOfAUser" method:"get" tags:"Assignment" summary:"get assignment result"`
 	AssignmentId int64 `v:"required" dc:"id of the assignment to get"`
 }
 

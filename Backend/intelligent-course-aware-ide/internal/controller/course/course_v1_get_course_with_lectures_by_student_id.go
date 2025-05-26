@@ -16,7 +16,7 @@ func (c *ControllerV1) GetCourseWithLecturesByStudentId(ctx context.Context, req
 	if err != nil {
 		return res, err
 	}
-	if courseList == nil{
+	if courseList == nil {
 		var courses []v1.CourseInfoWithLecture
 		res.Courses = courses
 		return res, nil

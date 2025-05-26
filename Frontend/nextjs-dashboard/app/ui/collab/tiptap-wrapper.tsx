@@ -14,11 +14,6 @@ const TiptapEditor = dynamic(() => import('./tiptap-editor'), {
 export default function TiptapWrapper({ user }: TopbarProps) {
   return (
     <div>
-      <h1 className={`mb-4 text-xl md:text-2xl`}>
-        Dashboard
-        {/* TODO: make this prettier */}
-      </h1>
-
       <TiptapEditor user={user} />
     </div>
   );
