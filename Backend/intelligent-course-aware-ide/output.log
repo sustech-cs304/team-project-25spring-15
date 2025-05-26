@@ -1,8 +1,8 @@
 nohup: ignoring input
-2025-05-26T15:29:52.450+08:00 [DEBU] 日志系统初始化完成
-2025-05-26T15:29:52.463+08:00 [INFO] pid[7183]: http server started listening on [:8000]
-2025-05-26T15:29:52.463+08:00 [INFO] swagger ui is serving at address: http://127.0.0.1:8000/swagger/
-2025-05-26T15:29:52.463+08:00 [INFO] openapi specification is serving at address: http://127.0.0.1:8000/api.json
+2025-05-26T17:11:57.673+08:00 [DEBU] 日志系统初始化完成
+2025-05-26T17:11:57.685+08:00 [INFO] pid[23515]: http server started listening on [:8000]
+2025-05-26T17:11:57.685+08:00 [INFO] swagger ui is serving at address: http://127.0.0.1:8000/swagger/
+2025-05-26T17:11:57.686+08:00 [INFO] openapi specification is serving at address: http://127.0.0.1:8000/api.json
 
   ADDRESS | METHOD |                      ROUTE                       |                                                  HANDLER                                                   |           MIDDLEWARE             
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
@@ -170,411 +170,67 @@ nohup: ignoring input
   :8000   | ALL    | /swagger/*                                       | github.com/gogf/gf/v2/net/ghttp.(*Server).swaggerUI                                                        | HOOK_BEFORE_SERVE                
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
 
-2025-05-26T15:36:58.703+08:00 [DEBU] {1ff125f8940343182ba8a35cb1fd014f} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T15:36:59.329+08:00 [DEBU] {0f85741d950343182ea8a35ce4986b2f} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T15:36:59.414+08:00 [DEBU] {12f78e229503431831a8a35c7d5dabf2} Request started: /api/Files/lectureFile/lecture/1
-2025-05-26T15:37:14.752+08:00 [DEBU] {375ac5b49803431834a8a35cf07d0b2a} Request started: /api/user/loginUser
-2025-05-26T15:37:14.755+08:00 [ERRO] {375ac5b49803431834a8a35cf07d0b2a} Error occurred: SELECT `UserId`,`UserName`,`Email`,`UserSign`,`University`,`Birthday`,`Identity` FROM `Users` WHERE `Email`='11111111@mail.sustech.edu.cn' AND `Password`='123456' LIMIT 1: dial tcp 127.0.0.1:3306: connect: connection refused 
-Stack:
-1.  intelligent-course-aware-ide/internal/cmd.init.func1.1
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:50
-2.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-
-2025-05-26T15:37:14.755+08:00 [ERRO] {375ac5b49803431834a8a35cf07d0b2a} Panic recovered: exit 
-Stack:
-1.  intelligent-course-aware-ide/internal/cmd.init.func1.1.1
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:35
-2.  intelligent-course-aware-ide/internal/cmd.init.func1.1
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:51
-3.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-
-2025-05-26T15:37:14.756+08:00 {375ac5b49803431834a8a35cf07d0b2a} 500 "POST http 47.117.144.50:8000 /api/user/loginUser HTTP/1.1" 3483.080, 110.65.147.245, "", "node", 52, "Database Operation Error", ""
-Stack:
-1. SELECT `UserId`,`UserName`,`Email`,`UserSign`,`University`,`Birthday`,`Identity` FROM `Users` WHERE `Email`='11111111@mail.sustech.edu.cn' AND `Password`='123456' LIMIT 1
-   1).  intelligent-course-aware-ide/internal/controller/account.(*ControllerV1).LoginUser
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/controller/account/account_v1_login_user.go:28
-   2).  intelligent-course-aware-ide/internal/cmd.init.func1.1
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:46
-   3).  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-2. dial tcp 127.0.0.1:3306: connect: connection refused
-
-2025-05-26T15:37:21.234+08:00 [DEBU] {6c951d379a03431835a8a35c56e64b70} Request started: /api/user/loginUser
-2025-05-26T15:37:21.236+08:00 [ERRO] {6c951d379a03431835a8a35c56e64b70} Error occurred: SELECT `UserId`,`UserName`,`Email`,`UserSign`,`University`,`Birthday`,`Identity` FROM `Users` WHERE `Email`='11111111@mail.sustech.edu.cn' AND `Password`='123456' LIMIT 1: dial tcp 127.0.0.1:3306: connect: connection refused 
-Stack:
-1.  intelligent-course-aware-ide/internal/cmd.init.func1.1
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:50
-2.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-
-2025-05-26T15:37:21.236+08:00 [ERRO] {6c951d379a03431835a8a35c56e64b70} Panic recovered: exit 
-Stack:
-1.  intelligent-course-aware-ide/internal/cmd.init.func1.1.1
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:35
-2.  intelligent-course-aware-ide/internal/cmd.init.func1.1
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:51
-3.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-
-2025-05-26T15:37:21.236+08:00 {6c951d379a03431835a8a35c56e64b70} 500 "POST http 47.117.144.50:8000 /api/user/loginUser HTTP/1.1" 2345.355, 110.65.147.245, "", "node", 52, "Database Operation Error", ""
-Stack:
-1. SELECT `UserId`,`UserName`,`Email`,`UserSign`,`University`,`Birthday`,`Identity` FROM `Users` WHERE `Email`='11111111@mail.sustech.edu.cn' AND `Password`='123456' LIMIT 1
-   1).  intelligent-course-aware-ide/internal/controller/account.(*ControllerV1).LoginUser
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/controller/account/account_v1_login_user.go:28
-   2).  intelligent-course-aware-ide/internal/cmd.init.func1.1
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:46
-   3).  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-2. dial tcp 127.0.0.1:3306: connect: connection refused
-
-2025-05-26T15:37:27.699+08:00 [DEBU] {fdea73b89b03431836a8a35c88cb55de} Request started: /api/user/loginUser
-2025-05-26T15:37:27.703+08:00 [ERRO] {fdea73b89b03431836a8a35c88cb55de} Error occurred: SELECT `UserId`,`UserName`,`Email`,`UserSign`,`University`,`Birthday`,`Identity` FROM `Users` WHERE `Email`='11111111@mail.sustech.edu.cn' AND `Password`='123456' LIMIT 1: dial tcp 127.0.0.1:3306: connect: connection refused 
-Stack:
-1.  intelligent-course-aware-ide/internal/cmd.init.func1.1
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:50
-2.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-
-2025-05-26T15:37:27.703+08:00 [ERRO] {fdea73b89b03431836a8a35c88cb55de} Panic recovered: exit 
-Stack:
-1.  intelligent-course-aware-ide/internal/cmd.init.func1.1.1
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:35
-2.  intelligent-course-aware-ide/internal/cmd.init.func1.1
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:51
-3.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-
-2025-05-26T15:37:27.704+08:00 {fdea73b89b03431836a8a35c88cb55de} 500 "POST http 47.117.144.50:8000 /api/user/loginUser HTTP/1.1" 5103.506, 110.65.147.245, "", "node", 52, "Database Operation Error", ""
-Stack:
-1. SELECT `UserId`,`UserName`,`Email`,`UserSign`,`University`,`Birthday`,`Identity` FROM `Users` WHERE `Email`='11111111@mail.sustech.edu.cn' AND `Password`='123456' LIMIT 1
-   1).  intelligent-course-aware-ide/internal/controller/account.(*ControllerV1).LoginUser
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/controller/account/account_v1_login_user.go:28
-   2).  intelligent-course-aware-ide/internal/cmd.init.func1.1
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:46
-   3).  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-2. dial tcp 127.0.0.1:3306: connect: connection refused
-
-2025-05-26T15:38:44.738+08:00 [DEBU] {8a4552a8ad03431837a8a35c1e02609f} Request started: /api/user/loginUser
-2025-05-26T15:38:45.141+08:00 [DEBU] {029e59c0ad03431838a8a35c37fd0a20} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T15:38:45.264+08:00 [DEBU] {ba43b5c7ad0343183aa8a35cd9bdcbd7} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T15:38:49.098+08:00 [DEBU] {acd035acae0343183ca8a35c0b73377e} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T15:38:52.691+08:00 [DEBU] {07096382af0343183ea8a35c8ee14727} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T15:38:55.226+08:00 [DEBU] {20907b19b003431840a8a35c62651733} Request started: /api/Files/lectureFile/lecture/1
-2025-05-26T15:38:55.236+08:00 [ERRO] {20907b19b003431840a8a35c62651733} Error occurred: 查询 LectureFiles 失败: element of parameter "pointer" for function Scan should type of struct/*struct/[]struct/[]*struct 
-Stack:
-1.  intelligent-course-aware-ide/internal/cmd.init.func1.1
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:50
-2.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-
-2025-05-26T15:38:55.236+08:00 [ERRO] {20907b19b003431840a8a35c62651733} Panic recovered: exit 
-Stack:
-1.  intelligent-course-aware-ide/internal/cmd.init.func1.1.1
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:35
-2.  intelligent-course-aware-ide/internal/cmd.init.func1.1
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:51
-3.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-
-2025-05-26T15:38:55.237+08:00 {20907b19b003431840a8a35c62651733} 500 "GET http 47.117.144.50:8000 /api/Files/lectureFile/lecture/1 HTTP/1.1" 10866.811, 110.65.147.245, "http://localhost:3000/dashboard/1/1/courseware", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36", 53, "Invalid Parameter", ""
-Stack:
-1. 查询 LectureFiles 失败
-   1).  intelligent-course-aware-ide/internal/controller/Files.(*ControllerV1).GetFileWithLectureId
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/controller/Files/Files_v1_get_file_with_lecture_id.go:30
-2. element of parameter "pointer" for function Scan should type of struct/*struct/[]struct/[]*struct
-   1).  intelligent-course-aware-ide/internal/controller/Files.(*ControllerV1).GetFileWithLectureId
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/controller/Files/Files_v1_get_file_with_lecture_id.go:28
-   2).  intelligent-course-aware-ide/internal/logic/middleware.Auth
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/auth.go:52
-   3).  intelligent-course-aware-ide/internal/cmd.init.func1.1
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:46
-   4).  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-
-2025-05-26T15:38:55.337+08:00 [DEBU] {7ebe1120b003431842a8a35c25fe7195} Request started: /api/Files/lectureFile/lecture/1
-2025-05-26T15:38:55.339+08:00 [ERRO] {7ebe1120b003431842a8a35c25fe7195} Error occurred: 查询 LectureFiles 失败: element of parameter "pointer" for function Scan should type of struct/*struct/[]struct/[]*struct 
-Stack:
-1.  intelligent-course-aware-ide/internal/cmd.init.func1.1
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:50
-2.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-
-2025-05-26T15:38:55.339+08:00 [ERRO] {7ebe1120b003431842a8a35c25fe7195} Panic recovered: exit 
-Stack:
-1.  intelligent-course-aware-ide/internal/cmd.init.func1.1.1
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:35
-2.  intelligent-course-aware-ide/internal/cmd.init.func1.1
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:51
-3.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-
-2025-05-26T15:38:55.340+08:00 {7ebe1120b003431842a8a35c25fe7195} 500 "GET http 47.117.144.50:8000 /api/Files/lectureFile/lecture/1 HTTP/1.1" 3145.199, 110.65.147.245, "http://localhost:3000/dashboard/1/1/courseware", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36", 53, "Invalid Parameter", ""
-Stack:
-1. 查询 LectureFiles 失败
-   1).  intelligent-course-aware-ide/internal/controller/Files.(*ControllerV1).GetFileWithLectureId
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/controller/Files/Files_v1_get_file_with_lecture_id.go:30
-2. element of parameter "pointer" for function Scan should type of struct/*struct/[]struct/[]*struct
-   1).  intelligent-course-aware-ide/internal/controller/Files.(*ControllerV1).GetFileWithLectureId
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/controller/Files/Files_v1_get_file_with_lecture_id.go:28
-   2).  intelligent-course-aware-ide/internal/logic/middleware.Auth
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/auth.go:52
-   3).  intelligent-course-aware-ide/internal/cmd.init.func1.1
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:46
-   4).  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-
-2025-05-26T15:42:52.581+08:00 [DEBU] {638bec5ce703431844a8a35c4321ed99} Request started: /api/auth/callback/credentials
-2025-05-26T15:42:52.787+08:00 [DEBU] {1c463869e703431845a8a35cec3d9977} Request started: /api/auth/callback/credentials
-2025-05-26T15:43:02.541+08:00 [DEBU] {6bf79aaee903431846a8a35cc0f68229} Request started: /api/auth/callback/credentials
-2025-05-26T15:43:02.652+08:00 [DEBU] {6e5536b5e903431847a8a35cfb413b70} Request started: /api/auth/callback/credentials
-2025-05-26T15:45:20.504+08:00 [DEBU] {84d7d9cd0904431848a8a35c8061dcce} Request started: /api/auth/callback/credentials
-2025-05-26T15:45:21.005+08:00 [DEBU] {eaaeb5eb0904431849a8a35cccd77dc3} Request started: /api/auth/callback/credentials
-2025-05-26T15:58:53.726+08:00 [DEBU] {4bb5a325c70443184aa8a35cdebf624f} Request started: /api/user/loginUser
-2025-05-26T15:59:23.608+08:00 [DEBU] {eef3c21ace0443184ba8a35c10e9be6c} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T15:59:23.796+08:00 [DEBU] {c4fbf525ce0443184da8a35c6a0f9068} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T16:00:00.655+08:00 [DEBU] {0420f2bad60443184fa8a35c32fa82e2} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T16:00:04.096+08:00 [DEBU] {c3330288d704431851a8a35c00d47a30} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T16:03:46.089+08:00 [DEBU] {e1bfd8370b05431853a8a35c981b985e} Request started: /api/user/loginUser
-2025-05-26T16:04:17.606+08:00 [DEBU] {e4d25e8e1205431854a8a35c97bf4536} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T16:04:17.821+08:00 [DEBU] {1676309b1205431856a8a35ca9f460a4} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T16:04:59.388+08:00 [DEBU] {70accb481c05431858a8a35c58ba1415} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T16:05:24.817+08:00 [DEBU] {d1697d34220543185aa8a35c5812cf54} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T16:10:14.522+08:00 [DEBU] {1a3a42a8650543185ca8a35cb7af0f2d} Request started: /
-2025-05-26T16:12:05.186+08:00 [DEBU] {f8ce5d6c7f0543185da8a35c4dc72727} Request started: /.env
-2025-05-26T16:21:35.575+08:00 [DEBU] {1dce263a040643185ea8a35c3bb2ce01} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T16:23:15.798+08:00 [DEBU] {f9a5ef8f1b06431860a8a35c80458adc} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T16:23:16.992+08:00 [DEBU] {a18d16d71b06431862a8a35c321db71c} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T16:24:35.925+08:00 [DEBU] {d92fd7372e06431864a8a35c36e67791} Request started: /api/Files/lectureFile/lecture/1
-2025-05-26T16:24:35.930+08:00 [ERRO] {d92fd7372e06431864a8a35c36e67791} Error occurred: 查询 LectureFiles 失败: element of parameter "pointer" for function Scan should type of struct/*struct/[]struct/[]*struct 
-Stack:
-1.  intelligent-course-aware-ide/internal/cmd.init.func1.1
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:50
-2.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-
-2025-05-26T16:24:35.930+08:00 [ERRO] {d92fd7372e06431864a8a35c36e67791} Panic recovered: exit 
-Stack:
-1.  intelligent-course-aware-ide/internal/cmd.init.func1.1.1
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:35
-2.  intelligent-course-aware-ide/internal/cmd.init.func1.1
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:51
-3.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-
-2025-05-26T16:24:35.930+08:00 {d92fd7372e06431864a8a35c36e67791} 500 "GET http 47.117.144.50:8000 /api/Files/lectureFile/lecture/1 HTTP/1.1" 5807.668, 110.65.147.206, "http://localhost:3000/dashboard/1/1/courseware", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36", 53, "Invalid Parameter", ""
-Stack:
-1. 查询 LectureFiles 失败
-   1).  intelligent-course-aware-ide/internal/controller/Files.(*ControllerV1).GetFileWithLectureId
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/controller/Files/Files_v1_get_file_with_lecture_id.go:30
-2. element of parameter "pointer" for function Scan should type of struct/*struct/[]struct/[]*struct
-   1).  intelligent-course-aware-ide/internal/controller/Files.(*ControllerV1).GetFileWithLectureId
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/controller/Files/Files_v1_get_file_with_lecture_id.go:28
-   2).  intelligent-course-aware-ide/internal/logic/middleware.Auth
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/auth.go:52
-   3).  intelligent-course-aware-ide/internal/cmd.init.func1.1
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:46
-   4).  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-
-2025-05-26T16:24:36.068+08:00 [DEBU] {98566a402e06431866a8a35c2e83144b} Request started: /api/Files/lectureFile/lecture/1
-2025-05-26T16:24:36.071+08:00 [ERRO] {98566a402e06431866a8a35c2e83144b} Error occurred: 查询 LectureFiles 失败: element of parameter "pointer" for function Scan should type of struct/*struct/[]struct/[]*struct 
-Stack:
-1.  intelligent-course-aware-ide/internal/cmd.init.func1.1
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:50
-2.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-
-2025-05-26T16:24:36.071+08:00 [ERRO] {98566a402e06431866a8a35c2e83144b} Panic recovered: exit 
-Stack:
-1.  intelligent-course-aware-ide/internal/cmd.init.func1.1.1
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:35
-2.  intelligent-course-aware-ide/internal/cmd.init.func1.1
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:51
-3.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-
-2025-05-26T16:24:36.071+08:00 {98566a402e06431866a8a35c2e83144b} 500 "GET http 47.117.144.50:8000 /api/Files/lectureFile/lecture/1 HTTP/1.1" 2640.286, 110.65.147.206, "http://localhost:3000/dashboard/1/1/courseware", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36", 53, "Invalid Parameter", ""
-Stack:
-1. 查询 LectureFiles 失败
-   1).  intelligent-course-aware-ide/internal/controller/Files.(*ControllerV1).GetFileWithLectureId
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/controller/Files/Files_v1_get_file_with_lecture_id.go:30
-2. element of parameter "pointer" for function Scan should type of struct/*struct/[]struct/[]*struct
-   1).  intelligent-course-aware-ide/internal/controller/Files.(*ControllerV1).GetFileWithLectureId
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/controller/Files/Files_v1_get_file_with_lecture_id.go:28
-   2).  intelligent-course-aware-ide/internal/logic/middleware.Auth
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/auth.go:52
-   3).  intelligent-course-aware-ide/internal/cmd.init.func1.1
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:46
-   4).  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-
-2025-05-26T16:24:56.393+08:00 [DEBU] {7b42e2fb3206431868a8a35cf5261dbd} Request started: /favicon.ico
-2025-05-26T16:33:23.929+08:00 [DEBU] {2cbf5b27a906431869a8a35c3ac602e1} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T16:33:25.181+08:00 [DEBU] {cba2fc71a90643186ba8a35c875834bb} Request started: /api/Files/lectureFile/lecture/1
-2025-05-26T16:33:25.181+08:00 [DEBU] {34da0072a90643186ca8a35c99195479} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T16:33:25.187+08:00 [ERRO] {cba2fc71a90643186ba8a35c875834bb} Error occurred: 查询 LectureFiles 失败: element of parameter "pointer" for function Scan should type of struct/*struct/[]struct/[]*struct 
-Stack:
-1.  intelligent-course-aware-ide/internal/cmd.init.func1.1
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:50
-2.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-
-2025-05-26T16:33:25.188+08:00 [ERRO] {cba2fc71a90643186ba8a35c875834bb} Panic recovered: exit 
-Stack:
-1.  intelligent-course-aware-ide/internal/cmd.init.func1.1.1
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:35
-2.  intelligent-course-aware-ide/internal/cmd.init.func1.1
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:51
-3.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-
-2025-05-26T16:33:25.188+08:00 {cba2fc71a90643186ba8a35c875834bb} 500 "GET http 47.117.144.50:8000 /api/Files/lectureFile/lecture/1 HTTP/1.1" 6810.533, 110.65.147.206, "http://localhost:3000/dashboard/1/1/courseware", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36", 53, "Invalid Parameter", ""
-Stack:
-1. 查询 LectureFiles 失败
-   1).  intelligent-course-aware-ide/internal/controller/Files.(*ControllerV1).GetFileWithLectureId
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/controller/Files/Files_v1_get_file_with_lecture_id.go:30
-2. element of parameter "pointer" for function Scan should type of struct/*struct/[]struct/[]*struct
-   1).  intelligent-course-aware-ide/internal/controller/Files.(*ControllerV1).GetFileWithLectureId
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/controller/Files/Files_v1_get_file_with_lecture_id.go:28
-   2).  intelligent-course-aware-ide/internal/logic/middleware.Auth
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/auth.go:52
-   3).  intelligent-course-aware-ide/internal/cmd.init.func1.1
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:46
-   4).  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-
-2025-05-26T16:34:54.898+08:00 [DEBU] {8e0b9055be0643186fa8a35c22795188} Request started: /api/Files/lectureFile/lecture/1
-2025-05-26T16:34:54.907+08:00 [ERRO] {8e0b9055be0643186fa8a35c22795188} Error occurred: 查询 LectureFiles 失败: element of parameter "pointer" for function Scan should type of struct/*struct/[]struct/[]*struct 
-Stack:
-1.  intelligent-course-aware-ide/internal/cmd.init.func1.1
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:50
-2.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-
-2025-05-26T16:34:54.907+08:00 [ERRO] {8e0b9055be0643186fa8a35c22795188} Panic recovered: exit 
-Stack:
-1.  intelligent-course-aware-ide/internal/cmd.init.func1.1.1
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:35
-2.  intelligent-course-aware-ide/internal/cmd.init.func1.1
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:51
-3.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-
-2025-05-26T16:34:54.908+08:00 {8e0b9055be0643186fa8a35c22795188} 500 "GET http 47.117.144.50:8000 /api/Files/lectureFile/lecture/1 HTTP/1.1" 9281.822, 110.65.147.206, "http://localhost:3000/dashboard/1/1/courseware", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36", 53, "Invalid Parameter", ""
-Stack:
-1. 查询 LectureFiles 失败
-   1).  intelligent-course-aware-ide/internal/controller/Files.(*ControllerV1).GetFileWithLectureId
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/controller/Files/Files_v1_get_file_with_lecture_id.go:30
-2. element of parameter "pointer" for function Scan should type of struct/*struct/[]struct/[]*struct
-   1).  intelligent-course-aware-ide/internal/controller/Files.(*ControllerV1).GetFileWithLectureId
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/controller/Files/Files_v1_get_file_with_lecture_id.go:28
-   2).  intelligent-course-aware-ide/internal/logic/middleware.Auth
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/auth.go:52
-   3).  intelligent-course-aware-ide/internal/cmd.init.func1.1
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:46
-   4).  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-
-2025-05-26T16:34:55.312+08:00 [DEBU] {ce27316ebe06431871a8a35cbc34e1bf} Request started: /api/Files/lectureFile/lecture/1
-2025-05-26T16:34:55.315+08:00 [ERRO] {ce27316ebe06431871a8a35cbc34e1bf} Error occurred: 查询 LectureFiles 失败: element of parameter "pointer" for function Scan should type of struct/*struct/[]struct/[]*struct 
-Stack:
-1.  intelligent-course-aware-ide/internal/cmd.init.func1.1
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:50
-2.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-
-2025-05-26T16:34:55.315+08:00 [ERRO] {ce27316ebe06431871a8a35cbc34e1bf} Panic recovered: exit 
-Stack:
-1.  intelligent-course-aware-ide/internal/cmd.init.func1.1.1
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:35
-2.  intelligent-course-aware-ide/internal/cmd.init.func1.1
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:51
-3.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-
-2025-05-26T16:34:55.315+08:00 {ce27316ebe06431871a8a35cbc34e1bf} 500 "GET http 47.117.144.50:8000 /api/Files/lectureFile/lecture/1 HTTP/1.1" 3643.116, 110.65.147.206, "http://localhost:3000/dashboard/1/1/courseware", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36", 53, "Invalid Parameter", ""
-Stack:
-1. 查询 LectureFiles 失败
-   1).  intelligent-course-aware-ide/internal/controller/Files.(*ControllerV1).GetFileWithLectureId
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/controller/Files/Files_v1_get_file_with_lecture_id.go:30
-2. element of parameter "pointer" for function Scan should type of struct/*struct/[]struct/[]*struct
-   1).  intelligent-course-aware-ide/internal/controller/Files.(*ControllerV1).GetFileWithLectureId
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/controller/Files/Files_v1_get_file_with_lecture_id.go:28
-   2).  intelligent-course-aware-ide/internal/logic/middleware.Auth
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/auth.go:52
-   3).  intelligent-course-aware-ide/internal/cmd.init.func1.1
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:46
-   4).  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-
-2025-05-26T16:35:11.381+08:00 [DEBU] {97d4012cc206431873a8a35c9fa0c7fb} Request started: /api/Files/lectureFile/lecture/1
-2025-05-26T16:35:11.389+08:00 [ERRO] {97d4012cc206431873a8a35c9fa0c7fb} Error occurred: 查询 LectureFiles 失败: element of parameter "pointer" for function Scan should type of struct/*struct/[]struct/[]*struct 
-Stack:
-1.  intelligent-course-aware-ide/internal/cmd.init.func1.1
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:50
-2.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-
-2025-05-26T16:35:11.390+08:00 [ERRO] {97d4012cc206431873a8a35c9fa0c7fb} Panic recovered: exit 
-Stack:
-1.  intelligent-course-aware-ide/internal/cmd.init.func1.1.1
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:35
-2.  intelligent-course-aware-ide/internal/cmd.init.func1.1
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:51
-3.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-
-2025-05-26T16:35:11.390+08:00 {97d4012cc206431873a8a35c9fa0c7fb} 500 "GET http 47.117.144.50:8000 /api/Files/lectureFile/lecture/1 HTTP/1.1" 9521.184, 110.65.147.206, "http://localhost:3000/dashboard/1/1/courseware", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36", 53, "Invalid Parameter", ""
-Stack:
-1. 查询 LectureFiles 失败
-   1).  intelligent-course-aware-ide/internal/controller/Files.(*ControllerV1).GetFileWithLectureId
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/controller/Files/Files_v1_get_file_with_lecture_id.go:30
-2. element of parameter "pointer" for function Scan should type of struct/*struct/[]struct/[]*struct
-   1).  intelligent-course-aware-ide/internal/controller/Files.(*ControllerV1).GetFileWithLectureId
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/controller/Files/Files_v1_get_file_with_lecture_id.go:28
-   2).  intelligent-course-aware-ide/internal/logic/middleware.Auth
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/auth.go:52
-   3).  intelligent-course-aware-ide/internal/cmd.init.func1.1
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:46
-   4).  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-
-2025-05-26T16:35:11.612+08:00 [DEBU] {8175c439c206431875a8a35c2612e636} Request started: /api/Files/lectureFile/lecture/1
-2025-05-26T16:35:11.619+08:00 [ERRO] {8175c439c206431875a8a35c2612e636} Error occurred: 查询 LectureFiles 失败: element of parameter "pointer" for function Scan should type of struct/*struct/[]struct/[]*struct 
-Stack:
-1.  intelligent-course-aware-ide/internal/cmd.init.func1.1
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:50
-2.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-
-2025-05-26T16:35:11.621+08:00 [ERRO] {8175c439c206431875a8a35c2612e636} Panic recovered: exit 
-Stack:
-1.  intelligent-course-aware-ide/internal/cmd.init.func1.1.1
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:35
-2.  intelligent-course-aware-ide/internal/cmd.init.func1.1
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:51
-3.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-
-2025-05-26T16:35:11.627+08:00 {8175c439c206431875a8a35c2612e636} 500 "GET http 47.117.144.50:8000 /api/Files/lectureFile/lecture/1 HTTP/1.1" 13235.905, 110.65.147.206, "http://localhost:3000/dashboard/1/1/courseware", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36", 53, "Invalid Parameter", ""
-Stack:
-1. 查询 LectureFiles 失败
-   1).  intelligent-course-aware-ide/internal/controller/Files.(*ControllerV1).GetFileWithLectureId
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/controller/Files/Files_v1_get_file_with_lecture_id.go:30
-2. element of parameter "pointer" for function Scan should type of struct/*struct/[]struct/[]*struct
-   1).  intelligent-course-aware-ide/internal/controller/Files.(*ControllerV1).GetFileWithLectureId
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/controller/Files/Files_v1_get_file_with_lecture_id.go:28
-   2).  intelligent-course-aware-ide/internal/logic/middleware.Auth
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/auth.go:52
-   3).  intelligent-course-aware-ide/internal/cmd.init.func1.1
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:46
-   4).  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-
-2025-05-26T16:35:29.835+08:00 [DEBU] {fd22f777c606431877a8a35c8892f9bb} Request started: /api/comment/getComment/1
+2025-05-26T17:12:44.748+08:00 [DEBU] {6ea121d3ce084318c14cdd41753378c7} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:12:45.625+08:00 [DEBU] {e7366c07cf084318c44cdd414755f6df} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:13:02.289+08:00 [DEBU] {6dd4ade8d2084318c64cdd4195159295} Request started: /api/user/loginUser
+2025-05-26T17:13:02.659+08:00 [DEBU] {bdd2b2fed2084318c74cdd4189e1ccfd} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:13:02.768+08:00 [DEBU] {65633105d3084318c94cdd417690ef20} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:13:07.450+08:00 [DEBU] {93394c1cd4084318cb4cdd41d638c6f7} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:13:09.014+08:00 [DEBU] {a1407f79d4084318cd4cdd416ad14497} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:13:11.585+08:00 [DEBU] {8174c312d5084318cf4cdd4116f425bf} Request started: /api/Files/lectureFile/lecture/1
+2025-05-26T17:15:47.415+08:00 [DEBU] {00aef15af9084318d14cdd4141e42048} Request started: /api/Files/lectureFile/upload
+2025-05-26T17:15:52.391+08:00 [DEBU] {11738c83fa084318d44cdd4145264a75} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:15:53.411+08:00 [DEBU] {bb4f52c0fa084318d64cdd41edf4ec09} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:18:07.169+08:00 [DEBU] {189feee419094318d84cdd41cd5ef549} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:18:22.882+08:00 [DEBU] {9c0b818d1d094318da4cdd412d76b483} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:18:23.990+08:00 [DEBU] {905b8ccf1d094318dc4cdd41d5b8c504} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:22:23.525+08:00 [DEBU] {6164ec9455094318de4cdd41f1cfd98e} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:22:23.730+08:00 [DEBU] {7d7d21a155094318e04cdd41462aba43} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:22:23.891+08:00 [DEBU] {6570c7aa55094318e24cdd41bbcadd73} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:22:24.211+08:00 [DEBU] {2e2cd4bd55094318e44cdd41687317e6} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:22:24.404+08:00 [DEBU] {ed9253c955094318e64cdd41c96f13bf} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:22:24.534+08:00 [DEBU] {60c219d155094318e84cdd41ee3fb485} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:22:42.367+08:00 [DEBU] {0b4e07f859094318ea4cdd41af70a588} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:22:42.847+08:00 [DEBU] {24bc99145a094318ec4cdd410b61828e} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:22:56.210+08:00 [DEBU] {a7be1a315d094318ee4cdd4137fb9d8c} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:22:57.187+08:00 [DEBU] {172c4f6b5d094318f04cdd41578dbfd5} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:25:50.106+08:00 [DEBU] {ca4f18ae85094318f24cdd41ba252e0b} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:25:50.360+08:00 [DEBU] {745646bd85094318f44cdd41de91fbba} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:25:50.558+08:00 [DEBU] {e8c808c985094318f64cdd41b7dce667} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:25:50.817+08:00 [DEBU] {d3727cd885094318f84cdd41fd738219} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:25:50.965+08:00 [DEBU] {6d2755e185094318fa4cdd411399b3ad} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:25:51.165+08:00 [DEBU] {466343ed85094318fc4cdd4120f5d255} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T17:29:22.719+08:00 [DEBU] {3729d92eb7094318fe4cdd4101613663} Request started: /api/comment/getComment/1
 Fetched Comments: []
-2025-05-26T16:35:30.027+08:00 [DEBU] {976c6483c606431879a8a35c14ad94bc} Request started: /api/comment/getComment/1
+2025-05-26T17:29:22.850+08:00 [DEBU] {179ca436b7094318004ddd4103a3481b} Request started: /api/comment/getComment/1
 Fetched Comments: []
+2025-05-26T17:29:27.594+08:00 [DEBU] {ba1b6a51b8094318024ddd41e0304ab8} Request started: /
+2025-05-26T17:45:12.527+08:00 [DEBU] {85b5cd53940a4318034ddd41a778b907} Request started: /api.json
+2025-05-26T17:45:12.586+08:00 [DEBU] {38514d57940a4318044ddd417e08b300} Request started: /favicon.ico
+2025-05-26T17:45:16.965+08:00 [DEBU] {f4034f5c950a4318054ddd41f8cba2ae} Request started: /api.json
+2025-05-26T17:52:33.613+08:00 [DEBU] {3b6c9206fb0a4318064ddd41c7a84d85} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T18:01:15.039+08:00 [DEBU] {db2bfb6d740b4318084ddd4169c9e086} Request started: /
+2025-05-26T18:01:15.118+08:00 [DEBU] {4275b872740b4318094ddd410b1ea529} Request started: /favicon.ico
+2025-05-26T18:01:51.852+08:00 [DEBU] {cf2141007d0b43180a4ddd41d81f2b41} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T18:02:15.380+08:00 [DEBU] {b6e09e7a820b43180c4ddd41e18833fe} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T18:02:59.546+08:00 [DEBU] {17861dc38c0b43180e4ddd41e861cd72} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T18:03:51.066+08:00 [DEBU] {e67ae8c1980b4318104ddd4108d6008e} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T18:03:51.749+08:00 [DEBU] {9bd7a7ea980b4318124ddd412274cf87} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T18:05:49.784+08:00 [DEBU] {ecec0e66b40b4318144ddd418eaff3e1} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T18:05:51.732+08:00 [DEBU] {890830dab40b4318164ddd419bd6b897} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T18:05:52.977+08:00 [DEBU] {82bc6724b50b4318184ddd4164f81375} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T18:15:55.992+08:00 [DEBU] {b076df8a410c43181a4ddd419a8a3768} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T18:15:56.374+08:00 [DEBU] {7d7ea6a1410c43181c4ddd415c5d5a48} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T18:20:47.176+08:00 [DEBU] {8b57c856850c43181e4ddd417fb6c153} Request started: /api/user/loginUser
+2025-05-26T18:20:47.444+08:00 [DEBU] {1d2bc166850c43181f4ddd4126ca0bbf} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T18:20:47.553+08:00 [DEBU] {c4504d6d850c4318214ddd41a23a6ad0} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T18:20:55.499+08:00 [DEBU] {dfb4e546870c4318234ddd41f5de8f1d} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T18:20:57.002+08:00 [DEBU] {4a8078a0870c4318254ddd4100b90b1f} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T18:21:17.718+08:00 [DEBU] {9f733f738c0c4318274ddd4146ecbf46} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T18:21:18.066+08:00 [DEBU] {dfc900888c0c4318294ddd4156d2b459} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T18:21:43.344+08:00 [DEBU] {185fae6a920c43182b4ddd416aca34af} Request started: /api/user/loginUser
+2025-05-26T18:21:43.770+08:00 [DEBU] {d6371384920c43182c4ddd4118afeb06} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T18:21:44.284+08:00 [DEBU] {92e4b9a2920c43182e4ddd41b526116d} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T18:21:44.389+08:00 [DEBU] {f572f6a8920c4318304ddd41ddcc3aea} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T20:23:09.391+08:00 [DEBU] {b7ebe8d432134318324ddd411a40a9c7} Request started: /
+2025-05-26T20:28:56.006+08:00 [DEBU] {4d77cb8883134318334ddd41abd922f0} Request started: /api/course/searchCourseWithLectures/byStudentId

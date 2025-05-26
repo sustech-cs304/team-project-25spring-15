@@ -34,8 +34,8 @@ type GetAllChatInfoOfAUserReq struct {
 }
 
 type GetAllChatInfoOfAUserRes struct {
-	g.Meta       `mime:"text/html" example:"json"`
-	ChatMessages []*entity.ChatMessageInfo `json:"chatMessages" dc:"Info of all message of the chat"`
+	g.Meta `mime:"text/html" example:"json"`
+	Chats  []*entity.ChatUserInfo `json:"chats" dc:"Info of all message of the chat"`
 }
 
 type CreateChatMessageReq struct {
