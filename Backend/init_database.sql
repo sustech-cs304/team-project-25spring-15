@@ -169,7 +169,7 @@ CREATE TABLE ChatMessageInfo(
 CREATE TABLE Comment (
   commentId BIGINT AUTO_INCREMENT PRIMARY KEY,
   repliedToCommentedId BIGINT ,
-  lectureId BIGINT NOT NULL ,
+  lectureId INTEGER NOT NULL ,
   authorId BIGINT NOT NULL,
   content VARCHAR(1023) NOT NUll,
   createTime VARCHAR(255) NOT NULL,
