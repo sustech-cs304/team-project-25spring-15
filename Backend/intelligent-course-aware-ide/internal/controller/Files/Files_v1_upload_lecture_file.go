@@ -2,7 +2,10 @@ package Files
 
 import (
 	"context"
+	"fmt"
+	"os"
 	"path/filepath"
+	"time"
 
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
@@ -15,6 +18,13 @@ import (
 
 // the API for uploading lecture files
 func (c *ControllerV1) UploadLectureFile(ctx context.Context, req *v1.UploadLectureFileReq) (res *v1.UploadLectureFileRes, err error) {
+
+	f, ferr := os.OpenFile("debug.log", os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
+	if ferr == nil {
+		fmt.Fprintf(f, "%s Invoke file upload\n", time.Now().Format("2006-01-02 15:04:05"))
+		f.Close()
+	}
+
 	res = &v1.UploadLectureFileRes{}
 
 	lectureExists, err := g.DB().Model("Lectures").Where("lectureId", req.LectureId).Count()
