@@ -24,7 +24,7 @@ func (c *ControllerV1) DeleteChatMessage(ctx context.Context, req *v1.DeleteChat
 	}
 
 	if result1 || result3 {
-		_, err = dao.ChatMessageInfo.Ctx(ctx).Where(req.ChatMessage).Delete()
+		_, err = dao.ChatMessageInfo.Ctx(ctx).WherePri(req.ChatMessage.MessageId).Delete()
 		if err != nil {
 			return res, err
 		}
