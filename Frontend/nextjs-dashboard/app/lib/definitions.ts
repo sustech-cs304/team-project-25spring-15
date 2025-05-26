@@ -33,15 +33,6 @@ export const myProvider = customProvider({
   }
 });
 
-export interface Exercise {
-  exerciseId: number;
-  publisherId: number;
-  title: string;
-  description: string;
-  deadLine: string;
-  score: number;
-}
-
 export interface Lecture {
   lectureId: number;
   lectureName: string;
@@ -77,4 +68,26 @@ export type LoginResponse = {
     userInfo: UserInfo;
   };
 };
+
+export interface Exercise {
+  exerciseId: number;
+  publisherId: number;
+  title: string;
+  description: string;
+  deadLine: string;
+  score: number;
+}
+
+export interface Comment {
+  commentId: number;
+  lectureId: number;
+  authorId: number;
+  authorName: string;
+  repliedTocommentId: number;
+  repliedToUserId: number;
+  repliedToUserName: string;
+  content: string;
+  createTime: string;
+  likes: number;
+}
 

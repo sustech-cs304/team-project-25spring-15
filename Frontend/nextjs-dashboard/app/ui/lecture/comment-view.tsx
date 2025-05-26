@@ -27,7 +27,7 @@ import { formatDistanceToNow, format, differenceInDays } from "date-fns";
 import { zhCN } from "date-fns/locale";
 import axios from "axios";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { CommentAPI } from "@/app/lib/client-api";
+import {CommentAPI, CourseAPI} from "@/app/lib/client-api";
 import { useStore } from "@/store/useStore";
 
 interface Comment {
@@ -77,8 +77,17 @@ export default function CommentView({ courseId, lectureId }: CommentViewProps) {
   const [dialogOpen, setDialogOpen] = useState(false);
 
   useEffect(() => {
-    CommentAPI.fetchComments(lectureId) // todo: 替换为实际的 lectureId
-  }, ["lectureId"]);
+    async function loadComments() {
+      try {
+        const comments = await CommentAPI.fetchComments(lectureId);
+        console.log('Fetched comments in comment-view:', comments);
+        setComments(comments);
+      } catch (err) {
+        console.error('拉取课程失败', err);
+      }
+    }
+    loadComments();
+  }, [lectureId]);
 
   const userInfo = useStore(state => state.userInfo);
   const currentUserId = userInfo?.userId ?? null;
@@ -120,16 +129,18 @@ export default function CommentView({ courseId, lectureId }: CommentViewProps) {
 
     try {
       const newCommentData = {
+        lectureId: lectureId,
         content: newComment,
-        authorId: "currentUser", // todo: 替换为实际的用户 ID
+        authorId: userInfo?.userId, // todo: 替换为实际的用户 ID
         createTime: new Date().toISOString(),
         repliedToCommentId: replyTo ? replyTo.repliedToCommentId : null,
       };
 
-      await axios.post(`https://m1.apifoxmock.com/m2/5989566-5677982-default/291721414`, newCommentData);
+      await axios.post(`/api/comment/createComment`, newCommentData);
 
-      await CommentAPI.fetchComments(lectureId);
+      const comments = await CommentAPI.fetchComments(lectureId);
 
+      setComments(comments);
       setNewComment("");
       setReplyTo(null);
       setDialogOpen(false);
@@ -148,7 +159,9 @@ export default function CommentView({ courseId, lectureId }: CommentViewProps) {
     try {
       await axios.delete(`https://m1.apifoxmock.com/m2/5989566-5677982-default/291721414/${commentId}`);
 
-      await CommentAPI.fetchComments(lectureId);
+      const comments = await CommentAPI.fetchComments(lectureId);
+
+      setComments(comments);
     } catch (error) {
       console.error("删除评论失败:", error);
     }
