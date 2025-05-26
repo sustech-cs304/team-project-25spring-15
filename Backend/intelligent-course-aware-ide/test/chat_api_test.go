@@ -31,9 +31,9 @@ func Test_CreateChat(t *testing.T){
 		t.Assert(res.ChatId != 0,true)
 	})
 }
-//需要处理
 func Test_CreateChatMessage(t *testing.T){
 	newmessgae := v1.MessageInfo{
+		ChatId: 1,
 		OwnerId: 1,
 		Message: "我爱你",
 	}
@@ -45,5 +45,52 @@ func Test_CreateChatMessage(t *testing.T){
 		res,err := ctrl.CreateChatMessage(context.Background(),req)
 		t.AssertNil(err)
 		t.Assert(res.MessageId != 0,true)
+	})
+}
+func Test_GetAllChatMessageOfChatInfo(t *testing.T){
+	newchat :=v1.MessageInfo{
+		ChatId: 1,
+		OwnerId: 2,
+		Message: "我也爱你",
+	}
+	reqnew :=&v1.CreateChatMessageReq{
+		ChatMessage: newchat,
+	}
+	ctrl :=&chat.ControllerV1{}
+	ctrl.CreateChatMessage(context.Background(),reqnew)
+	req := &v1.GetAllChatMessageOfAChatInfoReq{
+		ChatId: 1,
+	}
+	gtest.C(t,func(t *gtest.T) {
+		res,err := ctrl.GetAllChatMessageOfAChatInfo(context.Background(),req)
+		t.AssertNil(err)
+		t.Assert(len(res.ChatMessages) == 2,true)
+	})
+}
+func Test_GetAllChatInfoOfUser(t *testing.T){
+
+}
+func Test_AddUserInToChat(t *testing.T){
+	ctrlAccount := &account.ControllerV1{}
+	userinfo := V1.UserLoginInfo{
+		UserId:   1,
+		Password: "woshisb",
+	}
+	reqAccount := &V1.LoginUserReq{UserInfo: userinfo}
+
+	resAccount, _ := ctrlAccount.LoginUser(context.Background(), reqAccount)
+	cxt, _ := middleware.BuildCtx(resAccount.Token)
+	newchatuserinfo := v1.ChatUserInfo{
+		UserId: 1,
+		ChatId: 2,
+	}
+	req := &v1.AddUserIntoChatReq{
+		ChatUser: newchatuserinfo,
+	}
+	ctrl := &chat.ControllerV1{}
+	gtest.C(t,func(t *gtest.T) {
+		res,err := ctrl.AddUserIntoChat(cxt,req)
+		gtest.AssertNil(err)
+		gtest.Assert(res.Success,true)
 	})
 }

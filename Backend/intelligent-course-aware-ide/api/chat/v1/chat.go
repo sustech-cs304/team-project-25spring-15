@@ -9,7 +9,7 @@ import (
 type MessageInfo struct {
 	MessageId   int64  `json:"messageId" dc:"Id of this chat message"`
 	ChatId      int64  `json:"chatId" dc:"Id of this chat"`
-	ChatMessage string `json:"chatMessage" dc:"Content of this chat"`
+	Message string `json:"Message" dc:"Content of this chat"`
 	OwnerId     int64  `json:"ownerId" dc:"Id of this chat message owner"`
 }
 
