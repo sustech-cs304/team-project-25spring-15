@@ -9,7 +9,7 @@ import (
 
 type AssignmentInfo struct {
 	AssignmentId   int64       `json:"assignmentId" dc:"id of this assignment"`
-	AssignmentName int64       `json:"assignmentName" dc:"name of this assignment"`
+	AssignmentName string       `json:"assignmentName" dc:"name of this assignment"`
 	PublisherId    int64       `json:"publisherId" dc:"id of publisher"`
 	CourseId       int64       `json:"courseId" dc:"id of this course"`
 	LectureId      int64       `json:"lectureId" dc:"id of this lecture"`

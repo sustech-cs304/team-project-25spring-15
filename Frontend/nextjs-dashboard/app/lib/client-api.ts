@@ -182,10 +182,33 @@ export const CommentAPI = {
       const headers = await getAuthHeader();
       console.log("Fetching comments for lectureId:", lectureId);
       const response = await axios.get(`/api/comment/getComment/${lectureId}`, {headers});
-      console.log("获取评论成功:", response.data);
-      return response.data;
+      console.log("获取评论成功:", response.data.data);
+      return response.data.data.comment;
     } catch (error) {
       console.error("获取评论失败:", error);
     }
+  },
+
+  publishComment: async (
+    newCommentData: {
+      lectureId: number,
+      content: string,
+      authorId: number, // todo: 替换为实际的用户 ID
+      createTime: string,
+      repliedToCommentId: number,
+    }) => {
+    const headers = await getAuthHeader();
+    await axios.post(`/api/comment/createComment`, newCommentData, {headers});
+  }
+}
+
+export const AssignmentAPI = {
+  fetchAssignments : async (lectureId: number) => {
+    const res = await axios.get(`/api/assignment/getAllAssignmentOfALecture`,
+      {
+        params: {
+          lectureId: lectureId,
+        }
+      });
   },
 }

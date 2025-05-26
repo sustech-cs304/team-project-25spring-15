@@ -32,19 +32,30 @@ func Test_CreateChat(t *testing.T){
 	})
 }
 func Test_CreateChatMessage(t *testing.T){
-	newmessgae := v1.MessageInfo{
+	newmessgae1 := v1.MessageInfo{
 		ChatId: 1,
 		OwnerId: 1,
 		Message: "我爱你",
 	}
-	req := &v1.CreateChatMessageReq{
-		ChatMessage: newmessgae,
+	newmessgae2 := v1.MessageInfo{
+		ChatId: 2,
+		OwnerId: 2,
+		Message: "我不爱你",
+	}
+	req1 := &v1.CreateChatMessageReq{
+		ChatMessage: newmessgae1,
+	}
+	req2 :=&v1.CreateChatMessageReq{
+		ChatMessage: newmessgae2,
 	}
 	ctrl :=&chat.ControllerV1{}
 	gtest.C(t,func(t *gtest.T) {
-		res,err := ctrl.CreateChatMessage(context.Background(),req)
-		t.AssertNil(err)
-		t.Assert(res.MessageId != 0,true)
+		res1,err1 := ctrl.CreateChatMessage(context.Background(),req1)
+		t.AssertNil(err1)
+		t.Assert(res1.MessageId != 0,true)
+		res2,err2 :=ctrl.CreateChatMessage(context.Background(),req2)
+		t.AssertNil(err2)
+		t.Assert(res2.MessageId != 0,true)
 	})
 }
 func Test_GetAllChatMessageOfChatInfo(t *testing.T){
@@ -89,8 +100,8 @@ func Test_AddUserInToChat(t *testing.T){
 	resAccount, _ := ctrlAccount.LoginUser(context.Background(), reqAccount)
 	cxt, _ := middleware.BuildCtx(resAccount.Token)
 	newchatuserinfo := v1.ChatUserInfo{
-		UserId: 1,
-		ChatId: 2,
+		UserId: 2,
+		ChatId: 1,
 	}
 	req := &v1.AddUserIntoChatReq{
 		ChatUser: newchatuserinfo,
@@ -123,6 +134,50 @@ func Test_DeleteChatMessage(t *testing.T){
 	ctrl :=&chat.ControllerV1{}
 	gtest.C(t,func(t *gtest.T) {
 		res,err := ctrl.DeleteChatMessage(cxt,req)
+		gtest.AssertNil(err)
+		gtest.Assert(res.Success,true)
+	})
+}
+func Test_DeleteChat(t *testing.T){
+	ctrlAccount := &account.ControllerV1{}
+	userinfo := V1.UserLoginInfo{
+		UserId:   1,
+		Password: "woshisb",
+	}
+	reqAccount := &V1.LoginUserReq{UserInfo: userinfo}
+
+	resAccount, _ := ctrlAccount.LoginUser(context.Background(), reqAccount)
+	cxt, _ := middleware.BuildCtx(resAccount.Token)
+	req :=&v1.DeleteChatReq{
+		ChatId: 2,
+	}
+	ctrl := &chat.ControllerV1{}
+	gtest.C(t,func(t *gtest.T) {
+		res,err := ctrl.DeleteChat(cxt,req)
+		gtest.AssertNil(err)
+		gtest.Assert(res.Success,true)
+	})
+}
+func Test_DeleteUserFromChat(t *testing.T){
+	ctrlAccount := &account.ControllerV1{}
+	userinfo := V1.UserLoginInfo{
+		UserId:   1,
+		Password: "woshisb",
+	}
+	reqAccount := &V1.LoginUserReq{UserInfo: userinfo}
+
+	resAccount, _ := ctrlAccount.LoginUser(context.Background(), reqAccount)
+	cxt, _ := middleware.BuildCtx(resAccount.Token)
+	chatuserinfo := v1.ChatUserInfo{
+		UserId: 2,
+		ChatId: 1,
+	}
+	req := &v1.DeleteUserFromChatReq{
+		ChatUser: chatuserinfo,
+	}
+	ctrl :=&chat.ControllerV1{}
+	gtest.C(t,func(t *gtest.T) {
+		res,err := ctrl.DeleteUserFromChat(cxt,req)
 		gtest.AssertNil(err)
 		gtest.Assert(res.Success,true)
 	})

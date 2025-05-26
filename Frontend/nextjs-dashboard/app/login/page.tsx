@@ -1,5 +1,6 @@
 import LoginForm from '@/app/ui/login/login-form';
 import { Suspense } from 'react';
+import AuthPage from '@/app/ui/login/auth-page';
 
 export default function LoginPage() {
   return (

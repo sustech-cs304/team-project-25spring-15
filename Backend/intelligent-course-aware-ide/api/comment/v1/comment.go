@@ -33,7 +33,7 @@ type GetCommentRes struct {
 }
 type DeleteCommentReq struct {
 	g.Meta    `path:"/api/comment/deleteComment" method:"delete" tags:"Comment" summary:"delete comment info"`
-	CommentId int64 `v:"required" dc:"id of the comment to delete"`
+	CommentId int64 `json:"commentId" v:"required" dc:"id of the comment to delete"`
 	UserId    int64 `json:"userId" v:"required" dc:"id of the user who want to delete this comment"`
 }
 

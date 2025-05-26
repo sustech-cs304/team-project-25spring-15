@@ -7,7 +7,8 @@ import { Box, Typography, Button } from "@mui/material";
 import axios from "axios";
 import ExercisesRenderer from "./components/exercise-render";
 import ExercisesList from "./components/exercises-list";
-import TaskForm from "./components/task-form"; // 假设 TaskForm 也被抽离到单独文件
+import TaskForm from "./components/task-form";
+import { AssignmentAPI } from "@/app/lib/client-api";
 
 // 列表接口结构
 interface ExerciseSummary {
