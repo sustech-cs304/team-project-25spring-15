@@ -178,12 +178,11 @@ export const LectureAPI = {
 export const CommentAPI = {
   fetchComments : async (lectureId: number) => {
     try {
-      // ✅ 把 lectureId 放到 path 里
       const headers = await getAuthHeader();
       console.log("Fetching comments for lectureId:", lectureId);
       const response = await axios.get(`/api/comment/getComment/${lectureId}`, {headers});
       console.log("获取评论成功:", response.data.data);
-      return response.data.data.comment;
+      return response.data.data.comment || [];
     } catch (error) {
       console.error("获取评论失败:", error);
     }
@@ -191,15 +190,44 @@ export const CommentAPI = {
 
   publishComment: async (
     newCommentData: {
-      lectureId: number,
-      content: string,
-      authorId: number, // todo: 替换为实际的用户 ID
-      createTime: string,
-      repliedToCommentId: number,
+      lectureId: number | null,
+      content: string | null,
+      authorId: number | null,
+      createTime: string | null,
+      repliedToCommentId: number | null,
+    }) => {
+    console.log("Publishing comment with data:", newCommentData);
+    const headers = await getAuthHeader();
+    const payload = {
+      comment: newCommentData
+    };
+    await axios.post(`/api/comment/createComment`, payload, {headers});
+  },
+
+  deleteComment: async (commentId: number, userId: number) => {
+    console.log("Deleting comment with ID:", commentId);
+    const headers = await getAuthHeader();
+    const res = await axios.delete(`/api/comment/deleteComment`, {
+      headers,
+      params: {
+        commentId: commentId,
+        userId: userId
+      }
+    });
+    console.log("Comment deleted successfully:", res.data);
+    return res.data;
+  },
+
+  likeComment: async (
+    payload: {
+      userId: number
+      commentId: number
+      likes: number
     }) => {
     const headers = await getAuthHeader();
-    await axios.post(`/api/comment/createComment`, newCommentData, {headers});
+    await axios.put(`/api/comment/updateComment`, payload, {headers});
   }
+
 }
 
 export const AssignmentAPI = {
