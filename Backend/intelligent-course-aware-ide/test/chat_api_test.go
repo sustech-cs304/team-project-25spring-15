@@ -68,7 +68,15 @@ func Test_GetAllChatMessageOfChatInfo(t *testing.T){
 	})
 }
 func Test_GetAllChatInfoOfUser(t *testing.T){
-
+	req :=&v1.GetAllChatInfoOfAUserReq{
+		UserId: 1,
+	}
+	ctrl :=&chat.ControllerV1{}
+	gtest.C(t,func(t *gtest.T) {
+		res,err :=ctrl.GetAllChatInfoOfAUser(context.Background(),req)
+		gtest.AssertNil(err)
+		gtest.Assert(res.Chats[0].ChatId == 1,true)
+	})
 }
 func Test_AddUserInToChat(t *testing.T){
 	ctrlAccount := &account.ControllerV1{}
@@ -90,6 +98,31 @@ func Test_AddUserInToChat(t *testing.T){
 	ctrl := &chat.ControllerV1{}
 	gtest.C(t,func(t *gtest.T) {
 		res,err := ctrl.AddUserIntoChat(cxt,req)
+		gtest.AssertNil(err)
+		gtest.Assert(res.Success,true)
+	})
+}
+func Test_DeleteChatMessage(t *testing.T){
+	ctrlAccount := &account.ControllerV1{}
+	userinfo := V1.UserLoginInfo{
+		UserId:   1,
+		Password: "woshisb",
+	}
+	reqAccount := &V1.LoginUserReq{UserInfo: userinfo}
+
+	resAccount, _ := ctrlAccount.LoginUser(context.Background(), reqAccount)
+	cxt, _ := middleware.BuildCtx(resAccount.Token)
+	messagetodelete :=v1.MessageInfo{
+		MessageId: 1,
+		ChatId: 1,
+		OwnerId: 1,
+	}
+	req :=&v1.DeleteChatMessageReq{
+		ChatMessage: messagetodelete,
+	}
+	ctrl :=&chat.ControllerV1{}
+	gtest.C(t,func(t *gtest.T) {
+		res,err := ctrl.DeleteChatMessage(cxt,req)
 		gtest.AssertNil(err)
 		gtest.Assert(res.Success,true)
 	})

@@ -3,6 +3,7 @@ package chat
 import (
 	"context"
 	"errors"
+	"fmt"
 
 	v1 "intelligent-course-aware-ide/api/chat/v1"
 	"intelligent-course-aware-ide/internal/dao"
@@ -13,6 +14,7 @@ func (c *ControllerV1) DeleteChatMessage(ctx context.Context, req *v1.DeleteChat
 	res = &v1.DeleteChatMessageRes{
 		Success: false,
 	}
+	fmt.Println(operatorId,req.ChatMessage.OwnerId)
 	result1, err := c.chats.CheckUserHasFullPermissionOfChat(ctx, operatorId, req.ChatMessage.ChatId)
 	if err != nil {
 		return res, err
