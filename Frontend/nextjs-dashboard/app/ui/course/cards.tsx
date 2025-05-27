@@ -7,10 +7,16 @@ import {
 } from "@heroicons/react/24/outline";
 import { usePathname } from "next/navigation";
 import { Course, Lecture } from "@/app/lib/definitions";
-import { Card, Typography } from "@mui/material";
+import { Card, Typography, CardContent, CardActionArea, Box, Chip } from "@mui/material";
 
 interface CardWrapperProps {
   courses: Course[];
+}
+
+// 新增的CourseCard接口
+interface CourseCardProps {
+  course: Course;
+  onClick: () => void;
 }
 
 const iconMap = {
@@ -19,7 +25,45 @@ const iconMap = {
   done: CheckCircleIcon,
 };
 
-export default function CardWrapper({ courses }: CardWrapperProps) {
+// 新增用于课程列表显示的CourseCard组件
+export default function CourseCard({ course, onClick }: CourseCardProps) {
+  // 添加空值检查
+  if (!course) {
+    return (
+      <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', p: 2 }}>
+        <Typography color="text.secondary">课程数据加载中...</Typography>
+      </Card>
+    );
+  }
+  
+  return (
+    <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+      <CardActionArea onClick={onClick} sx={{ flexGrow: 1 }}>
+        <CardContent>
+          <Typography variant="h6" component="div" gutterBottom noWrap>
+            {course.courseName || '未命名课程'}
+          </Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ mb: 2, height: '40px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+            {course.description || '暂无描述'}
+          </Typography>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2 }}>
+            <Chip 
+              label={`${course.lectures?.length || 0} 讲座`} 
+              size="small" 
+              variant="outlined"
+            />
+            <Typography variant="caption" color="text.secondary">
+              {course.startTime ? new Date(course.startTime).toLocaleDateString() : '无日期'}
+            </Typography>
+          </Box>
+        </CardContent>
+      </CardActionArea>
+    </Card>
+  );
+}
+
+// 旧的卡片组件，重命名为LectureCardWrapper
+export function LectureCardWrapper({ courses }: CardWrapperProps) {
   console.log("courses in CardWrapper:", courses);
   const pathname = usePathname();
   let currentCouseTitle = "";
@@ -55,7 +99,7 @@ export default function CardWrapper({ courses }: CardWrapperProps) {
       <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {currentLectures.length > 0 ? (
           currentLectures.map((lecture) => (
-            <CourseCard
+            <LectureCard
               key={lecture.lectureId}
               title={lecture.lectureName || "未命名讲座"}
               value={lecture.status || "notStarted"}
@@ -72,7 +116,8 @@ export default function CardWrapper({ courses }: CardWrapperProps) {
   );
 }
 
-export function CourseCard({
+// 原CourseCard组件重命名为LectureCard
+export function LectureCard({
                              title,
                              value,
                              type,

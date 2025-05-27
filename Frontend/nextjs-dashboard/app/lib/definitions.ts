@@ -33,6 +33,15 @@ export const myProvider = customProvider({
   }
 });
 
+export type AiMessage = {
+  id: string; // uuid
+  chatId: string; // uuid
+  userId: number;
+  role: string;
+  parts: unknown;
+  createdAt: Date;
+};
+
 export interface Lecture {
   lectureId: number;
   lectureName: string;
@@ -79,15 +88,27 @@ export interface Exercise {
 }
 
 export interface Comment {
-  commentId: number;
+  id: number;
   lectureId: number;
+  content: string;
   authorId: number;
   authorName: string;
-  repliedTocommentId: number;
-  repliedToUserId: number;
-  repliedToUserName: string;
-  content: string;
   createTime: string;
   likes: number;
+  repliedToCommentId: number | null;
+  repliedToUserId?: number;
+  repliedToUserName?: string;
 }
+
+export interface Assignment {
+  assignmentId: number;
+  publisherId: number;
+  title: string;
+  description: string;
+  deadline: string;
+  score: number;
+  courseId: number;
+  lectureId: number;
+}
+
 

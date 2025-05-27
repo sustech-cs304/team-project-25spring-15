@@ -8,6 +8,7 @@ DROP TABLE IF EXISTS AssignmentUserFeedback;
 DROP TABLE IF EXISTS UserFileInfo;
 DROP TABLE IF EXISTS CourseAssistants;
 DROP TABLE IF EXISTS LectureFiles;
+DROP TABLE IF EXISTS LectureNoteFiles;
 DROP TABLE IF EXISTS AssignmentFiles;
 DROP TABLE IF EXISTS Files;
 DROP TABLE IF EXISTS Assignments;
@@ -66,6 +67,7 @@ CREATE TABLE Lectures(
 );
 CREATE TABLE Assignments(
     assignmentId BIGINT AUTO_INCREMENT PRIMARY KEY,
+    assignmentName VARCHAR(255) NOT NULL,
     publisherId BIGINT NOT NULL,
     courseId BIGINT,
     lectureId INTEGER,
@@ -121,6 +123,13 @@ CREATE TABLE LectureFiles(
     FOREIGN KEY (fileId) REFERENCES Files(fileId) ON DELETE CASCADE,
     FOREIGN KEY (lectureId) REFERENCES Lectures(lectureId) ON DELETE CASCADE
 );
+CREATE TABLE LectureNoteFiles(
+    fileId BIGINT NOT NULL,
+    lectureId INTEGER NOT NULL,
+    PRIMARY KEY (fileId, lectureId),
+    FOREIGN KEY (fileId) REFERENCES Files(fileId) ON DELETE CASCADE,
+    FOREIGN KEY (lectureId) REFERENCES Lectures(lectureId) ON DELETE CASCADE
+);
 CREATE TABLE CourseAssistants(
     courseId BIGINT NOT NULL,
     assistantId BIGINT NOT NULL,
@@ -167,15 +176,15 @@ CREATE TABLE ChatMessageInfo(
     FOREIGN KEY (ownerId) REFERENCES Users(userId) ON DELETE CASCADE
 );
 CREATE TABLE Comment (
-  commentId BIGINT AUTO_INCREMENT PRIMARY KEY,
-  repliedToCommentedId BIGINT ,
-  lectureId INTEGER NOT NULL ,
-  authorId BIGINT NOT NULL,
-  content VARCHAR(1023) NOT NUll,
-  createTime VARCHAR(255) NOT NULL,
-  likes BIGINT DEFAULT 0,
-  FOREIGN KEY(authorId) REFERENCES Users(userId) ON DELETE CASCADE,
-  FOREIGN KEY (lectureId) REFERENCES Lectures(lectureId) ON DELETE CASCADE
+    commentId BIGINT AUTO_INCREMENT PRIMARY KEY,
+    repliedToCommentedId BIGINT,
+    lectureId INTEGER NOT NULL,
+    authorId BIGINT NOT NULL,
+    content VARCHAR(1023) NOT NUll,
+    createTime VARCHAR(255) NOT NULL,
+    likes BIGINT DEFAULT 0,
+    FOREIGN KEY(authorId) REFERENCES Users(userId) ON DELETE CASCADE,
+    FOREIGN KEY (lectureId) REFERENCES Lectures(lectureId) ON DELETE CASCADE
 );
 CREATE TABLE IF NOT EXISTS Tasks(
     taskId BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -396,6 +405,14 @@ VALUES (
     );
 insert into Users(userId, userName, password, email, identity)
 VALUES (
+        10,
+        '10',
+        '123456',
+        '44444444@mail.sustech.edu.cn',
+        'student'
+    );
+insert into Users(userId, userName, password, email, identity)
+VALUES (
         8,
         '8',
         '123456',
@@ -410,8 +427,16 @@ VALUES (
         '33333333@mail.sustech.edu.cn',
         'superuser'
     );
-insert into Assignments(assignmentId, publisherId, courseId, lectureId)
-VALUES (1, 1, 1, 1);
+insert into UserCourseInfo(USERID, COURSEID)
+VALUES (7, 1);
+insert into Assignments(
+        assignmentId,
+        assignmentName,
+        publisherId,
+        courseId,
+        lectureId
+    )
+VALUES (1, '123', 1, 1, 1);
 insert into Files(fileId, fileSize, fileUrl, fileName, fileType)
 VALUES (
         1,
@@ -467,3 +492,7 @@ from Users;
 select *
 from Courses;
 call fuzzy_search_result_multi('1,Y,', '', 10);
+select *
+from Files;
+select *
+from Assignments;

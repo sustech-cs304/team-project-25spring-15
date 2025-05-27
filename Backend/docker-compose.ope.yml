@@ -1,0 +1,51 @@
+version: "3.8"
+
+services:
+  app:
+    image: backend-app
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/usr/Document
+      - ./log:/usr/log/
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - backend-net
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == iZuf606f5u1lc2r8cz43i7Z
+      restart_policy:
+        condition: on-failure
+
+  runner:
+    image: backend-runner
+    volumes:
+      - ./data:/usr/Document
+    networks:
+      - backend-net
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == iZuf606f5u1lc2r8cz43i7Z
+      restart_policy:
+        condition: on-failure
+
+  database:
+    image: backend-database
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+    ports:
+      - "3306:3306"
+    networks:
+      - backend-net
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == iZuf606f5u1lc2r8cz43i7Z
+      restart_policy:
+        condition: on-failure
+
+networks:
+  backend-net:
+    driver: overlay

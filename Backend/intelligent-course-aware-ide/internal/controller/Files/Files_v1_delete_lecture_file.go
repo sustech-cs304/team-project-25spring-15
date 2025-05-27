@@ -13,6 +13,7 @@ import (
 func (c *ControllerV1) DeleteLectureFile(ctx context.Context, req *v1.DeleteLectureFileReq) (res *v1.DeleteLectureFileRes, err error) {
 	res = &v1.DeleteLectureFileRes{}
 
+	// Begin transaction
 	tx, err := g.DB().Begin(ctx)
 	if err != nil {
 		return nil, err
@@ -23,35 +24,48 @@ func (c *ControllerV1) DeleteLectureFile(ctx context.Context, req *v1.DeleteLect
 		}
 	}()
 
-	fileExists, err := g.DB().Model("LectureFile").Where("fileId", req.FileId).Count()
+	// Check existence in LectureFiles table
+	count, err := tx.Model("LectureFiles").
+		Where("fileId", req.FileId).
+		Count()
 	if err != nil {
 		return nil, err
 	}
-	if fileExists == 0 {
+	if count == 0 {
 		return nil, gerror.New("Lecture file not found")
 	}
 
-	// delete the record from (table)LectureFiles
-	if _, err = tx.Model("LectureFile").Where("fileId", req.FileId).Delete(); err != nil {
-		return nil, gerror.New("Failed to delete lecture file record")
-	}
-
-	// delete the record from (table)Files
-	if _, err = tx.Model("Files").Where("fileId", req.FileId).Delete(); err != nil {
-		return nil, gerror.New("Failed to delete file record")
-	}
-
+	// Retrieve old file path before deletion
 	var filePath string
-	if err = g.DB().Model("Files").Where("fileId", req.FileId).Fields("storePath").Scan(&filePath); err != nil {
+	if err = tx.Model("Files").
+		Where("fileId", req.FileId).
+		Fields("fileUrl").
+		Scan(&filePath); err != nil {
 		return nil, err
 	}
 
-	if filePath != "" && gfile.Exists(filePath) {
-		_ = gfile.Remove(filePath)
+	// Delete the record from LectureFiles
+	if _, err = tx.Model("LectureFiles").
+		Where("fileId", req.FileId).
+		Delete(); err != nil {
+		return nil, gerror.New("Failed to delete lecture-file association")
 	}
 
+	// Delete the record from Files
+	if _, err = tx.Model("Files").
+		Where("fileId", req.FileId).
+		Delete(); err != nil {
+		return nil, gerror.New("Failed to delete file metadata")
+	}
+
+	// Commit transaction
 	if err = tx.Commit(); err != nil {
 		return nil, err
+	}
+
+	// Finally, remove the physical file (ignore errors)
+	if filePath != "" && gfile.Exists(filePath) {
+		_ = gfile.Remove(filePath)
 	}
 
 	res.Result = true

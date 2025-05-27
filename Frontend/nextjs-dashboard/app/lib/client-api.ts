@@ -1,14 +1,30 @@
 import axios from 'axios';
-import {auth} from "@/auth";
 import { useStore } from '@/store/useStore';
-
-const base_url = 'http://47.117.144.50:8000';
-// 课程相关接口
+import {AiMessage, Assignment} from './definitions';
 
 // 获取认证信息的辅助函数
 async function getAuthHeader() {
   const token = useStore.getState().token;
   return token ? { Authorization: `Bearer ${token}` } : {};
+}
+
+export const AiMessageAPI = {
+  saveMessage: async (message: AiMessage) => {
+    const headers = await getAuthHeader();
+
+    console.log("Saving message from ai...");
+    // const res = await axios.post( //TODO: TO BE SPECIFIED ！！
+    //   `/api/`, message, { headers }
+    // );
+    // return res;
+  },
+  getMessages: async (userId: string, lectureId: string) => {
+    // order is required!!!
+    const headers = await getAuthHeader();
+    console.log("Start fetching messages...");
+    //
+    return [];
+  }
 }
 
 export const CourseWareAPI = {
@@ -80,7 +96,12 @@ export const CourseAPI = {
     }
   },
   // 添加课程
-  addCourse: async (course: { courseName: string; description: string }) => {
+  addCourse: async (course: { 
+    courseName: string; 
+    description: string;
+    startTime?: string;
+    endTime?: string;
+  }) => {
     console.log("Adding course:", course);
     const headers = await getAuthHeader();
     console.log("Headers:", headers)
@@ -88,6 +109,8 @@ export const CourseAPI = {
       course: {
         courseName: course.courseName,
         description: course.description,
+        startTime: course.startTime || new Date().toISOString(),
+        endTime: course.endTime || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
       }
     };
     const response = await axios.post(`/api/course/createCourse`, payload, {headers});
@@ -122,6 +145,51 @@ export const CourseAPI = {
     }
     await axios.put(`/api/course/updateCourse`, payload, {headers});
   },
+
+  // 获取课程的学生列表
+  getCourseStudents: async (courseId: number) => {
+    console.log(`Fetching students for course ID: ${courseId}`);
+    const headers = await getAuthHeader();
+    try {
+      const response = await axios.get(`/api/course/getStudents`, {
+        headers,
+        params: { courseId }
+      });
+      console.log('Fetched students:', response.data);
+      return response.data.data.students || [];
+    } catch (err) {
+      console.error(`Failed to fetch students:`, err);
+      return [];
+    }
+  },
+
+  // 添加学生到课程
+  addStudentToCourse: async (courseId: number, email: string) => {
+    console.log(`Adding student with email ${email} to course ID: ${courseId}`);
+    const headers = await getAuthHeader();
+    const payload = {
+      courseId,
+      studentEmail: email
+    };
+    const response = await axios.post(`/api/course/addStudent`, payload, {headers});
+    console.log('Student added successfully:', response.data);
+    return response.data;
+  },
+
+  // 从课程中移除学生
+  removeStudentFromCourse: async (courseId: number, studentId: number) => {
+    console.log(`Removing student ID ${studentId} from course ID: ${courseId}`);
+    const headers = await getAuthHeader();
+    const response = await axios.delete(`/api/course/removeStudent`, {
+      headers,
+      params: {
+        courseId,
+        studentId
+      }
+    });
+    console.log('Student removed successfully:', response.data);
+    return response.data;
+  }
 };
 
 // 讲座相关接口
@@ -178,12 +246,11 @@ export const LectureAPI = {
 export const CommentAPI = {
   fetchComments : async (lectureId: number) => {
     try {
-      // ✅ 把 lectureId 放到 path 里
       const headers = await getAuthHeader();
       console.log("Fetching comments for lectureId:", lectureId);
       const response = await axios.get(`/api/comment/getComment/${lectureId}`, {headers});
       console.log("获取评论成功:", response.data.data);
-      return response.data.data.comment;
+      return response.data.data.comment || [];
     } catch (error) {
       console.error("获取评论失败:", error);
     }
@@ -191,24 +258,98 @@ export const CommentAPI = {
 
   publishComment: async (
     newCommentData: {
-      lectureId: number,
-      content: string,
-      authorId: number, // todo: 替换为实际的用户 ID
-      createTime: string,
-      repliedToCommentId: number,
+      lectureId: number | null,
+      content: string | null,
+      authorId: number | null,
+      createTime: string | null,
+      repliedToCommentId: number | null,
+    }) => {
+    console.log("Publishing comment with data:", newCommentData);
+    const headers = await getAuthHeader();
+    const payload = {
+      comment: newCommentData
+    };
+    await axios.post(`/api/comment/createComment`, payload, {headers});
+  },
+
+  deleteComment: async (commentId: number, userId: number) => {
+    console.log("Deleting comment with ID:", commentId);
+    const headers = await getAuthHeader();
+    const res = await axios.delete(`/api/comment/deleteComment`, {
+      headers,
+      params: {
+        commentId: commentId,
+        userId: userId
+      }
+    });
+    console.log("Comment deleted successfully:", res.data);
+    return res.data;
+  },
+
+  likeComment: async (
+    payload: {
+      userId: number
+      commentId: number
+      likes: number
     }) => {
     const headers = await getAuthHeader();
-    await axios.post(`/api/comment/createComment`, newCommentData, {headers});
+    await axios.put(`/api/comment/updateComment`, payload, {headers});
   }
+
 }
 
 export const AssignmentAPI = {
   fetchAssignments : async (lectureId: number) => {
+    console.log("Fetching assignments for lectureId:", lectureId);
+    const headers = await getAuthHeader();
     const res = await axios.get(`/api/assignment/getAllAssignmentOfALecture`,
       {
         params: {
           lectureId: lectureId,
-        }
+        },
+        headers
       });
+    console.log("Fetched assignments:", res);
+    return res.data.data.assignments || [];
   },
+
+  createAssignment: async (assignment: Assignment, courseName: string | undefined, chatId: number | undefined) => {
+    const headers = await getAuthHeader();
+    const payload = {
+      assignment: {
+        ...assignment,
+        assignmentName: assignment.title,
+      },
+      courseName: courseName,
+      chatId: chatId,
+    };
+    console.log("Creating assignment:", payload);
+    const res = await axios.post(`/api/assignment/createAssignment`, payload, {headers});
+    console.log("Assignment created successfully:", res.data);
+  },
+
+  updateAssignment: async (assignment: Assignment, courseName: string, chatId: number) => {
+    const headers = await getAuthHeader();
+    console.log("Updating assignment:", assignment);
+    const res = await axios.put(`/api/assignment/updateAssignment`, {
+      assignment: assignment,
+      courseName: courseName,
+      chatId: chatId,
+    }, {headers});
+    console.log("Assignment updated successfully:", res.data);
+  },
+
+  deleteAssignment: async (assignmentId: number, courseId: number) => {
+    const headers = await getAuthHeader();
+    console.log("Deleting assignment with ID:", assignmentId, "for courseId:", courseId);
+    const res = await axios.delete(`/api/assignment/deleteAssignment`, {
+      headers,
+      params: {
+        assignmentId: assignmentId,
+        courseId: courseId,
+      }
+    });
+    console.log("Assignment deleted successfully:", res.data);
+    return res.data;
+  }
 }

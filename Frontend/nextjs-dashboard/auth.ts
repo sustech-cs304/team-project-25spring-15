@@ -55,8 +55,6 @@ export const { auth, signIn, signOut } = NextAuth({
           const responseJson = JSON.parse(responseText) as LoginResponse;
           const data = responseJson.data;
 
-
-
           if (data && typeof data.token === "string" && typeof data.userInfo === "object") {
             const { token, userInfo } = data as { token: string; userInfo: UserInfo };
             // 把 token 和用户信息都返回，token 会存到 session 里

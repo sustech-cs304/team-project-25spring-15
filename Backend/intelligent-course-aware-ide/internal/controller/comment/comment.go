@@ -15,7 +15,7 @@ func CheckUserHasPermissionOfComment(ctx context.Context, userId int64, commentI
 		Fields("AuthorId").
 		Where("commentId", commentId).
 		One()
-	
+
 	if err != nil {
 		return false, err
 	}

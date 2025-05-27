@@ -29,18 +29,7 @@ import axios from "axios";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {CommentAPI, CourseAPI} from "@/app/lib/client-api";
 import { useStore } from "@/store/useStore";
-
-interface Comment {
-  id: number;
-  content: string;
-  authorId: number;
-  authorName: string;
-  createTime: string;
-  likes: number;
-  repliedToCommentId: number | null;
-  repliedToUserId?: number;
-  repliedToUserName?: string;
-}
+import { Comment } from "@/app/lib/definitions";
 
 const getAvatarColor = (userId: number): string => {
   const colors = [
@@ -64,12 +53,15 @@ const mockComments: Comment[] = [
 
 ];
 
-interface CommentViewProps {
-  courseId: number;
-  lectureId: number;
-}
+type CommentViewProps = {
+  courseIdString: string;
+  lectureIdString: string;
+};
 
-export default function CommentView({ courseId, lectureId }: CommentViewProps) {
+export default function CommentView({ courseIdString, lectureIdString }: CommentViewProps) {
+  const courseId = parseInt(courseIdString, 10);
+  const lectureId = parseInt(lectureIdString, 10);
+
   const [comments, setComments] = useState<Comment[]>(mockComments);
   const [newComment, setNewComment] = useState("");
   const [replyTo, setReplyTo] = useState<{ repliedToCommentId: number, repliedToUserName: string } | null>(null);
@@ -81,7 +73,7 @@ export default function CommentView({ courseId, lectureId }: CommentViewProps) {
       try {
         const comments = await CommentAPI.fetchComments(lectureId);
         console.log('Fetched comments in comment-view:', comments);
-        setComments(comments);
+        setComments(comments || []);
       } catch (err) {
         console.error('拉取课程失败', err);
       }
@@ -131,16 +123,16 @@ export default function CommentView({ courseId, lectureId }: CommentViewProps) {
       const newCommentData = {
         lectureId: lectureId,
         content: newComment,
-        authorId: userInfo?.userId, // todo: 替换为实际的用户 ID
+        authorId: userInfo?.userId ? userInfo.userId : null,
         createTime: new Date().toISOString(),
         repliedToCommentId: replyTo ? replyTo.repliedToCommentId : null,
       };
 
-      await axios.post(`/api/comment/createComment`, newCommentData);
+      await CommentAPI.publishComment(newCommentData);
 
       const comments = await CommentAPI.fetchComments(lectureId);
 
-      setComments(comments);
+      setComments(comments || []);
       setNewComment("");
       setReplyTo(null);
       setDialogOpen(false);
@@ -157,22 +149,31 @@ export default function CommentView({ courseId, lectureId }: CommentViewProps) {
     }
 
     try {
-      await axios.delete(`https://m1.apifoxmock.com/m2/5989566-5677982-default/291721414/${commentId}`);
+      const success = CommentAPI.deleteComment(commentId, currentUserId);
+
+      if (!success) {
+        throw new Error("后端 reported 删除失败");
+      }
 
       const comments = await CommentAPI.fetchComments(lectureId);
 
-      setComments(comments);
+      setComments(comments || []);
     } catch (error) {
       console.error("删除评论失败:", error);
     }
   };
 
-  const handleLike = (commentId: number) => {
-    setComments(comments.map(comment =>
-      comment.id === commentId
-        ? { ...comment, likes: comment.likes + 1 }
-        : comment
-    ));
+  const handleLike = async (comment : Comment) => {
+    const payload = {
+      userId: userInfo?.userId? userInfo.userId : 0,
+      commentId: comment.id,
+      likes: comment.likes + 1
+    }
+    CommentAPI.likeComment(payload)
+
+    const comments = await CommentAPI.fetchComments(lectureId);
+
+    setComments(comments || []);
   };
 
   const getReplies = (commentId: number): Comment[] => {
@@ -265,7 +266,7 @@ export default function CommentView({ courseId, lectureId }: CommentViewProps) {
                     <Button
                       size="small"
                       startIcon={<ThumbUpIcon />}
-                      onClick={() => handleLike(comment.id)}
+                      onClick={() => handleLike(comment)}
                     >
                       赞 ({comment.likes})
                     </Button>
@@ -334,7 +335,7 @@ export default function CommentView({ courseId, lectureId }: CommentViewProps) {
                                 <Button
                                   size="small"
                                   startIcon={<ThumbUpIcon />}
-                                  onClick={() => handleLike(reply.id)}
+                                  onClick={() => handleLike(comment)}
                                 >
                                   赞 ({reply.likes})
                                 </Button>

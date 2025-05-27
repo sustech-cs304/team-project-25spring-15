@@ -1,10 +1,22 @@
-import { createDataStreamResponse, streamText, UIMessage } from 'ai';
+import { appendResponseMessages, createDataStreamResponse, streamText, UIMessage } from 'ai';
 
-import { myProvider } from '@/app/lib/definitions';
-import { generateUUID } from '@/app/lib/utils';
+import { AiMessage, myProvider } from '@/app/lib/definitions';
+import { generateUUID, getTrailingMessageId } from '@/app/lib/utils';
 import { systemPrompt } from '@/app/lib/prompts';
+import { auth } from '@/auth';
+import { AiMessageAPI } from '@/app/lib/client-api';
 
 export async function POST(req: Request) {
+  const session = await auth();
+  const userId = session?.user?.userId;
+
+  if (!userId) {
+    return new Response(JSON.stringify({ error: "Unauthorized" }), {
+      status: 401,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
   const {
     id,
     messages,
@@ -14,6 +26,20 @@ export async function POST(req: Request) {
     messages: Array<UIMessage>;
     selectedChatModel: string;
   } = await req.json();
+
+  console.log("message: ", messages);
+  const lastMessage = messages[messages.length - 1];
+
+  const message: AiMessage = {
+    id: generateUUID(),
+    chatId: id,
+    userId: userId,
+    role: 'user',
+    parts: lastMessage.parts, // 复制parts部分，包括reasoning
+    createdAt: new Date(),
+  };
+  const res = await AiMessageAPI.saveMessage(message);
+  // if (res.ok()) TODO
 
   return createDataStreamResponse({
     execute: (dataStream) => {
@@ -39,6 +65,36 @@ export async function POST(req: Request) {
         //     dataStream,
         //   }),
         // },
+        onFinish: async ({ response }) => {
+          try {
+            const assistantId = getTrailingMessageId({
+              messages: response.messages.filter(
+                (message) => message.role === 'assistant',
+              ),
+            });
+            console.log("assistant id: ", assistantId);
+
+            if (!assistantId) {
+              throw new Error('No assistant message found!');
+            }
+            const [, assistantMessage] = appendResponseMessages({
+              messages: [lastMessage],
+              responseMessages: response.messages,
+            });
+            console.log("assistant message: ", assistantMessage);
+
+            await AiMessageAPI.saveMessage({
+                id: assistantId,
+                userId: userId,
+                chatId: id,
+                role: assistantMessage.role,
+                parts: assistantMessage.parts,
+                createdAt: new Date(),
+              });
+          } catch (e) {
+            console.error('Failed to save chat');
+          }
+        }
       });
 
       result.consumeStream();

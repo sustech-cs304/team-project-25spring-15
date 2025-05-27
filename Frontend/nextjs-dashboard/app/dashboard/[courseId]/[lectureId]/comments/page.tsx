@@ -1,18 +1,16 @@
+// app/dashboard/[courseId]/[lectureId]/comments/page.tsx
+type Params = Promise<{ courseId: string; lectureId: string }>;
+
 import CommentView from "@/app/ui/lecture/comment-view";
 
-interface PageProps {
-  params: {
-    courseId: number;
-    lectureId: number;
-  };
-}
-
-export default function Page({ params }: PageProps) {
-  const { courseId, lectureId } = params;
+export default async function Page({params}: { params: Params }) {
+  const { courseId, lectureId }: { courseId: string; lectureId: string } = await params;
 
   return (
     <main>
-      <CommentView courseId={courseId} lectureId={lectureId} />
+      <CommentView
+        courseIdString={courseId || '1'} lectureIdString={lectureId}
+      />
     </main>
   );
 }
