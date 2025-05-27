@@ -103,7 +103,7 @@ export interface Comment {
 export interface Assignment {
   assignmentId: number;
   publisherId: number;
-  title: string;
+  assignmentName: string;
   description: string;
   deadline: string;
   score: number;

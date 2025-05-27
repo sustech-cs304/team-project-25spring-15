@@ -3,7 +3,7 @@ import { useStore } from '@/store/useStore';
 import {AiMessage, Assignment} from './definitions';
 
 // 获取认证信息的辅助函数
-async function getAuthHeader() {
+export async function getAuthHeader() {
   const token = useStore.getState().token;
   return token ? { Authorization: `Bearer ${token}` } : {};
 }
@@ -96,13 +96,12 @@ export const CourseAPI = {
     }
   },
   // 添加课程
-  addCourse: async (course: { 
-    courseName: string; 
+  addCourse: async (course: {
+    courseName: string;
     description: string;
     startTime?: string;
     endTime?: string;
   }) => {
-    console.log("Adding course:", course);
     const headers = await getAuthHeader();
     console.log("Headers:", headers)
     const payload = {
@@ -113,6 +112,7 @@ export const CourseAPI = {
         endTime: course.endTime || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
       }
     };
+    console.log("Adding course:", payload);
     const response = await axios.post(`/api/course/createCourse`, payload, {headers});
     console.log("Course added successfully:", response);
   },
@@ -151,9 +151,8 @@ export const CourseAPI = {
     console.log(`Fetching students for course ID: ${courseId}`);
     const headers = await getAuthHeader();
     try {
-      const response = await axios.get(`/api/course/getStudents`, {
+      const response = await axios.get(`/api/course/getAllStudentsOfACourse/${courseId}`, {
         headers,
-        params: { courseId }
       });
       console.log('Fetched students:', response.data);
       return response.data.data.students || [];
@@ -169,9 +168,10 @@ export const CourseAPI = {
     const headers = await getAuthHeader();
     const payload = {
       courseId,
-      studentEmail: email
+      studentsEmail: [email]
     };
-    const response = await axios.post(`/api/course/addStudent`, payload, {headers});
+    console.log('Payload for adding student:', payload);
+    const response = await axios.post(`/api/course/addStudents`, payload, {headers});
     console.log('Student added successfully:', response.data);
     return response.data;
   },
@@ -194,6 +194,22 @@ export const CourseAPI = {
 
 // 讲座相关接口
 export const LectureAPI = {
+  // 获取课程的所有讲座
+  fetchLecturesByCourse: async (courseId: number) => {
+    console.log(`Fetching lectures for course ID: ${courseId}`);
+    const headers = await getAuthHeader();
+    try {
+      const response = await axios.get(`/api/lecture/getLectures/${courseId}`, {
+        headers
+      });
+      console.log('Fetched lectures for course:', response.data);
+      return response.data.data.lectures || [];
+    } catch (err) {
+      console.error(`Failed to fetch lectures for course ID ${courseId}:`, err);
+      return [];
+    }
+  },
+
   // 添加讲座
   addLecture: async (
     courseId: number,
@@ -318,7 +334,6 @@ export const AssignmentAPI = {
     const payload = {
       assignment: {
         ...assignment,
-        assignmentName: assignment.title,
       },
       courseName: courseName,
       chatId: chatId,
@@ -350,6 +365,42 @@ export const AssignmentAPI = {
       }
     });
     console.log("Assignment deleted successfully:", res.data);
+    return res.data;
+  }
+}
+
+export const FileAPI = {
+  uploadFile: async (file: File, lectureId: number) => {
+    const headers = await getAuthHeader();
+
+    const formData = new FormData();
+    formData.append("lectureId", lectureId.toString());
+    formData.append("file", file);
+
+    try {
+      const res = await axios.post(`/api/Files/lectureFile/upload`, formData, { headers });
+
+      console.log("File uploaded successfully:", res.data);
+
+      // 确保返回格式符合API文档
+      return {
+        result: res.data.result,
+        fileId: res.data.fileId
+      };
+    } catch (error) {
+      console.error("File upload failed:", error);
+      throw error;
+    }
+  },
+
+  getFile: async (lectureId: number) => {
+    const headers = await getAuthHeader();
+    console.log("Fetching file for lectureId:", lectureId);
+    const res = await axios.get(`/api/Files/lectureFile/lecture/${lectureId}`, {
+      headers,
+      responseType: 'blob'
+    });
+    console.log("File fetched successfully:", res.data);
     return res.data;
   }
 }

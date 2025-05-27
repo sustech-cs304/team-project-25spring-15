@@ -74,10 +74,12 @@ export default function ExercisesList({
 
   // 简单过滤示例：可根据实际字段扩展
   const filtered = exercises.filter((ex) => {
-    if (searchText && !ex.title.includes(searchText)) return false;
+    if (searchText && !ex.assignmentName.includes(searchText)) return false;
     // TODO: 根据 tabValue 筛选
     return true;
   });
+
+  console.log("Filtered exercises:", filtered);
 
   return (
     <TaskListContainer>
@@ -104,9 +106,9 @@ export default function ExercisesList({
         {filtered.map((ex) => (
           <TaskRow key={ex.assignmentId}>
             <Box sx={{ flexGrow: 1 }} onClick={() => onExerciseClick(ex.assignmentId)}>
-              <Typography variant="body1">{ex.assignmentId}</Typography>
+              <Typography variant="body1">{ex.assignmentName}</Typography>
               <Typography variant="body2" color="textSecondary">
-                截止时间: {new Date(ex.deadline).toLocaleString()}
+                截止时间: {new Date(ex.deadline.replace(' ', 'T')).toLocaleString()}
               </Typography>
             </Box>
             <IconButton size="small" onClick={() => onEditClick(ex)}>
