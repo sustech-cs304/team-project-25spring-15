@@ -8,7 +8,7 @@ package entity
 type Comment struct {
 	CommentId            int64  `json:"commentId"            orm:"commentId"            description:""` //
 	RepliedToCommentedId int64  `json:"repliedToCommentedId" orm:"repliedToCommentedId" description:""` //
-	LectureId            int64  `json:"lectureId"            orm:"lectureId"            description:""` //
+	LectureId            int    `json:"lectureId"            orm:"lectureId"            description:""` //
 	AuthorId             int64  `json:"authorId"             orm:"authorId"             description:""` //
 	Content              string `json:"content"              orm:"content"              description:""` //
 	CreateTime           string `json:"createTime"           orm:"createTime"           description:""` //

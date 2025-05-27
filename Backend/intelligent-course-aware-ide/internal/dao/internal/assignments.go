@@ -20,24 +20,26 @@ type AssignmentsDao struct {
 
 // AssignmentsColumns defines and stores column names for the table Assignments.
 type AssignmentsColumns struct {
-	AssignmentId string //
-	PublisherId  string //
-	CourseId     string //
-	LectureId    string //
-	Description  string //
-	DeadLine     string //
-	Completeness string //
+	AssignmentId   string //
+	AssignmentName string //
+	PublisherId    string //
+	CourseId       string //
+	LectureId      string //
+	Description    string //
+	DeadLine       string //
+	Completeness   string //
 }
 
 // assignmentsColumns holds the columns for the table Assignments.
 var assignmentsColumns = AssignmentsColumns{
-	AssignmentId: "assignmentId",
-	PublisherId:  "publisherId",
-	CourseId:     "courseId",
-	LectureId:    "lectureId",
-	Description:  "description",
-	DeadLine:     "deadLine",
-	Completeness: "completeness",
+	AssignmentId:   "assignmentId",
+	AssignmentName: "assignmentName",
+	PublisherId:    "publisherId",
+	CourseId:       "courseId",
+	LectureId:      "lectureId",
+	Description:    "description",
+	DeadLine:       "deadLine",
+	Completeness:   "completeness",
 }
 
 // NewAssignmentsDao creates and returns a new DAO object for table data access.
