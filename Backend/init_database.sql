@@ -454,11 +454,29 @@ VALUES (
         '1'
     );
 insert into Files(fileId, fileSize, fileUrl, fileName, fileType)
-VALUES (3, 1, '/usr/Document/answer_1.txt', 'answer_1', '1');
+VALUES (
+        3,
+        1,
+        '/usr/Document/answer_1.txt',
+        'answer_1',
+        '1'
+    );
 insert into Files(fileId, fileSize, fileUrl, fileName, fileType)
-VALUES (4, 1, '/usr/Document/answer_2.txt', 'answer_2', '1');
+VALUES (
+        4,
+        1,
+        '/usr/Document/answer_2.txt',
+        'answer_2',
+        '1'
+    );
 insert into Files(fileId, fileSize, fileUrl, fileName, fileType)
-VALUES (5, 1, '/usr/Document/attempt.py', 'attempt.py', '1');
+VALUES (
+        5,
+        1,
+        '/usr/Document/attempt.py',
+        'attempt.py',
+        '1'
+    );
 insert into TestcaseAndAnswerFiles(
         testcaseAndAnswerId,
         assignmentId,
