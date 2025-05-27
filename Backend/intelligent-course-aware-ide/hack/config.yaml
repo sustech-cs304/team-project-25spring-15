@@ -4,6 +4,7 @@
 gfcli:
   gen:
     dao:
+      # - link: "mysql:root:123456@tcp(backend-database-1:3306)/mysqlTest"
       - link: "mysql:root:123456@tcp(backend-database-1:3306)/mysqlTest"
         descriptionTag: true
 

@@ -6,7 +6,7 @@ import "time"
 const TargetUrl string = "http://47.117.144.50:8000"
 
 // Database dockerName
-const TargetDockerName string = "backend-runner-1"
+const TargetDockerName string = "$(docker ps -q --filter ancestor=backend-runner | head -n 1)"
 
 // Python dockerName
 const TargetPythonDockerName string = TargetDockerName
