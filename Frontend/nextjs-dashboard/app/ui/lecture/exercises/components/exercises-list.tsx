@@ -104,7 +104,7 @@ export default function ExercisesList({
         {filtered.map((ex) => (
           <TaskRow key={ex.assignmentId}>
             <Box sx={{ flexGrow: 1 }} onClick={() => onExerciseClick(ex.assignmentId)}>
-              <Typography variant="body1">{ex.title}</Typography>
+              <Typography variant="body1">{ex.assignmentId}</Typography>
               <Typography variant="body2" color="textSecondary">
                 截止时间: {new Date(ex.deadline).toLocaleString()}
               </Typography>

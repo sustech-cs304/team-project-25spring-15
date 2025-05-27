@@ -37,7 +37,7 @@ export default function ExercisesContainer() {
   const fetchExercises = async () => {
     setLoading(true);
     try {
-      const exercises = await AssignmentAPI.fetchAssignments(selectedId); // 传入课程ID或其他参数
+      const exercises = await AssignmentAPI.fetchAssignments(selectedLectureId); // 传入课程ID或其他参数
       setExercises(exercises);
     } finally {
       setLoading(false);
