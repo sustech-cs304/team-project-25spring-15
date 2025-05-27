@@ -22,9 +22,6 @@ var jieba *gojieba.Jieba
 func init() {
 	jieba = gojieba.NewJieba()
 }
-func cleanup() {
-	jieba.Free()
-}
 func (c *ControllerV1) GetHotWords(ctx context.Context, req *v1.GetHotWordsReq) (res *v1.GetHotWordsRes, err error) {
 	commentRes, err := c.GetComment(ctx, &v1.GetCommentReq{LectureId: req.LectureId})
 	if err != nil {
@@ -59,5 +56,5 @@ func (c *ControllerV1) GetHotWords(ctx context.Context, req *v1.GetHotWordsReq) 
 	res = &v1.GetHotWordsRes{
 		List: list,
 	}
-	return
+	return res,err
 }
