@@ -1,4 +1,4 @@
-n = 5
+n = 3
 while n != 1:
     print(n)
     if n % 2 == 0:

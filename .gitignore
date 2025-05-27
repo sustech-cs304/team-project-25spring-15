@@ -24,3 +24,4 @@ Backend/intelligent-course-aware-ide/internal/model/entity/shared_file_partners.
 Backend/intelligent-course-aware-ide/internal/logic/socket/*
 Backend/intelligent-course-aware-ide/internal/boot/*
 Backend/intelligent-course-aware-ide/internal/router/*
+venv

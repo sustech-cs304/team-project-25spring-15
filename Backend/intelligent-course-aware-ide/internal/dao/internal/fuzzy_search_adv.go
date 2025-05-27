@@ -13,10 +13,9 @@ import (
 
 // FuzzySearchAdvDao is the data access object for the table fuzzy_search_adv.
 type FuzzySearchAdvDao struct {
-	table    string                // table is the underlying table name of the DAO.
-	group    string                // group is the database configuration group name of the current DAO.
-	columns  FuzzySearchAdvColumns // columns contains all the column names of Table for convenient usage.
-	handlers []gdb.ModelHandler    // handlers for customized model modification.
+	table   string                // table is the underlying table name of the DAO.
+	group   string                // group is the database configuration group name of the current DAO.
+	columns FuzzySearchAdvColumns // columns contains all the column names of Table for convenient usage.
 }
 
 // FuzzySearchAdvColumns defines and stores column names for the table fuzzy_search_adv.
@@ -40,12 +39,11 @@ var fuzzySearchAdvColumns = FuzzySearchAdvColumns{
 }
 
 // NewFuzzySearchAdvDao creates and returns a new DAO object for table data access.
-func NewFuzzySearchAdvDao(handlers ...gdb.ModelHandler) *FuzzySearchAdvDao {
+func NewFuzzySearchAdvDao() *FuzzySearchAdvDao {
 	return &FuzzySearchAdvDao{
-		group:    "default",
-		table:    "fuzzy_search_adv",
-		columns:  fuzzySearchAdvColumns,
-		handlers: handlers,
+		group:   "default",
+		table:   "fuzzy_search_adv",
+		columns: fuzzySearchAdvColumns,
 	}
 }
 
@@ -71,11 +69,7 @@ func (dao *FuzzySearchAdvDao) Group() string {
 
 // Ctx creates and returns a Model for the current DAO. It automatically sets the context for the current operation.
 func (dao *FuzzySearchAdvDao) Ctx(ctx context.Context) *gdb.Model {
-	model := dao.DB().Model(dao.table)
-	for _, handler := range dao.handlers {
-		model = handler(model)
-	}
-	return model.Safe().Ctx(ctx)
+	return dao.DB().Model(dao.table).Safe().Ctx(ctx)
 }
 
 // Transaction wraps the transaction logic using function f.

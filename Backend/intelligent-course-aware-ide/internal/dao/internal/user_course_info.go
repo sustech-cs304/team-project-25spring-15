@@ -13,10 +13,9 @@ import (
 
 // UserCourseInfoDao is the data access object for the table UserCourseInfo.
 type UserCourseInfoDao struct {
-	table    string                // table is the underlying table name of the DAO.
-	group    string                // group is the database configuration group name of the current DAO.
-	columns  UserCourseInfoColumns // columns contains all the column names of Table for convenient usage.
-	handlers []gdb.ModelHandler    // handlers for customized model modification.
+	table   string                // table is the underlying table name of the DAO.
+	group   string                // group is the database configuration group name of the current DAO.
+	columns UserCourseInfoColumns // columns contains all the column names of Table for convenient usage.
 }
 
 // UserCourseInfoColumns defines and stores column names for the table UserCourseInfo.
@@ -32,12 +31,11 @@ var userCourseInfoColumns = UserCourseInfoColumns{
 }
 
 // NewUserCourseInfoDao creates and returns a new DAO object for table data access.
-func NewUserCourseInfoDao(handlers ...gdb.ModelHandler) *UserCourseInfoDao {
+func NewUserCourseInfoDao() *UserCourseInfoDao {
 	return &UserCourseInfoDao{
-		group:    "default",
-		table:    "UserCourseInfo",
-		columns:  userCourseInfoColumns,
-		handlers: handlers,
+		group:   "default",
+		table:   "UserCourseInfo",
+		columns: userCourseInfoColumns,
 	}
 }
 
@@ -63,11 +61,7 @@ func (dao *UserCourseInfoDao) Group() string {
 
 // Ctx creates and returns a Model for the current DAO. It automatically sets the context for the current operation.
 func (dao *UserCourseInfoDao) Ctx(ctx context.Context) *gdb.Model {
-	model := dao.DB().Model(dao.table)
-	for _, handler := range dao.handlers {
-		model = handler(model)
-	}
-	return model.Safe().Ctx(ctx)
+	return dao.DB().Model(dao.table).Safe().Ctx(ctx)
 }
 
 // Transaction wraps the transaction logic using function f.
