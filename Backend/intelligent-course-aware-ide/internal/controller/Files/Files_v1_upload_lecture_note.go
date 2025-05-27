@@ -43,7 +43,7 @@ func (c *ControllerV1) UploadLectureNote(ctx context.Context, req *v1.UploadLect
 	originalName := req.File.Filename
 	ext := filepath.Ext(originalName)
 	uniqueName := guid.S() + ext
-	var fullPath string = consts.PathForLecture + uniqueName
+	fullPath := filepath.Join(consts.PathForLecture, uniqueName)
 	if _, err = req.File.Save(fullPath); err != nil {
 		return nil, gerror.New("Failed to save file")
 	}
