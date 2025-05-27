@@ -44,6 +44,14 @@ type StoreHistoriesReq struct {
 type StoreHistoriesRes struct {
 }
 
+type StoreMessageReq struct {
+	g.Meta           `path:"/api/ai/chat/message/store" method:"post" tags:"AI" summary:"Store chat histories in batch"`
+	StoreHistoryItem `json:"data" v:"required"`
+}
+
+type StoreMessageRes struct {
+}
+
 type GetHistoriesReq struct {
 	g.Meta    `path:"/api/ai/chat/history/get" method:"get" tags:"AI" summary:"Get chat histories in batch"`
 	LectureId int64 `v:"required" dc:"an unique lecture id"`
