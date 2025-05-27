@@ -84,7 +84,7 @@ export default function PdfView({ courseId, lectureId }: PdfViewProps) {
       const blob = await CourseWareAPI.getPdf(lectureId);
       const fileBlob = blob.data;
       const fileUrl = URL.createObjectURL(fileBlob);
-      // setFileUrl()
+      setFileUrl(fileUrl);
     } catch {
       alert("上传出错");
     } finally {
