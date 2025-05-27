@@ -40,11 +40,11 @@ func (c *ControllerV1) UploadLectureFile(ctx context.Context, req *v1.UploadLect
 	}
 	existingFileId := gconv.Int64(idValue) // 0 表示无记录
 
-	// Generate a unique file name and save it
+	/// Generate a unique file name and save it
 	originalName := req.File.Filename
 	ext := filepath.Ext(originalName)
 	uniqueName := guid.S() + ext
-	var fullPath string = consts.PathForLecture + uniqueName
+	fullPath := filepath.Join(consts.PathForLecture, uniqueName)
 	if _, err = req.File.Save(fullPath); err != nil {
 		return nil, gerror.New("Failed to save file")
 	}
