@@ -4,7 +4,7 @@
 gfcli:
   gen:
     dao:
-      - link: "mysql:root:200481@tcp(127.0.0.1:3306)/software"
+      - link: "mysql:root:123456@tcp(backend-database-1:3306)/mysqlTest"
         descriptionTag: true
 
   docker:
