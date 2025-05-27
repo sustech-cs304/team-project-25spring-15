@@ -156,8 +156,8 @@ type ApplyToJoinCourseRes struct {
 
 type AddStudentsIntoCourseReq struct {
 	g.Meta        `path:"/api/course/addStudents" method:"post" tags:"Course" summary:"add students into the course"`
-	CourseId      int64   `json:"courseId" dc:"Id of the course"`
-	StudentsEmail []int64 `json:"studentsEmail" dc:"Email of students to add into the course"`
+	CourseId      int64    `json:"courseId" dc:"Id of the course"`
+	StudentsEmail []string `json:"studentsEmail" dc:"Email of students to add into the course"`
 }
 
 type AddStudentsIntoCourseRes struct {

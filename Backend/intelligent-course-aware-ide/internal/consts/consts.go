@@ -23,6 +23,9 @@ const PathForHost string = "/usr/Document/"
 // Default path of script on docker
 const PathForDocker string = "/usr/Document/"
 
+// Default direction of lecture file, including courseware/note
+const PathForLecture string = "/usr/Document/lecture/"
+
 // Path of testcase
 const TestTestcase string = "/usr/test/testcase.txt"
 
