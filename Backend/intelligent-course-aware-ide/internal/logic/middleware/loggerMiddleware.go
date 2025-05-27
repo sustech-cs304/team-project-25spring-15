@@ -38,7 +38,7 @@ func LoggerMiddleware(r *ghttp.Request) {
 		}
 	}
 
-	g.Log().Debugf(ctx, "\n")
+	g.Log().Debugf(ctx, "")
 	// 放行请求
 	r.Middleware.Next()
 }
