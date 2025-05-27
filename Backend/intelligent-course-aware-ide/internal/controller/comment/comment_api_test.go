@@ -15,6 +15,7 @@ func Test_CreateComment(t *testing.T) {
 	newcomment := v1.CommentInfo{
 		LectureId:  1,
 		AuthorId:   1,
+		RepliedToCommentId: 1,
 		Content:    "我是爱你的",
 		CreateTime: "2025-05-25 19:28",
 		Likes:      1,
@@ -48,6 +49,7 @@ func Test_GetComment(t *testing.T) {
 	gtest.C(t, func(t *gtest.T) {
 		res, err := ctrl.GetComment(context.Background(), req)
 		t.AssertNil(err)
+		fmt.Println(res.Comments[1])
 		t.Assert(res.Comments[0].Content, "我想回复")
 	})
 }

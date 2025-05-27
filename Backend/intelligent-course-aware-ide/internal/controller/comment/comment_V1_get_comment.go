@@ -14,7 +14,7 @@ func (c *ControllerV1) GetComment(ctx context.Context, req *v1.GetCommentReq) (r
 	res = &v1.GetCommentRes{}
 	err = dao.Comment.Ctx(ctx).As("c").
 		LeftJoin(dao.Users.Table()+" as u1", "u1.userId = c.authorId").
-		LeftJoin(dao.Comment.Table()+" as parent", "parent.authorId = c.repliedToCommentId").
+		LeftJoin(dao.Comment.Table()+" as parent", "parent.commentId = c.repliedToCommentId").
 		LeftJoin(dao.Users.Table()+" as u2", "u2.userId = parent.authorId").
 		Where("c.lectureId = ?", req.LectureId).
 		Fields(`
