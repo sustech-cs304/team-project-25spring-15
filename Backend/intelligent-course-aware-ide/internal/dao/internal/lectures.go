@@ -13,10 +13,9 @@ import (
 
 // LecturesDao is the data access object for the table Lectures.
 type LecturesDao struct {
-	table    string             // table is the underlying table name of the DAO.
-	group    string             // group is the database configuration group name of the current DAO.
-	columns  LecturesColumns    // columns contains all the column names of Table for convenient usage.
-	handlers []gdb.ModelHandler // handlers for customized model modification.
+	table   string          // table is the underlying table name of the DAO.
+	group   string          // group is the database configuration group name of the current DAO.
+	columns LecturesColumns // columns contains all the column names of Table for convenient usage.
 }
 
 // LecturesColumns defines and stores column names for the table Lectures.
@@ -36,12 +35,11 @@ var lecturesColumns = LecturesColumns{
 }
 
 // NewLecturesDao creates and returns a new DAO object for table data access.
-func NewLecturesDao(handlers ...gdb.ModelHandler) *LecturesDao {
+func NewLecturesDao() *LecturesDao {
 	return &LecturesDao{
-		group:    "default",
-		table:    "Lectures",
-		columns:  lecturesColumns,
-		handlers: handlers,
+		group:   "default",
+		table:   "Lectures",
+		columns: lecturesColumns,
 	}
 }
 
@@ -67,11 +65,7 @@ func (dao *LecturesDao) Group() string {
 
 // Ctx creates and returns a Model for the current DAO. It automatically sets the context for the current operation.
 func (dao *LecturesDao) Ctx(ctx context.Context) *gdb.Model {
-	model := dao.DB().Model(dao.table)
-	for _, handler := range dao.handlers {
-		model = handler(model)
-	}
-	return model.Safe().Ctx(ctx)
+	return dao.DB().Model(dao.table).Safe().Ctx(ctx)
 }
 
 // Transaction wraps the transaction logic using function f.
