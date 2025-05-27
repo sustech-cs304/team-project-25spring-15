@@ -8,6 +8,7 @@ DROP TABLE IF EXISTS AssignmentUserFeedback;
 DROP TABLE IF EXISTS UserFileInfo;
 DROP TABLE IF EXISTS CourseAssistants;
 DROP TABLE IF EXISTS LectureFiles;
+DROP TABLE IF EXISTS LectureNoteFiles;
 DROP TABLE IF EXISTS AssignmentFiles;
 DROP TABLE IF EXISTS Files;
 DROP TABLE IF EXISTS Assignments;
@@ -116,6 +117,13 @@ CREATE TABLE UserFileInfo(
     FOREIGN KEY (fileId) REFERENCES Files(fileId) ON DELETE CASCADE
 );
 CREATE TABLE LectureFiles(
+    fileId BIGINT NOT NULL,
+    lectureId INTEGER NOT NULL,
+    PRIMARY KEY (fileId, lectureId),
+    FOREIGN KEY (fileId) REFERENCES Files(fileId) ON DELETE CASCADE,
+    FOREIGN KEY (lectureId) REFERENCES Lectures(lectureId) ON DELETE CASCADE
+);
+CREATE TABLE LectureNoteFiles(
     fileId BIGINT NOT NULL,
     lectureId INTEGER NOT NULL,
     PRIMARY KEY (fileId, lectureId),
@@ -391,6 +399,8 @@ VALUES (6, '6', '123456', '6', 'student');
 insert into Users(userId, userName, password, email, identity)
 VALUES (7, '7', '123456', '11111111@mail.sustech.edu.cn', 'student');
 insert into Users(userId, userName, password, email, identity)
+VALUES (10, '10', '123456', '44444444@mail.sustech.edu.cn', 'student');
+insert into Users(userId, userName, password, email, identity)
 VALUES (8, '8', '123456', '22222222@mail.sustech.edu.cn', 'teacher');
 insert into Users(userId, userName, password, email, identity)
 VALUES (9, '9', '123456', '33333333@mail.sustech.edu.cn', 'superuser');
@@ -409,4 +419,5 @@ select * from Users;
 select * from Courses;
 
 call fuzzy_search_result_multi('1,Y,','',10);
-select * from Comment;
+select * from Files;
+select * from Assignments;
