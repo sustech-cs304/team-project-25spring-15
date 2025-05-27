@@ -17,8 +17,6 @@ func (c *ControllerV1) GetCourseWithLecturesByStudentId(ctx context.Context, req
 		return res, err
 	}
 	if courseList == nil {
-		var courses []v1.CourseInfoWithLecture
-		res.Courses = courses
 		return res, nil
 	}
 	for _, studentCourseInfo := range courseList {

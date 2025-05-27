@@ -344,3 +344,255 @@ Fetched Comments: []
 2025-05-27T09:17:08.431Z [DEBU] {29b52cc9a057431845c747308f92ffa1} Request started: /api/comment/getComment/1
 Fetched Comments: []
 2025-05-27T09:26:15.531Z [DEBU] {c909e32a2058431847c74730cc9195ed} Request started: /
+2025-05-27T09:46:40.239Z [DEBU] {ff6a2b513d59431848c74730cda7b62f} Request started: /api/assignment/getAllAssignmentOfALecture
+2025-05-27T09:46:40.372Z [DEBU] {beb213593d5943184ac74730fd541340} Request started: /api/exercises
+2025-05-27T09:48:14.175Z [DEBU] {16813130535943184bc74730611c5043} Request started: /api/Files/lectureFile/lecture/1
+2025-05-27T09:48:14.182Z [ERRO] {16813130535943184bc74730611c5043} Error occurred: 对应的文件不存在 
+Stack:
+1.  intelligent-course-aware-ide/internal/cmd.init.func1.1
+    /app/internal/cmd/cmd.go:50
+2.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
+    /app/internal/logic/middleware/cors.go:15
+
+2025-05-27T09:48:14.182Z [ERRO] {16813130535943184bc74730611c5043} Panic recovered: exit 
+Stack:
+1.  intelligent-course-aware-ide/internal/cmd.init.func1.1.1
+    /app/internal/cmd/cmd.go:35
+2.  intelligent-course-aware-ide/internal/cmd.init.func1.1
+    /app/internal/cmd/cmd.go:51
+3.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
+    /app/internal/logic/middleware/cors.go:15
+
+2025-05-27T09:48:14.183Z {16813130535943184bc74730611c5043} 500 "GET http 47.117.144.50:8000 /api/Files/lectureFile/lecture/1 HTTP/1.1" 7548.044, 110.65.147.206, "http://localhost:3000/dashboard/1/1/courseware", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36", -1, "", ""
+Stack:
+1. 对应的文件不存在
+   1).  intelligent-course-aware-ide/internal/controller/Files.(*ControllerV1).GetFileWithLectureId
+        /app/internal/controller/Files/Files_v1_get_file_with_lecture_id.go:25
+   2).  intelligent-course-aware-ide/internal/logic/middleware.Auth
+        /app/internal/logic/middleware/auth.go:52
+   3).  intelligent-course-aware-ide/internal/cmd.init.func1.1
+        /app/internal/cmd/cmd.go:46
+   4).  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
+        /app/internal/logic/middleware/cors.go:15
+
+2025-05-27T09:48:14.275Z [DEBU] {32fd2136535943184dc74730705f1eda} Request started: /api/Files/lectureFile/lecture/1
+2025-05-27T09:48:14.278Z [ERRO] {32fd2136535943184dc74730705f1eda} Error occurred: 对应的文件不存在 
+Stack:
+1.  intelligent-course-aware-ide/internal/cmd.init.func1.1
+    /app/internal/cmd/cmd.go:50
+2.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
+    /app/internal/logic/middleware/cors.go:15
+
+2025-05-27T09:48:14.278Z [ERRO] {32fd2136535943184dc74730705f1eda} Panic recovered: exit 
+Stack:
+1.  intelligent-course-aware-ide/internal/cmd.init.func1.1.1
+    /app/internal/cmd/cmd.go:35
+2.  intelligent-course-aware-ide/internal/cmd.init.func1.1
+    /app/internal/cmd/cmd.go:51
+3.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
+    /app/internal/logic/middleware/cors.go:15
+
+2025-05-27T09:48:14.279Z {32fd2136535943184dc74730705f1eda} 500 "GET http 47.117.144.50:8000 /api/Files/lectureFile/lecture/1 HTTP/1.1" 3827.642, 110.65.147.206, "http://localhost:3000/dashboard/1/1/courseware", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36", -1, "", ""
+Stack:
+1. 对应的文件不存在
+   1).  intelligent-course-aware-ide/internal/controller/Files.(*ControllerV1).GetFileWithLectureId
+        /app/internal/controller/Files/Files_v1_get_file_with_lecture_id.go:25
+   2).  intelligent-course-aware-ide/internal/logic/middleware.Auth
+        /app/internal/logic/middleware/auth.go:52
+   3).  intelligent-course-aware-ide/internal/cmd.init.func1.1
+        /app/internal/cmd/cmd.go:46
+   4).  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
+        /app/internal/logic/middleware/cors.go:15
+
+2025-05-27T09:48:32.182Z [DEBU] {ec947e61575943184fc74730e52f3276} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-27T09:48:33.204Z [DEBU] {3bf5689e5759431851c74730cfdc6afe} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-27T09:48:33.559Z [DEBU] {be418db35759431853c7473069c47d4e} Request started: /api/Files/lectureFile/lecture/1
+2025-05-27T09:48:33.562Z [ERRO] {be418db35759431853c7473069c47d4e} Error occurred: 对应的文件不存在 
+Stack:
+1.  intelligent-course-aware-ide/internal/cmd.init.func1.1
+    /app/internal/cmd/cmd.go:50
+2.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
+    /app/internal/logic/middleware/cors.go:15
+
+2025-05-27T09:48:33.563Z [ERRO] {be418db35759431853c7473069c47d4e} Panic recovered: exit 
+Stack:
+1.  intelligent-course-aware-ide/internal/cmd.init.func1.1.1
+    /app/internal/cmd/cmd.go:35
+2.  intelligent-course-aware-ide/internal/cmd.init.func1.1
+    /app/internal/cmd/cmd.go:51
+3.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
+    /app/internal/logic/middleware/cors.go:15
+
+2025-05-27T09:48:33.563Z {be418db35759431853c7473069c47d4e} 500 "GET http 47.117.144.50:8000 /api/Files/lectureFile/lecture/1 HTTP/1.1" 4193.668, 110.65.147.206, "http://localhost:3000/dashboard/1/1/courseware", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36", -1, "", ""
+Stack:
+1. 对应的文件不存在
+   1).  intelligent-course-aware-ide/internal/controller/Files.(*ControllerV1).GetFileWithLectureId
+        /app/internal/controller/Files/Files_v1_get_file_with_lecture_id.go:25
+   2).  intelligent-course-aware-ide/internal/logic/middleware.Auth
+        /app/internal/logic/middleware/auth.go:52
+   3).  intelligent-course-aware-ide/internal/cmd.init.func1.1
+        /app/internal/cmd/cmd.go:46
+   4).  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
+        /app/internal/logic/middleware/cors.go:15
+
+2025-05-27T09:49:47.498Z [DEBU] {8c52abea6859431855c747307244006a} Request started: /api/Files/lectureFile/upload
+2025-05-27T09:49:49.114Z [DEBU] {c726f94a6959431858c74730f3e1b93a} Request started: /api/Files/lectureFile/lecture/1
+2025-05-27T09:49:49.347Z [DEBU] {3eafdd58695943185ac74730e2a629b8} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-27T09:49:50.464Z [DEBU] {e0ea739b695943185cc74730dccd741c} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-27T09:49:50.936Z [DEBU] {fe229eb7695943185ec747308a51328d} Request started: /api/Files/lectureFile/lecture/1
+2025-05-27T09:50:22.433Z [DEBU] {ab1cfc0c7159431860c74730e7e02f06} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-27T09:50:26.677Z [DEBU] {7ce3ea097259431862c747308e931f6a} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-27T09:51:28.307Z [DEBU] {87f261638059431864c7473076a1e8ac} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-27T09:51:28.402Z [DEBU] {d77a09698059431866c747302cacb164} Request started: /api/assignment/getAllAssignmentOfALecture
+2025-05-27T09:51:49.907Z [DEBU] {98faca6a8559431868c747302985103d} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-27T09:52:06.113Z [DEBU] {1101c430895943186ac747308d134109} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-27T09:59:22.629Z [DEBU] {c13728d3ee5943186cc74730ad49e2ae} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-27T09:59:24.208Z [DEBU] {40b43e31ef5943186ec7473041a2aa10} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-27T10:02:17.526Z [DEBU] {f226da8b175a431870c747309fb72d05} Request started: /
+2025-05-27T10:03:04.739Z [DEBU] {8d02f289225a431871c7473081145fd4} Request started: /api/assignment/getAllAssignmentOfALecture
+2025-05-27T10:05:26.599Z [DEBU] {b8e97091435a431873c74730294e5f9d} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-27T10:05:27.681Z [DEBU] {f95ef5d1435a431875c74730b32c58dd} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-27T10:05:27.983Z [DEBU] {7c2af8e3435a431877c747307c15b5e1} Request started: /api/assignment/getAllAssignmentOfALecture
+2025-05-27T10:05:52.471Z [DEBU] {c7588897495a431879c747300739152c} Request started: /api/assignment/createAssignment
+2025-05-27T10:05:52.478Z [ERRO] {c7588897495a431879c747300739152c} Error occurred: maybe course does not exist 
+Stack:
+1.  intelligent-course-aware-ide/internal/cmd.init.func1.1
+    /app/internal/cmd/cmd.go:50
+2.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
+    /app/internal/logic/middleware/cors.go:15
+
+2025-05-27T10:05:52.478Z [ERRO] {c7588897495a431879c747300739152c} Panic recovered: exit 
+Stack:
+1.  intelligent-course-aware-ide/internal/cmd.init.func1.1.1
+    /app/internal/cmd/cmd.go:35
+2.  intelligent-course-aware-ide/internal/cmd.init.func1.1
+    /app/internal/cmd/cmd.go:51
+3.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
+    /app/internal/logic/middleware/cors.go:15
+
+2025-05-27T10:05:52.479Z {c7588897495a431879c747300739152c} 500 "POST http 47.117.144.50:8000 /api/assignment/createAssignment HTTP/1.1" 9865.268, 110.65.147.229, "http://localhost:3000/dashboard/2/2/exercises", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0", -1, "", ""
+Stack:
+maybe course does not exist
+2025-05-27T10:09:03.821Z [DEBU] {8ec9e324765a43187bc7473088f134f8} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-27T10:09:07.564Z [DEBU] {680af703775a43187dc74730c3b858c7} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-27T10:09:08.059Z [DEBU] {d31a8021775a43187fc747308db87401} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-27T10:09:08.373Z [DEBU] {f6fe3134775a431881c74730b8ed44f8} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-27T10:09:10.709Z [DEBU] {178972bf775a431883c747300b6e9148} Request started: /api/assignment/getAllAssignmentOfALecture
+2025-05-27T10:09:10.813Z [DEBU] {dc4ca2c5775a431885c7473029acb9b5} Request started: /api/assignment/getAllAssignmentOfALecture
+2025-05-27T10:09:19.477Z [DEBU] {b7870bca795a431887c7473040f875d6} Request started: /api/assignment/createAssignment
+2025-05-27T10:09:19.482Z [ERRO] {b7870bca795a431887c7473040f875d6} Error occurred: maybe course does not exist 
+Stack:
+1.  intelligent-course-aware-ide/internal/cmd.init.func1.1
+    /app/internal/cmd/cmd.go:50
+2.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
+    /app/internal/logic/middleware/cors.go:15
+
+2025-05-27T10:09:19.482Z [ERRO] {b7870bca795a431887c7473040f875d6} Panic recovered: exit 
+Stack:
+1.  intelligent-course-aware-ide/internal/cmd.init.func1.1.1
+    /app/internal/cmd/cmd.go:35
+2.  intelligent-course-aware-ide/internal/cmd.init.func1.1
+    /app/internal/cmd/cmd.go:51
+3.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
+    /app/internal/logic/middleware/cors.go:15
+
+2025-05-27T10:09:19.483Z {b7870bca795a431887c7473040f875d6} 500 "POST http 47.117.144.50:8000 /api/assignment/createAssignment HTTP/1.1" 5949.373, 110.65.147.229, "http://localhost:3000/dashboard/2/2/exercises", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0", -1, "", ""
+Stack:
+maybe course does not exist
+2025-05-27T10:09:43.479Z [DEBU] {7ef8b4607f5a431889c74730602cf847} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-27T10:09:44.466Z [DEBU] {35b3839b7f5a43188bc747307d433bee} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-27T10:09:44.812Z [DEBU] {256423b07f5a43188dc7473062a4c920} Request started: /api/assignment/getAllAssignmentOfALecture
+2025-05-27T10:09:54.547Z [DEBU] {9e7a69f4815a43188fc7473099dcaac3} Request started: /api/assignment/createAssignment
+2025-05-27T10:09:54.553Z [ERRO] {9e7a69f4815a43188fc7473099dcaac3} Error occurred: maybe course does not exist 
+Stack:
+1.  intelligent-course-aware-ide/internal/cmd.init.func1.1
+    /app/internal/cmd/cmd.go:50
+2.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
+    /app/internal/logic/middleware/cors.go:15
+
+2025-05-27T10:09:54.553Z [ERRO] {9e7a69f4815a43188fc7473099dcaac3} Panic recovered: exit 
+Stack:
+1.  intelligent-course-aware-ide/internal/cmd.init.func1.1.1
+    /app/internal/cmd/cmd.go:35
+2.  intelligent-course-aware-ide/internal/cmd.init.func1.1
+    /app/internal/cmd/cmd.go:51
+3.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
+    /app/internal/logic/middleware/cors.go:15
+
+2025-05-27T10:09:54.554Z {9e7a69f4815a43188fc7473099dcaac3} 500 "POST http 47.117.144.50:8000 /api/assignment/createAssignment HTTP/1.1" 6472.739, 110.65.147.229, "http://localhost:3000/dashboard/2/2/exercises", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0", -1, "", ""
+Stack:
+maybe course does not exist
+2025-05-27T10:12:02.061Z [DEBU] {46a7cca49f5a431891c74730bba116a5} Request started: /api/assignment/createAssignment
+2025-05-27T10:12:02.070Z [ERRO] {46a7cca49f5a431891c74730bba116a5} Error occurred: maybe course does not exist 
+Stack:
+1.  intelligent-course-aware-ide/internal/cmd.init.func1.1
+    /app/internal/cmd/cmd.go:50
+2.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
+    /app/internal/logic/middleware/cors.go:15
+
+2025-05-27T10:12:02.070Z [ERRO] {46a7cca49f5a431891c74730bba116a5} Panic recovered: exit 
+Stack:
+1.  intelligent-course-aware-ide/internal/cmd.init.func1.1.1
+    /app/internal/cmd/cmd.go:35
+2.  intelligent-course-aware-ide/internal/cmd.init.func1.1
+    /app/internal/cmd/cmd.go:51
+3.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
+    /app/internal/logic/middleware/cors.go:15
+
+2025-05-27T10:12:02.070Z {46a7cca49f5a431891c74730bba116a5} 500 "POST http 47.117.144.50:8000 /api/assignment/createAssignment HTTP/1.1" 9817.989, 110.65.147.229, "http://localhost:3000/dashboard/2/2/exercises", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0", -1, "", ""
+Stack:
+maybe course does not exist
+2025-05-27T10:12:04.716Z [DEBU] {ba821743a05a431893c747306b72075f} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-27T10:12:05.683Z [DEBU] {d2a5bd7ca05a431895c74730753cbeb9} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-27T10:12:06.011Z [DEBU] {c49f4490a05a431897c7473080d79e5e} Request started: /api/assignment/getAllAssignmentOfALecture
+2025-05-27T10:12:12.022Z [DEBU] {d98b7ff6a15a431899c747301d83ee1a} Request started: /api/assignment/createAssignment
+2025-05-27T10:12:12.030Z [ERRO] {d98b7ff6a15a431899c747301d83ee1a} Error occurred: maybe course does not exist 
+Stack:
+1.  intelligent-course-aware-ide/internal/cmd.init.func1.1
+    /app/internal/cmd/cmd.go:50
+2.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
+    /app/internal/logic/middleware/cors.go:15
+
+2025-05-27T10:12:12.031Z [ERRO] {d98b7ff6a15a431899c747301d83ee1a} Panic recovered: exit 
+Stack:
+1.  intelligent-course-aware-ide/internal/cmd.init.func1.1.1
+    /app/internal/cmd/cmd.go:35
+2.  intelligent-course-aware-ide/internal/cmd.init.func1.1
+    /app/internal/cmd/cmd.go:51
+3.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
+    /app/internal/logic/middleware/cors.go:15
+
+2025-05-27T10:12:12.031Z {d98b7ff6a15a431899c747301d83ee1a} 500 "POST http 47.117.144.50:8000 /api/assignment/createAssignment HTTP/1.1" 9936.034, 110.65.147.229, "http://localhost:3000/dashboard/2/2/exercises", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0", -1, "", ""
+Stack:
+maybe course does not exist
+2025-05-27T10:14:55.145Z [DEBU] {cd496ef1c75a43189bc74730113d14e4} Request started: /api/assignment/getAllAssignmentOfALecture
+2025-05-27T10:14:56.653Z [DEBU] {a10a4e4bc85a43189dc747301d332d3a} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-27T10:14:57.805Z [DEBU] {489d0090c85a43189fc74730e5ae8601} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-27T10:14:58.163Z [DEBU] {776358a5c85a4318a1c74730c2a6e807} Request started: /api/assignment/getAllAssignmentOfALecture
+2025-05-27T10:15:07.267Z [DEBU] {a788f5c3ca5a4318a3c747304699c6f4} Request started: /api/assignment/createAssignment
+2025-05-27T10:15:07.274Z [ERRO] {a788f5c3ca5a4318a3c747304699c6f4} Error occurred: maybe course does not exist 
+Stack:
+1.  intelligent-course-aware-ide/internal/cmd.init.func1.1
+    /app/internal/cmd/cmd.go:50
+2.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
+    /app/internal/logic/middleware/cors.go:15
+
+2025-05-27T10:15:07.274Z [ERRO] {a788f5c3ca5a4318a3c747304699c6f4} Panic recovered: exit 
+Stack:
+1.  intelligent-course-aware-ide/internal/cmd.init.func1.1.1
+    /app/internal/cmd/cmd.go:35
+2.  intelligent-course-aware-ide/internal/cmd.init.func1.1
+    /app/internal/cmd/cmd.go:51
+3.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
+    /app/internal/logic/middleware/cors.go:15
+
+2025-05-27T10:15:07.275Z {a788f5c3ca5a4318a3c747304699c6f4} 500 "POST http 47.117.144.50:8000 /api/assignment/createAssignment HTTP/1.1" 7688.814, 110.65.147.229, "http://localhost:3000/dashboard/2/2/exercises", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0", -1, "", ""
+Stack:
+maybe course does not exist
+2025-05-27T10:16:18.020Z [DEBU] {c0df1b3ddb5a4318a5c747305e5611e8} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-27T10:16:19.285Z [DEBU] {e00d8f88db5a4318a7c747306aad7ca0} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-27T10:16:19.823Z [DEBU] {ef36a9a8db5a4318a9c747306e6c173c} Request started: /api/assignment/getAllAssignmentOfALecture
+2025-05-27T10:16:28.788Z [DEBU] {6be9fbbedd5a4318abc747301b580960} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-27T10:16:29.881Z [DEBU] {e8122300de5a4318adc7473015fd1ba7} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-27T10:16:37.580Z [DEBU] {fb3e09cbdf5a4318afc74730f55ed06d} Request started: /api/assignment/getAllAssignmentOfALecture
+2025-05-27T10:16:37.684Z [DEBU] {c9c337d1df5a4318b1c74730770d30f7} Request started: /api/assignment/getAllAssignmentOfALecture
