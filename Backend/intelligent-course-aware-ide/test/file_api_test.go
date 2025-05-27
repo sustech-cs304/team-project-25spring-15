@@ -12,6 +12,7 @@ import (
 	"intelligent-course-aware-ide/internal/controller/Files"
 	"intelligent-course-aware-ide/internal/dao"
 
+	_ "github.com/gogf/gf/contrib/drivers/mysql/v2"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/gogf/gf/v2/test/gtest"
