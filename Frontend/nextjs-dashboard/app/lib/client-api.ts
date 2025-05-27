@@ -1,10 +1,6 @@
 import axios from 'axios';
-import {auth} from "@/auth";
 import { useStore } from '@/store/useStore';
-import { AiMessage } from './definitions';
-
-const base_url = 'http://47.117.144.50:8000';
-// 课程相关接口
+import {AiMessage, Assignment} from './definitions';
 
 // 获取认证信息的辅助函数
 async function getAuthHeader() {
@@ -252,11 +248,55 @@ export const CommentAPI = {
 
 export const AssignmentAPI = {
   fetchAssignments : async (lectureId: number) => {
+    const headers = await getAuthHeader();
     const res = await axios.get(`/api/assignment/getAllAssignmentOfALecture`,
       {
         params: {
           lectureId: lectureId,
-        }
+        },
+        headers
       });
+    console.log("Fetched assignments:", res);
+    return res.data.data.assignments || [];
   },
+
+  createAssignment: async (assignment: Assignment, courseName: string | undefined, chatId: number | undefined) => {
+    const headers = await getAuthHeader();
+    const payload = {
+      assignment: {
+        ...assignment,
+        assignmentName: assignment.title,
+      },
+      courseName: courseName,
+      chatId: chatId,
+    };
+    console.log("Creating assignment:", payload);
+    const res = await axios.post(`/api/assignment/createAssignment`, payload, {headers});
+    console.log("Assignment created successfully:", res.data);
+  },
+
+  updateAssignment: async (assignment: Assignment, courseName: string, chatId: number) => {
+    const headers = await getAuthHeader();
+    console.log("Updating assignment:", assignment);
+    const res = await axios.put(`/api/assignment/updateAssignment`, {
+      assignment: assignment,
+      courseName: courseName,
+      chatId: chatId,
+    }, {headers});
+    console.log("Assignment updated successfully:", res.data);
+  },
+
+  deleteAssignment: async (assignmentId: number, courseId: number) => {
+    const headers = await getAuthHeader();
+    console.log("Deleting assignment with ID:", assignmentId, "for courseId:", courseId);
+    const res = await axios.delete(`/api/assignment/deleteAssignment`, {
+      headers,
+      params: {
+        assignmentId: assignmentId,
+        courseId: courseId,
+      }
+    });
+    console.log("Assignment deleted successfully:", res.data);
+    return res.data;
+  }
 }

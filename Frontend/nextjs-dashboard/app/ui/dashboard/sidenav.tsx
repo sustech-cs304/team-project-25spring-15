@@ -42,12 +42,17 @@ export default function SideNav() {
   // —— 全局状态 ——
   const courses    = useStore(state => state.courses);
   const setCourses = useStore(state => state.setCourses);
+  const lectures  = useStore(state => state.lectures);
+  const setLectures = useStore(state => state.setLectures);
+  const selectedLectureId = useStore(state => state.selectedLectureId);
+  const setSelectedLectureId = useStore(state => state.setSelectedLectureId);
+  const selectedCourseId = useStore(state => state.selectedCourseId);
+  const setSelectedCourseId = useStore(state => state.setSelectedCourseId);
 
   // 本地 UI 状态
   const [open, setOpen] = useState<Record<string, boolean>>({});
   const [newCourse, setNewCourse] = useState<Partial<Course>>({ courseName: '', description: '' });
   const [newLecture, setNewLecture] = useState<Partial<Lecture>>({ lectureName: '', description: '', courseId: undefined });
-  const [selectedCourseId, setSelectedCourseId] = useState<number>(0);
 
   // 对话框状态
   const [openCourseDialog, setOpenCourseDialog] = useState(false);
@@ -279,6 +284,10 @@ export default function SideNav() {
   };
 
   const handleSelectLecture = (courseId: number, lecture: Lecture) => {
+    setSelectedCourseId(courseId);
+    const course = courses.find(c => c.courseId === courseId);
+    setLectures(course?.lectures ?? []);
+    setSelectedLectureId(lecture.lectureId);
     router.push(`/dashboard/${courseId}/${lecture.lectureId}`);
   };
 

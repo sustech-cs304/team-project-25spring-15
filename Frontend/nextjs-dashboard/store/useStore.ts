@@ -3,8 +3,8 @@ import { create } from 'zustand';
 import { UserInfo, Course, Lecture } from '@/app/lib/definitions';
 
 interface Store {
-  token: string | null;
-  setToken: (token: string | null) => void;
+  token: string | '';
+  setToken: (token: string | '') => void;
 
   userInfo: UserInfo | null;
   setUserInfo: (info: UserInfo | null) => void;
@@ -17,22 +17,22 @@ interface Store {
   lectures: Lecture[];
   setLectures: (l: Lecture[]) => void;
 
-  selectedCourseId: number | null;
-  setSelectedCourseId: (id: number | null) => void;
+  selectedCourseId: number | 0;
+  setSelectedCourseId: (id: number) => void;
 
-  selectedLectureId: number | null;
-  setSelectedLectureId: (id: number | null) => void;
+  selectedLectureId: number | 0;
+  setSelectedLectureId: (id: number) => void;
 }
 
 export const useStore = create<Store>((set) => ({
   // —— 初始 State ——
-  token: null,
+  token: '',
   userInfo: null,
   isLoggedIn: false,
   courses: [],
   lectures: [],
-  selectedCourseId: null,
-  selectedLectureId: null,
+  selectedCourseId: 0,
+  selectedLectureId: 0,
 
   // —— 修改方法 ——
   setToken: (token) => set({ token }),
