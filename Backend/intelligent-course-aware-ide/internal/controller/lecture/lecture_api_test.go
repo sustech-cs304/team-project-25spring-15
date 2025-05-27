@@ -39,29 +39,29 @@ func Test_CreateLecture(t *testing.T) {
 		t.Assert(res.LectureId, 2)
 	})
 }
-func Test_GetAllLectureOfCourse(t *testing.T){
-	req :=&v1.GetAllLectureOfACourseInfoReq{
+func Test_GetAllLectureOfCourse(t *testing.T) {
+	req := &v1.GetAllLectureOfACourseInfoReq{
 		CourseId: 1,
 	}
-	ctrl :=&lecture.ControllerV1{}
-	gtest.C(t,func(t *gtest.T) {
-		res,err := ctrl.GetAllLectureOfACourseInfo(context.Background(),req)
+	ctrl := &lecture.ControllerV1{}
+	gtest.C(t, func(t *gtest.T) {
+		res, err := ctrl.GetAllLectureOfACourseInfo(context.Background(), req)
 		t.AssertNil(err)
-		t.Assert(len(res.Lectures)== 2,true)
+		t.Assert(len(res.Lectures) == 2, true)
 	})
 }
-func Test_GetLecture(t *testing.T){
+func Test_GetLecture(t *testing.T) {
 	req := &v1.GetLectureReq{
 		LectureId: 2,
 	}
-	ctrl :=&lecture.ControllerV1{}
-	gtest.C(t,func(t *gtest.T) {
-		res,err :=ctrl.GetLecture(context.Background(),req)
+	ctrl := &lecture.ControllerV1{}
+	gtest.C(t, func(t *gtest.T) {
+		res, err := ctrl.GetLecture(context.Background(), req)
 		t.AssertNil(err)
-		t.Assert(res.Lecture.LectureName,"虚拟化")
+		t.Assert(res.Lecture.LectureName, "虚拟化")
 	})
 }
-func Test_UpdateLecture(t *testing.T){
+func Test_UpdateLecture(t *testing.T) {
 	ctrlAccount := &account.ControllerV1{}
 	userinfo := V1.UserLoginInfo{
 		UserId:   1,
@@ -70,22 +70,22 @@ func Test_UpdateLecture(t *testing.T){
 	reqAccount := &V1.LoginUserReq{UserInfo: userinfo}
 	resAccount, _ := ctrlAccount.LoginUser(context.Background(), reqAccount)
 	cxt, _ := middleware.BuildCtx(resAccount.Token)
-	newlecture :=v1.LectureInfo{
-		LectureId: 2,
+	newlecture := v1.LectureInfo{
+		LectureId:   2,
 		Description: "新的虚拟化",
-		CourseId: 1,
+		CourseId:    1,
 	}
-	req :=&v1.UpdateLectureReq{
+	req := &v1.UpdateLectureReq{
 		UpdateLecture: newlecture,
 	}
 	ctrl := &lecture.ControllerV1{}
-	gtest.C(t,func(t *gtest.T) {
-		res,err := ctrl.UpdateLecture(cxt,req)
+	gtest.C(t, func(t *gtest.T) {
+		res, err := ctrl.UpdateLecture(cxt, req)
 		t.AssertNil(err)
-		t.Assert(res.Success,true)
+		t.Assert(res.Success, true)
 	})
 }
-func Test_DeleteLecture(t *testing.T){
+func Test_DeleteLecture(t *testing.T) {
 	ctrlAccount := &account.ControllerV1{}
 	userinfo := V1.UserLoginInfo{
 		UserId:   1,
@@ -94,16 +94,16 @@ func Test_DeleteLecture(t *testing.T){
 	reqAccount := &V1.LoginUserReq{UserInfo: userinfo}
 	resAccount, _ := ctrlAccount.LoginUser(context.Background(), reqAccount)
 	cxt, _ := middleware.BuildCtx(resAccount.Token)
-	req :=&v1.DeleteLectureReq{
-		LectureId: 1,
-		CourseId: 1,
+	req := &v1.DeleteLectureReq{
+		LectureId:   1,
+		CourseId:    1,
 		LectureName: "虚拟化",
-		ChatId: 6,
+		ChatId:      6,
 	}
-	ctrl :=&lecture.ControllerV1{}
-	gtest.C(t,func(t *gtest.T) {
-		res,err :=ctrl.DeleteLecture(cxt,req)
+	ctrl := &lecture.ControllerV1{}
+	gtest.C(t, func(t *gtest.T) {
+		res, err := ctrl.DeleteLecture(cxt, req)
 		t.AssertNil(err)
-		t.Assert(res.Success,true)
+		t.Assert(res.Success, true)
 	})
 }

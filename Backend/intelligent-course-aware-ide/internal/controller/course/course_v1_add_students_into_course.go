@@ -6,6 +6,7 @@ import (
 	v1 "intelligent-course-aware-ide/api/course/v1"
 	"intelligent-course-aware-ide/internal/dao"
 	"intelligent-course-aware-ide/internal/model/do"
+	"intelligent-course-aware-ide/internal/model/entity"
 )
 
 func (c *ControllerV1) AddStudentsIntoCourse(ctx context.Context, req *v1.AddStudentsIntoCourseReq) (res *v1.AddStudentsIntoCourseRes, err error) {
@@ -23,9 +24,14 @@ func (c *ControllerV1) AddStudentsIntoCourse(ctx context.Context, req *v1.AddStu
 		return nil, err
 	}
 	if result1 || result2 {
-		for _, studentId := range req.StudentsId {
+		for _, studentEmail := range req.StudentsEmail {
+			var student *entity.Users
+			err = dao.Users.Ctx(ctx).Where("email", studentEmail).Scan(&student)
+			if err != nil {
+				return res, err
+			}
 			_, err = dao.UserCourseInfo.Ctx(ctx).Data(do.UserCourseInfo{
-				UserId:   studentId,
+				UserId:   student.UserId,
 				CourseId: req.CourseId,
 			}).Insert()
 			if err != nil {

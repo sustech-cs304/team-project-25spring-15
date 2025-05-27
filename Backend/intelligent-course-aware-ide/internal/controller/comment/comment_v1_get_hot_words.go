@@ -56,5 +56,5 @@ func (c *ControllerV1) GetHotWords(ctx context.Context, req *v1.GetHotWordsReq) 
 	res = &v1.GetHotWordsRes{
 		List: list,
 	}
-	return res,err
+	return res, err
 }
