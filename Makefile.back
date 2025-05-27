@@ -1,24 +1,19 @@
 # Makefile
-
-# Analyze part
-.PHONY: all-analyze
-.PHONY: setup-analyze venv install-tools install-go install-gocyclo install-lizard
-.PHONY: analyze analyze-backend analyze-frontend
-# Analyze backend:
-.PHONY: count-lines calc-complexity count-go-files count-deps
+.PHONY: all setup venv install-tools install-go install-gocyclo install-lizard \
+        analyze analyze-backend analyze-frontend
 
 VENV_DIR := ./venv
 BACKEND_DIR := ./Backend/intelligent-course-aware-ide
 FRONTEND_DIR := ./Frontend/nextjs-dashboard
 
-# ====== Setup analyze environment and analyze
-all-analyze: setup-analyze analyze
+all: setup analyze
 
-# ====== Setup analyze environment ======
-setup-analyze: venv install-tools install-go install-gocyclo install-lizard
+# ===== Setup Environment =====
+
+setup: venv install-tools install-go install-gocyclo install-lizard
 
 venv:
-	@if [ ! -d $(VENV_DIR)]; then \
+	@if [ ! -d $(VENV_DIR) ]; then \
 		echo "Creating Python virtual environment..."; \
 		python3 -m venv $(VENV_DIR); \
 	else \
@@ -54,12 +49,32 @@ install-lizard:
 		. $(VENV_DIR)/bin/activate && pip install -i https://pypi.tuna.tsinghua.edu.cn/simple lizard; \
 	)
 
-# ====== Analyze ======
+# ===== Analyze =====
+
 analyze: analyze-backend analyze-frontend
 
-analyze-backend: check-backend-dir
-	@echo "Analyzing Backend Code..."
-	$(MAKE) count-lines
-	$(MAKE) calc-complexity
-	$(MAKE) count-go-files
-	$(MAKE) count-deps
+analyze-backend:
+	@if [ -d $(BACKEND_DIR) ]; then \
+		echo "Analyzing Backend Code..."; \
+		cloc $(BACKEND_DIR); \
+		gocyclo -over 5 $(BACKEND_DIR) || true; \
+		find $(BACKEND_DIR) -name "*.go" | wc -l; \
+		if [ -f $(BACKEND_DIR)/go.mod ]; then go list -m all | wc -l; else echo "No go.mod file."; fi; \
+	else \
+		echo "Backend directory $(BACKEND_DIR) not found"; \
+	fi
+
+analyze-frontend:
+	@if [ -d $(FRONTEND_DIR) ]; then \
+		echo "Analyzing Frontend Code..."; \
+		cloc $(FRONTEND_DIR); \
+		find $(FRONTEND_DIR) \( -name "*.js" -o -name "*.ts" -o -name "*.tsx" \) | wc -l; \
+		. $(VENV_DIR)/bin/activate && lizard $(FRONTEND_DIR) -l javascript -l typescript; \
+		if [ -f $(FRONTEND_DIR)/package.json ]; then \
+			jq '.dependencies, .devDependencies | keys | length' $(FRONTEND_DIR)/package.json | paste -sd+ - | bc; \
+		else \
+			echo "No package.json file."; \
+		fi \
+	else \
+		echo "Frontend directory $(FRONTEND_DIR) not found"; \
+	fi
