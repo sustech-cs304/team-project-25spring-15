@@ -5,15 +5,15 @@ import (
 )
 
 type CommentInfo struct {
-	CommentId          int64  `json:"id" dc:"Id of the comment"`
-	LectureId          int64  `json:"lectureId" dc:"Id of the lecture the comment in"`
-	AuthorId           int64  `json:"authorId" dc:"Id of the commented user"`
-	AuthorName         string `json:"authorName" dc:"Name of the comment user"`
-	RepliedToCommentId int64  `json:"repliedTocommentId" dc:"Id of the commented comment"`
-	RepliedToUserName  string `json:"repliedToUserName" dc:"Name of the commented user"`
-	Content            string `json:"content" dc:"content of the comment"`
-	CreateTime         string `json:"createTime" dc:" createTime of the comment"`
-	Likes              int64  `json:"likes" dc:"The number of likes"`
+	CommentId            int64  `json:"id" dc:"Id of the comment"`
+	LectureId            int64  `json:"lectureId" dc:"Id of the lecture the comment in"`
+	AuthorId             int64  `json:"authorId" dc:"Id of the commented user"`
+	AuthorName           string `json:"authorName" dc:"Name of the comment user"`
+	RepliedToCommentedId int64  `json:"RepliedToCommentedId" dc:"Id of the commented comment"`
+	RepliedToUserName    string `json:"repliedToUserName" dc:"Name of the commented user"`
+	Content              string `json:"content" dc:"content of the comment"`
+	CreateTime           string `json:"createTime" dc:" createTime of the comment"`
+	Likes                int64  `json:"likes" dc:"The number of likes"`
 }
 type CreateCommentReq struct {
 	g.Meta     `path:"/api/comment/createComment" method:"post" tags:"Comment" summary:"Create comment"`
