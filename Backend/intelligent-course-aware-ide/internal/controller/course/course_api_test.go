@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	V1 "intelligent-course-aware-ide/api/account/v1"
-	"intelligent-course-aware-ide/api/course/v1"
+	v1 "intelligent-course-aware-ide/api/course/v1"
 	"intelligent-course-aware-ide/internal/controller/account"
 	"intelligent-course-aware-ide/internal/controller/course"
 	middleware "intelligent-course-aware-ide/internal/logic/middleware"

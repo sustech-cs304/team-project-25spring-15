@@ -3,7 +3,7 @@ package comment_test
 import (
 	"context"
 	"fmt"
-	"intelligent-course-aware-ide/api/comment/v1"
+	v1 "intelligent-course-aware-ide/api/comment/v1"
 	"intelligent-course-aware-ide/internal/controller/comment"
 	"testing"
 
