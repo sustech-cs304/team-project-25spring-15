@@ -5,20 +5,19 @@ import (
 	"path/filepath"
 	"time"
 
-	v1 "intelligent-course-aware-ide/api/Files/v1"
-	"intelligent-course-aware-ide/internal/dao"
-
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gfile"
 	"github.com/gogf/gf/v2/os/gtime"
 	"github.com/gogf/gf/v2/util/gconv"
 	"github.com/gogf/gf/v2/util/guid"
+
+	v1 "intelligent-course-aware-ide/api/Files/v1"
+	"intelligent-course-aware-ide/internal/dao"
 )
 
-// UploadLectureFile handles both new uploads and replacements based on existing fileId lookup.
-func (c *ControllerV1) UploadLectureFile(ctx context.Context, req *v1.UploadLectureFileReq) (res *v1.UploadLectureFileRes, err error) {
-	res = &v1.UploadLectureFileRes{}
+func (c *ControllerV1) UploadLectureNote(ctx context.Context, req *v1.UploadLectureNoteReq) (res *v1.UploadLectureNoteRes, err error) {
+	res = &v1.UploadLectureNoteRes{}
 
 	// Check if lecture exists
 	lectureCount, err := dao.Lectures.Ctx(ctx).
@@ -32,7 +31,7 @@ func (c *ControllerV1) UploadLectureFile(ctx context.Context, req *v1.UploadLect
 	}
 
 	// Queries if there is already a file association
-	idValue, err := dao.LectureFiles.Ctx(ctx).
+	idValue, err := dao.LectureNoteFiles.Ctx(ctx).
 		Where("lectureId", req.LectureId).
 		Value("fileId")
 	if err != nil {
@@ -91,7 +90,7 @@ func (c *ControllerV1) UploadLectureFile(ctx context.Context, req *v1.UploadLect
 			return
 		}
 
-		if _, err2 = tx.Model("LectureFiles").Insert(g.Map{
+		if _, err2 = tx.Model("LectureNoteFiles").Insert(g.Map{
 			"lectureId": req.LectureId,
 			"fileId":    newFileId,
 		}); err2 != nil {

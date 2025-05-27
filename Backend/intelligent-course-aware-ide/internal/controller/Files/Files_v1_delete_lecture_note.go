@@ -10,10 +10,9 @@ import (
 	v1 "intelligent-course-aware-ide/api/Files/v1"
 )
 
-func (c *ControllerV1) DeleteLectureFile(ctx context.Context, req *v1.DeleteLectureFileReq) (res *v1.DeleteLectureFileRes, err error) {
-	res = &v1.DeleteLectureFileRes{}
+func (c *ControllerV1) DeleteLectureNote(ctx context.Context, req *v1.DeleteLectureNoteReq) (res *v1.DeleteLectureNoteRes, err error) {
+	res = &v1.DeleteLectureNoteRes{}
 
-	// Begin transaction
 	tx, err := g.DB().Begin(ctx)
 	if err != nil {
 		return nil, err
@@ -24,8 +23,7 @@ func (c *ControllerV1) DeleteLectureFile(ctx context.Context, req *v1.DeleteLect
 		}
 	}()
 
-	// Check existence in LectureFiles table
-	count, err := tx.Model("LectureFiles").
+	count, err := tx.Model("LectureNoteFiles").
 		Where("fileId", req.FileId).
 		Count()
 	if err != nil {
@@ -44,8 +42,7 @@ func (c *ControllerV1) DeleteLectureFile(ctx context.Context, req *v1.DeleteLect
 		return nil, err
 	}
 
-	// Delete the record from LectureFiles
-	if _, err = tx.Model("LectureFiles").
+	if _, err = tx.Model("LectureNoteFiles").
 		Where("fileId", req.FileId).
 		Delete(); err != nil {
 		return nil, gerror.New("Failed to delete lecture-file association")
