@@ -28,7 +28,6 @@ type UsersColumns struct {
 	UserSign   string //
 	University string //
 	Birthday   string //
-	Login      string //
 	Identity   string //
 }
 
@@ -41,7 +40,6 @@ var usersColumns = UsersColumns{
 	UserSign:   "userSign",
 	University: "university",
 	Birthday:   "birthday",
-	Login:      "login",
 	Identity:   "identity",
 }
 

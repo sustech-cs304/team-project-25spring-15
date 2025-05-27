@@ -11,13 +11,12 @@ import (
 
 // Assignments is the golang structure of table Assignments for DAO operations like Where/Data.
 type Assignments struct {
-	g.Meta         `orm:"table:Assignments, do:true"`
-	AssignmentId   interface{} //
-	AssignmentName interface{} //
-	PublisherId    interface{} //
-	CourseId       interface{} //
-	LectureId      interface{} //
-	Description    interface{} //
-	DeadLine       *gtime.Time //
-	Completeness   interface{} //
+	g.Meta       `orm:"table:Assignments, do:true"`
+	AssignmentId interface{} //
+	PublisherId  interface{} //
+	CourseId     interface{} //
+	LectureId    interface{} //
+	Description  interface{} //
+	DeadLine     *gtime.Time //
+	Completeness interface{} //
 }
