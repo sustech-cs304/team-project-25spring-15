@@ -10,12 +10,12 @@ import (
 
 func (c *ControllerV1) CreateComment(ctx context.Context, req *v1.CreateCommentReq) (res *v1.CreateCommentRes, err error) {
 	commentId, err := dao.Comment.Ctx(ctx).Data(do.Comment{
-		LectureId:            req.NewComment.LectureId,
-		AuthorId:             req.NewComment.AuthorId,
-		RepliedToCommentedId: req.NewComment.RepliedToCommentId,
-		Content:              req.NewComment.Content,
-		CreateTime:           req.NewComment.CreateTime,
-		Likes:                req.NewComment.Likes,
+		LectureId:          req.NewComment.LectureId,
+		AuthorId:           req.NewComment.AuthorId,
+		RepliedToCommentId: req.NewComment.RepliedToCommentId,
+		Content:            req.NewComment.Content,
+		CreateTime:         req.NewComment.CreateTime,
+		Likes:              req.NewComment.Likes,
 	}).InsertAndGetId()
 	if err != nil {
 		return nil, err
