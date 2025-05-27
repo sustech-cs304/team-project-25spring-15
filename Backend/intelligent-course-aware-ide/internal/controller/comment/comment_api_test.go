@@ -13,12 +13,12 @@ import (
 
 func Test_CreateComment(t *testing.T) {
 	newcomment := v1.CommentInfo{
-		LectureId:  1,
-		AuthorId:   1,
+		LectureId:          1,
+		AuthorId:           1,
 		RepliedToCommentId: 1,
-		Content:    "我是爱你的",
-		CreateTime: "2025-05-25 19:28",
-		Likes:      1,
+		Content:            "我是爱你的",
+		CreateTime:         "2025-05-25 19:28",
+		Likes:              1,
 	}
 	tempcomment := v1.CommentInfo{
 		LectureId:  1,

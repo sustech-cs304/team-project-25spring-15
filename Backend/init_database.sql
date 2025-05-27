@@ -14,6 +14,7 @@ DROP TABLE IF EXISTS Files;
 DROP TABLE IF EXISTS Assignments;
 DROP TABLE IF EXISTS Comment;
 DROP TABLE IF EXISTS Comments;
+DROP TABLE IF EXISTS AIChatHistory;
 DROP TABLE IF EXISTS Lectures;
 DROP TABLE IF EXISTS Tasks;
 DROP TABLE IF EXISTS Courses;
@@ -399,11 +400,15 @@ VALUES (6, '6', '123456', '6', 'student');
 insert into Users(userId, userName, password, email, identity)
 VALUES (7, '7', '123456', '11111111@mail.sustech.edu.cn', 'student');
 insert into Users(userId, userName, password, email, identity)
-VALUES (10, '10', '123456', '44444444@mail.sustech.edu.cn', 'student');
+VALUES (11, '11', '123456', '44444444@mail.sustech.edu.cn', 'student');
 insert into Users(userId, userName, password, email, identity)
 VALUES (8, '8', '123456', '22222222@mail.sustech.edu.cn', 'teacher');
 insert into Users(userId, userName, password, email, identity)
 VALUES (9, '9', '123456', '33333333@mail.sustech.edu.cn', 'superuser');
+insert into Courses(COURSENAME, DESCRIPTION, teacherId)
+values ('2', '2', 8);
+insert into Lectures(courseId, lectureName, description)
+values (2, '2', '2');
 insert into UserCourseInfo(USERID, COURSEID) VALUES (7, 1);
 insert into Assignments(assignmentId, assignmentName, publisherId, courseId, lectureId) VALUES (1,'123',1,1,1);
 insert into Files(fileId, fileSize, fileUrl, fileName, fileType) VALUES (1,1,'/usr/Document/testcase_1.txt','testcase_1', '1');
