@@ -1,5 +1,7 @@
 'use client';
 
+import Mermaid from "./lecture/ai/mermaid";
+
 interface CodeBlockProps {
   node: any;
   inline: boolean;
@@ -14,6 +16,12 @@ export function CodeBlock({
   children,
   ...props
 }: CodeBlockProps) {
+  if (!inline && className?.includes('language-mermaid')) {
+    // children 可能是数组或字符串
+    const code = Array.isArray(children) ? children.join('') : children;
+    return <Mermaid code={code}/>;
+  }
+
   if (!inline) {
     return (
       <div className="not-prose flex flex-col">
