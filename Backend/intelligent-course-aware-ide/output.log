@@ -235,3 +235,22 @@ Fetched Comments: []
 2025-05-26T20:23:09.391+08:00 [DEBU] {b7ebe8d432134318324ddd411a40a9c7} Request started: /
 2025-05-26T20:28:56.006+08:00 [DEBU] {4d77cb8883134318334ddd41abd922f0} Request started: /api/course/searchCourseWithLectures/byStudentId
 2025-05-26T21:33:58.482+08:00 [DEBU] {21a17d2610174318354ddd411a861c5a} Request started: /
+2025-05-26T22:13:16.933+08:00 [DEBU] {4780224535194318364ddd41dd9f0056} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T22:14:20.791+08:00 [DEBU] {85bf5d2344194318384ddd41be906393} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T22:14:58.441+08:00 [DEBU] {ee5478e74c194318394ddd41b7624736} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T22:15:08.273+08:00 [DEBU] {d5fe86314f1943183a4ddd418629c18e} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T22:15:08.525+08:00 [DEBU] {de7a83404f1943183c4ddd41169e9435} Request started: /api/user/loginUser
+2025-05-26T22:15:08.942+08:00 [DEBU] {e5c158594f1943183d4ddd41c6761780} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T22:15:09.026+08:00 [DEBU] {55d8615e4f1943183f4ddd4140f95437} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T22:15:09.046+08:00 [DEBU] {1e3d985f4f194318414ddd41a8f57d46} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T22:15:16.194+08:00 [DEBU] {9558990951194318434ddd41d58f2adb} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T22:15:16.390+08:00 [DEBU] {250b481551194318454ddd41866a891c} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T22:15:23.214+08:00 [DEBU] {40a907ac52194318474ddd418cb2a9df} Request started: /api/comment/getComment/2
+Fetched Comments: []
+2025-05-26T22:15:23.345+08:00 [DEBU] {4076d7b352194318494ddd4124d69c0e} Request started: /api/comment/getComment/2
+Fetched Comments: []
+2025-05-26T22:17:42.846+08:00 [DEBU] {4e74c42e731943184b4ddd417c969ffa} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T22:18:22.663+08:00 [DEBU] {a0ac0f747c1943184d4ddd41c10aa000} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T22:18:23.377+08:00 [DEBU] {9c96959e7c1943184f4ddd416e3b74d0} Request started: /api/course/searchCourseWithLectures/byStudentId
+2025-05-26T22:18:41.524+08:00 23515: server gracefully shutting down by signal: terminated
+2025-05-26T22:18:41.525+08:00 [INFO] pid[23515]: all servers shutdown

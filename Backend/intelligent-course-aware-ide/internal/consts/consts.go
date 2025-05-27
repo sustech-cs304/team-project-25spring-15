@@ -6,7 +6,7 @@ import "time"
 const TargetUrl string = "http://47.117.144.50:8000"
 
 // Database dockerName
-const TargetDockerName string = "CS304"
+const TargetDockerName string = "backend-runner-1"
 
 // Python dockerName
 const TargetPythonDockerName string = TargetDockerName
@@ -18,7 +18,7 @@ const TargetCDockerName string = TargetDockerName
 const TmpFileName string = "temp_script"
 
 // Default path of script on host
-const PathForHost string = "/home/admin/data/"
+const PathForHost string = "/home/admin/team-project-25spring-15/Backend/data"
 
 // Default path of script on docker
 const PathForDocker string = "/usr/Document/"
