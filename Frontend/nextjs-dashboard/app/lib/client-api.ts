@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {auth} from "@/auth";
 import { useStore } from '@/store/useStore';
+import { AiMessage } from './definitions';
 
 const base_url = 'http://47.117.144.50:8000';
 // 课程相关接口
@@ -9,6 +10,25 @@ const base_url = 'http://47.117.144.50:8000';
 async function getAuthHeader() {
   const token = useStore.getState().token;
   return token ? { Authorization: `Bearer ${token}` } : {};
+}
+
+export const AiMessageAPI = {
+  saveMessage: async (message: AiMessage) => {
+    const headers = await getAuthHeader();
+
+    console.log("Saving message from ai...");
+    // const res = await axios.post( //TODO: TO BE SPECIFIED ！！
+    //   `/api/`, message, { headers }
+    // );
+    // return res;
+  },
+  getMessages: async (userId: string, lectureId: string) => {
+    // order is required!!!
+    const headers = await getAuthHeader();
+    console.log("Start fetching messages...");
+    //
+    return [];
+  }
 }
 
 export const CourseWareAPI = {
