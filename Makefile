@@ -1,4 +1,5 @@
 # Makefile
+MAKEFLAGS += --no-print-directory
 
 # Develop part
 .PHONY: setup-backend-dev close-backend-dev
@@ -9,6 +10,7 @@
 .PHONY: analyze analyze-backend analyze-frontend
 # Analyze backend:
 .PHONY: count-lines calc-complexity count-go-files count-deps
+
 
 VENV_DIR := ./venv
 DEV_COMPOSE_DIR := ./Backend
@@ -69,29 +71,53 @@ install-lizard:
 # ====== Analyze
 analyze: analyze-backend analyze-frontend
 
+# ====== Analyze backend
 analyze-backend:
 	@echo "Analyzing Backend Code..."
-	$(MAKE) count-lines
-	$(MAKE) calc-complexity
-	$(MAKE) count-go-files
-	$(MAKE) count-deps
+	@$(MAKE) count-lines
+	@$(MAKE) calc-complexity
+	@$(MAKE) count-go-files
+	@$(MAKE) count-deps
 
 count-lines:
 	@echo "-- Lines of Code (Go):"
 	@cloc $(BACKEND_DIR)
+	@echo ""
 
 calc-complexity:
 	@echo "-- Cyclomatic Complexity (Go):"
-	@gocyclo -over 5 $(BACKEND_DIR) || true
+	@gocyclo -over 0 $(BACKEND_DIR) | \
+	awk '{count[$$1]++} END {for (c in count) printf("%s %d\n", c, count[c])}' | \
+	sort -n | \
+	awk '{printf("Complexity %s: %d functions\n", $$1, $$2)}' || true
+	@echo ""
 
 count-go-files:
 	@echo "-- Number of Go Files:"
 	@find $(BACKEND_DIR) -name "*.go" | wc -l
+	@echo ""
 
 count-deps:
 	@if [ -f $(BACKEND_DIR)/go.mod ]; then \
 		echo "-- Go Dependencies:"; \
-		go list -m all | wc -l; \
+		cd $(BACKEND_DIR) && go list -m all | wc -l; \
 	else \
 		echo "No go.mod file found"; \
+	fi
+	@echo ""
+
+# ====== Analyze frontend
+analyze-frontend: 
+	@if [ -d $(FRONTEND_DIR) ]; then \
+		echo "Analyzing Frontend Code..."; \
+		cloc $(FRONTEND_DIR); \
+		find $(FRONTEND_DIR) \( -name "*.js" -o -name "*.ts" -o -name "*.tsx" \) | wc -l; \
+		. $(VENV_DIR)/bin/activate && lizard $(FRONTEND_DIR) -l javascript -l typescript; \
+		if [ -f $(FRONTEND_DIR)/package.json ]; then \
+			jq '.dependencies, .devDependencies | keys | length' $(FRONTEND_DIR)/package.json | paste -sd+ - | bc; \
+		else \
+			echo "No package.json file."; \
+		fi \
+	else \
+		echo "Frontend directory $(FRONTEND_DIR) not found"; \
 	fi
