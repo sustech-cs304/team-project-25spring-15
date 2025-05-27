@@ -1,6 +1,7 @@
 'use client';
 
 import Mermaid from "./lecture/ai/mermaid";
+import Quiz from "./lecture/ai/quiz";
 
 interface CodeBlockProps {
   node: any;
@@ -20,6 +21,24 @@ export function CodeBlock({
     // children 可能是数组或字符串
     const code = Array.isArray(children) ? children.join('') : children;
     return <Mermaid code={code}/>;
+  }
+
+  const isOnlyQuizKey = (obj: any) =>
+    obj && typeof obj === 'object' &&
+    Object.keys(obj).length === 1 &&
+    Object.keys(obj)[0] === 'quiz';
+
+  if (!inline && className?.includes('language-json')) {
+    const code = Array.isArray(children) ? children.join('') : children;
+    // 假设AI输出的是JSON字符串
+    let quizData;
+    try {
+      quizData = JSON.parse(code);
+    } catch {
+      return <div className="text-red-500">Quiz 数据格式错误</div>;
+    }
+    if(isOnlyQuizKey(quizData))
+      return <Quiz quiz={quizData.quiz || quizData} />;
   }
 
   if (!inline) {
