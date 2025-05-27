@@ -61,7 +61,7 @@ function PureMessages({
       {messages.length === 0 && <Greeting />}
 
       {messages.map((message, index) => {
-        console.log("message: ", message);
+        // console.log("message: ", message);
         return (
           <PreviewMessage
             key={message.id}
