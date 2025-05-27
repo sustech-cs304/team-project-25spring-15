@@ -10,12 +10,12 @@ import (
 
 // Comment is the golang structure of table Comment for DAO operations like Where/Data.
 type Comment struct {
-	g.Meta             `orm:"table:Comment, do:true"`
-	CommentId          interface{} //
-	RepliedToCommentId interface{} //
-	LectureId          interface{} //
-	AuthorId           interface{} //
-	Content            interface{} //
-	CreateTime         interface{} //
-	Likes              interface{} //
+	g.Meta               `orm:"table:Comment, do:true"`
+	CommentId            interface{} //
+	RepliedToCommentedId interface{} //
+	LectureId            interface{} //
+	AuthorId             interface{} //
+	Content              interface{} //
+	CreateTime           interface{} //
+	Likes                interface{} //
 }
