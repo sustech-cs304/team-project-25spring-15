@@ -8,7 +8,7 @@ DROP TABLE IF EXISTS AssignmentUserFeedback;
 DROP TABLE IF EXISTS UserFileInfo;
 DROP TABLE IF EXISTS CourseAssistants;
 DROP TABLE IF EXISTS LectureFiles;
-DROP TABLE IF EXISTS LecutreNoteFiles;
+DROP TABLE IF EXISTS LectureNoteFiles;
 DROP TABLE IF EXISTS AssignmentFiles;
 DROP TABLE IF EXISTS Files;
 DROP TABLE IF EXISTS Assignments;
@@ -405,6 +405,14 @@ VALUES (
     );
 insert into Users(userId, userName, password, email, identity)
 VALUES (
+        10,
+        '10',
+        '123456',
+        '44444444@mail.sustech.edu.cn',
+        'student'
+    );
+insert into Users(userId, userName, password, email, identity)
+VALUES (
         8,
         '8',
         '123456',
@@ -446,29 +454,11 @@ VALUES (
         '1'
     );
 insert into Files(fileId, fileSize, fileUrl, fileName, fileType)
-VALUES (
-        3,
-        1,
-        '/usr/Document/answer_1.txt',
-        'answer_1',
-        '1'
-    );
+VALUES (3, 1, '/usr/Document/answer_1.txt', 'answer_1', '1');
 insert into Files(fileId, fileSize, fileUrl, fileName, fileType)
-VALUES (
-        4,
-        1,
-        '/usr/Document/answer_2.txt',
-        'answer_2',
-        '1'
-    );
+VALUES (4, 1, '/usr/Document/answer_2.txt', 'answer_2', '1');
 insert into Files(fileId, fileSize, fileUrl, fileName, fileType)
-VALUES (
-        5,
-        1,
-        '/usr/Document/attempt.py',
-        'attempt.py',
-        '1'
-    );
+VALUES (5, 1, '/usr/Document/attempt.py', 'attempt.py', '1');
 insert into TestcaseAndAnswerFiles(
         testcaseAndAnswerId,
         assignmentId,
@@ -503,4 +493,6 @@ select *
 from Courses;
 call fuzzy_search_result_multi('1,Y,', '', 10);
 select *
-from Comment;
+from Files;
+select *
+from Assignments;
