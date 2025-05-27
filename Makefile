@@ -1,4 +1,8 @@
 # Makefile
+MAKEFLAGS += --no-print-directory
+
+# Develop part
+.PHONY: setup-backend-dev close-backend-dev
 
 # Analyze part
 .PHONY: all-analyze
@@ -7,24 +11,34 @@
 # Analyze backend:
 .PHONY: count-lines calc-complexity count-go-files count-deps
 
+
 VENV_DIR := ./venv
+DEV_COMPOSE_DIR := ./Backend
+DEV_COMPOSE_NAME := docker-compose.dev.yml
 BACKEND_DIR := ./Backend/intelligent-course-aware-ide
 FRONTEND_DIR := ./Frontend/nextjs-dashboard
+
+# ====== Setup develop
+setup-backend-dev:
+	@cd $(DEV_COMPOSE_DIR) && docker compose -f $(DEV_COMPOSE_NAME) up -d --build
+
+close-backend-dev:
+	@cd $(DEV_COMPOSE_DIR) && docker compose -f $(DEV_COMPOSE_NAME) down
 
 # ====== Setup analyze environment and analyze
 all-analyze: setup-analyze analyze
 
-# ====== Setup analyze environment ======
+# ====== Setup analyze environment
 setup-analyze: venv install-tools install-go install-gocyclo install-lizard
 
 venv:
-	@if [ ! -d $(VENV_DIR)]; then \
+	@if [ ! -d $(VENV_DIR) ]; then \
 		echo "Creating Python virtual environment..."; \
 		python3 -m venv $(VENV_DIR); \
 	else \
 		echo "Virtual environment already exists."; \
 	fi
-	@source $(VENV_DIR)/bin/activate
+	@. $(VENV_DIR)/bin/activate
 
 install-tools:
 	@which cloc >/dev/null || (echo "Installing cloc..." && sudo apt update && sudo apt install -y cloc)
@@ -54,12 +68,56 @@ install-lizard:
 		. $(VENV_DIR)/bin/activate && pip install -i https://pypi.tuna.tsinghua.edu.cn/simple lizard; \
 	)
 
-# ====== Analyze ======
+# ====== Analyze
 analyze: analyze-backend analyze-frontend
 
-analyze-backend: check-backend-dir
+# ====== Analyze backend
+analyze-backend:
 	@echo "Analyzing Backend Code..."
-	$(MAKE) count-lines
-	$(MAKE) calc-complexity
-	$(MAKE) count-go-files
-	$(MAKE) count-deps
+	@$(MAKE) count-lines
+	@$(MAKE) calc-complexity
+	@$(MAKE) count-go-files
+	@$(MAKE) count-deps
+
+count-lines:
+	@echo "-- Lines of Code (Go):"
+	@cloc $(BACKEND_DIR)
+	@echo ""
+
+calc-complexity:
+	@echo "-- Cyclomatic Complexity (Go):"
+	@gocyclo -over 0 $(BACKEND_DIR) | \
+	awk '{count[$$1]++} END {for (c in count) printf("%s %d\n", c, count[c])}' | \
+	sort -n | \
+	awk '{printf("Complexity %s: %d functions\n", $$1, $$2)}' || true
+	@echo ""
+
+count-go-files:
+	@echo "-- Number of Go Files:"
+	@find $(BACKEND_DIR) -name "*.go" | wc -l
+	@echo ""
+
+count-deps:
+	@if [ -f $(BACKEND_DIR)/go.mod ]; then \
+		echo "-- Go Dependencies:"; \
+		cd $(BACKEND_DIR) && go list -m all | wc -l; \
+	else \
+		echo "No go.mod file found"; \
+	fi
+	@echo ""
+
+# ====== Analyze frontend
+analyze-frontend: 
+	@if [ -d $(FRONTEND_DIR) ]; then \
+		echo "Analyzing Frontend Code..."; \
+		cloc $(FRONTEND_DIR) --exclude-dir=.next,node_modules; \
+		find $(FRONTEND_DIR) \( -name "*.js" -o -name "*.ts" -o -name "*.tsx" \) | wc -l; \
+		. $(VENV_DIR)/bin/activate && lizard $(FRONTEND_DIR) -l javascript -l typescript; \
+		if [ -f $(FRONTEND_DIR)/package.json ]; then \
+			jq '.dependencies, .devDependencies | keys | length' $(FRONTEND_DIR)/package.json | paste -sd+ - | bc; \
+		else \
+			echo "No package.json file."; \
+		fi \
+	else \
+		echo "Frontend directory $(FRONTEND_DIR) not found"; \
+	fi

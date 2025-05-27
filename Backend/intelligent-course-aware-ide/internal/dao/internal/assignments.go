@@ -26,7 +26,7 @@ type AssignmentsColumns struct {
 	CourseId       string //
 	LectureId      string //
 	Description    string //
-	DeadLine       string //
+	Deadline       string //
 	Completeness   string //
 }
 
@@ -38,7 +38,7 @@ var assignmentsColumns = AssignmentsColumns{
 	CourseId:       "courseId",
 	LectureId:      "lectureId",
 	Description:    "description",
-	DeadLine:       "deadLine",
+	Deadline:       "deadline",
 	Completeness:   "completeness",
 }
 

@@ -5,7 +5,7 @@ gfcli:
   gen:
     dao:
       # - link: "mysql:root:123456@tcp(backend-database-1:3306)/mysqlTest"
-      - link: "mysql:root:123456@tcp(database:3306)/mysqlTest"
+      - link: "mysql:Y:123456@tcp(localhost:3306)/mysqlTest"
         descriptionTag: true
 
   docker:
@@ -21,9 +21,7 @@ gfcli:
   upload:
     path: "./uploads"
 
-  redis:
-  default:
-    address: "127.0.0.1:6379"
-    db: 0
-    idleTimeout: 600
-    maxActive: 100
+  database:
+    default:
+      link: "mysql:Y:123456@tcp(localhost:3306)/mysqlTest"
+      type: "mysql"

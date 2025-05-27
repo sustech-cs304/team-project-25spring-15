@@ -6,12 +6,12 @@ import (
 	"time"
 
 	v1 "intelligent-course-aware-ide/api/Files/v1"
+	"intelligent-course-aware-ide/internal/consts"
 	"intelligent-course-aware-ide/internal/dao"
 
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gfile"
-	"github.com/gogf/gf/v2/os/gtime"
 	"github.com/gogf/gf/v2/util/gconv"
 	"github.com/gogf/gf/v2/util/guid"
 )
@@ -40,23 +40,15 @@ func (c *ControllerV1) UploadLectureFile(ctx context.Context, req *v1.UploadLect
 	}
 	existingFileId := gconv.Int64(idValue) // 0 表示无记录
 
-	// Preparing the storage catalogue
-	uploadRoot := g.Cfg().MustGet(ctx, "upload.path", "./uploads").String()
-	storageDir := filepath.Join(uploadRoot, "lectures", gtime.Date())
-	if !gfile.Exists(storageDir) {
-		if err = gfile.Mkdir(storageDir); err != nil {
-			return nil, gerror.New("Failed to create storage directory")
-		}
-	}
-
-	// Generate a unique file name and save it
+	/// Generate a unique file name and save it
 	originalName := req.File.Filename
 	ext := filepath.Ext(originalName)
 	uniqueName := guid.S() + ext
-	fullPath := filepath.Join(storageDir, uniqueName)
+	fullPath := filepath.Join(consts.PathForLecture, uniqueName)
 	if _, err = req.File.Save(fullPath); err != nil {
 		return nil, gerror.New("Failed to save file")
 	}
+
 	size := req.File.Size
 	ctype := req.File.Header.Get("Content-Type")
 
