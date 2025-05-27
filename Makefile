@@ -110,7 +110,7 @@ count-deps:
 analyze-frontend: 
 	@if [ -d $(FRONTEND_DIR) ]; then \
 		echo "Analyzing Frontend Code..."; \
-		cloc $(FRONTEND_DIR); \
+		cloc $(FRONTEND_DIR) --exclude-dir=.next,node_modules; \
 		find $(FRONTEND_DIR) \( -name "*.js" -o -name "*.ts" -o -name "*.tsx" \) | wc -l; \
 		. $(VENV_DIR)/bin/activate && lizard $(FRONTEND_DIR) -l javascript -l typescript; \
 		if [ -f $(FRONTEND_DIR)/package.json ]; then \
