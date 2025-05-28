@@ -5,6 +5,8 @@ import { mocked_markdown_example } from "@/app/lib/mocked-data";
 import { useEffect, useRef, useState } from "react";
 import { CourseWareAPI } from "@/app/lib/client-api";
 import { Button } from "@mui/material";
+import { useStore } from '@/store/useStore';
+import { usePermissions } from '@/app/lib/permissions';
 
 type MarkdunnerProps = {
   courseId: string;
@@ -15,6 +17,14 @@ export default function Markdunner({ courseId, lectureId }: MarkdunnerProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [markdownContent, setMarkdownContent] = useState<string>("");
   const [uploading, setUploading] = useState(false);
+
+  // 添加权限管理
+  const userInfo = useStore(state => state.userInfo);
+  const courses = useStore(state => state.courses);
+  const courseIdentity = useStore(state => state.courseIdentity);
+  
+  const currentCourse = courses.find(course => course.courseId === parseInt(courseId));
+  const permissions = usePermissions(userInfo, currentCourse?.teacherId, courseIdentity);
 
   // 加载 lectureId 对应的 markdown
   useEffect(() => {
@@ -37,6 +47,11 @@ export default function Markdunner({ courseId, lectureId }: MarkdunnerProps) {
   }, [lectureId]);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!permissions.canEditExercise) {
+      alert('您没有权限上传Markdown笔记');
+      return;
+    }
+
     const file = e.target.files?.[0];
     if (!file) return;
     if (!file.name.endsWith('.md')) {
@@ -68,23 +83,26 @@ export default function Markdunner({ courseId, lectureId }: MarkdunnerProps) {
 
   return (
     <div>
-      <div className="flex justify-end">
-        <Button
-          variant="outlined"
-          component="label"
-          disabled={uploading}
-          className="mb-4"
-          style={{ textTransform: "none" }}
-        >
-          {uploading ? "上传中..." : "上传 Markdown Notes"}
-          <input
-            type="file"
-            accept=".md"
-            hidden
-            onChange={handleFileChange}
-          />
-        </Button>
-      </div>
+      {/* 只有有权限的用户才能看到上传按钮 */}
+      {permissions.canEditExercise && (
+        <div className="flex justify-end">
+          <Button
+            variant="outlined"
+            component="label"
+            disabled={uploading}
+            className="mb-4"
+            style={{ textTransform: "none" }}
+          >
+            {uploading ? "上传中..." : "上传 Markdown Notes"}
+            <input
+              type="file"
+              accept=".md"
+              hidden
+              onChange={handleFileChange}
+            />
+          </Button>
+        </div>
+      )}
       <input
         type="file"
         accept=".md"

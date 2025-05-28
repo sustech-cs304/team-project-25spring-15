@@ -53,7 +53,7 @@ export default function StudentList({ courseId }: StudentListProps) {
   const [openAddDialog, setOpenAddDialog] = useState(false);
 
   const currentCourse = courses.find(course => course.courseId === courseId);
-  
+
   // 使用权限管理工具
   const permissions = usePermissions(userInfo, currentCourse?.teacherId, courseIdentity);
 
@@ -240,7 +240,7 @@ export default function StudentList({ courseId }: StudentListProps) {
         </Button>
         <Box>
           <Typography variant="h4" component="h1">
-            {currentCourse?.courseName} - 学生管理
+            {currentCourse?.courseName} - 课程成员管理
           </Typography>
           <Typography variant="body2" color="text.secondary">
             {permissions.isTeacher ? '教师' : '助教'}权限
@@ -250,7 +250,7 @@ export default function StudentList({ courseId }: StudentListProps) {
 
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Typography variant="h5" component="h2">
-          学生列表 ({sortedStudents.length} 人)
+          成员列表 ({sortedStudents.length} 人)
         </Typography>
         {permissions.canManageStudents && (
           <Button

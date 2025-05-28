@@ -24,6 +24,7 @@ interface ExercisesListProps {
   onCreateClick: () => void;
   onEditClick: (ex: Assignment) => void;
   onDeleteClick: (exerciseId: number) => void;
+  canEdit?: boolean;
 }
 
 const filterOptions = ["全部", "待完成", "紧急", "已完成"];
@@ -68,6 +69,7 @@ export default function ExercisesList({
                                         onCreateClick,
                                         onEditClick,
                                         onDeleteClick,
+                                        canEdit = false,
                                       }: ExercisesListProps) {
   const [tabValue, setTabValue] = useState(0);
   const [searchText, setSearchText] = useState("");
@@ -111,20 +113,26 @@ export default function ExercisesList({
                 截止时间: {new Date(ex.deadline.replace(' ', 'T')).toLocaleString()}
               </Typography>
             </Box>
-            <IconButton size="small" onClick={() => onEditClick(ex)}>
-              <EditIcon fontSize="small" />
-            </IconButton>
-            <IconButton size="small" onClick={() => onDeleteClick(ex.assignmentId)}>
-              <DeleteIcon fontSize="small" />
-            </IconButton>
+            {canEdit && (
+              <>
+                <IconButton size="small" onClick={() => onEditClick(ex)}>
+                  <EditIcon fontSize="small" />
+                </IconButton>
+                <IconButton size="small" onClick={() => onDeleteClick(ex.assignmentId)}>
+                  <DeleteIcon fontSize="small" />
+                </IconButton>
+              </>
+            )}
           </TaskRow>
         ))}
       </Box>
 
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Button variant="contained" onClick={onCreateClick}>
-          新建任务
-        </Button>
+        {canEdit && (
+          <Button variant="contained" onClick={onCreateClick}>
+            新建任务
+          </Button>
+        )}
       </Box>
     </TaskListContainer>
   );

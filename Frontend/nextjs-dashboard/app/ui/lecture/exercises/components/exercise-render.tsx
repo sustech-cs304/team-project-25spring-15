@@ -33,6 +33,7 @@ import { useStore } from '@/store/useStore';
 import { Assignment } from '@/app/lib/definitions';
 import Markdunner from "@/app/ui/lecture/courseware/markdunner-view";
 import MarkdownWithRunner from "@/app/ui/lecture/courseware/markdown-with-runner";
+import { usePermissions } from '@/app/lib/permissions';
 
 interface TestCase {
   id: number;
@@ -78,6 +79,10 @@ export default function ExercisePage({ assignment, onBack }: ExercisePageProps) 
   const selectedCourse = useStore(state =>
     state.courses.find(c => c.courseId === selectedCourseId)
   );
+  const courseIdentity = useStore(state => state.courseIdentity);
+
+  // 使用权限管理工具
+  const permissions = usePermissions(userInfo, selectedCourse?.teacherId, courseIdentity);
 
   const handleRun = async () => {
     if (!code.trim()) {
@@ -164,6 +169,11 @@ export default function ExercisePage({ assignment, onBack }: ExercisePageProps) 
   };
 
   const handleAddTestCase = async () => {
+    if (!permissions.canAddTestCase) {
+      alert("您没有权限添加测试样例");
+      return;
+    }
+
     if (!newTestCase.name || !newTestCase.input || !newTestCase.output) {
       alert("请填写测试样例名称并上传输入和输出文件");
       return;
@@ -267,7 +277,7 @@ export default function ExercisePage({ assignment, onBack }: ExercisePageProps) 
                 </Select>
               </FormControl>
               <Box sx={{ flexGrow: 1 }} />
-              {userInfo?.identity === 'teacher' && (
+              {permissions.canAddTestCase && (
                 <Button
                   variant="outlined"
                   startIcon={<AddIcon />}

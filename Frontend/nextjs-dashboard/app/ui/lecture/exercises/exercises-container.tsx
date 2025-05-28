@@ -11,6 +11,7 @@ import TaskForm from "./components/task-form";
 import { AssignmentAPI } from "@/app/lib/client-api";
 import { Assignment } from "@/app/lib/definitions";
 import { useStore } from "@/store/useStore";
+import { usePermissions } from "@/app/lib/permissions";
 
 export default function ExercisesContainer() {
   const [exercises, setExercises] = useState<Assignment[]>([]);
@@ -27,6 +28,10 @@ export default function ExercisesContainer() {
   );
   const selectedLectureId = useStore((state) => state.selectedLectureId);
   const selectedLecture = selectedCourse?.lectures.find(l => l.lectureId === selectedLectureId);
+  const courseIdentity = useStore(state => state.courseIdentity);
+
+  // 使用权限管理工具
+  const permissions = usePermissions(userInfo, selectedCourse?.teacherId, courseIdentity);
 
   const fetchExercises = async () => {
     setLoading(true);
@@ -43,10 +48,11 @@ export default function ExercisesContainer() {
   }, []);
 
   const handleCreate = (data: { assignmentName: string; description: string; deadline: string }) => {
-    // axios.post("/api/exercises", data).then(() => {
-    //   setShowCreate(false);
-    //   fetchExercises();
-    // });
+    if (!permissions.canEditExercise) {
+      alert('您没有权限创建任务');
+      return;
+    }
+
     const newAssignment: Assignment = {
       assignmentName: data.assignmentName,
       description: data.description,
@@ -66,6 +72,10 @@ export default function ExercisesContainer() {
   };
 
   const handleDelete = (id: number) => {
+    if (!permissions.canEditExercise) {
+      alert('您没有权限删除任务');
+      return;
+    }
     if (!window.confirm("确定要删除这个作业吗？")) return;
     AssignmentAPI.deleteAssignment(id, selectedCourseId || 0)
       .then(() => fetchExercises())
@@ -73,11 +83,19 @@ export default function ExercisesContainer() {
   };
 
   const handleEdit = (ex: Assignment) => {
+    if (!permissions.canEditExercise) {
+      alert('您没有权限编辑任务');
+      return;
+    }
     setEditExercise(ex);
     setShowEdit(true);
   };
 
   const handleUpdate = (data: { assignmentName: string; description: string; deadline: string }) => {
+    if (!permissions.canEditExercise) {
+      alert('您没有权限更新任务');
+      return;
+    }
     if (!editExercise) return;
     axios.put(`/api/exercises/${editExercise.assignmentId}`, data).then(() => {
       setShowEdit(false);
@@ -88,6 +106,14 @@ export default function ExercisesContainer() {
 
   const handleView = (id: number) => setSelectedId(id);
   const handleBack = () => setSelectedId(0);
+
+  const handleCreateClick = () => {
+    if (!permissions.canEditExercise) {
+      alert('您没有权限创建任务');
+      return;
+    }
+    setShowCreate(true);
+  };
 
   if (loading) return <Typography>加载中...</Typography>;
 
@@ -111,9 +137,10 @@ export default function ExercisesContainer() {
         <ExercisesList
           exercises={exercises}
           onExerciseClick={handleView}
-          onCreateClick={() => setShowCreate(true)}
+          onCreateClick={handleCreateClick}
           onEditClick={handleEdit}
           onDeleteClick={handleDelete}
+          canEdit={permissions.canEditExercise}
         />
       )}
     </Box>
