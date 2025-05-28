@@ -5,6 +5,7 @@ import os, subprocess
 app = Flask(__name__)
 
 FILE_PATH = "/home/admin/team-project-25spring-15/Backend/data/"
+TEMPORARY_NAME = "temp_script"
 
 def compose_run_cmd(run_cmd: str, args: list[int], input_path: str, output_path: str):
     if args != []:
@@ -18,12 +19,12 @@ def compose_run_cmd(run_cmd: str, args: list[int], input_path: str, output_path:
     return run_cmd
 
 
-def run_C_code(code: str, name: str, args: list[int], input_path: str, output_path: str, dir: str):
+def compile_C(code: str, name: str, dir: str):
     file_path = FILE_PATH + dir + name
 
     with open(file_path, 'w', encoding='utf-8') as f:
         f.write(code)
-    
+
     exe_path = FILE_PATH + os.path.splitext(name)[0]
     
     compile_cmd = ["gcc", file_path, "-o", exe_path]
@@ -32,6 +33,15 @@ def run_C_code(code: str, name: str, args: list[int], input_path: str, output_pa
         compile_result = subprocess.run(compile_cmd, capture_output=True, text=True, check=True)
     except subprocess.CalledProcessError as e:
         return "", f"Compile error:\n{e.stderr}"
+
+    return exe_path, ""
+
+
+def run_C_code(code: str, name: str, args: list[int], input_path: str, output_path: str, dir: str):
+    exe_path, err = compile_C(code, name, dir)
+
+    if err != "":
+        return "", err
 
     run_cmd = compose_run_cmd(exe_path, args, input_path, output_path)
     
@@ -68,7 +78,7 @@ def run_code():
     codeDir = data.get('dir')
 
     code = codeInfo.get('code', '')
-    name = codeInfo.get('name', 'temp_script')
+    name = codeInfo.get('name', TEMPORARY_NAME)
     args = codeInfo.get('args', [])
     input_path = codeInfo.get('InputPath', "")
     output_path = codeInfo.get('outputPath', "")
@@ -87,8 +97,22 @@ def run_code():
 
     return jsonify(response)
 
-def run_and_check(run_method):
-    for 
+def run_and_check(code_type, code, codeDir, testcases, answers):
+    file_path = FILE_PATH + codeDir + TEMPORARY_NAME
+
+    with open(file_path, 'w', encoding='utf-8') as f:
+        f.write(code)
+
+    if code_type == 'cpp':
+
+    if code_type == 'python':
+
+
+    totalScore = 0
+    getScore = 0
+
+    for index in range(len(testcases)):
+
 
 @app.route('/check', methods=['POST'])
 def run_check_answer():
@@ -106,9 +130,9 @@ def run_check_answer():
     name = codeInfo.get('name', 'temp_script')
 
     if codeType == 'c' or codeType == 'cpp' or codeType == 'c++':
-        result, err = run_C_code(code, name, args, input_path, output_path, codeDir)
+        result, err = "" , ""
     elif codeType == 'python' or codeType == 'py':
-        result, err = run_Python_code(code, name, args, input_path, output_path, codeDir)
+        result, err = "" , ""
     else:
         result, err = '', 'code type not support'
     response = {
