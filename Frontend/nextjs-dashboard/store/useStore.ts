@@ -18,6 +18,8 @@ interface Store {
   setSelectedCourseId: (id: number) => void;
   selectedLectureId: number;
   setSelectedLectureId: (id: number) => void;
+  courseIdentity: string | null; // 当前用户在选中课程中的身份
+  setCourseIdentity: (identity: string | null) => void;
 }
 
 export const useStore = create<Store>()(
@@ -31,6 +33,7 @@ export const useStore = create<Store>()(
       lectures: [],
       selectedCourseId: 0,
       selectedLectureId: 0,
+      courseIdentity: null,
 
       // —— 修改方法 ——
       setToken: (token) => set({ token }),
@@ -40,6 +43,7 @@ export const useStore = create<Store>()(
       setLectures: (l) => set({ lectures: l }),
       setSelectedCourseId: (id) => set({ selectedCourseId: id }),
       setSelectedLectureId: (id) => set({ selectedLectureId: id }),
+      setCourseIdentity: (identity) => set({ courseIdentity: identity }),
     }),
     {
       name: 'my-app-storage',                               // localStorage 的 key

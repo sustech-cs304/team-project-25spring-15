@@ -29,6 +29,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import SchoolIcon from '@mui/icons-material/School';
 import { CourseAPI } from '@/app/lib/client-api';
+import { usePermissions } from '@/app/lib/permissions';
 
 interface StudentListProps {
   courseId: number;
@@ -44,6 +45,7 @@ export default function StudentList({ courseId }: StudentListProps) {
   const router = useRouter();
   const userInfo = useStore(state => state.userInfo);
   const courses = useStore(state => state.courses);
+  const courseIdentity = useStore(state => state.courseIdentity);
 
   const [students, setStudents] = useState<CourseStudent[]>([]);
   const [loading, setLoading] = useState(true);
@@ -51,12 +53,23 @@ export default function StudentList({ courseId }: StudentListProps) {
   const [openAddDialog, setOpenAddDialog] = useState(false);
 
   const currentCourse = courses.find(course => course.courseId === courseId);
-  const isTeacher = userInfo?.identity === 'teacher' && currentCourse?.teacherId === userInfo.userId;
+  
+  // 使用权限管理工具
+  const permissions = usePermissions(userInfo, currentCourse?.teacherId, courseIdentity);
+
+  // 权限检查：只有教师和助教可以管理学生
+  useEffect(() => {
+    if (!permissions.canManageStudents) {
+      console.log('用户没有管理学生的权限，重定向到课程页面');
+      router.push(`/dashboard/course/${courseId}`);
+      return;
+    }
+  }, [permissions.canManageStudents, router, courseId]);
 
   // 加载学生列表
   useEffect(() => {
     const loadData = async () => {
-      if (!courseId) return;
+      if (!courseId || !permissions.canManageStudents) return;
 
       try {
         setLoading(true);
@@ -71,7 +84,7 @@ export default function StudentList({ courseId }: StudentListProps) {
     };
 
     loadData();
-  }, [courseId]);
+  }, [courseId, permissions.canManageStudents]);
 
   // 对学生列表进行排序：老师 -> 助教 -> 普通学生
   const sortedStudents = [...students].sort((a, b) => {
@@ -101,6 +114,7 @@ export default function StudentList({ courseId }: StudentListProps) {
 
   const handleAddStudent = async () => {
     if (!studentEmail) return alert('请输入学生邮箱');
+    if (!permissions.canManageStudents) return alert('您没有权限添加学生');
 
     try {
       // 添加学生到课程
@@ -118,6 +132,7 @@ export default function StudentList({ courseId }: StudentListProps) {
   };
 
   const handleRemoveStudent = async (studentId: number) => {
+    if (!permissions.canManageStudents) return alert('您没有权限移除学生');
     if (!confirm('确认从课程中移除此学生？')) return;
 
     try {
@@ -133,6 +148,7 @@ export default function StudentList({ courseId }: StudentListProps) {
   };
 
   const handlePromoteToTA = async (studentId: number) => {
+    if (!permissions.isTeacher) return alert('只有教师可以设置助教');
     if (!confirm('确认将此学生设为助教？')) return;
 
     try {
@@ -151,6 +167,7 @@ export default function StudentList({ courseId }: StudentListProps) {
   };
 
   const handleRemoveTA = async (studentId: number) => {
+    if (!permissions.isTeacher) return alert('只有教师可以取消助教身份');
     if (!confirm('确认取消此学生的助教身份？')) return;
 
     try {
@@ -187,9 +204,27 @@ export default function StudentList({ courseId }: StudentListProps) {
     }
   };
 
-  if (!isTeacher) {
-    router.push(`/dashboard/course/${courseId}`);
-    return null;
+  if (!permissions.canManageStudents) {
+    return (
+      <Container maxWidth="xl">
+        <Box sx={{ display: 'flex', alignItems: 'center', mb: 4 }}>
+          <Button
+            variant="outlined"
+            startIcon={<ArrowBackIcon />}
+            onClick={() => router.push(`/dashboard/course/${courseId}`)}
+            sx={{ mr: 2 }}
+          >
+            返回课程
+          </Button>
+          <Typography variant="h4" component="h1">
+            权限不足
+          </Typography>
+        </Box>
+        <Typography variant="body1" color="text.secondary">
+          您没有管理学生的权限，正在重定向...
+        </Typography>
+      </Container>
+    );
   }
 
   return (
@@ -203,23 +238,30 @@ export default function StudentList({ courseId }: StudentListProps) {
         >
           返回课程
         </Button>
-        <Typography variant="h4" component="h1">
-          {currentCourse?.courseName} - 学生管理
-        </Typography>
+        <Box>
+          <Typography variant="h4" component="h1">
+            {currentCourse?.courseName} - 学生管理
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            {permissions.isTeacher ? '教师' : '助教'}权限
+          </Typography>
+        </Box>
       </Box>
 
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Typography variant="h5" component="h2">
-          学生列表
+          学生列表 ({sortedStudents.length} 人)
         </Typography>
-        <Button
-          variant="contained"
-          color="primary"
-          startIcon={<PersonAddIcon />}
-          onClick={handleAddStudentOpen}
-        >
-          添加学生
-        </Button>
+        {permissions.canManageStudents && (
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<PersonAddIcon />}
+            onClick={handleAddStudentOpen}
+          >
+            添加学生
+          </Button>
+        )}
       </Box>
 
       {loading ? (
@@ -255,29 +297,33 @@ export default function StudentList({ courseId }: StudentListProps) {
                       <TableCell>{student.enrollmentDate ? new Date(student.enrollmentDate).toLocaleDateString() : '-'}</TableCell>
                       <TableCell>
                         <Box sx={{ display: 'flex', gap: 1 }}>
-                          {/* 只有老师可以看到操作按钮，且不能对自己进行操作 */}
-                          {isTeacher && !isCurrentTeacher && (
+                          {/* 有管理权限的用户可以看到操作按钮，但不能对自己进行操作 */}
+                          {permissions.canManageStudents && !isCurrentTeacher && (
                             <>
-                              {/* 助教管理按钮 */}
-                              {isTA ? (
-                                <IconButton
-                                  color="warning"
-                                  onClick={() => handleRemoveTA(student.userId)}
-                                  title="取消助教"
-                                >
-                                  <SchoolIcon />
-                                </IconButton>
-                              ) : (
-                                <IconButton
-                                  color="info"
-                                  onClick={() => handlePromoteToTA(student.userId)}
-                                  title="设为助教"
-                                >
-                                  <SchoolIcon />
-                                </IconButton>
+                              {/* 助教管理按钮 - 只有教师可以管理助教 */}
+                              {permissions.isTeacher && (
+                                <>
+                                  {isTA ? (
+                                    <IconButton
+                                      color="warning"
+                                      onClick={() => handleRemoveTA(student.userId)}
+                                      title="取消助教"
+                                    >
+                                      <SchoolIcon />
+                                    </IconButton>
+                                  ) : (
+                                    <IconButton
+                                      color="info"
+                                      onClick={() => handlePromoteToTA(student.userId)}
+                                      title="设为助教"
+                                    >
+                                      <SchoolIcon />
+                                    </IconButton>
+                                  )}
+                                </>
                               )}
 
-                              {/* 删除按钮 */}
+                              {/* 删除按钮 - 教师和助教都可以移除普通学生 */}
                               <IconButton
                                 color="error"
                                 onClick={() => handleRemoveStudent(student.userId)}
