@@ -68,7 +68,7 @@ def run_code():
     codeInfo = data.get('codeInfo')
     codeType = data.get('type')
     if codeType == "" or codeType == None:
-        codeType = "string"
+        codeType = "txt"
     codeType = codeType.lower()
     codeDir = data.get('dir')
     codeDir = TEMPORARY_DIR + codeDir
@@ -126,7 +126,7 @@ def run_and_check(code_type, code_path, testcases, answers, output_path):
         run_cmd = exe_path
     elif code_type == 'python':
         run_cmd = "python " + code_path
-    elif code_type == 'string':
+    elif code_type == 'txt':
         run_cmd = ""
     else:
         return getScore, score_result, "code type not support"
@@ -162,7 +162,7 @@ def run_check_answer():
 
     # 解析 RunnerReq 结构
     codePath = data.get('codePath')
-    codeType = data.get('type', 'string').lower()
+    codeType = data.get('type', 'txt').lower()
     testcases = data.get('testcases')
     answers = data.get('answers')
     outputPath = data.get('outputPath')
@@ -173,10 +173,11 @@ def run_check_answer():
     result, record, err = run_and_check(codeType, codePath, testcases, answers, outputPath)
 
     response = {
-        "result": result,
-        "record": record,
-        "error": err,
-        "filePath": ""
+        "feedback": {
+            "score": result,
+            "record": record,
+            "error": err
+        }
     }
 
     return jsonify(response)

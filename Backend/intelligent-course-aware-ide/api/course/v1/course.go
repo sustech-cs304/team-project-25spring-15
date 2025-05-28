@@ -78,8 +78,9 @@ type GetCourseWithLecturesByCourseIdReq struct {
 }
 
 type GetCourseWithLecturesByCourseIdRes struct {
-	g.Meta `mime:"text/html" example:"json"`
-	Course CourseInfoWithLecture `json:"course" dc:"info of the course"`
+	g.Meta         `mime:"text/html" example:"json"`
+	Course         CourseInfoWithLecture `json:"course" dc:"info of the course"`
+	CourseIdentity string                `json:"courseIdentity" dc:"identity of the user in this course"`
 }
 
 type GetCourseWithLecturesByStudentIdReq struct {
