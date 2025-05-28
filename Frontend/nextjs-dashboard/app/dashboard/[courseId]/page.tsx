@@ -2,7 +2,7 @@
 
 import { fetchCourses } from "@/app/lib/server-api";
 import { Course } from "@/app/lib/definitions";
-import CardWrapper from "@/app/ui/course/cards";
+import { LectureCardWrapper } from "@/app/ui/course/cards";
 import { CardsSkeleton } from "@/app/ui/skeletons";
 
 export default async function Page() {
@@ -10,7 +10,7 @@ export default async function Page() {
   return (
     <main>
       <div>
-        <CardWrapper courses={courses} />
+        <LectureCardWrapper courses={courses} />
       </div>
     </main>
   );
