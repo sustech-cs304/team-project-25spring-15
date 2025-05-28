@@ -335,6 +335,7 @@ export const AssignmentAPI = {
     console.log("Fetched assignments:", res);
     const assignments = res.data.data.assignments as Assignment[];
     const score       = res.data.data.scorse       as number[];
+    console.log("Score: ", score)
     const merged = assignments?.map((assignment, idx) => ({
       ...assignment,
       score: score[idx],
