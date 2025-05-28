@@ -26,8 +26,6 @@ export function Chat({
   // const { mutate } = useSWRConfig();
   const params = useParams();
   const {courseId, lectureId} = params;
-  const combinedId = `${courseId}.${lectureId}`;
-  console.log(combinedId);
 
   const {
     messages,
@@ -40,8 +38,8 @@ export function Chat({
     stop,
     reload,
   } = useChat({
-    id: combinedId,
-    body: { id: combinedId, selectedChatModel: selectedChatModel },
+    id: lectureId?.toString(),
+    body: { id: lectureId, selectedChatModel: selectedChatModel },
     initialMessages,
     experimental_throttle: 100,
     sendExtraMessageFields: true,

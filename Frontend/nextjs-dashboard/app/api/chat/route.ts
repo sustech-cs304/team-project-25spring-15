@@ -27,12 +27,13 @@ export async function POST(req: Request) {
     selectedChatModel: string;
   } = await req.json();
 
-  console.log("messages: ", messages);
+  // console.log("messages: ", messages);
   const lastMessage = messages[messages.length - 1];
+  const idNum = Number(id);
 
   const message: AiMessage = {
-    id: generateUUID(),
-    lectureId: id,
+    chatId: generateUUID(),
+    lectureId: idNum,
     userId: userId,
     role: 'user',
     parts: JSON.stringify(lastMessage.parts), // 复制parts部分，包括reasoning
@@ -81,11 +82,12 @@ export async function POST(req: Request) {
               responseMessages: response.messages,
             });
             console.log("assistant message: ", assistantMessage);
+            console.log(assistantId);
 
             await AiMessageAPI.saveMessage({
-              id: assistantId,
+              chatId: assistantId,
               userId: userId,
-              lectureId: id,
+              lectureId: idNum,
               role: assistantMessage.role,
               parts: JSON.stringify(assistantMessage.parts),
               createdAt: new Date(),

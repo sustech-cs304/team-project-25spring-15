@@ -17,10 +17,12 @@ export default async function Page({ params }: { params: Promise<{ courseId: str
     throw new Error("Unauthorized: userId is missing");
   }
   const prevMessages = await AiMessageAPI.getMessages(userId?.toString(), lectureId);
+  // console.log("Prev messages: ", prevMessages);
 
   function convertToUIMessages(messages: Array<AiMessage>): Array<UIMessage> {
+    if(messages === null) return [];
     return messages.map((message) => ({ // TODO: NOTHING TO STRINGFY parts
-      id: message.id,
+      id: message.chatId,
       parts: JSON.parse(message.parts) as UIMessage['parts'],
       role: message.role as UIMessage['role'],
       // Note: content will soon be deprecated in @ai-sdk/react

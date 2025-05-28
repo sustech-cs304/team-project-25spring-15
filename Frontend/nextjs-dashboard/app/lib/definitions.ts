@@ -34,8 +34,8 @@ export const myProvider = customProvider({
 });
 
 export type AiMessage = {
-  id: string; // uuid
-  lectureId: string;
+  chatId: string; // uuid
+  lectureId: number;
   userId: number;
   role: string;
   parts: string;
