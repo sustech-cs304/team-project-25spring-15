@@ -26,8 +26,8 @@ func Test_StoreMessage(t *testing.T) {
 		req := &v1.StoreMessageReq{
 			StoreHistoryItem: v1.StoreHistoryItem{
 				ChatId:    chatId,
-				LectureId: 1001,
-				UserId:    2002,
+				LectureId: 1,
+				UserId:    1,
 				Role:      "user",
 				Parts:     "Hello, this is a test message.",
 				CreateAt:  createAt.Time,
@@ -53,11 +53,11 @@ func Test_StoreHistories(t *testing.T) {
 		chatGroup := uuid.New().String()
 		now := gtime.New(time.Now())
 		items := make([]v1.StoreHistoryItem, 0, 3)
-		for i := 0; i < 3; i++ {
+		for i := 1; i < 3; i++ {
 			items = append(items, v1.StoreHistoryItem{
 				ChatId:    chatGroup,
-				LectureId: int64(1000 + i),
-				UserId:    int64(2000 + i),
+				LectureId: int64(i),
+				UserId:    int64(i),
 				Role:      "user",
 				Parts:     fmt.Sprintf("Message %d", i+1),
 				CreateAt:  now.Time,
@@ -84,12 +84,12 @@ func Test_GetHistories(t *testing.T) {
 		chatGroup := uuid.New().String()
 		now := gtime.New(time.Now())
 		// Insert three history items
-		for i := 0; i < 3; i++ {
+		for i := 1; i < 3; i++ {
 			_, err := dao.AIChatHistory.Ctx(context.Background()).
 				Data(g.Map{
 					"chatId":    chatGroup,
-					"lectureId": int64(500 + i),
-					"userId":    int64(600 + i),
+					"lectureId": int64(i),
+					"userId":    int64(i),
 					"role":      "assistant",
 					"parts":     fmt.Sprintf("Reply %d", i+1),
 					"createAt":  now.Add(time.Duration(i) * time.Second),
@@ -100,8 +100,8 @@ func Test_GetHistories(t *testing.T) {
 
 		// Fetch for a specific lectureId and userId (use the first inserted)
 		req := &v1.GetHistoriesReq{
-			LectureId: 500,
-			UserId:    600,
+			LectureId: 1,
+			UserId:    1,
 		}
 		ctrl := &ControllerV1{}
 		res, err := ctrl.GetHistories(context.Background(), req)
@@ -116,10 +116,10 @@ func Test_ClearHistories(t *testing.T) {
 	gtest.C(t, func(t *gtest.T) {
 		chatGroup := uuid.New().String()
 		now := gtime.New(time.Now())
-		lectureId := int64(800)
-		userId := int64(900)
+		lectureId := int64(1)
+		userId := int64(1)
 		// Insert two history items
-		for i := 0; i < 2; i++ {
+		for i := 1; i < 3; i++ {
 			_, err := dao.AIChatHistory.Ctx(context.Background()).
 				Data(g.Map{
 					"chatId":    chatGroup,

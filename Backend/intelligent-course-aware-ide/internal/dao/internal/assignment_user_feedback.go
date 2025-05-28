@@ -23,6 +23,8 @@ type AssignmentUserFeedbackColumns struct {
 	AssignmentId string //
 	PerformerId  string //
 	Score        string //
+	Record       string //
+	Error        string //
 	FileId       string //
 	FileType     string //
 }
@@ -32,6 +34,8 @@ var assignmentUserFeedbackColumns = AssignmentUserFeedbackColumns{
 	AssignmentId: "assignmentId",
 	PerformerId:  "performerId",
 	Score:        "score",
+	Record:       "record",
+	Error:        "error",
 	FileId:       "fileId",
 	FileType:     "fileType",
 }

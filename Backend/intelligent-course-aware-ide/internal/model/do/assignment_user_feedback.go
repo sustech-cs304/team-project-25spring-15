@@ -14,6 +14,8 @@ type AssignmentUserFeedback struct {
 	AssignmentId interface{} //
 	PerformerId  interface{} //
 	Score        interface{} //
+	Record       interface{} //
+	Error        interface{} //
 	FileId       interface{} //
 	FileType     interface{} //
 }
