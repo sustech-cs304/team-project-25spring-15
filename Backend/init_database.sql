@@ -73,7 +73,7 @@ CREATE TABLE Assignments(
     courseId BIGINT,
     lectureId INTEGER,
     description VARCHAR(255),
-    deadLine TIMESTAMP,
+    deadline TIMESTAMP,
     completeness INT,
     FOREIGN KEY (publisherId) REFERENCES Users(userId) ON DELETE CASCADE,
     FOREIGN KEY (courseId) REFERENCES Courses(courseId) ON DELETE CASCADE,
