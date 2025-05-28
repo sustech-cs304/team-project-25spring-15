@@ -196,6 +196,39 @@ export const CourseAPI = {
     });
     console.log('Student removed successfully:', response.data);
     return response.data;
+  },
+
+  // 指定课程助教
+  assignCourseAssistant: async (courseId: number, assistantId: number) => {
+    console.log(`Assigning assistant ID ${assistantId} to course ID: ${courseId}`);
+    const headers = await getAuthHeader();
+    const payload = {
+      courseId,
+      assistantId
+    };
+    console.log('Payload for assigning assistant:', payload);
+    const response = await axios.post(`/api/course/assignCourseAssistant`, payload, {headers});
+    console.log('Assistant assigned successfully:', response.data);
+    return response.data;
+  },
+
+  removeCourseAssistant: async (courseId: number, assistantId: number) => {
+    console.log(`Removing assistant ID ${assistantId} from course ID: ${courseId}`);
+    const headers = await getAuthHeader();
+    const payload = {
+      courseId,
+      assistantId
+    };
+    console.log('Payload for removing assistant:', payload);
+    const response = await axios.delete(`/api/course/unassignCourseAssistant`, {
+      headers,
+      params: {
+        courseId,
+        assistantId
+      }
+    });
+    console.log('Assistant removed successfully:', response.data);
+    return response.data;
   }
 };
 
@@ -334,7 +367,7 @@ export const AssignmentAPI = {
       });
     console.log("Fetched assignments:", res);
     const assignments = res.data.data.assignments as Assignment[];
-    const score       = res.data.data.scorse       as number[];
+    const score       = res.data.data.scores       as number[];
     console.log("Score: ", score)
     const merged = assignments?.map((assignment, idx) => ({
       ...assignment,
@@ -384,23 +417,25 @@ export const AssignmentAPI = {
 }
 
 export const FileAPI = {
-  uploadFile: async (file: File, lectureId: number) => {
+  uploadFile: async (file: File) => {
     const headers = await getAuthHeader();
 
     const formData = new FormData();
-    formData.append("lectureId", lectureId.toString());
     formData.append("file", file);
 
     try {
-      const res = await axios.post(`/api/Files/lectureFile/upload`, formData, { headers });
+      // 根据新的API接口，使用POST方法到/api/Files
+      const res = await axios.post(`/api/Files`, formData, {
+        headers: {
+          ...headers,
+          'Content-Type': 'multipart/form-data'
+        }
+      });
 
       console.log("File uploaded successfully:", res.data);
 
-      // 确保返回格式符合API文档
-      return {
-        result: res.data.result,
-        fileId: res.data.fileId
-      };
+      // 直接返回生成的fileId
+      return res.data.data.FileId;
     } catch (error) {
       console.error("File upload failed:", error);
       throw error;

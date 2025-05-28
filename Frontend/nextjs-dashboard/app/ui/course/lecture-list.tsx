@@ -33,13 +33,13 @@ import CalendarToday from '@mui/icons-material/CalendarToday';
 import AccessTime from '@mui/icons-material/AccessTime';
 import CheckCircle from '@mui/icons-material/CheckCircle';
 import { LectureAPI, CourseAPI } from '@/app/lib/client-api';
-import { 
-  PageWrapper, 
-  AnimatedContainer, 
-  AnimatedCard, 
-  FadeIn, 
+import {
+  PageWrapper,
+  AnimatedContainer,
+  AnimatedCard,
+  FadeIn,
   SlideIn,
-  LoadingSpinner 
+  LoadingSpinner
 } from '@/app/ui/animations';
 
 interface LectureListProps {
@@ -119,7 +119,7 @@ export default function LectureList({ courseId }: LectureListProps) {
       }
     };
 
-    loadCourseAndLectures();
+      loadCourseAndLectures();
   // 只依赖于courseId，不依赖于courses和setCourses
   }, [courseId]);
 
@@ -204,10 +204,10 @@ export default function LectureList({ courseId }: LectureListProps) {
     return (
       <PageWrapper>
         <Container maxWidth="xl">
-          <Box sx={{ 
-            display: 'flex', 
+          <Box sx={{
+            display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center', 
+            alignItems: 'center',
             justifyContent: 'center',
             minHeight: '60vh',
             gap: 3
@@ -267,10 +267,10 @@ export default function LectureList({ courseId }: LectureListProps) {
       <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 1 }}>
         {/* 头部区域 */}
         <FadeIn delay={0.1}>
-          <Box sx={{ 
-            display: 'flex', 
-            justifyContent: 'space-between', 
-            alignItems: 'flex-start', 
+          <Box sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'flex-start',
             mb: 4,
             pt: 4,
             flexWrap: 'wrap',
@@ -294,10 +294,10 @@ export default function LectureList({ courseId }: LectureListProps) {
                 返回
               </Button>
               <Box>
-                <Typography 
-                  variant="h3" 
+                <Typography
+                  variant="h3"
                   component="h1"
-                  sx={{ 
+                  sx={{
                     color: 'white',
                     fontWeight: 700,
                     textShadow: '0 2px 4px rgba(0,0,0,0.3)',
@@ -428,7 +428,7 @@ export default function LectureList({ courseId }: LectureListProps) {
 
         {/* 讲座列表 */}
         <FadeIn delay={0.3}>
-          <Typography variant="h4" component="h2" gutterBottom sx={{ 
+          <Typography variant="h4" component="h2" gutterBottom sx={{
             fontWeight: 700,
             color: 'white',
             textShadow: '0 2px 4px rgba(0,0,0,0.3)',
@@ -471,8 +471,8 @@ export default function LectureList({ courseId }: LectureListProps) {
                   >
                     <CardContent sx={{ p: 3 }}>
                       <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2, mb: 2 }}>
-                        <Avatar 
-                          sx={{ 
+                        <Avatar
+                          sx={{
                             bgcolor: 'primary.main',
                             width: 48,
                             height: 48,
@@ -492,8 +492,8 @@ export default function LectureList({ courseId }: LectureListProps) {
                           />
                         </Box>
                       </Box>
-                      <Typography 
-                        variant="body2" 
+                      <Typography
+                        variant="body2"
                         color="text.secondary"
                         sx={{
                           display: '-webkit-box',
@@ -535,8 +535,8 @@ export default function LectureList({ courseId }: LectureListProps) {
         </AnimatedContainer>
 
         {/* 添加讲座对话框 */}
-        <Dialog 
-          open={openLectureDialog} 
+        <Dialog
+          open={openLectureDialog}
           onClose={handleCloseLectureDialog}
           maxWidth="sm"
           fullWidth
@@ -586,8 +586,8 @@ export default function LectureList({ courseId }: LectureListProps) {
         </Dialog>
 
         {/* 添加学生对话框 */}
-        <Dialog 
-          open={openStudentDialog} 
+        <Dialog
+          open={openStudentDialog}
           onClose={handleCloseStudentDialog}
           maxWidth="sm"
           fullWidth

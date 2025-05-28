@@ -11,6 +11,7 @@ import (
 
 type uploadFileImpl struct{}
 
+// NOTE: Make sure consts.PathForLecture is an absolute path if plan to use this function
 func (s *uploadFileImpl) UploadFileFromHttp(ctx context.Context, File *ghttp.UploadFile) (string, error) {
 
 	// save the file and get a path
