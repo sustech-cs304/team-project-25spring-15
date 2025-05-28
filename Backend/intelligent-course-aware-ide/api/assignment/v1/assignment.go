@@ -14,13 +14,14 @@ type AssignmentInfo struct {
 	CourseId       int64       `json:"courseId" dc:"id of this course"`
 	LectureId      int64       `json:"lectureId" dc:"id of this lecture"`
 	Description    string      `json:"description" dc:"description of this assignment"`
-	DeadLine       *gtime.Time `json:"deadline" dc:"end time of this assignment"`
+	Deadline       *gtime.Time `json:"deadline" dc:"end time of this assignment"`
 	Completeness   int32       `json:"completeness" dc:"num of the student who has finished this"`
 }
 
 type AttemptForAssignment struct {
 	UserId       int64  `json:"userId" dc:"id of user"`
 	FileId       int64  `json:"fileId" dc:"id of file"`
+	Code         string `json:"code" dc:"code of this file"`
 	FileType     string `json:"fileType" dc:"type of file"`
 	AssignmentId int64  `json:"assignmentId" dc:"id of assignment"`
 }
@@ -114,7 +115,7 @@ type UpdateAssignmentRes struct {
 type UploadTestcaseAndAnswerReq struct {
 	g.Meta            `path:"/api/assignment/uploadTestcaseAndAnswer" method:"post" tags:"Assignment" summary:"update testcase and answer for this assignment"`
 	TestcaseAndAnswer TestcaseAndAnswerInfo `json:"testcaseAndAnswer" dc:"Info of the testcase and answer"`
-	CourseId          int64                 `v:"required" dc:"id of the course"`
+	CourseId          int64                 `json:"courseId" v:"required" dc:"id of the course"`
 	CourseName        string                `json:"courseName" dc:"name of this course"`
 	ChatId            int64                 `json:"chatId" dc:"chat id of this course"`
 }
