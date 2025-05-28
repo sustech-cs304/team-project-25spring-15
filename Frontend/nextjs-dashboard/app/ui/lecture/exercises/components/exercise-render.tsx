@@ -253,7 +253,8 @@ export default function ExercisePage({ assignment, onBack }: ExercisePageProps) 
         {/* 右侧代码区 */}
         <Box sx={{ width: '55%', display: 'flex', flexDirection: 'column', height: '100%' }}>
           <Box sx={{ p: 2, display: 'flex', flexDirection: 'column', height: '100%', overflow: 'auto' }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+            {/* 工具栏 - 固定高度 */}
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, flexShrink: 0 }}>
               <FormControl sx={{ minWidth: 140, mr: 2 }} size="small">
                 <InputLabel id="language-select-label">编程语言</InputLabel>
                 <Select
@@ -300,16 +301,27 @@ export default function ExercisePage({ assignment, onBack }: ExercisePageProps) 
               </Button>
             </Box>
 
-            <Box sx={{ flex: 1, minHeight: 0, mb: 2 }}>
-              <CodeEditor value={code} language={language} onChange={setCode} />
+            {/* 代码编辑器 - 固定高度，内部可滚动 */}
+            <Box sx={{ 
+              height: '400px', // 固定高度
+              mb: 2, 
+              border: '1px solid #e0e0e0',
+              borderRadius: 1,
+              overflow: 'hidden',
+              flexShrink: 0
+            }}>
+              <CodeEditor value={code} language={language} onChange={setCode} height="400px" />
             </Box>
 
-            <Divider sx={{ my: 1 }} />
+            {/* 分割线 - 固定高度 */}
+            <Divider sx={{ my: 1, flexShrink: 0 }} />
 
-            <Typography variant="subtitle2" gutterBottom>
+            {/* 运行结果标题 - 固定高度 */}
+            <Typography variant="subtitle2" gutterBottom sx={{ flexShrink: 0 }}>
               运行结果
             </Typography>
 
+            {/* 运行结果区域 - 固定高度 */}
             <Paper
               variant="outlined"
               sx={{
@@ -317,7 +329,8 @@ export default function ExercisePage({ assignment, onBack }: ExercisePageProps) 
                 backgroundColor: '#f5f5f5',
                 height: '150px',
                 overflow: 'auto',
-                fontFamily: 'monospace'
+                fontFamily: 'monospace',
+                flexShrink: 0
               }}
             >
               {running ? (

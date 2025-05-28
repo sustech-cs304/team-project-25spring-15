@@ -15,25 +15,6 @@ export const CmdAPI = {
   }
 }
 
-export const AiMessageAPI = {
-  saveMessage: async (message: AiMessage) => {
-    const headers = await getAuthHeader();
-
-    console.log("Saving message from ai...");
-    // const res = await axios.post( //TODO: TO BE SPECIFIED ！！
-    //   `/api/`, message, { headers }
-    // );
-    // return res;
-  },
-  getMessages: async (userId: string, lectureId: string) => {
-    // order is required!!!
-    const headers = await getAuthHeader();
-    console.log("Start fetching messages...");
-    //
-    return [];
-  }
-}
-
 export const CourseWareAPI = {
   uploadPdf: async (file: File, lectureId: string) => {
     const headers = await getAuthHeader();
@@ -215,6 +196,39 @@ export const CourseAPI = {
     });
     console.log('Student removed successfully:', response.data);
     return response.data;
+  },
+
+  // 指定课程助教
+  assignCourseAssistant: async (courseId: number, assistantId: number) => {
+    console.log(`Assigning assistant ID ${assistantId} to course ID: ${courseId}`);
+    const headers = await getAuthHeader();
+    const payload = {
+      courseId,
+      assistantId
+    };
+    console.log('Payload for assigning assistant:', payload);
+    const response = await axios.post(`/api/course/assignCourseAssistant`, payload, {headers});
+    console.log('Assistant assigned successfully:', response.data);
+    return response.data;
+  },
+
+  removeCourseAssistant: async (courseId: number, assistantId: number) => {
+    console.log(`Removing assistant ID ${assistantId} from course ID: ${courseId}`);
+    const headers = await getAuthHeader();
+    const payload = {
+      courseId,
+      assistantId
+    };
+    console.log('Payload for removing assistant:', payload);
+    const response = await axios.delete(`/api/course/unassignCourseAssistant`, {
+      headers,
+      params: {
+        courseId,
+        assistantId
+      }
+    });
+    console.log('Assistant removed successfully:', response.data);
+    return response.data;
   }
 };
 
@@ -353,7 +367,8 @@ export const AssignmentAPI = {
       });
     console.log("Fetched assignments:", res);
     const assignments = res.data.data.assignments as Assignment[];
-    const score       = res.data.data.scorse       as number[];
+    const score       = res.data.data.scores       as number[];
+    console.log("Score: ", score)
     const merged = assignments?.map((assignment, idx) => ({
       ...assignment,
       score: score[idx],

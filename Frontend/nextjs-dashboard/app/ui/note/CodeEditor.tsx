@@ -8,17 +8,18 @@ interface CodeEditorProps {
   value: string;
   language: string;
   onChange?: (value: string) => void;
+  height?: string;
 }
 
-const CodeEditor: React.FC<CodeEditorProps> = ({ value, language, onChange }) => {
+const CodeEditor: React.FC<CodeEditorProps> = ({ value, language, onChange, height = '100%' }) => {
   const languageExtension =
     language.toLowerCase() === 'javascript' ? javascript() : javascript();
 
   return (
-    <Box>
+    <Box sx={{ height: '100%', overflow: 'hidden' }}>
       <CodeMirror
         value={value}
-        minHeight="470px"
+        height={height}
         extensions={[languageExtension, autocompletion()]}
         onChange={(newValue: string) => {
           if (onChange) onChange(newValue);
@@ -26,8 +27,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ value, language, onChange }) =>
         style={{
           fontSize: 14,
           backgroundColor: '#fff',
-          border: '1px solid #ccc',
-          borderRadius: '4px',
+          height: '100%',
         }}
       />
     </Box>
