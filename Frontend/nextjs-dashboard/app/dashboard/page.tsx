@@ -10,7 +10,7 @@ export default function Page() {
   const setCourses = useStore(state => state.setCourses);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
-  
+
   useEffect(() => {
     async function loadCourses() {
       setLoading(true);
@@ -36,7 +36,7 @@ export default function Page() {
               }
             })
           );
-          
+
           setCourses(coursesWithLectures);
         } else {
           // 如果返回结果无效，设置为空数组
@@ -51,10 +51,10 @@ export default function Page() {
         setLoading(false);
       }
     }
-    
+
     loadCourses();
   }, [setCourses]);
-  
+
   if (error) {
     return (
       <div className="p-8 text-center">
@@ -63,6 +63,6 @@ export default function Page() {
       </div>
     );
   }
-  
+
   return <CourseList />;
 }

@@ -8,6 +8,13 @@ export async function getAuthHeader() {
   return token ? { Authorization: `Bearer ${token}` } : {};
 }
 
+export const CmdAPI = {
+  sendCmd: async () => {
+    const headers = await getAuthHeader();
+    console.log("Start fetching result of cmd: ");
+  }
+}
+
 export const AiMessageAPI = {
   saveMessage: async (message: AiMessage) => {
     const headers = await getAuthHeader();
@@ -46,6 +53,25 @@ export const CourseWareAPI = {
 
     const res = await axios.get(
       `/api/Files/lectureFile/lecture/${lectureId}`,
+      { headers, responseType: 'blob' }
+    );
+    return res;
+  },
+  uploadMarkdown: async (formData: FormData) => {
+    const headers = await getAuthHeader();
+
+    console.log("uploading pdf...");
+    const res = axios.post("/api/Files/lectureNote/upload", formData, {headers});
+
+    console.log(res);
+    return res;
+  },
+  getMarkdown: async (lectureId: string) => {
+    const headers = await getAuthHeader();
+    console.log("fetching pdf...");
+
+    const res = await axios.get(
+      `/api/Files/lectureNote/lecture/${lectureId}`,
       { headers, responseType: 'blob' }
     );
     return res;

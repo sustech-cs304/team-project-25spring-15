@@ -1,6 +1,5 @@
 'use client';
 
-import { lusitana } from '@/app/ui/fonts';
 import {
   AtSymbolIcon,
   ExclamationCircleIcon,
@@ -86,7 +85,7 @@ export default function LoginForm() {
       className="space-y-3"
     >
       <div className="flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8">
-        <h1 className={`${lusitana.className} mb-3 text-2xl`}>
+        <h1 className={`mb-3 text-2xl`}>
           {isRegister ? '创建新账号' : '请登录以继续'}
         </h1>
         <div className="w-full">

@@ -8,22 +8,23 @@ export const experimental_ppr = true;
 
 interface LectureLayoutProps {
   children: ReactNode;
-  params: {
+  params: Promise<{
     courseId: string;
     lectureId: string;
-  };
+  }>;
 }
 
 export default async function LectureLayout({ children, params }: LectureLayoutProps) {
   const courses = await fetchCourses();
-  const courseId = parseInt(params.courseId, 10);
-  const lectureId = parseInt(params.lectureId, 10);
+  const {courseId, lectureId} = await params;
+  const courseIdNum = Number(courseId);
+  const lectureIdNum = Number(lectureId);
 
   return (
     <div className="flex">
       {/* 左侧功能侧边栏 */}
-      <LectureSidebar courseId={courseId} lectureId={lectureId} />
-      
+      <LectureSidebar courseId={courseIdNum} lectureId={lectureIdNum} />
+
       {/* 右侧内容区域 */}
       <div className="flex-grow">
         <Card

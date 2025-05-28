@@ -1,4 +1,5 @@
 test.go
+test.py
 tmp/*
 sustech_cs304_15.tar
 Backend/intelligent-course-aware-ide/hack/config.yaml
@@ -26,3 +27,4 @@ Backend/intelligent-course-aware-ide/internal/logic/socket/*
 Backend/intelligent-course-aware-ide/internal/boot/*
 Backend/intelligent-course-aware-ide/internal/router/*
 venv
+Backend/data/*
