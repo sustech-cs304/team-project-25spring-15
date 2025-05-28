@@ -16,6 +16,6 @@ type Assignments struct {
 	CourseId       int64       `json:"courseId"       orm:"courseId"       description:""` //
 	LectureId      int         `json:"lectureId"      orm:"lectureId"      description:""` //
 	Description    string      `json:"description"    orm:"description"    description:""` //
-	DeadLine       *gtime.Time `json:"deadLine"       orm:"deadLine"       description:""` //
+	Deadline       *gtime.Time `json:"deadline"       orm:"deadline"       description:""` //
 	Completeness   int         `json:"completeness"   orm:"completeness"   description:""` //
 }
