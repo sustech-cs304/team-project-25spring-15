@@ -6,7 +6,8 @@ import (
 
 	v1 "intelligent-course-aware-ide/api/course/v1"
 	"intelligent-course-aware-ide/internal/dao"
-	"intelligent-course-aware-ide/internal/model/do"
+
+	"github.com/gogf/gf/v2/frame/g"
 )
 
 func (c *ControllerV1) UnassignCourseAssistant(ctx context.Context, req *v1.UnassignCourseAssistantReq) (res *v1.UnassignCourseAssistantRes, err error) {
@@ -16,10 +17,7 @@ func (c *ControllerV1) UnassignCourseAssistant(ctx context.Context, req *v1.Unas
 		return nil, err
 	}
 	if result || (req.AssistantId == operatorId) {
-		_, err := dao.CourseAssistants.Ctx(ctx).Where(do.CourseAssistants{
-			CourseId:    req.CourseId,
-			AssistantId: req.AssistantId,
-		}).Delete()
+		_, err := dao.UserCourseInfo.Ctx(ctx).Where("userId", req.AssistantId).Update(g.Map{"identity": "student"})
 		if err != nil {
 			return nil, err
 		}

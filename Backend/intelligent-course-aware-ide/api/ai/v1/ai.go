@@ -28,12 +28,12 @@ type AskForAiRes struct {
 }
 
 type StoreHistoryItem struct {
-	ChatId    string    `json:"chatId"    v:"required"`  // Unique UUID for the chat
-	LectureId int64     `json:"lectureId" v:"required"`  // Lecture foreign key
-	UserId    int64     `json:"userId"    v:"required"`  // User foreign key
-	Role      string    `json:"role"`                    // e.g. "user" or "assistant"
-	Parts     string    `json:"parts"      v:"required"` // The message content
-	CreateAt  time.Time `json:"createAt"`                // Timestamp
+	ChatId    string    `json:"chatId"`    // Unique UUID for the chat
+	LectureId int64     `json:"lectureId"` // Lecture foreign key
+	UserId    int64     `json:"userId"`    // User foreign key
+	Role      string    `json:"role"`      // e.g. "user" or "assistant"
+	Parts     string    `json:"parts"`     // The message content
+	CreateAt  time.Time `json:"createAt"`  // Timestamp
 }
 
 type StoreHistoriesReq struct {

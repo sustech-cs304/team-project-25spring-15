@@ -11,6 +11,7 @@ import (
 )
 
 type IFilesV1 interface {
+	UploadFile(ctx context.Context, req *v1.UploadFileReq) (res *v1.UploadFileRes, err error)
 	UploadLectureFile(ctx context.Context, req *v1.UploadLectureFileReq) (res *v1.UploadLectureFileRes, err error)
 	UploadLectureNote(ctx context.Context, req *v1.UploadLectureNoteReq) (res *v1.UploadLectureNoteRes, err error)
 	UpdateLectureFile(ctx context.Context, req *v1.UpdateLectureFileReq) (res *v1.UpdateLectureFileRes, err error)

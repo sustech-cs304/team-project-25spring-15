@@ -22,17 +22,11 @@ export default function ExercisesContainer() {
 
   const userInfo = useStore((state) => state.userInfo);
   const selectedCourseId = useStore((state) => state.selectedCourseId);
-  console.log("Selected course ID:", selectedCourseId);
   const selectedCourse = useStore(state =>
     state.courses.find(c => c.courseId === selectedCourseId)
   );
-  console.log("Selected course:", selectedCourse);
   const selectedLectureId = useStore((state) => state.selectedLectureId);
-  console.log("Selected lecture ID:", selectedLectureId);
-  const selectedLecture = useStore(state =>
-    state.lectures.find(l => l.lectureId === selectedLectureId)
-  );
-  console.log("Selected lecture:", selectedLecture);
+  const selectedLecture = selectedCourse?.lectures.find(l => l.lectureId === selectedLectureId);
 
   const fetchExercises = async () => {
     setLoading(true);
@@ -48,15 +42,15 @@ export default function ExercisesContainer() {
     fetchExercises();
   }, []);
 
-  const handleCreate = (data: { title: string; description: string; deadline: string }) => {
+  const handleCreate = (data: { assignmentName: string; description: string; deadline: string }) => {
     // axios.post("/api/exercises", data).then(() => {
     //   setShowCreate(false);
     //   fetchExercises();
     // });
     const newAssignment: Assignment = {
-      title: data.title,
+      assignmentName: data.assignmentName,
       description: data.description,
-      deadline: new Date(data.deadline).toISOString(),
+      deadline: new Date(data.deadline.replace(' ', 'T')).toISOString(),
       assignmentId: 0, // 服务器会返回实际ID
       courseId: selectedCourseId || 0,
       lectureId: selectedLectureId || 0,
@@ -83,7 +77,7 @@ export default function ExercisesContainer() {
     setShowEdit(true);
   };
 
-  const handleUpdate = (data: { title: string; description: string; deadline: string }) => {
+  const handleUpdate = (data: { assignmentName: string; description: string; deadline: string }) => {
     if (!editExercise) return;
     axios.put(`/api/exercises/${editExercise.assignmentId}`, data).then(() => {
       setShowEdit(false);
@@ -109,7 +103,10 @@ export default function ExercisesContainer() {
       )}
 
       {selectedId ? (
-        <ExercisesRenderer assignmentId={selectedId} onBack={handleBack} />
+        <ExercisesRenderer
+          assignment={exercises.find(ex => ex.assignmentId === selectedId)!}
+          onBack={handleBack}
+        />
       ) : (
         <ExercisesList
           exercises={exercises}

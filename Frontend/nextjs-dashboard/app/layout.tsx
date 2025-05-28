@@ -1,6 +1,5 @@
 import '@/app/ui/global.css';
 
-import { roboto } from './ui/fonts';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from './ui/theme';
@@ -11,7 +10,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${roboto.variable} antialiased`}>
+    <html lang="en" className={`antialiased`}>
       <body>
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>

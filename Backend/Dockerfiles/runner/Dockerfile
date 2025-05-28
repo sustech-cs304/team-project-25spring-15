@@ -1,8 +1,15 @@
-FROM debian:bookworm-slim
+FROM python:3.11-slim
 
-RUN apt-get update && apt-get install -y python3 python3-pip g++ && apt-get clean && rm -rf /var/lib/apt/lists/*
+# 安装 g++ 编译器
+RUN apt-get update && apt-get install -y g++ && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# 软链接方便用python命令
-RUN ln -s /usr/bin/python3 /usr/bin/python
+# 使用清华 PyPI 镜像加速安装
+RUN pip install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple \
+ && pip install flask gunicorn -i https://pypi.tuna.tsinghua.edu.cn/simple
 
-CMD ["bash", "-c", "while true; do sleep 1000; done"]
+WORKDIR /app
+COPY . .
+
+RUN mkdir -p /usr/Document/tmp
+
+CMD [ "sh", "-c", "python server.py > /usr/log/runner-output.log" ]

@@ -84,7 +84,7 @@ export default function PdfView({ courseId, lectureId }: PdfViewProps) {
       const blob = await CourseWareAPI.getPdf(lectureId);
       const fileBlob = blob.data;
       const fileUrl = URL.createObjectURL(fileBlob);
-      // setFileUrl()
+      setFileUrl(fileUrl);
     } catch {
       alert("上传出错");
     } finally {
@@ -107,7 +107,12 @@ export default function PdfView({ courseId, lectureId }: PdfViewProps) {
       </Box>
       <div style={{ flex: 1, overflow: 'auto' }}>
         <PdfContainer>
-          <Document file={fileUrl} onLoadSuccess={onDocumentLoadSuccess}>
+          <Document
+            file={fileUrl}
+            onLoadSuccess={onDocumentLoadSuccess}
+            loading={<div>加载中...</div>}
+            error={<div>PDF 加载失败</div>}
+          >
             <Page
               pageNumber={pageNumber}
               renderTextLayer={false}

@@ -3,27 +3,34 @@ import { useStore } from '@/store/useStore';
 import {AiMessage, Assignment} from './definitions';
 
 // 获取认证信息的辅助函数
-async function getAuthHeader() {
+export async function getAuthHeader() {
   const token = useStore.getState().token;
   return token ? { Authorization: `Bearer ${token}` } : {};
 }
 
-export const AiMessageAPI = {
-  saveMessage: async (message: AiMessage) => {
+export const AiAPI = {
+  removeMessages: async (userId: string, lectureId: string) => {
     const headers = await getAuthHeader();
+    console.log("Start removing messages...");
+    const payload = {
+      LectureId: lectureId,
+      UserId: userId
+    }
 
-    console.log("Saving message from ai...");
-    // const res = await axios.post( //TODO: TO BE SPECIFIED ！！
-    //   `/api/`, message, { headers }
-    // );
-    // return res;
-  },
-  getMessages: async (userId: string, lectureId: string) => {
-    // order is required!!!
+    try {
+      const res = await axios.post(
+        `/api/ai/chat/history/clear`, payload, {headers}
+      );
+    } catch(e) {
+      console.error("Error in removeMessage: ", e);
+    }
+  }
+}
+
+export const CmdAPI = {
+  sendCmd: async () => {
     const headers = await getAuthHeader();
-    console.log("Start fetching messages...");
-    //
-    return [];
+    console.log("Start fetching result of cmd: ");
   }
 }
 
@@ -49,19 +56,38 @@ export const CourseWareAPI = {
       { headers, responseType: 'blob' }
     );
     return res;
+  },
+  uploadMarkdown: async (formData: FormData) => {
+    const headers = await getAuthHeader();
+
+    console.log("uploading pdf...");
+    const res = axios.post("/api/Files/lectureNote/upload", formData, {headers});
+
+    console.log(res);
+    return res;
+  },
+  getMarkdown: async (lectureId: string) => {
+    const headers = await getAuthHeader();
+    console.log("fetching pdf...");
+
+    const res = await axios.get(
+      `/api/Files/lectureNote/lecture/${lectureId}`,
+      { headers, responseType: 'blob' }
+    );
+    return res;
   }
 }
 
 export const CodeAPI = {
   runCode: async (code_str: string, lang: string) => {
     const headers = await getAuthHeader();
-    console.log("running code...");
     const payload = {
       codeInfo: {
         code: code_str,
       },
       type: lang
     };
+    console.log("running code with payload:", payload);
     const res = await axios.post(`/api/codeRunner/run`, payload, {headers});
     const response = res.data.data.codeFeedback;
     console.log('Code running result:', response);
@@ -96,13 +122,12 @@ export const CourseAPI = {
     }
   },
   // 添加课程
-  addCourse: async (course: { 
-    courseName: string; 
+  addCourse: async (course: {
+    courseName: string;
     description: string;
     startTime?: string;
     endTime?: string;
   }) => {
-    console.log("Adding course:", course);
     const headers = await getAuthHeader();
     console.log("Headers:", headers)
     const payload = {
@@ -113,6 +138,7 @@ export const CourseAPI = {
         endTime: course.endTime || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
       }
     };
+    console.log("Adding course:", payload);
     const response = await axios.post(`/api/course/createCourse`, payload, {headers});
     console.log("Course added successfully:", response);
   },
@@ -151,9 +177,8 @@ export const CourseAPI = {
     console.log(`Fetching students for course ID: ${courseId}`);
     const headers = await getAuthHeader();
     try {
-      const response = await axios.get(`/api/course/getStudents`, {
+      const response = await axios.get(`/api/course/getAllStudentsOfACourse/${courseId}`, {
         headers,
-        params: { courseId }
       });
       console.log('Fetched students:', response.data);
       return response.data.data.students || [];
@@ -169,9 +194,10 @@ export const CourseAPI = {
     const headers = await getAuthHeader();
     const payload = {
       courseId,
-      studentEmail: email
+      studentsEmail: [email]
     };
-    const response = await axios.post(`/api/course/addStudent`, payload, {headers});
+    console.log('Payload for adding student:', payload);
+    const response = await axios.post(`/api/course/addStudents`, payload, {headers});
     console.log('Student added successfully:', response.data);
     return response.data;
   },
@@ -189,11 +215,60 @@ export const CourseAPI = {
     });
     console.log('Student removed successfully:', response.data);
     return response.data;
+  },
+
+  // 指定课程助教
+  assignCourseAssistant: async (courseId: number, assistantId: number) => {
+    console.log(`Assigning assistant ID ${assistantId} to course ID: ${courseId}`);
+    const headers = await getAuthHeader();
+    const payload = {
+      courseId,
+      assistantId
+    };
+    console.log('Payload for assigning assistant:', payload);
+    const response = await axios.post(`/api/course/assignCourseAssistant`, payload, {headers});
+    console.log('Assistant assigned successfully:', response.data);
+    return response.data;
+  },
+
+  removeCourseAssistant: async (courseId: number, assistantId: number) => {
+    console.log(`Removing assistant ID ${assistantId} from course ID: ${courseId}`);
+    const headers = await getAuthHeader();
+    const payload = {
+      courseId,
+      assistantId
+    };
+    console.log('Payload for removing assistant:', payload);
+    const response = await axios.delete(`/api/course/unassignCourseAssistant`, {
+      headers,
+      params: {
+        courseId,
+        assistantId
+      }
+    });
+    console.log('Assistant removed successfully:', response.data);
+    return response.data;
   }
 };
 
 // 讲座相关接口
 export const LectureAPI = {
+  // 获取课程的所有讲座
+  fetchLecturesByCourse: async (courseId: number) => {
+    console.log(`Fetching lectures for course ID: ${courseId}`);
+    const headers = await getAuthHeader();
+    try {
+      const response = await axios.get(`/api/lecture/getLectures/${courseId}`, {
+        headers
+      });
+      console.log('Fetched lectures for course:', response.data);
+      return response.data.data.lectures || [];
+    } catch (err) {
+      console.error(`Failed to fetch lectures for course ID ${courseId}:`, err);
+      return [];
+    }
+  },
+
   // 添加讲座
   addLecture: async (
     courseId: number,
@@ -310,7 +385,30 @@ export const AssignmentAPI = {
         headers
       });
     console.log("Fetched assignments:", res);
-    return res.data.data.assignments || [];
+    const assignments = res.data.data.assignments as Assignment[];
+    const score       = res.data.data.scores       as number[];
+    console.log("Score: ", score)
+    const merged = assignments?.map((assignment, idx) => ({
+      ...assignment,
+      score: score[idx],
+    }));
+    return merged || [];
+  },
+
+  attemptAssignment: async (attempt: {
+    userId: number;
+    fileId: string;
+    code: string;
+    fileType: string;
+    assignmentId: number;
+  }) => {
+    const headers = await getAuthHeader();
+    console.log("Attempting assignment with data:", attempt);
+    const res = await axios.post(`/api/assignment/attemptAssignment`, {
+      attempt: attempt
+    }, { headers });
+    console.log("Assignment attempt result:", res.data);
+    return res.data.data.feedback;
   },
 
   createAssignment: async (assignment: Assignment, courseName: string | undefined, chatId: number | undefined) => {
@@ -318,7 +416,6 @@ export const AssignmentAPI = {
     const payload = {
       assignment: {
         ...assignment,
-        assignmentName: assignment.title,
       },
       courseName: courseName,
       chatId: chatId,
@@ -350,6 +447,44 @@ export const AssignmentAPI = {
       }
     });
     console.log("Assignment deleted successfully:", res.data);
+    return res.data;
+  }
+}
+
+export const FileAPI = {
+  uploadFile: async (file: File) => {
+    const headers = await getAuthHeader();
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      // 根据新的API接口，使用POST方法到/api/Files
+      const res = await axios.post(`/api/Files`, formData, {
+        headers: {
+          ...headers,
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+
+      console.log("File uploaded successfully:", res.data);
+
+      // 直接返回生成的fileId
+      return res.data.data.FileId;
+    } catch (error) {
+      console.error("File upload failed:", error);
+      throw error;
+    }
+  },
+
+  getFile: async (lectureId: number) => {
+    const headers = await getAuthHeader();
+    console.log("Fetching file for lectureId:", lectureId);
+    const res = await axios.get(`/api/Files/lectureFile/lecture/${lectureId}`, {
+      headers,
+      responseType: 'blob'
+    });
+    console.log("File fetched successfully:", res.data);
     return res.data;
   }
 }

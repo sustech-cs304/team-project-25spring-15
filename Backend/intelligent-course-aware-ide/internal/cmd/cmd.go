@@ -10,8 +10,10 @@ import (
 
 	"intelligent-course-aware-ide/internal/controller/Files"
 	"intelligent-course-aware-ide/internal/controller/account"
+	"intelligent-course-aware-ide/internal/controller/ai"
 	"intelligent-course-aware-ide/internal/controller/assignment"
 	"intelligent-course-aware-ide/internal/controller/chat"
+	"intelligent-course-aware-ide/internal/controller/command2"
 	"intelligent-course-aware-ide/internal/controller/comment"
 	"intelligent-course-aware-ide/internal/controller/course"
 	"intelligent-course-aware-ide/internal/controller/lecture"
@@ -62,6 +64,7 @@ var (
 					group.Group("/", func(group *ghttp.RouterGroup) {
 						group.Middleware(middleware.Auth)
 						group.Bind(
+							ai.NewV1(),
 							runner.NewV1(),
 							course.NewV1(),
 							Files.NewV1(),
@@ -70,6 +73,7 @@ var (
 							lecture.NewV1(),
 							chat.NewV1(),
 							comment.NewV1(),
+							command2.NewV1(),
 						)
 					})
 				})

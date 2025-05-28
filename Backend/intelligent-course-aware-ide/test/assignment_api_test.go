@@ -31,7 +31,7 @@ func Test_CreateAssignment(t *testing.T) {
 		CourseId:       1,
 		LectureId:      2,
 		Description:    "验证拿下zyc的成果",
-		DeadLine:       gtime.New(time.Date(2025, 5, 30, 17, 0, 0, 0, time.FixedZone("CST", 8*60*60))),
+		Deadline:       gtime.New(time.Date(2025, 5, 30, 17, 0, 0, 0, time.FixedZone("CST", 8*60*60))),
 		Completeness:   2,
 	}
 	req := &v1.CreateAssignmentReq{

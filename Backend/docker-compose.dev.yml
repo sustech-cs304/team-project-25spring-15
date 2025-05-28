@@ -17,10 +17,13 @@ services:
 
   runner:
     build:
-      context: ./
-      dockerfile: ./Dockerfiles/runner/Dockerfile
+      context: ./code-runner
+      dockerfile: ../Dockerfiles/runner/Dockerfile
+    ports:
+      - "8001:8001"
     volumes:
       - ./data:/usr/Document
+      - ./log:/usr/log
     networks:
       - backend-net
 

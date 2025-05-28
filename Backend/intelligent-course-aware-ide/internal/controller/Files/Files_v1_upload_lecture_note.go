@@ -2,17 +2,17 @@ package Files
 
 import (
 	"context"
+	"os"
 	"path/filepath"
 	"time"
 
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gfile"
-	"github.com/gogf/gf/v2/os/gtime"
 	"github.com/gogf/gf/v2/util/gconv"
-	"github.com/gogf/gf/v2/util/guid"
 
 	v1 "intelligent-course-aware-ide/api/Files/v1"
+	"intelligent-course-aware-ide/internal/consts"
 	"intelligent-course-aware-ide/internal/dao"
 )
 
@@ -39,23 +39,19 @@ func (c *ControllerV1) UploadLectureNote(ctx context.Context, req *v1.UploadLect
 	}
 	existingFileId := gconv.Int64(idValue) // 0 表示无记录
 
-	// Preparing the storage catalogue
-	uploadRoot := g.Cfg().MustGet(ctx, "upload.path", "./uploads").String()
-	storageDir := filepath.Join(uploadRoot, "lectures", gtime.Date())
-	if !gfile.Exists(storageDir) {
-		if err = gfile.Mkdir(storageDir); err != nil {
-			return nil, gerror.New("Failed to create storage directory")
-		}
+	// save the file and get a path
+	if err := os.MkdirAll(consts.PathForLecture, 0755); err != nil {
+		// Log detailed error for debugging
+		return nil, gerror.Wrap(err, "Failed to create upload directory")
 	}
-
-	// Generate a unique file name and save it
-	originalName := req.File.Filename
-	ext := filepath.Ext(originalName)
-	uniqueName := guid.S() + ext
-	fullPath := filepath.Join(storageDir, uniqueName)
-	if _, err = req.File.Save(fullPath); err != nil {
+	// generate a uniqueName with save.para2 = true
+	uniqueName, err := req.File.Save(consts.PathForLecture, true)
+	if err != nil {
 		return nil, gerror.New("Failed to save file")
 	}
+
+	originalName := req.File.Filename
+	fullPath := filepath.Join(consts.PathForLecture, uniqueName)
 	size := req.File.Size
 	ctype := req.File.Header.Get("Content-Type")
 

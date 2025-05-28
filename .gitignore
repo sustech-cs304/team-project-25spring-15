@@ -1,4 +1,5 @@
 test.go
+test.py
 tmp/*
 sustech_cs304_15.tar
 Backend/intelligent-course-aware-ide/hack/config.yaml
@@ -7,6 +8,7 @@ Backend/intelligent-course-aware-ide/docker_database_connet
 Backend/intelligent-course-aware-ide/internal/logic/runner/runner_unit_test_back.txt
 Backend/docker_database_connet.md
 Backend/lylog.md
+Backend/intelligent-course-aware-ide/config/*
 Backend/intelligent-course-aware-ide/api/sharedFile/*
 Backend/intelligent-course-aware-ide/internal/controller/sharedFile/*
 Backend/intelligent-course-aware-ide/internal/dao/shared_file_contents.go
@@ -25,3 +27,4 @@ Backend/intelligent-course-aware-ide/internal/logic/socket/*
 Backend/intelligent-course-aware-ide/internal/boot/*
 Backend/intelligent-course-aware-ide/internal/router/*
 venv
+Backend/data/*

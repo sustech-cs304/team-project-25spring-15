@@ -24,7 +24,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ value, onChange }) => {
   return (
     <Box
       sx={{
-        height: 'calc(100vh - 120px)',
+        height: 'calc(60vh - 120px)',
         width: '100%',
         overflow: 'auto',
         border: '1px solid #e0e0e0',

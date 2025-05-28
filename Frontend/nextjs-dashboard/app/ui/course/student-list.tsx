@@ -20,12 +20,14 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
+  Chip,
 } from '@mui/material';
 import { UserInfo } from '@/app/lib/definitions';
 import { useStore } from '@/store/useStore';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import DeleteIcon from '@mui/icons-material/Delete';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import SchoolIcon from '@mui/icons-material/School';
 import { CourseAPI } from '@/app/lib/client-api';
 
 interface StudentListProps {
@@ -35,6 +37,7 @@ interface StudentListProps {
 // 这个接口需要根据实际API返回的数据结构调整
 interface CourseStudent extends UserInfo {
   enrollmentDate?: string;
+  courseIdentity?: string;
 }
 
 export default function StudentList({ courseId }: StudentListProps) {
@@ -52,23 +55,40 @@ export default function StudentList({ courseId }: StudentListProps) {
 
   // 加载学生列表
   useEffect(() => {
-    const loadStudents = async () => {
+    const loadData = async () => {
       if (!courseId) return;
 
       try {
         setLoading(true);
-        // 假设有一个API来获取课程学生列表
+        // 获取课程学生列表
         const students = await CourseAPI.getCourseStudents(courseId);
         setStudents(students);
       } catch (error) {
-        console.error('获取学生列表失败', error);
+        console.error('获取数据失败', error);
       } finally {
         setLoading(false);
       }
     };
 
-    loadStudents();
+    loadData();
   }, [courseId]);
+
+  // 对学生列表进行排序：老师 -> 助教 -> 普通学生
+  const sortedStudents = [...students].sort((a, b) => {
+    // 老师排在最前面
+    if (a.userId === currentCourse?.teacherId) return -1;
+    if (b.userId === currentCourse?.teacherId) return 1;
+
+    // 助教排在老师后面，普通学生前面
+    const aIsTA = a.courseIdentity === 'assistant';
+    const bIsTA = b.courseIdentity === 'assistant';
+
+    if (aIsTA && !bIsTA) return -1;
+    if (!aIsTA && bIsTA) return 1;
+
+    // 同类型按姓名排序
+    return a.userName.localeCompare(b.userName);
+  });
 
   const handleAddStudentOpen = () => {
     setOpenAddDialog(true);
@@ -109,6 +129,61 @@ export default function StudentList({ courseId }: StudentListProps) {
     } catch (error) {
       console.error('移除学生失败', error);
       alert('移除学生失败');
+    }
+  };
+
+  const handlePromoteToTA = async (studentId: number) => {
+    if (!confirm('确认将此学生设为助教？')) return;
+
+    try {
+      // 调用添加助教的API
+      await CourseAPI.assignCourseAssistant(courseId, studentId);
+
+      // 重新加载学生列表以获取最新的身份信息
+      const updatedStudents = await CourseAPI.getCourseStudents(courseId);
+      setStudents(updatedStudents);
+
+      alert('已成功设为助教');
+    } catch (error) {
+      console.error('设置助教失败', error);
+      alert('设置助教失败: ' + (error instanceof Error ? error.message : '未知错误'));
+    }
+  };
+
+  const handleRemoveTA = async (studentId: number) => {
+    if (!confirm('确认取消此学生的助教身份？')) return;
+
+    try {
+      await CourseAPI.removeCourseAssistant(courseId, studentId);
+
+      const updatedStudents = await CourseAPI.getCourseStudents(courseId);
+      setStudents(updatedStudents);
+
+      alert('已成功移除助教');
+    } catch (error) {
+      console.error('取消助教失败', error);
+      alert('取消助教失败');
+    }
+  };
+
+  const getUserRole = (student: CourseStudent) => {
+    if (student.userId === currentCourse?.teacherId) {
+      return 'teacher';
+    }
+    if (student.courseIdentity === 'assistant') {
+      return 'ta';
+    }
+    return 'student';
+  };
+
+  const getRoleChip = (role: string) => {
+    switch (role) {
+      case 'teacher':
+        return <Chip label="老师" color="primary" size="small" />;
+      case 'ta':
+        return <Chip label="助教" color="secondary" size="small" />;
+      default:
+        return <Chip label="学生" color="default" size="small" />;
     }
   };
 
@@ -158,32 +233,68 @@ export default function StudentList({ courseId }: StudentListProps) {
                 <TableCell>姓名</TableCell>
                 <TableCell>邮箱</TableCell>
                 <TableCell>学校</TableCell>
+                <TableCell>身份</TableCell>
                 <TableCell>注册时间</TableCell>
                 <TableCell>操作</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {students.length > 0 ? (
-                students.map((student) => (
-                  <TableRow key={student.userId}>
-                    <TableCell>{student.userId}</TableCell>
-                    <TableCell>{student.userName}</TableCell>
-                    <TableCell>{student.email}</TableCell>
-                    <TableCell>{student.university || '-'}</TableCell>
-                    <TableCell>{student.enrollmentDate ? new Date(student.enrollmentDate).toLocaleDateString() : '-'}</TableCell>
-                    <TableCell>
-                      <IconButton
-                        color="error"
-                        onClick={() => handleRemoveStudent(student.userId)}
-                      >
-                        <DeleteIcon />
-                      </IconButton>
-                    </TableCell>
-                  </TableRow>
-                ))
+              {sortedStudents.length > 0 ? (
+                sortedStudents.map((student) => {
+                  const role = getUserRole(student);
+                  const isCurrentTeacher = student.userId === currentCourse?.teacherId;
+                  const isTA = student.courseIdentity === 'assistant';
+
+                  return (
+                    <TableRow key={student.userId}>
+                      <TableCell>{student.userId}</TableCell>
+                      <TableCell>{student.userName}</TableCell>
+                      <TableCell>{student.email}</TableCell>
+                      <TableCell>{student.university || '-'}</TableCell>
+                      <TableCell>{getRoleChip(role)}</TableCell>
+                      <TableCell>{student.enrollmentDate ? new Date(student.enrollmentDate).toLocaleDateString() : '-'}</TableCell>
+                      <TableCell>
+                        <Box sx={{ display: 'flex', gap: 1 }}>
+                          {/* 只有老师可以看到操作按钮，且不能对自己进行操作 */}
+                          {isTeacher && !isCurrentTeacher && (
+                            <>
+                              {/* 助教管理按钮 */}
+                              {isTA ? (
+                                <IconButton
+                                  color="warning"
+                                  onClick={() => handleRemoveTA(student.userId)}
+                                  title="取消助教"
+                                >
+                                  <SchoolIcon />
+                                </IconButton>
+                              ) : (
+                                <IconButton
+                                  color="info"
+                                  onClick={() => handlePromoteToTA(student.userId)}
+                                  title="设为助教"
+                                >
+                                  <SchoolIcon />
+                                </IconButton>
+                              )}
+
+                              {/* 删除按钮 */}
+                              <IconButton
+                                color="error"
+                                onClick={() => handleRemoveStudent(student.userId)}
+                                title="移除学生"
+                              >
+                                <DeleteIcon />
+                              </IconButton>
+                            </>
+                          )}
+                        </Box>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })
               ) : (
                 <TableRow>
-                  <TableCell colSpan={6} align="center">
+                  <TableCell colSpan={7} align="center">
                     暂无学生
                   </TableCell>
                 </TableRow>

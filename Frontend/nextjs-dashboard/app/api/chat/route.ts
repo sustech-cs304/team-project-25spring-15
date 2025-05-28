@@ -4,7 +4,7 @@ import { AiMessage, myProvider } from '@/app/lib/definitions';
 import { generateUUID, getTrailingMessageId } from '@/app/lib/utils';
 import { systemPrompt } from '@/app/lib/prompts';
 import { auth } from '@/auth';
-import { AiMessageAPI } from '@/app/lib/client-api';
+import { AiMessageAPI } from '@/app/lib/server-api';
 
 export async function POST(req: Request) {
   const session = await auth();
@@ -27,19 +27,19 @@ export async function POST(req: Request) {
     selectedChatModel: string;
   } = await req.json();
 
-  console.log("message: ", messages);
+  // console.log("messages: ", messages);
   const lastMessage = messages[messages.length - 1];
+  const idNum = Number(id);
 
   const message: AiMessage = {
-    id: generateUUID(),
-    chatId: id,
+    chatId: generateUUID(),
+    lectureId: idNum,
     userId: userId,
     role: 'user',
-    parts: lastMessage.parts, // 复制parts部分，包括reasoning
-    createdAt: new Date(),
+    parts: JSON.stringify(lastMessage.parts), // 复制parts部分，包括reasoning
+    createdAt: new Date().toISOString(),
   };
   const res = await AiMessageAPI.saveMessage(message);
-  // if (res.ok()) TODO
 
   return createDataStreamResponse({
     execute: (dataStream) => {
@@ -82,15 +82,16 @@ export async function POST(req: Request) {
               responseMessages: response.messages,
             });
             console.log("assistant message: ", assistantMessage);
+            console.log(assistantId);
 
             await AiMessageAPI.saveMessage({
-                id: assistantId,
-                userId: userId,
-                chatId: id,
-                role: assistantMessage.role,
-                parts: assistantMessage.parts,
-                createdAt: new Date(),
-              });
+              chatId: assistantId,
+              userId: userId,
+              lectureId: idNum,
+              role: assistantMessage.role,
+              parts: JSON.stringify(assistantMessage.parts),
+              createdAt: new Date().toISOString(),
+            });
           } catch (e) {
             console.error('Failed to save chat');
           }
