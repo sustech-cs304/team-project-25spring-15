@@ -2,6 +2,7 @@ package Files
 
 import (
 	"context"
+	"os"
 	"path/filepath"
 	"time"
 
@@ -45,6 +46,11 @@ func (c *ControllerV1) UploadLectureFile(ctx context.Context, req *v1.UploadLect
 	originalName := req.File.Filename
 	ext := filepath.Ext(originalName)
 	uniqueName := guid.S() + ext
+	// Ensure the target directory exists (create if missing)
+	if err := os.MkdirAll(consts.PathForLecture, 0755); err != nil {
+		// Log detailed error for debugging
+		return nil, gerror.Wrap(err, "Failed to create upload directory")
+	}
 	fullPath := filepath.Join(consts.PathForLecture, uniqueName)
 	if _, err := req.File.Save(fullPath); err != nil {
 		return nil, gerror.New("Failed to save file")
