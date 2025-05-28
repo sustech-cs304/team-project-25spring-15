@@ -352,7 +352,13 @@ export const AssignmentAPI = {
         headers
       });
     console.log("Fetched assignments:", res);
-    return res.data.data.assignments || [];
+    const assignments = res.data.data.assignments as Assignment[];
+    const score       = res.data.data.scorse       as number[];
+    const merged = assignments?.map((assignment, idx) => ({
+      ...assignment,
+      score: score[idx],
+    }));
+    return merged || [];
   },
 
   createAssignment: async (assignment: Assignment, courseName: string | undefined, chatId: number | undefined) => {
