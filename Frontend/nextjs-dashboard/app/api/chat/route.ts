@@ -4,7 +4,7 @@ import { AiMessage, myProvider } from '@/app/lib/definitions';
 import { generateUUID, getTrailingMessageId } from '@/app/lib/utils';
 import { systemPrompt } from '@/app/lib/prompts';
 import { auth } from '@/auth';
-import { AiMessageAPI } from '@/app/lib/client-api';
+import { AiMessageAPI } from '@/app/lib/server-api';
 
 export async function POST(req: Request) {
   const session = await auth();
@@ -35,11 +35,10 @@ export async function POST(req: Request) {
     lectureId: id,
     userId: userId,
     role: 'user',
-    parts: lastMessage.parts, // 复制parts部分，包括reasoning
+    parts: JSON.stringify(lastMessage.parts), // 复制parts部分，包括reasoning
     createdAt: new Date(),
   };
   const res = await AiMessageAPI.saveMessage(message);
-  // if (res.ok()) TODO
 
   return createDataStreamResponse({
     execute: (dataStream) => {
@@ -84,13 +83,13 @@ export async function POST(req: Request) {
             console.log("assistant message: ", assistantMessage);
 
             await AiMessageAPI.saveMessage({
-                id: assistantId,
-                userId: userId,
-                lectureId: id,
-                role: assistantMessage.role,
-                parts: assistantMessage.parts,
-                createdAt: new Date(),
-              });
+              id: assistantId,
+              userId: userId,
+              lectureId: id,
+              role: assistantMessage.role,
+              parts: JSON.stringify(assistantMessage.parts),
+              createdAt: new Date(),
+            });
           } catch (e) {
             console.error('Failed to save chat');
           }
