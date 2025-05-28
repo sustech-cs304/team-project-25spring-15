@@ -11,6 +11,7 @@ import (
 )
 
 func (c *ControllerV1) GetNoteWithLectureId(ctx context.Context, req *v1.GetNoteWithLectureIdReq) (res *v1.GetNoteWithLectureIdRes, err error) {
+
 	idVar, err := dao.LectureNoteFiles.
 		Ctx(ctx).
 		Where("lectureId", req.LectureId).

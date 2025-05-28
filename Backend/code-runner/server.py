@@ -5,12 +5,14 @@ import os, subprocess
 app = Flask(__name__)
 
 DIR_PATH = "/usr/Document/"
-TEMPORARY_DIR = "temp/"
+TEMPORARY_DIR = "tmp/"
 TEMPORARY_NAME = "temp_script"
 TEMPORARY_OUTPUT_NAME = "output"
 
 
 def addExtName(name: str, code_type: str):
+    if name == '':
+        name = TEMPORARY_NAME
     base, ext = os.path.splitext(name)
     if not ext:
         if code_type in ['python', 'py']:
@@ -28,6 +30,7 @@ def save(code: str, file_path: str):
         with open(file_path, 'w', encoding='utf-8') as f:
             f.write(code)
     except Exception as e:
+        print(str(e))
         return str(e)
 
 def compile(compile_cmd: str):
@@ -38,7 +41,7 @@ def compile(compile_cmd: str):
     return ""
 
 def compose_run_cmd(run_cmd: str, args: list[int], input_path: str, output_path: str):
-    if args != []:
+    if args != [] and args != None:
         safe_args = [shlex.quote(arg) for arg in args]
         run_cmd += ' ' + ' '.join(safe_args)
     elif input_path != "":
@@ -46,11 +49,11 @@ def compose_run_cmd(run_cmd: str, args: list[int], input_path: str, output_path:
 
     if output_path != "":
         run_cmd += f" > {shlex.quote(output_path)}"
-    return [run_cmd]
+    return run_cmd
 
 def exec_file(run_cmd):
     try:
-        run_result = subprocess.run([run_cmd], capture_output=True, text=True, check=True)
+        run_result = subprocess.run([run_cmd], capture_output=True, text=True, check=True, shell=True)
         return run_result.stdout, ""
     except subprocess.CalledProcessError as e:
         return "", f"Runtime error:\n{e.stderr}"
@@ -63,12 +66,15 @@ def run_code():
 
     # 解析 RunnerReq 结构
     codeInfo = data.get('codeInfo')
-    codeType = data.get('type', 'string').lower()
+    codeType = data.get('type')
+    if codeType == "" or codeType == None:
+        codeType = "string"
+    codeType = codeType.lower()
     codeDir = data.get('dir')
     codeDir = TEMPORARY_DIR + codeDir
 
     code = codeInfo.get('code', '')
-    name = codeInfo.get('name', TEMPORARY_NAME)
+    name = codeInfo.get('name', '')
     args = codeInfo.get('args', [])
     input_path = codeInfo.get('InputPath', "")
     output_path = codeInfo.get('outputPath', "")
@@ -77,15 +83,17 @@ def run_code():
     file_path = DIR_PATH + codeDir + name
     # save code
     err = save(code, file_path)
-    if err != "":
-        return "", err
+    if err != None:
+        print("fail to save")
+        return jsonify({"error": err}), 400
     
     if codeType == 'c' or codeType == 'cpp' or codeType == 'c++':
         # compile code
         exe_path = os.path.splitext(file_path)[0]
         err = compile(["gcc", file_path, "-o", exe_path])
         if err != "":
-            return "", err
+            print("fail to compile")
+            return jsonify({"error": err}), 400
         # exec code
         run_cmd = exe_path
         run_cmd = compose_run_cmd(run_cmd, args, input_path, output_path)
@@ -98,9 +106,11 @@ def run_code():
     else:
         result, err = '', 'code type not support'
     response = {
-        "result": result,
-        "error": err,
-        "filePath": ""
+        "codeFeedback": {
+            "result": result,
+            "error": err,
+            "filePath": ""
+        }
     }
 
     return jsonify(response)
@@ -208,6 +218,7 @@ def exec_bash():
     cmd = data.get('command', '')
     proc = bash_sessions.get(session_id)
     if not proc:
+        print("fail to exec")
         return jsonify({'output': '', 'cwd': '', 'error': 'Invalid session_id'}), 400
 
     # 生成两个 sentinel 用于截取命令输出和 cwd
@@ -253,6 +264,7 @@ def close_bash():
     session_id = data.get('session_id')
     proc = bash_sessions.pop(session_id, None)
     if not proc:
+        print("fail to create")
         return jsonify({'error': 'Invalid session_id'}), 400
 
     proc.terminate()
