@@ -1,5 +1,4 @@
 import axios from 'axios';
-import {auth} from "@/auth";
 import { useStore } from '@/store/useStore';
 import { AiMessage } from './definitions';
 
@@ -10,6 +9,13 @@ const base_url = 'http://47.117.144.50:8000';
 async function getAuthHeader() {
   const token = useStore.getState().token;
   return token ? { Authorization: `Bearer ${token}` } : {};
+}
+
+export const CmdAPI = {
+  sendCmd: async () => {
+    const headers = await getAuthHeader();
+    console.log("Start fetching result of cmd: ");
+  }
 }
 
 export const AiMessageAPI = {

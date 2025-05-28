@@ -1,3 +1,5 @@
+import CodeIDE from "../ui/note/CodeIDE";
+
 export default async function Page() {
   return (
     <div>
@@ -5,6 +7,7 @@ export default async function Page() {
         Dashboard
         {/* TODO: make this prettier */}
       </h1>
+      <CodeIDE />
     </div>
   );
 }
