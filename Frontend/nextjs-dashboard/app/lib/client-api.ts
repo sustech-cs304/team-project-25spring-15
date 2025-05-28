@@ -1,11 +1,45 @@
 import axios from 'axios';
 import { useStore } from '@/store/useStore';
-import {AiMessage, Assignment} from './definitions';
+import { AiMessage, Assignment } from './definitions';
 
 // 获取认证信息的辅助函数
 export async function getAuthHeader() {
   const token = useStore.getState().token;
   return token ? { Authorization: `Bearer ${token}` } : {};
+}
+
+export const IdeAPI = {
+  createCmd: async (userId: number) => {
+    const headers = await getAuthHeader();
+    try {
+      // const res = await axios.post();
+      // return "1";
+    } catch (e) {
+      console.error("Fail run Cmd", e);
+      return "";
+    }
+  },
+  runCmd: async (sectionId: string | null, command: string) => {
+    if (!sectionId) {
+      console.error("Error run cmd: no current section.")
+      return "Error: no current section."
+    }
+    const headers = await getAuthHeader();
+    const payload = {};
+    try {
+      // const res = await axios.post();
+    } catch (e) {
+      console.error("Fail run Cmd:", command, e);
+    }
+  },
+  closeCmd: async (userId: number, sectionId: string) => {
+    const headers = await getAuthHeader();
+    try {
+      // const res = await axios.post();
+    } catch (e) {
+      console.error("Fail run Cmd", e);
+    }
+  }
 }
 
 export const AiAPI = {
