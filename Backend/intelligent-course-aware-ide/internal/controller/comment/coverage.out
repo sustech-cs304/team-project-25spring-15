@@ -33,4 +33,4 @@ intelligent-course-aware-ide/internal/controller/comment/comment_v1_get_hot_word
 intelligent-course-aware-ide/internal/controller/comment/comment_v1_get_hot_words.go:49.39,51.3 1 0
 intelligent-course-aware-ide/internal/controller/comment/comment_v1_get_hot_words.go:52.2,52.20 1 1
 intelligent-course-aware-ide/internal/controller/comment/comment_v1_get_hot_words.go:52.20,54.3 1 0
-intelligent-course-aware-ide/internal/controller/comment/comment_v1_get_hot_words.go:56.2,59.16 2 1
+intelligent-course-aware-ide/internal/controller/comment/comment_v1_get_hot_words.go:56.2,59.17 2 1

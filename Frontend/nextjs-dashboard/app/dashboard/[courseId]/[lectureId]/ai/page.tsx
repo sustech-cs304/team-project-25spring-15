@@ -17,7 +17,7 @@ export default async function Page({ params }: { params: Promise<{ courseId: str
     throw new Error("Unauthorized: userId is missing");
   }
   const prevMessages = await AiMessageAPI.getMessages(userId?.toString(), lectureId);
-  // console.log("Prev messages: ", prevMessages);
+  console.log("Prev messages: ", prevMessages);
 
   function convertToUIMessages(messages: Array<AiMessage>): Array<UIMessage> {
     if(messages === null) return [];
@@ -27,7 +27,7 @@ export default async function Page({ params }: { params: Promise<{ courseId: str
       role: message.role as UIMessage['role'],
       // Note: content will soon be deprecated in @ai-sdk/react
       content: '',
-      createdAt: message.createdAt,
+      createdAt: new Date(message.createdAt),
       experimental_attachments: [],
     }));
   }
@@ -40,6 +40,7 @@ export default async function Page({ params }: { params: Promise<{ courseId: str
           initialMessages={convertToUIMessages(prevMessages)}
           selectedChatModel={DEFAULT_CHAT_MODEL}
           isReadonly={false}
+          userId={userId}
       />
     </div>
     );
@@ -52,6 +53,7 @@ export default async function Page({ params }: { params: Promise<{ courseId: str
           initialMessages={convertToUIMessages(prevMessages)}
           selectedChatModel={chatModelFromCookie.value}
           isReadonly={false}
+          userId={userId}
       />
     </div>
   );

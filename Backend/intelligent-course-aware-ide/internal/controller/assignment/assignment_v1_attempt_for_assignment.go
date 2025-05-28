@@ -21,7 +21,7 @@ import (
 )
 
 func (c *ControllerV1) AttemptForAssignment(ctx context.Context, req *v1.AttemptForAssignmentReq) (res *v1.AttemptForAssignmentRes, err error) {
-	if req.AssignmentUserAttempt.FileId == 0 || req.AssignmentUserAttempt.Code == "" {
+	if req.AssignmentUserAttempt.FileId == 0 && req.AssignmentUserAttempt.Code != "" {
 		path := consts.PathForDocker + "user/" + strconv.FormatInt(req.AssignmentUserAttempt.AssignmentId, 10) + "/" + "attempt." + req.AssignmentUserAttempt.FileType
 		err = os.WriteFile(path, []byte(req.AssignmentUserAttempt.Code), 0644)
 		if err != nil {

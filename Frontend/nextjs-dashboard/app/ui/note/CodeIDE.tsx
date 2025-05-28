@@ -112,14 +112,17 @@ export default function CodeIDE() {
         display: "flex",
         flexDirection: "column",
         gap: 2,
-        p: 3,
+        p: 2,
         bgcolor: "#f8fafc",
-        borderRadius: 3,
+        borderRadius: 2,
         boxShadow: 3,
-        maxWidth: 900,
         mx: "auto",
-        my: 4,
+        my: 1,
         position: "relative",
+        width: "100%",
+        height: "100%",
+        flex: 1, // 新增
+        minHeight: 300,
       }}
     >
       <Box
@@ -162,16 +165,15 @@ export default function CodeIDE() {
             position: "absolute",
             left: "50%",
             transform: "translateX(-50%)",
-            bottom: 24, // 距离父容器底部24px，可调整
+            bottom: 0, // 距离父容器底部24px，可调整
             width: "100%",
-            maxWidth: "95%",
             height: "90", // 你想要的高度
             // maxHeight: "50%",
             bgcolor: "#e0e0e0",
             zIndex: 2000,
             boxShadow: 6,
-            borderRadius: 3,
-            p: 2,
+            borderRadius: 1,
+            p: 1,
             display: "flex",
             flexDirection: "column",
             color: "#fff",
@@ -204,10 +206,11 @@ export default function CodeIDE() {
             ref={terminalRef}
             sx={{
               flex: 1,
-              width: "100%",
+              width: "99%",
+              margin: "0 auto",
               background: "#18181b",
               color: "#fff",
-              borderRadius: 2,
+              borderRadius: 0.5,
               fontSize: 15,
               fontFamily: "monospace",
               overflow: "auto",

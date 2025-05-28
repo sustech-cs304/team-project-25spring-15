@@ -39,7 +39,7 @@ export type AiMessage = {
   userId: number;
   role: string;
   parts: string;
-  createdAt: Date;
+  createdAt: string;
 };
 
 export interface Lecture {

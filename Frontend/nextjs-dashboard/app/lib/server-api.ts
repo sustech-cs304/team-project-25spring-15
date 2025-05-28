@@ -17,7 +17,7 @@ export async function fetchCourses() {
 export const AiMessageAPI = {
   saveMessage: async (message: AiMessage) => {
     const senssion = await auth();
-    // console.log({StoreHistoryItem: message});
+    console.log(message);
     try {
       console.log("Saving message from ai...");
       const formData = new FormData();

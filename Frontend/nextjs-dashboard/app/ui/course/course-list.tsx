@@ -35,6 +35,7 @@ export default function CourseList() {
   const userInfo = useStore(state => state.userInfo);
   const [tabValue, setTabValue] = useState(0);
   const theme = useTheme();
+  const [note, setNote] = useState("# 这里是你的笔记...");
 
   const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
@@ -271,7 +272,6 @@ export default function CourseList() {
             <Paper
               sx={{
                 p: 8,
-                textAlign: 'center',
                 background: 'rgba(255, 255, 255, 0.95)',
                 backdropFilter: 'blur(10px)',
                 border: '1px solid rgba(255, 255, 255, 0.3)',
@@ -283,22 +283,7 @@ export default function CourseList() {
                 justifyContent: 'center',
               }}
             >
-              <NoteIcon sx={{ fontSize: 64, color: 'primary.main', mb: 2 }} />
-              <Typography variant="h4" color="primary.main" gutterBottom>
-                笔记功能
-              </Typography>
-              <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
-                笔记功能正在开发中，敬请期待...
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                这里将提供强大的笔记管理功能，包括：
-              </Typography>
-              <Box sx={{ mt: 2, textAlign: 'left' }}>
-                <Typography variant="body2" color="text.secondary">• 📝 富文本编辑器</Typography>
-                <Typography variant="body2" color="text.secondary">• 🏷️ 标签分类管理</Typography>
-                <Typography variant="body2" color="text.secondary">• 🔍 全文搜索功能</Typography>
-                <Typography variant="body2" color="text.secondary">• 📱 多设备同步</Typography>
-              </Box>
+              <MarkdownEditor value={note} onChange={setNote} />
             </Paper>
           </FadeIn>
         );
@@ -309,34 +294,18 @@ export default function CourseList() {
             <Paper
               sx={{
                 p: 8,
-                textAlign: 'center',
                 background: 'rgba(255, 255, 255, 0.95)',
                 backdropFilter: 'blur(10px)',
                 border: '1px solid rgba(255, 255, 255, 0.3)',
                 borderRadius: 3,
-                minHeight: '400px',
+                minHeight: '650px',
                 display: 'flex',
                 flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
+                flex: 1, // 新增，让 Paper 占满可用空间
               }}
             >
-              <CodeIcon sx={{ fontSize: 64, color: 'secondary.main', mb: 2 }} />
-              <Typography variant="h4" color="secondary.main" gutterBottom>
-                在线IDE
-              </Typography>
-              <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
-                在线IDE功能正在开发中，敬请期待...
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                这里将提供完整的在线开发环境，包括：
-              </Typography>
-              <Box sx={{ mt: 2, textAlign: 'left' }}>
-                <Typography variant="body2" color="text.secondary">• 💻 多语言代码编辑器</Typography>
-                <Typography variant="body2" color="text.secondary">• ▶️ 在线代码运行</Typography>
-                <Typography variant="body2" color="text.secondary">• 🐛 调试工具</Typography>
-                <Typography variant="body2" color="text.secondary">• 📁 项目文件管理</Typography>
-                <Typography variant="body2" color="text.secondary">• 🤝 实时协作编程</Typography>
+              <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                <CodeIDE />
               </Box>
             </Paper>
           </FadeIn>
