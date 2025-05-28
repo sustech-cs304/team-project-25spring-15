@@ -18,6 +18,6 @@ type Assignments struct {
 	CourseId       interface{} //
 	LectureId      interface{} //
 	Description    interface{} //
-	Deadline       *gtime.Time //
+	DeadLine       *gtime.Time //
 	Completeness   interface{} //
 }
