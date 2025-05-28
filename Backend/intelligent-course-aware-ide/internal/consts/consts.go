@@ -3,7 +3,8 @@ package consts
 import "time"
 
 // Operation url
-const TargetUrl string = "http://localhost:8081"
+// const TargetUrl string = "http://runner:8001"
+const TargetUrl string = "http://localhost:8001"
 const TmpDirPath string = "/usr/Document/tmp/"
 
 // Database dockerName

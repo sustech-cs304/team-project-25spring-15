@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
-	"io/ioutil"
+	"io"
 	"net/http"
 
 	"github.com/gogf/gf/v2/errors/gcode"
@@ -24,19 +24,20 @@ func (c *ControllerV1) GeneralRunner(ctx context.Context, req *v1.GeneralRunnerR
 			"outputPath": req.CodeInfo.OutputPath,
 		},
 		"type": req.CodeType,
-		"dir":  consts.TmpDirPath,
+		"dir":  "",
 	}
 	jsonData, err := json.Marshal(requestBody)
 	if err != nil {
 		return nil, gerror.NewCode(gcode.CodeInternalError, "Failed to marshal request body")
 	}
 	resp, err := http.Post(consts.TargetUrl+"/run", "application/json", bytes.NewBuffer(jsonData))
+
 	if err != nil {
 		return nil, gerror.NewCode(gcode.CodeInternalError, "Failed to send request to runner service")
 	}
 	defer resp.Body.Close()
 
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, gerror.NewCode(gcode.CodeInternalError, "Failed to read response body")
 	}
