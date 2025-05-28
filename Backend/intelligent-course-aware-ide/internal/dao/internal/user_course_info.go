@@ -22,12 +22,14 @@ type UserCourseInfoDao struct {
 type UserCourseInfoColumns struct {
 	UserId   string //
 	CourseId string //
+	Identity string //
 }
 
 // userCourseInfoColumns holds the columns for the table UserCourseInfo.
 var userCourseInfoColumns = UserCourseInfoColumns{
 	UserId:   "userId",
 	CourseId: "courseId",
+	Identity: "identity",
 }
 
 // NewUserCourseInfoDao creates and returns a new DAO object for table data access.
