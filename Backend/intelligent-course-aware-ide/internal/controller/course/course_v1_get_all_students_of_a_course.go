@@ -30,6 +30,7 @@ func (c *ControllerV1) GetAllStudentsOfACourse(ctx context.Context, req *v1.GetA
 		for _, studentCourseInfo := range studentCoursesInfo {
 			var student userv1.UserInfoWithoutPassword
 			err = dao.Users.Ctx(ctx).WherePri(studentCourseInfo.UserId).Scan(&student)
+			student.CourseIdentity = studentCourseInfo.Identity
 			if err != nil {
 				return res, err
 			}

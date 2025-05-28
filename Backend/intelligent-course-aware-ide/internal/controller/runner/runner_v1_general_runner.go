@@ -16,15 +16,9 @@ import (
 
 func (c *ControllerV1) GeneralRunner(ctx context.Context, req *v1.GeneralRunnerReq) (res *v1.GeneralRunnerRes, err error) {
 	requestBody := map[string]interface{}{
-		"codeInfo": map[string]interface{}{
-			"code":       req.CodeInfo.Code,
-			"name":       req.CodeInfo.Name,
-			"args":       req.CodeInfo.Args,
-			"InputPath":  req.CodeInfo.InputPath,
-			"outputPath": req.CodeInfo.OutputPath,
-		},
-		"type": req.CodeType,
-		"dir":  "",
+		"codeInfo": req.CodeInfo,
+		"type":     req.CodeType,
+		"dir":      "",
 	}
 	jsonData, err := json.Marshal(requestBody)
 	if err != nil {

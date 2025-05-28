@@ -81,13 +81,13 @@ export const CourseWareAPI = {
 export const CodeAPI = {
   runCode: async (code_str: string, lang: string) => {
     const headers = await getAuthHeader();
-    console.log("running code...");
     const payload = {
       codeInfo: {
         code: code_str,
       },
       type: lang
     };
+    console.log("running code with payload:", payload);
     const res = await axios.post(`/api/codeRunner/run`, payload, {headers});
     const response = res.data.data.codeFeedback;
     console.log('Code running result:', response);
@@ -393,6 +393,22 @@ export const AssignmentAPI = {
       score: score[idx],
     }));
     return merged || [];
+  },
+
+  attemptAssignment: async (attempt: {
+    userId: number;
+    fileId: string;
+    code: string;
+    fileType: string;
+    assignmentId: number;
+  }) => {
+    const headers = await getAuthHeader();
+    console.log("Attempting assignment with data:", attempt);
+    const res = await axios.post(`/api/assignment/attemptAssignment`, {
+      attempt: attempt
+    }, { headers });
+    console.log("Assignment attempt result:", res.data);
+    return res.data.data.feedback;
   },
 
   createAssignment: async (assignment: Assignment, courseName: string | undefined, chatId: number | undefined) => {

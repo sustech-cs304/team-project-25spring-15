@@ -52,10 +52,11 @@ func CheckUserHasFullPermissionOfCourse(ctx context.Context, userId int64, cours
 }
 
 func CheckUserHasHalfPermissionOfCourse(ctx context.Context, userId int64, courseId int64) (result bool, err error) {
-	var userFound *entity.CourseAssistants
-	err = dao.CourseAssistants.Ctx(ctx).Where(do.CourseAssistants{
-		CourseId:    courseId,
-		AssistantId: userId,
+	var userFound *entity.UserCourseInfo
+	err = dao.UserCourseInfo.Ctx(ctx).Where(do.UserCourseInfo{
+		CourseId: courseId,
+		UserId:   userId,
+		Identity: "assistant",
 	}).Scan(&userFound)
 
 	if err != nil || userFound == nil {
