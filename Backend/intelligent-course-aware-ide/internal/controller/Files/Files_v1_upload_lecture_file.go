@@ -2,16 +2,18 @@ package Files
 
 import (
 	"context"
+	"path/filepath"
 	"time"
 
 	v1 "intelligent-course-aware-ide/api/Files/v1"
+	"intelligent-course-aware-ide/internal/consts"
 	"intelligent-course-aware-ide/internal/dao"
-	"intelligent-course-aware-ide/internal/logic/file"
 
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gfile"
 	"github.com/gogf/gf/v2/util/gconv"
+	"github.com/gogf/gf/v2/util/guid"
 )
 
 // UploadLectureFile handles both new uploads and replacements based on existing fileId lookup.
@@ -39,9 +41,15 @@ func (c *ControllerV1) UploadLectureFile(ctx context.Context, req *v1.UploadLect
 	existingFileId := gconv.Int64(idValue) // 0 表示无记录
 
 	// save the file and get a path
-	fullPath, err := file.UploadFileImpl().UploadFileFromHttp(ctx, req.File)
-
+	// Generate a unique file name and save it
 	originalName := req.File.Filename
+	ext := filepath.Ext(originalName)
+	uniqueName := guid.S() + ext
+	fullPath := filepath.Join(consts.PathForLecture, uniqueName)
+	if _, err := req.File.Save(fullPath); err != nil {
+		return nil, gerror.New("Failed to save file")
+	}
+
 	size := req.File.Size
 	ctype := req.File.Header.Get("Content-Type")
 
