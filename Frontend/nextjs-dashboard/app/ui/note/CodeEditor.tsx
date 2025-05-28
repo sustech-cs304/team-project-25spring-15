@@ -18,7 +18,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ value, language, onChange }) =>
     <Box>
       <CodeMirror
         value={value}
-        minHeight="550px"
+        minHeight="470px"
         extensions={[languageExtension, autocompletion()]}
         onChange={(newValue: string) => {
           if (onChange) onChange(newValue);

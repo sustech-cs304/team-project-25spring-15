@@ -165,7 +165,7 @@ export default function CodeIDE() {
             bottom: 24, // 距离父容器底部24px，可调整
             width: "100%",
             maxWidth: "95%",
-            height: "100", // 你想要的高度
+            height: "90", // 你想要的高度
             // maxHeight: "50%",
             bgcolor: "#e0e0e0",
             zIndex: 2000,

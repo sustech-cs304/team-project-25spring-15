@@ -15,7 +15,9 @@ import {
   Card,
   CardContent,
 } from '@mui/material';
-import { Course } from '@/app/lib/definitions';
+
+import MarkdownEditor from "@/app/ui/note/MarkdownEditor";
+import CodeIDE from "@/app/ui/note/CodeIDE";
 import { useStore } from '@/store/useStore';
 import CourseCard from './cards';
 import AddIcon from '@mui/icons-material/Add';
@@ -186,7 +188,7 @@ export default function CourseList() {
           <Box>
             {/* 统计信息卡片 */}
             {renderStatsCards()}
-            
+
             {/* 课程网格 */}
             <AnimatedContainer>
               <Box

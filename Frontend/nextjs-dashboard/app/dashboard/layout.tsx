@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import Topbar from "../ui/dashboard/topbar";
-import NoteSidebar from "@/app/ui/note/NoteSideBar";
+// import NoteSidebar from "@/app/ui/note/NoteSideBar";
 import { auth } from "@/auth";
 import ClientSessionSync from "@/app/ui/ClientSessionSync";
 
@@ -23,7 +23,7 @@ export default async function Layout({
           <Suspense fallback={<div>加载中...</div>}>
             {children}
           </Suspense>
-          <NoteSidebar />
+          {/* <NoteSidebar /> */}
         </div>
       </div>
     </div>
