@@ -10,6 +10,7 @@ import { MultimodalInput } from './ai/multimodel-input';
 import { fetcher, generateUUID } from '@/app/lib/utils';
 import { toast } from 'sonner';
 import { useParams } from 'next/navigation';
+import { AiAPI } from '@/app/lib/client-api';
 // import { getChatHistoryPaginationKey } from './sidebar-history';
 
 export function Chat({
@@ -17,15 +18,28 @@ export function Chat({
   initialMessages,
   selectedChatModel,
   isReadonly,
+  userId,
 }: {
   id: string;
   initialMessages: Array<UIMessage>;
   selectedChatModel: string;
   isReadonly: boolean;
+  userId: number;
 }) {
   // const { mutate } = useSWRConfig();
   const params = useParams();
   const {courseId, lectureId} = params;
+
+  const onDelete = async () => {
+    try {
+      await AiAPI.removeMessages(userId.toString(), id); // 删除后端所有消息
+      setMessages([]); // 清空前端消息
+      alert('聊天记录已删除');
+    } catch(e) {
+      console.log('error', e)
+      alert('删除失败，请重试')
+    }
+  }
 
   const {
     messages,
@@ -60,6 +74,7 @@ export function Chat({
           chatId={id}
           selectedModelId={selectedChatModel}
           isReadonly={false}
+          onDelete={onDelete}
         />
 
         <Messages

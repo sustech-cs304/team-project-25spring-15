@@ -37,7 +37,7 @@ export async function POST(req: Request) {
     userId: userId,
     role: 'user',
     parts: JSON.stringify(lastMessage.parts), // 复制parts部分，包括reasoning
-    createdAt: new Date(),
+    createdAt: new Date().toISOString(),
   };
   const res = await AiMessageAPI.saveMessage(message);
 
@@ -90,7 +90,7 @@ export async function POST(req: Request) {
               lectureId: idNum,
               role: assistantMessage.role,
               parts: JSON.stringify(assistantMessage.parts),
-              createdAt: new Date(),
+              createdAt: new Date().toISOString(),
             });
           } catch (e) {
             console.error('Failed to save chat');

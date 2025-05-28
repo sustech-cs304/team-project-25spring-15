@@ -2,12 +2,12 @@
 
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { 
-  Box, 
-  List, 
-  ListItem, 
-  ListItemButton, 
-  ListItemIcon, 
+import {
+  Box,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
   ListItemText,
   Divider,
   Button
@@ -31,7 +31,7 @@ export default function LectureSidebar({ courseId, lectureId }: LectureSidebarPr
   const pathname = usePathname();
   const userInfo = useStore(state => state.userInfo);
   const courses = useStore(state => state.courses);
-  
+
   // 获取当前课程信息
   const currentCourse = courses.find(course => course.courseId === courseId);
   const isTeacher = userInfo?.identity === 'teacher' && currentCourse?.teacherId === userInfo.userId;
@@ -50,7 +50,7 @@ export default function LectureSidebar({ courseId, lectureId }: LectureSidebarPr
 
   const handleNavigate = (index: number) => {
     setActiveItem(index);
-    
+
     // 导航到对应的页面
     let path = '';
     switch (index) {
@@ -70,13 +70,13 @@ export default function LectureSidebar({ courseId, lectureId }: LectureSidebarPr
         path = `/dashboard/${courseId}/${lectureId}/collab`;
         break;
     }
-    
+
     router.push(path);
   };
 
   return (
-    <Box sx={{ 
-      width: 240, 
+    <Box sx={{
+      width: 240,
       bgcolor: 'background.paper',
       borderRight: '1px solid #e0e0e0',
       height: 'calc(100vh - 64px)',
@@ -92,9 +92,9 @@ export default function LectureSidebar({ courseId, lectureId }: LectureSidebarPr
       >
         返回课程
       </Button>
-      
+
       <Divider />
-      
+
       <List>
         <ListItem disablePadding>
           <ListItemButton
@@ -107,7 +107,7 @@ export default function LectureSidebar({ courseId, lectureId }: LectureSidebarPr
             <ListItemText primary="课件" />
           </ListItemButton>
         </ListItem>
-        
+
         <ListItem disablePadding>
           <ListItemButton
             selected={activeItem === 1}
@@ -119,7 +119,7 @@ export default function LectureSidebar({ courseId, lectureId }: LectureSidebarPr
             <ListItemText primary="练习" />
           </ListItemButton>
         </ListItem>
-        
+
         <ListItem disablePadding>
           <ListItemButton
             selected={activeItem === 2}
@@ -131,7 +131,7 @@ export default function LectureSidebar({ courseId, lectureId }: LectureSidebarPr
             <ListItemText primary="评论" />
           </ListItemButton>
         </ListItem>
-        
+
         <ListItem disablePadding>
           <ListItemButton
             selected={activeItem === 3}
@@ -140,10 +140,10 @@ export default function LectureSidebar({ courseId, lectureId }: LectureSidebarPr
             <ListItemIcon>
               <SmartToyIcon />
             </ListItemIcon>
-            <ListItemText primary="AI" />
+            <ListItemText primary="AI聊天" />
           </ListItemButton>
         </ListItem>
-        
+
         <ListItem disablePadding>
           <ListItemButton
             selected={activeItem === 4}
@@ -156,7 +156,7 @@ export default function LectureSidebar({ courseId, lectureId }: LectureSidebarPr
           </ListItemButton>
         </ListItem>
       </List>
-      
+
       {isTeacher && (
         <>
           <Divider sx={{ mt: 2 }} />
@@ -176,4 +176,4 @@ export default function LectureSidebar({ courseId, lectureId }: LectureSidebarPr
       )}
     </Box>
   );
-} 
+}

@@ -8,6 +8,25 @@ export async function getAuthHeader() {
   return token ? { Authorization: `Bearer ${token}` } : {};
 }
 
+export const AiAPI = {
+  removeMessages: async (userId: string, lectureId: string) => {
+    const headers = await getAuthHeader();
+    console.log("Start removing messages...");
+    const payload = {
+      LectureId: lectureId,
+      UserId: userId
+    }
+
+    try {
+      const res = await axios.post(
+        `/api/ai/chat/history/clear`, payload, {headers}
+      );
+    } catch(e) {
+      console.error("Error in removeMessage: ", e);
+    }
+  }
+}
+
 export const CmdAPI = {
   sendCmd: async () => {
     const headers = await getAuthHeader();
