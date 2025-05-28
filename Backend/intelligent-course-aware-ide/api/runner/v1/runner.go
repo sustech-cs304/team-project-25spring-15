@@ -26,5 +26,5 @@ type GeneralRunnerReq struct {
 
 type GeneralRunnerRes struct {
 	g.Meta       `mime:"text/html" example:"json"`
-	CodeFeedback *RunnerRes `json:"codeFeedback" dc:"Feedback of the code to run"`
+	CodeFeedback RunnerRes `json:"codeFeedback" dc:"Feedback of the code to run"`
 }

@@ -50,7 +50,7 @@ type GetAllAssignmentInfoOfACourseReq struct {
 type GetAllAssignmentInfoOfACourseRes struct {
 	g.Meta      `mime:"text/html" example:"json"`
 	Assignments []*entity.Assignments `json:"assignments" dc:"Info of all assignments of a course"`
-	Scores      []int                 `json:"scorse" dc:"Scores of those assignment"`
+	Scores      []int                 `json:"scores" dc:"Scores of those assignment"`
 }
 
 type GetAllAssignmentInfoOfALectureReq struct {
@@ -61,7 +61,7 @@ type GetAllAssignmentInfoOfALectureReq struct {
 type GetAllAssignmentInfoOfALectureRes struct {
 	g.Meta      `mime:"text/html" example:"json"`
 	Assignments []*entity.Assignments `json:"assignments" dc:"Info of all assignments of a lecture"`
-	Scores      []int                 `json:"scorse" dc:"Scores of those assignment"`
+	Scores      []int                 `json:"scores" dc:"Scores of those assignment"`
 }
 
 type CreateAssignmentReq struct {
