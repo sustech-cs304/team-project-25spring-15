@@ -1,11 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { 
-  Container, 
-  Typography, 
-  Button, 
+import {
+  Container,
+  Typography,
+  Button,
   Box,
   List,
   ListItem,
@@ -39,19 +39,83 @@ export default function LectureList({ courseId }: LectureListProps) {
   const courses = useStore(state => state.courses);
   const userInfo = useStore(state => state.userInfo);
   const setSelectedCourseId = useStore(state => state.setSelectedCourseId);
+  const setSelectedLectureId = useStore(state => state.setSelectedLectureId);
   const setCourses = useStore(state => state.setCourses);
-  
+
   const [newLecture, setNewLecture] = useState<Partial<Lecture>>({ lectureName: '', description: '', courseId });
   const [openLectureDialog, setOpenLectureDialog] = useState(false);
   const [openStudentDialog, setOpenStudentDialog] = useState(false);
   const [studentEmail, setStudentEmail] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [currentCourse, setCurrentCourse] = useState<Course | null>(null);
 
-  // 获取当前课程信息
-  const currentCourse = courses.find(course => course.courseId === courseId);
+  // 获取当前课程和讲座信息
+  useEffect(() => {
+    const loadCourseAndLectures = async () => {
+      setLoading(true);
+      try {
+        // 先从store中查找课程
+        const course = courses.find(c => c.courseId === courseId);
+
+        if (course) {
+          // 如果课程已经有讲座数据，直接使用
+          if (course.lectures && course.lectures.length > 0) {
+            setCurrentCourse(course);
+          } else {
+            // 否则加载讲座数据
+            const lectures = await LectureAPI.fetchLecturesByCourse(courseId);
+            const updatedCourse = { ...course, lectures: lectures || [] };
+            setCurrentCourse(updatedCourse);
+
+            // 更新store中的课程数据，但不触发useEffect重新执行
+            const updatedCourses = courses.map(c =>
+              c.courseId === courseId ? updatedCourse : c
+            );
+            // 使用setTimeout来避免在当前渲染周期中触发状态更新
+            setTimeout(() => {
+              setCourses(updatedCourses);
+            }, 0);
+          }
+        } else {
+          // 如果在store中找不到课程，直接加载
+          console.warn('Course not found in store, loading directly');
+          try {
+            // 尝试直接从API获取课程信息
+            // 因为没有实现fetchCourseById方法，暂时使用一个空对象
+            const fetchedCourse = {
+              courseId,
+              courseName: "未知课程",
+              description: "正在加载...",
+              lectures: [],
+              startTime: new Date().toISOString(),
+              endTime: new Date().toISOString(),
+              teacherId: 0,
+              chatId: 0
+            };
+
+            const lectures = await LectureAPI.fetchLecturesByCourse(courseId);
+            const fullCourse = { ...fetchedCourse, lectures: lectures || [] };
+            setCurrentCourse(fullCourse);
+          } catch (error) {
+            console.error('直接获取课程信息失败:', error);
+          }
+        }
+      } catch (error) {
+        console.error('加载课程或讲座失败:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadCourseAndLectures();
+  // 只依赖于courseId，不依赖于courses和setCourses
+  }, [courseId]);
+
   const isTeacher = userInfo?.identity === 'teacher' && currentCourse?.teacherId === userInfo.userId;
-  
+
   const handleLectureClick = (lectureId: number) => {
     setSelectedCourseId(courseId);
+    setSelectedLectureId(lectureId);
     router.push(`/dashboard/${courseId}/${lectureId}`);
   };
 
@@ -80,8 +144,25 @@ export default function LectureList({ courseId }: LectureListProps) {
         lectureName: newLecture.lectureName,
         description: newLecture.description || ''
       });
-      const list = await CourseAPI.fetchCourses();
-      setCourses(list);
+
+      // 重新加载讲座列表
+      const lectures = await LectureAPI.fetchLecturesByCourse(courseId);
+
+      if (currentCourse) {
+        const updatedCourse = { ...currentCourse, lectures: lectures || [] };
+        // 先更新本地状态
+        setCurrentCourse(updatedCourse);
+
+        // 使用setTimeout延迟更新全局状态，避免在当前渲染周期中触发useEffect
+        setTimeout(() => {
+          // 更新store中的课程数据
+          const updatedCourses = courses.map(c =>
+            c.courseId === courseId ? updatedCourse : c
+          );
+          setCourses(updatedCourses);
+        }, 0);
+      }
+
       handleCloseLectureDialog();
     } catch (error) {
       console.error('添加讲座失败', error);
@@ -102,14 +183,24 @@ export default function LectureList({ courseId }: LectureListProps) {
     }
   };
 
+  if (loading) {
+    return (
+      <Container maxWidth="xl">
+        <Typography variant="h5" component="h2" gutterBottom>
+          加载中...
+        </Typography>
+      </Container>
+    );
+  }
+
   if (!currentCourse) {
     return (
       <Container maxWidth="xl">
         <Typography variant="h5" component="h2" gutterBottom>
           课程不存在
         </Typography>
-        <Button 
-          variant="contained" 
+        <Button
+          variant="contained"
           startIcon={<ArrowBackIcon />}
           onClick={() => router.push('/dashboard')}
         >
@@ -123,8 +214,8 @@ export default function LectureList({ courseId }: LectureListProps) {
     <Container maxWidth="xl">
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Button 
-            variant="outlined" 
+          <Button
+            variant="outlined"
             startIcon={<ArrowBackIcon />}
             onClick={() => router.push('/dashboard')}
             sx={{ mr: 2 }}
@@ -135,22 +226,22 @@ export default function LectureList({ courseId }: LectureListProps) {
             {currentCourse.courseName}
           </Typography>
         </Box>
-        
+
         <Box>
           {isTeacher && (
             <>
-              <Button 
-                variant="contained" 
-                color="primary" 
+              <Button
+                variant="contained"
+                color="primary"
                 startIcon={<PeopleIcon />}
                 onClick={handleOpenStudentDialog}
                 sx={{ mr: 2 }}
               >
                 添加学生
               </Button>
-              <Button 
-                variant="contained" 
-                color="primary" 
+              <Button
+                variant="contained"
+                color="primary"
                 startIcon={<AddIcon />}
                 onClick={handleOpenLectureDialog}
               >
@@ -176,9 +267,9 @@ export default function LectureList({ courseId }: LectureListProps) {
       </Box>
 
       {isTeacher && (
-        <Button 
-          variant="outlined" 
-          color="primary" 
+        <Button
+          variant="outlined"
+          color="primary"
           startIcon={<PeopleIcon />}
           onClick={() => router.push(`/dashboard/course/${courseId}/students`)}
           sx={{ mb: 3 }}
@@ -275,4 +366,4 @@ export default function LectureList({ courseId }: LectureListProps) {
       </Dialog>
     </Container>
   );
-} 
+}
