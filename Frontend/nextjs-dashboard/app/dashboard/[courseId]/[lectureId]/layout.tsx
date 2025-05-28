@@ -21,9 +21,27 @@ export default async function LectureLayout({ children, params }: LectureLayoutP
   const lectureIdNum = Number(lectureId);
 
   return (
-    <div className="flex">
+    <div
+      style={{
+        display: "flex",
+        height: "calc(94vh - 64px)",         // 让容器高度充满视口
+        overflow: "hidden",      // 禁止页面滚动
+      }}
+    >
       {/* 左侧功能侧边栏 */}
-      <LectureSidebar courseId={courseIdNum} lectureId={lectureIdNum} />
+      <div
+        style={{
+          width: 240,            // 你想要的侧边栏宽度
+          height: "calc(94vh - 64px)",       // 高度充满
+          flexShrink: 0,         // 不缩小
+          background: "#f5f5f5", // 可选：背景色
+          borderRight: "1px solid #e0e0e0",
+        }}
+      >
+        <LectureSidebar courseId={courseIdNum} lectureId={lectureIdNum} />
+      </div>
+
+      <div style={{ width: 32, background: "#f8fafc" }} />
 
       {/* 右侧内容区域 */}
       <div className="flex-grow">
@@ -40,7 +58,7 @@ export default async function LectureLayout({ children, params }: LectureLayoutP
           }}
         >
           {/* 顶部标签栏 */}
-          <ContentLinks />
+          {/* <ContentLinks /> */}
 
           {/* 内容区域 - 渲染子路由 */}
           <div className="content-container">
