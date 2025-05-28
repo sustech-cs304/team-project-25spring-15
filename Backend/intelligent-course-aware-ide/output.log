@@ -1,8 +1,8 @@
 nohup: ignoring input
-2025-05-27T22:26:48.652+08:00 [DEBU] 日志系统初始化完成
-2025-05-27T22:26:48.666+08:00 [INFO] pid[331359]: http server started listening on [:8000]
-2025-05-27T22:26:48.666+08:00 [INFO] swagger ui is serving at address: http://127.0.0.1:8000/swagger/
-2025-05-27T22:26:48.666+08:00 [INFO] openapi specification is serving at address: http://127.0.0.1:8000/api.json
+2025-05-28T11:53:30.035+08:00 [DEBU] 日志系统初始化完成
+2025-05-28T11:53:30.051+08:00 [INFO] pid[5740]: http server started listening on [:8000]
+2025-05-28T11:53:30.051+08:00 [INFO] swagger ui is serving at address: http://127.0.0.1:8000/swagger/
+2025-05-28T11:53:30.051+08:00 [INFO] openapi specification is serving at address: http://127.0.0.1:8000/api.json
 
   ADDRESS | METHOD |                      ROUTE                       |                                                  HANDLER                                                   |           MIDDLEWARE             
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
@@ -243,22 +243,34 @@ nohup: ignoring input
   :8000   | ALL    | /swagger/*                                       | github.com/gogf/gf/v2/net/ghttp.(*Server).swaggerUI                                                        | HOOK_BEFORE_SERVE                
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
 
-2025-05-27T22:26:57.596+08:00 [INFO] {d84ec8e9886843180a7e3301fc34fbb1} Request: GET /api/course/searchCourseWithLectures/byStudentId
-2025-05-27T22:26:57.597+08:00 [DEBU] {d84ec8e9886843180a7e3301fc34fbb1} Headers: map[Accept:[application/json, text/plain, */*] Accept-Encoding:[gzip, deflate, br, zstd] Accept-Language:[zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6] Authorization:[Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjgsIkVtYWlsIjoiMjIyMjIyMjJAbWFpbC5zdXN0ZWNoLmVkdS5jbiIsIlVzZXJOYW1lIjoiOCIsImV4cCI6MTc0ODM3NzIxN30.7H50_Eg87pC70e0-EbfV-4nHsE7Ierk_kAO7oqAH_KM] Connection:[close] Cookie:[authjs.csrf-token=d6a53abb34c0a82fc0126e4074944835740ab914d6ee16e40905cf2cb6afd489%7Ca45296f78cac9ce5f57c6055cfe0c5279718729a5d641f52d81279218976b6d5; __next_hmr_refresh_hash__=339; authjs.callback-url=http%3A%2F%2Flocalhost%3A3000%2Fdashboard; authjs.session-token=eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIiwia2lkIjoiS0czOHk0LWNWZlZwSzV6UlZ4eWZodDRtb1JQSVVfVXlyZ1FmUTlpM1lTSTcybmdoLU5zWGJybWZEci1TbEdUeHpmOXJSa3BFajlJVmNEUzM0WDVwN1EifQ..1IvtzdFLXSyTOUvV2KW4Fg.ru58OaC34DiV6hZRyiaSb3J3qq0s6nitMarlkQrOUknJv0flCWA65-0-sM5XpIdgqJ2tRArd_ZYbOifJTt_zavMrdS6Rr5Un0_YwnemgLM7ElyHIM8WnaI3G_32FZIRWRR9u9QEyjDNsfw_kJvBLXCKKq-kr8AjKoaoaSOBc2-OlbZZtg8WNTz9wTTAI7XDBetZP-nJ19qIjMiYspeJMKgV4Vw1UJ8Z-F3gmfWZsxOSok4Hz6i1pI3WGSMmQA5YZ-wNBW6O6U-ZGjGx98MU_AWU-2TPPzAfQ8yVS9giMuA1GA09Du7Akr9S9xYTaDagfi8m94m_OzmIqoaAdpMQHzI5MdjMz_NRIqPDamfdRwSBundz5Ez7hilM1lNfS6AzsjLEC_C7vl-AQkZWhDl3ygGzxGC8lFOFrHoRy93kP5Xa2i13uVzsw1gmKLzzoRH9Pa-0S95IphOzsI87KpKQT_G1rp5dNyry3DZOJiKqSko5COkVqgzjLnXFIWaAZ4pmw6kxFpB9Zrkoj08YUtaq5PSSLJLQjxy_NWNnKjOL8T9qymt98zw-cDRe7l9s7Mlo7pqx-haQWyHEsAb20HZz_kkMmoYpU-eqm_UvvOqetKP0Rrlynf6_ffTjlxZV-X608um38CNVyKlXkKgkInvh_emip1zGvfPcpn_bId1gmC2g.Z6g2Sp4HdWCrYMECuH8Evy6NpDJUpq3KWi5BEOklhGM] Referer:[http://localhost:3000/dashboard] Sec-Ch-Ua:["Chromium";v="136", "Microsoft Edge";v="136", "Not.A/Brand";v="99"] Sec-Ch-Ua-Mobile:[?0] Sec-Ch-Ua-Platform:["Windows"] Sec-Fetch-Dest:[empty] Sec-Fetch-Mode:[cors] Sec-Fetch-Site:[same-origin] User-Agent:[Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0] X-Forwarded-Host:[localhost:3000]]
-2025-05-27T22:26:57.597+08:00 [DEBU] {d84ec8e9886843180a7e3301fc34fbb1} 
-2025-05-27T22:27:13.085+08:00 [INFO] {f408fc848c6843180d7e33016ad2f9d6} Request: POST /api/user/loginUser
-2025-05-27T22:27:13.085+08:00 [DEBU] {f408fc848c6843180d7e33016ad2f9d6} Headers: map[Accept:[*/*] Accept-Encoding:[gzip, deflate] Accept-Language:[*] Connection:[keep-alive] Content-Length:[74] Content-Type:[application/json] Sec-Fetch-Mode:[cors] User-Agent:[node]]
-2025-05-27T22:27:13.086+08:00 [DEBU] {f408fc848c6843180d7e33016ad2f9d6} Form: map[userLogin:map[email:22222222@mail.sustech.edu.cn password:123456]]
-2025-05-27T22:27:13.086+08:00 [DEBU] {f408fc848c6843180d7e33016ad2f9d6} Body: {"userLogin":{"email":"22222222@mail.sustech.edu.cn","password":"123456"}}
-2025-05-27T22:27:13.086+08:00 [DEBU] {f408fc848c6843180d7e33016ad2f9d6} 
-2025-05-27T22:27:13.098+08:00 [ERRO] {f408fc848c6843180d7e33016ad2f9d6} Error occurred: SELECT `UserId`,`UserName`,`Email`,`UserSign`,`University`,`Birthday`,`Identity` FROM `Users` WHERE `Email`='22222222@mail.sustech.edu.cn' AND `Password`='123456' LIMIT 1: dial tcp: lookup database on 127.0.0.53:53: server misbehaving 
+2025-05-28T11:53:47.731+08:00 [INFO] {bf84ad4690944318aa2c746a7ea7ee0f} Request: POST /api/user/loginUser
+2025-05-28T11:53:47.732+08:00 [DEBU] {bf84ad4690944318aa2c746a7ea7ee0f} Headers: map[Accept:[*/*] Accept-Encoding:[gzip, deflate] Accept-Language:[*] Connection:[keep-alive] Content-Length:[74] Content-Type:[application/json] Sec-Fetch-Mode:[cors] User-Agent:[node]]
+2025-05-28T11:53:47.732+08:00 [DEBU] {bf84ad4690944318aa2c746a7ea7ee0f} Form: map[userLogin:map[email:11111111@mail.sustech.edu.cn password:123456]]
+2025-05-28T11:53:47.732+08:00 [DEBU] {bf84ad4690944318aa2c746a7ea7ee0f} Body: {"userLogin":{"email":"11111111@mail.sustech.edu.cn","password":"123456"}}
+2025-05-28T11:53:47.732+08:00 [DEBU] {bf84ad4690944318aa2c746a7ea7ee0f} 
+2025-05-28T11:53:48.048+08:00 [INFO] {ebef925990944318ab2c746a21d6974a} Request: GET /api/course/searchCourseWithLectures/byStudentId
+2025-05-28T11:53:48.049+08:00 [DEBU] {ebef925990944318ab2c746a21d6974a} Headers: map[Accept:[application/json, text/plain, */*] Accept-Encoding:[gzip, deflate, br, zstd] Accept-Language:[zh-CN,zh;q=0.9] Authorization:[Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjcsIkVtYWlsIjoiMTExMTExMTFAbWFpbC5zdXN0ZWNoLmVkdS5jbiIsIlVzZXJOYW1lIjoiNyIsImV4cCI6MTc0ODQyNjAyN30.SUeGH0mTcCqjS0zHyrq2Lfd5IFXFIEVrfFAph4fTnyw] Connection:[close] Cookie:[jenkins-timestamper-offset=-28800000; authjs.csrf-token=4d1fee3749023da59c67a79b1a1a993c038fba416e65e958fa36ed458b42a97b%7C7728290b375132ef1cb617c9e044a38eb3fc8e107a9d6706fae37f5db9615d57; screenResolution=1470x956; JSESSIONID.5b5bebd3=node0wgjd5ta0taw112cj830yhcq1g8.node0; __next_hmr_refresh_hash__=99; authjs.callback-url=http%3A%2F%2Flocalhost%3A3000%2Fdashboard; authjs.session-token=eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIiwia2lkIjoiS0czOHk0LWNWZlZwSzV6UlZ4eWZodDRtb1JQSVVfVXlyZ1FmUTlpM1lTSTcybmdoLU5zWGJybWZEci1TbEdUeHpmOXJSa3BFajlJVmNEUzM0WDVwN1EifQ..lGgnthThKzbFv_7IjPFjkg.EU2rgiwCklpibPlZNjxAhXW5uDu8PAYOPLIkgVx9rYrOUgMEEy6x6dPawezwtMn2F1V3sWCSeQTTm5mI_qiiIc_nmvdcgRy2W3uY8N3a8KMAJ9dgtCyQYI8nquyZ1FgNyb2cZgNso47uOjcI_1iJrELDXV2ThW_GqaNU7DTWxMsUjy4ZRRoO206FkvBLCHyZCc9fCOegD3yEp3RD6UznCeNsJuNOpBnvoks2VIH2nSb1itnJXnIMM0N811KVypLPyHDWhwwOvaiiOe_vsiFwWiQbavTgetAj1Dic4iw4pQ2LnJ5KB202uUWArZYN7nOX2ak_xtpXD1G9vxqd_F4YQLR0OVaqv6YyG1NWfbfOzSFAIqEbwULs-te0Xv2PM3Xhgu1hRAg6y-G1u77HajgMFz6LBDjXL8EZ5zHPzerazFgC-vBj5R2dYIFW2g2bi1ezKlqq56B6OpBDQw0n16VIYl1Ql6-_T2qFkfUcAyFpo4dmha56z4yTXbbTLoylDOuVaCetoc_vOSRAjT1YYi1P52udEJZKc4_2-Dhi3aztX59WsD7dsHdEqEq2ymvC4MlirvR7-a4aVjmwS_YRaR5galK4M2nVSdjS7Hydk3v_1koqK56vcVS3n18jkprIq6bFylqKdo3xzKrfBfEODH0_0RoaZ4fEKXH5snWS9SzB_Ho.CzFhJNbdDfpe1zk_mYodYo7H39refxEsSGnJicDmH8A] Referer:[http://localhost:3000/dashboard] Sec-Ch-Ua:["Chromium";v="136", "Google Chrome";v="136", "Not.A/Brand";v="99"] Sec-Ch-Ua-Mobile:[?0] Sec-Ch-Ua-Platform:["macOS"] Sec-Fetch-Dest:[empty] Sec-Fetch-Mode:[cors] Sec-Fetch-Site:[same-origin] User-Agent:[Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36] X-Forwarded-Host:[localhost:3000]]
+2025-05-28T11:53:48.049+08:00 [DEBU] {ebef925990944318ab2c746a21d6974a} 
+2025-05-28T11:53:48.180+08:00 [INFO] {eaa16b6190944318ad2c746a3cec4df4} Request: GET /api/course/searchCourseWithLectures/byStudentId
+2025-05-28T11:53:48.180+08:00 [DEBU] {eaa16b6190944318ad2c746a3cec4df4} Headers: map[Accept:[application/json, text/plain, */*] Accept-Encoding:[gzip, deflate, br, zstd] Accept-Language:[zh-CN,zh;q=0.9] Authorization:[Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjcsIkVtYWlsIjoiMTExMTExMTFAbWFpbC5zdXN0ZWNoLmVkdS5jbiIsIlVzZXJOYW1lIjoiNyIsImV4cCI6MTc0ODQyNjAyN30.SUeGH0mTcCqjS0zHyrq2Lfd5IFXFIEVrfFAph4fTnyw] Connection:[close] Cookie:[jenkins-timestamper-offset=-28800000; authjs.csrf-token=4d1fee3749023da59c67a79b1a1a993c038fba416e65e958fa36ed458b42a97b%7C7728290b375132ef1cb617c9e044a38eb3fc8e107a9d6706fae37f5db9615d57; screenResolution=1470x956; JSESSIONID.5b5bebd3=node0wgjd5ta0taw112cj830yhcq1g8.node0; __next_hmr_refresh_hash__=99; authjs.callback-url=http%3A%2F%2Flocalhost%3A3000%2Fdashboard; authjs.session-token=eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIiwia2lkIjoiS0czOHk0LWNWZlZwSzV6UlZ4eWZodDRtb1JQSVVfVXlyZ1FmUTlpM1lTSTcybmdoLU5zWGJybWZEci1TbEdUeHpmOXJSa3BFajlJVmNEUzM0WDVwN1EifQ..lGgnthThKzbFv_7IjPFjkg.EU2rgiwCklpibPlZNjxAhXW5uDu8PAYOPLIkgVx9rYrOUgMEEy6x6dPawezwtMn2F1V3sWCSeQTTm5mI_qiiIc_nmvdcgRy2W3uY8N3a8KMAJ9dgtCyQYI8nquyZ1FgNyb2cZgNso47uOjcI_1iJrELDXV2ThW_GqaNU7DTWxMsUjy4ZRRoO206FkvBLCHyZCc9fCOegD3yEp3RD6UznCeNsJuNOpBnvoks2VIH2nSb1itnJXnIMM0N811KVypLPyHDWhwwOvaiiOe_vsiFwWiQbavTgetAj1Dic4iw4pQ2LnJ5KB202uUWArZYN7nOX2ak_xtpXD1G9vxqd_F4YQLR0OVaqv6YyG1NWfbfOzSFAIqEbwULs-te0Xv2PM3Xhgu1hRAg6y-G1u77HajgMFz6LBDjXL8EZ5zHPzerazFgC-vBj5R2dYIFW2g2bi1ezKlqq56B6OpBDQw0n16VIYl1Ql6-_T2qFkfUcAyFpo4dmha56z4yTXbbTLoylDOuVaCetoc_vOSRAjT1YYi1P52udEJZKc4_2-Dhi3aztX59WsD7dsHdEqEq2ymvC4MlirvR7-a4aVjmwS_YRaR5galK4M2nVSdjS7Hydk3v_1koqK56vcVS3n18jkprIq6bFylqKdo3xzKrfBfEODH0_0RoaZ4fEKXH5snWS9SzB_Ho.CzFhJNbdDfpe1zk_mYodYo7H39refxEsSGnJicDmH8A] Referer:[http://localhost:3000/dashboard] Sec-Ch-Ua:["Chromium";v="136", "Google Chrome";v="136", "Not.A/Brand";v="99"] Sec-Ch-Ua-Mobile:[?0] Sec-Ch-Ua-Platform:["macOS"] Sec-Fetch-Dest:[empty] Sec-Fetch-Mode:[cors] Sec-Fetch-Site:[same-origin] User-Agent:[Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36] X-Forwarded-Host:[localhost:3000]]
+2025-05-28T11:53:48.181+08:00 [DEBU] {eaa16b6190944318ad2c746a3cec4df4} 
+2025-05-28T11:53:54.093+08:00 [INFO] {c2fad6c191944318af2c746a4016352a} Request: GET /api/course/searchCourseWithLectures/byStudentId
+2025-05-28T11:53:54.093+08:00 [DEBU] {c2fad6c191944318af2c746a4016352a} Headers: map[Accept:[application/json, text/plain, */*] Accept-Encoding:[gzip, compress, deflate, br] Authorization:[Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjcsIkVtYWlsIjoiMTExMTExMTFAbWFpbC5zdXN0ZWNoLmVkdS5jbiIsIlVzZXJOYW1lIjoiNyIsImV4cCI6MTc0ODQyNjAyN30.SUeGH0mTcCqjS0zHyrq2Lfd5IFXFIEVrfFAph4fTnyw] Connection:[keep-alive] User-Agent:[axios/1.9.0]]
+2025-05-28T11:53:54.093+08:00 [DEBU] {c2fad6c191944318af2c746a4016352a} 
+2025-05-28T11:53:56.439+08:00 [INFO] {6f98af4d92944318b12c746a798c022a} Request: GET /api/course/searchCourseWithLectures/byStudentId
+2025-05-28T11:53:56.439+08:00 [DEBU] {6f98af4d92944318b12c746a798c022a} Headers: map[Accept:[application/json, text/plain, */*] Accept-Encoding:[gzip, compress, deflate, br] Authorization:[Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjcsIkVtYWlsIjoiMTExMTExMTFAbWFpbC5zdXN0ZWNoLmVkdS5jbiIsIlVzZXJOYW1lIjoiNyIsImV4cCI6MTc0ODQyNjAyN30.SUeGH0mTcCqjS0zHyrq2Lfd5IFXFIEVrfFAph4fTnyw] Connection:[keep-alive] User-Agent:[axios/1.9.0]]
+2025-05-28T11:53:56.439+08:00 [DEBU] {6f98af4d92944318b12c746a798c022a} 
+2025-05-28T11:53:57.584+08:00 [INFO] {86a5eb9192944318b32c746aae2adf18} Request: GET /api/Files/lectureFile/lecture/1
+2025-05-28T11:53:57.584+08:00 [DEBU] {86a5eb9192944318b32c746aae2adf18} Headers: map[Accept:[application/json, text/plain, */*] Accept-Encoding:[gzip, deflate, br, zstd] Accept-Language:[zh-CN,zh;q=0.9] Authorization:[Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjcsIkVtYWlsIjoiMTExMTExMTFAbWFpbC5zdXN0ZWNoLmVkdS5jbiIsIlVzZXJOYW1lIjoiNyIsImV4cCI6MTc0ODQyNjAyN30.SUeGH0mTcCqjS0zHyrq2Lfd5IFXFIEVrfFAph4fTnyw] Connection:[close] Cookie:[jenkins-timestamper-offset=-28800000; authjs.csrf-token=4d1fee3749023da59c67a79b1a1a993c038fba416e65e958fa36ed458b42a97b%7C7728290b375132ef1cb617c9e044a38eb3fc8e107a9d6706fae37f5db9615d57; screenResolution=1470x956; JSESSIONID.5b5bebd3=node0wgjd5ta0taw112cj830yhcq1g8.node0; __next_hmr_refresh_hash__=99; authjs.callback-url=http%3A%2F%2Flocalhost%3A3000%2Fdashboard; authjs.session-token=eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIiwia2lkIjoiS0czOHk0LWNWZlZwSzV6UlZ4eWZodDRtb1JQSVVfVXlyZ1FmUTlpM1lTSTcybmdoLU5zWGJybWZEci1TbEdUeHpmOXJSa3BFajlJVmNEUzM0WDVwN1EifQ..RLyZywCXTLmjl1kkE--R4w.yZ0ssGi01nE0z65rjDNiBnnxrkldRzyWw8ZKy3tW9AjR6CNYXiDbnj6GMl6jP8aey2YCiqkqBH-ZorUhL9GTBIP52xDb16xawu9VpepoyAEDsIx0ICGzLM7rXG41bhYbC-HtqVVGI9XK0cguB8HNXMNULlhZACY1QURbxaFY8_4aYFD-yk2cDzT2OKtTJLMgjxKNUHtbSSm_7ESpsDogxdJH8btEC_dY_9GETHBs5ybJ3vKI9o_q8MXRd0mRlANPBSHgbtruzEV_Os6ihPhoEwvPI_TCxy6KAe6_mGRLyGALd-x94M8Q398kXxEFQDbL0n0cXxH-Hfq_pvMTNtAz5JifIb20-cQhpX62TZYTObYftZADfbKfrVhkyfWwcGEWpU5CJz158rPRHp4_sWQALoajn3QCZpLydsdz-uUVF4GVvZ2I-zpam-0Di29P6jWdTcl6bxYRQh22g63zwl2JaDGZxZMRAW30puazuh_0Klzxm5dXq7mUH_ddxRercDrZU_fUtHoQkCjUfqpk2mC9nq4LdPRgNDllREaxZIDgXFAxmUnu-8FfH12xWbFkl_l48yBXZ9pOEvyMRLxQDm7TrISdp33uy7FBw7qGcB85I6T0igtyfnylw1pXxglAy3N2PsguLiKVl9dXAZ0toU72Xv32JI8JsGS5EuiSLsxfOIQ.J4F7CwgdU-pD2qzCv8O9O4SbAfa1i3P7ezZt29ENRqE] Referer:[http://localhost:3000/dashboard/1/1/courseware] Sec-Ch-Ua:["Chromium";v="136", "Google Chrome";v="136", "Not.A/Brand";v="99"] Sec-Ch-Ua-Mobile:[?0] Sec-Ch-Ua-Platform:["macOS"] Sec-Fetch-Dest:[empty] Sec-Fetch-Mode:[cors] Sec-Fetch-Site:[same-origin] User-Agent:[Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36] X-Forwarded-Host:[localhost:3000]]
+2025-05-28T11:53:57.584+08:00 [DEBU] {86a5eb9192944318b32c746aae2adf18} 
+2025-05-28T11:53:57.596+08:00 [ERRO] {86a5eb9192944318b32c746aae2adf18} Error occurred: 对应的文件不存在 
 Stack:
 1.  intelligent-course-aware-ide/internal/cmd.init.func1.1
     /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:47
 2.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
     /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
 
-2025-05-27T22:27:13.098+08:00 [ERRO] {f408fc848c6843180d7e33016ad2f9d6} Panic recovered: exit 
+2025-05-28T11:53:57.596+08:00 [ERRO] {86a5eb9192944318b32c746aae2adf18} Panic recovered: exit 
 Stack:
 1.  intelligent-course-aware-ide/internal/cmd.init.func1.1.1
     /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:35
@@ -267,32 +279,31 @@ Stack:
 3.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
     /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
 
-2025-05-27T22:27:13.098+08:00 {f408fc848c6843180d7e33016ad2f9d6} 500 "POST http 47.117.144.50:8000 /api/user/loginUser HTTP/1.1" 13173.161, 110.65.147.229, "", "node", 52, "Database Operation Error", ""
+2025-05-28T11:53:57.597+08:00 {86a5eb9192944318b32c746aae2adf18} 500 "GET http 47.117.144.50:8000 /api/Files/lectureFile/lecture/1 HTTP/1.1" 12828.373, 110.65.147.206, "http://localhost:3000/dashboard/1/1/courseware", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36", -1, "", ""
 Stack:
-1. SELECT `UserId`,`UserName`,`Email`,`UserSign`,`University`,`Birthday`,`Identity` FROM `Users` WHERE `Email`='22222222@mail.sustech.edu.cn' AND `Password`='123456' LIMIT 1
-   1).  intelligent-course-aware-ide/internal/controller/account.(*ControllerV1).LoginUser
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/controller/account/account_v1_login_user.go:28
-   2).  intelligent-course-aware-ide/internal/logic/middleware.LoggerMiddleware
+1. 对应的文件不存在
+   1).  intelligent-course-aware-ide/internal/controller/Files.(*ControllerV1).GetFileWithLectureId
+        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/controller/Files/Files_v1_get_file_with_lecture_id.go:25
+   2).  intelligent-course-aware-ide/internal/logic/middleware.Auth
+        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/auth.go:56
+   3).  intelligent-course-aware-ide/internal/logic/middleware.LoggerMiddleware
         /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/loggerMiddleware.go:43
-   3).  intelligent-course-aware-ide/internal/cmd.init.func1.1
+   4).  intelligent-course-aware-ide/internal/cmd.init.func1.1
         /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:43
-   4).  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
+   5).  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
         /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-2. dial tcp: lookup database on 127.0.0.53:53: server misbehaving
 
-2025-05-27T22:27:14.613+08:00 [INFO] {469d0fe08c6843180e7e3301a61d823f} Request: POST /api/user/loginUser
-2025-05-27T22:27:14.613+08:00 [DEBU] {469d0fe08c6843180e7e3301a61d823f} Headers: map[Accept:[*/*] Accept-Encoding:[gzip, deflate] Accept-Language:[*] Connection:[keep-alive] Content-Length:[74] Content-Type:[application/json] Sec-Fetch-Mode:[cors] User-Agent:[node]]
-2025-05-27T22:27:14.614+08:00 [DEBU] {469d0fe08c6843180e7e3301a61d823f} Form: map[userLogin:map[email:22222222@mail.sustech.edu.cn password:123456]]
-2025-05-27T22:27:14.614+08:00 [DEBU] {469d0fe08c6843180e7e3301a61d823f} Body: {"userLogin":{"email":"22222222@mail.sustech.edu.cn","password":"123456"}}
-2025-05-27T22:27:14.614+08:00 [DEBU] {469d0fe08c6843180e7e3301a61d823f} 
-2025-05-27T22:27:14.623+08:00 [ERRO] {469d0fe08c6843180e7e3301a61d823f} Error occurred: SELECT `UserId`,`UserName`,`Email`,`UserSign`,`University`,`Birthday`,`Identity` FROM `Users` WHERE `Email`='22222222@mail.sustech.edu.cn' AND `Password`='123456' LIMIT 1: dial tcp: lookup database on 127.0.0.53:53: server misbehaving 
+2025-05-28T11:53:57.689+08:00 [INFO] {104c319892944318b52c746a8afa9595} Request: GET /api/Files/lectureFile/lecture/1
+2025-05-28T11:53:57.689+08:00 [DEBU] {104c319892944318b52c746a8afa9595} Headers: map[Accept:[application/json, text/plain, */*] Accept-Encoding:[gzip, deflate, br, zstd] Accept-Language:[zh-CN,zh;q=0.9] Authorization:[Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjcsIkVtYWlsIjoiMTExMTExMTFAbWFpbC5zdXN0ZWNoLmVkdS5jbiIsIlVzZXJOYW1lIjoiNyIsImV4cCI6MTc0ODQyNjAyN30.SUeGH0mTcCqjS0zHyrq2Lfd5IFXFIEVrfFAph4fTnyw] Connection:[close] Cookie:[jenkins-timestamper-offset=-28800000; authjs.csrf-token=4d1fee3749023da59c67a79b1a1a993c038fba416e65e958fa36ed458b42a97b%7C7728290b375132ef1cb617c9e044a38eb3fc8e107a9d6706fae37f5db9615d57; screenResolution=1470x956; JSESSIONID.5b5bebd3=node0wgjd5ta0taw112cj830yhcq1g8.node0; __next_hmr_refresh_hash__=99; authjs.callback-url=http%3A%2F%2Flocalhost%3A3000%2Fdashboard; authjs.session-token=eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIiwia2lkIjoiS0czOHk0LWNWZlZwSzV6UlZ4eWZodDRtb1JQSVVfVXlyZ1FmUTlpM1lTSTcybmdoLU5zWGJybWZEci1TbEdUeHpmOXJSa3BFajlJVmNEUzM0WDVwN1EifQ..RLyZywCXTLmjl1kkE--R4w.yZ0ssGi01nE0z65rjDNiBnnxrkldRzyWw8ZKy3tW9AjR6CNYXiDbnj6GMl6jP8aey2YCiqkqBH-ZorUhL9GTBIP52xDb16xawu9VpepoyAEDsIx0ICGzLM7rXG41bhYbC-HtqVVGI9XK0cguB8HNXMNULlhZACY1QURbxaFY8_4aYFD-yk2cDzT2OKtTJLMgjxKNUHtbSSm_7ESpsDogxdJH8btEC_dY_9GETHBs5ybJ3vKI9o_q8MXRd0mRlANPBSHgbtruzEV_Os6ihPhoEwvPI_TCxy6KAe6_mGRLyGALd-x94M8Q398kXxEFQDbL0n0cXxH-Hfq_pvMTNtAz5JifIb20-cQhpX62TZYTObYftZADfbKfrVhkyfWwcGEWpU5CJz158rPRHp4_sWQALoajn3QCZpLydsdz-uUVF4GVvZ2I-zpam-0Di29P6jWdTcl6bxYRQh22g63zwl2JaDGZxZMRAW30puazuh_0Klzxm5dXq7mUH_ddxRercDrZU_fUtHoQkCjUfqpk2mC9nq4LdPRgNDllREaxZIDgXFAxmUnu-8FfH12xWbFkl_l48yBXZ9pOEvyMRLxQDm7TrISdp33uy7FBw7qGcB85I6T0igtyfnylw1pXxglAy3N2PsguLiKVl9dXAZ0toU72Xv32JI8JsGS5EuiSLsxfOIQ.J4F7CwgdU-pD2qzCv8O9O4SbAfa1i3P7ezZt29ENRqE] Referer:[http://localhost:3000/dashboard/1/1/courseware] Sec-Ch-Ua:["Chromium";v="136", "Google Chrome";v="136", "Not.A/Brand";v="99"] Sec-Ch-Ua-Mobile:[?0] Sec-Ch-Ua-Platform:["macOS"] Sec-Fetch-Dest:[empty] Sec-Fetch-Mode:[cors] Sec-Fetch-Site:[same-origin] User-Agent:[Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36] X-Forwarded-Host:[localhost:3000]]
+2025-05-28T11:53:57.689+08:00 [DEBU] {104c319892944318b52c746a8afa9595} 
+2025-05-28T11:53:57.695+08:00 [ERRO] {104c319892944318b52c746a8afa9595} Error occurred: 对应的文件不存在 
 Stack:
 1.  intelligent-course-aware-ide/internal/cmd.init.func1.1
     /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:47
 2.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
     /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
 
-2025-05-27T22:27:14.623+08:00 [ERRO] {469d0fe08c6843180e7e3301a61d823f} Panic recovered: exit 
+2025-05-28T11:53:57.695+08:00 [ERRO] {104c319892944318b52c746a8afa9595} Panic recovered: exit 
 Stack:
 1.  intelligent-course-aware-ide/internal/cmd.init.func1.1.1
     /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:35
@@ -301,32 +312,32 @@ Stack:
 3.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
     /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
 
-2025-05-27T22:27:14.623+08:00 {469d0fe08c6843180e7e3301a61d823f} 500 "POST http 47.117.144.50:8000 /api/user/loginUser HTTP/1.1" 10165.711, 110.65.147.229, "", "node", 52, "Database Operation Error", ""
+2025-05-28T11:53:57.695+08:00 {104c319892944318b52c746a8afa9595} 500 "GET http 47.117.144.50:8000 /api/Files/lectureFile/lecture/1 HTTP/1.1" 6325.322, 110.65.147.206, "http://localhost:3000/dashboard/1/1/courseware", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36", -1, "", ""
 Stack:
-1. SELECT `UserId`,`UserName`,`Email`,`UserSign`,`University`,`Birthday`,`Identity` FROM `Users` WHERE `Email`='22222222@mail.sustech.edu.cn' AND `Password`='123456' LIMIT 1
-   1).  intelligent-course-aware-ide/internal/controller/account.(*ControllerV1).LoginUser
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/controller/account/account_v1_login_user.go:28
-   2).  intelligent-course-aware-ide/internal/logic/middleware.LoggerMiddleware
+1. 对应的文件不存在
+   1).  intelligent-course-aware-ide/internal/controller/Files.(*ControllerV1).GetFileWithLectureId
+        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/controller/Files/Files_v1_get_file_with_lecture_id.go:25
+   2).  intelligent-course-aware-ide/internal/logic/middleware.Auth
+        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/auth.go:56
+   3).  intelligent-course-aware-ide/internal/logic/middleware.LoggerMiddleware
         /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/loggerMiddleware.go:43
-   3).  intelligent-course-aware-ide/internal/cmd.init.func1.1
+   4).  intelligent-course-aware-ide/internal/cmd.init.func1.1
         /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:43
-   4).  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
+   5).  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
         /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-2. dial tcp: lookup database on 127.0.0.53:53: server misbehaving
 
-2025-05-27T22:27:29.669+08:00 [INFO] {8e746d61906843180f7e33014768664b} Request: POST /api/user/loginUser
-2025-05-27T22:27:29.669+08:00 [DEBU] {8e746d61906843180f7e33014768664b} Headers: map[Accept:[*/*] Accept-Encoding:[gzip, deflate] Accept-Language:[*] Connection:[keep-alive] Content-Length:[74] Content-Type:[application/json] Sec-Fetch-Mode:[cors] User-Agent:[node]]
-2025-05-27T22:27:29.669+08:00 [DEBU] {8e746d61906843180f7e33014768664b} Form: map[userLogin:map[email:22222222@mail.sustech.edu.cn password:123456]]
-2025-05-27T22:27:29.669+08:00 [DEBU] {8e746d61906843180f7e33014768664b} Body: {"userLogin":{"email":"22222222@mail.sustech.edu.cn","password":"123456"}}
-2025-05-27T22:27:29.669+08:00 [DEBU] {8e746d61906843180f7e33014768664b} 
-2025-05-27T22:27:29.676+08:00 [ERRO] {8e746d61906843180f7e33014768664b} Error occurred: SELECT `UserId`,`UserName`,`Email`,`UserSign`,`University`,`Birthday`,`Identity` FROM `Users` WHERE `Email`='22222222@mail.sustech.edu.cn' AND `Password`='123456' LIMIT 1: dial tcp: lookup database on 127.0.0.53:53: server misbehaving 
+2025-05-28T11:54:06.347+08:00 [INFO] {712e449c94944318b72c746a4453588e} Request: POST /api/Files/lectureFile/upload
+2025-05-28T11:54:06.347+08:00 [DEBU] {712e449c94944318b72c746a4453588e} Headers: map[Accept:[application/json, text/plain, */*] Accept-Encoding:[gzip, deflate, br, zstd] Accept-Language:[zh-CN,zh;q=0.9] Authorization:[Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjcsIkVtYWlsIjoiMTExMTExMTFAbWFpbC5zdXN0ZWNoLmVkdS5jbiIsIlVzZXJOYW1lIjoiNyIsImV4cCI6MTc0ODQyNjAyN30.SUeGH0mTcCqjS0zHyrq2Lfd5IFXFIEVrfFAph4fTnyw] Connection:[close] Content-Length:[3297312] Content-Type:[multipart/form-data; boundary=----WebKitFormBoundaryGQMbgxACBI36e5yy] Cookie:[jenkins-timestamper-offset=-28800000; authjs.csrf-token=4d1fee3749023da59c67a79b1a1a993c038fba416e65e958fa36ed458b42a97b%7C7728290b375132ef1cb617c9e044a38eb3fc8e107a9d6706fae37f5db9615d57; screenResolution=1470x956; JSESSIONID.5b5bebd3=node0wgjd5ta0taw112cj830yhcq1g8.node0; __next_hmr_refresh_hash__=99; authjs.callback-url=http%3A%2F%2Flocalhost%3A3000%2Fdashboard; authjs.session-token=eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIiwia2lkIjoiS0czOHk0LWNWZlZwSzV6UlZ4eWZodDRtb1JQSVVfVXlyZ1FmUTlpM1lTSTcybmdoLU5zWGJybWZEci1TbEdUeHpmOXJSa3BFajlJVmNEUzM0WDVwN1EifQ..RLyZywCXTLmjl1kkE--R4w.yZ0ssGi01nE0z65rjDNiBnnxrkldRzyWw8ZKy3tW9AjR6CNYXiDbnj6GMl6jP8aey2YCiqkqBH-ZorUhL9GTBIP52xDb16xawu9VpepoyAEDsIx0ICGzLM7rXG41bhYbC-HtqVVGI9XK0cguB8HNXMNULlhZACY1QURbxaFY8_4aYFD-yk2cDzT2OKtTJLMgjxKNUHtbSSm_7ESpsDogxdJH8btEC_dY_9GETHBs5ybJ3vKI9o_q8MXRd0mRlANPBSHgbtruzEV_Os6ihPhoEwvPI_TCxy6KAe6_mGRLyGALd-x94M8Q398kXxEFQDbL0n0cXxH-Hfq_pvMTNtAz5JifIb20-cQhpX62TZYTObYftZADfbKfrVhkyfWwcGEWpU5CJz158rPRHp4_sWQALoajn3QCZpLydsdz-uUVF4GVvZ2I-zpam-0Di29P6jWdTcl6bxYRQh22g63zwl2JaDGZxZMRAW30puazuh_0Klzxm5dXq7mUH_ddxRercDrZU_fUtHoQkCjUfqpk2mC9nq4LdPRgNDllREaxZIDgXFAxmUnu-8FfH12xWbFkl_l48yBXZ9pOEvyMRLxQDm7TrISdp33uy7FBw7qGcB85I6T0igtyfnylw1pXxglAy3N2PsguLiKVl9dXAZ0toU72Xv32JI8JsGS5EuiSLsxfOIQ.J4F7CwgdU-pD2qzCv8O9O4SbAfa1i3P7ezZt29ENRqE] Origin:[http://localhost:3000] Referer:[http://localhost:3000/dashboard/1/1/courseware] Sec-Ch-Ua:["Chromium";v="136", "Google Chrome";v="136", "Not.A/Brand";v="99"] Sec-Ch-Ua-Mobile:[?0] Sec-Ch-Ua-Platform:["macOS"] Sec-Fetch-Dest:[empty] Sec-Fetch-Mode:[cors] Sec-Fetch-Site:[same-origin] User-Agent:[Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36] X-Forwarded-Host:[localhost:3000]]
+2025-05-28T11:54:06.913+08:00 [DEBU] {712e449c94944318b72c746a4453588e} Form: map[lectureId:1]
+2025-05-28T11:54:06.913+08:00 [DEBU] {712e449c94944318b72c746a4453588e} 
+2025-05-28T11:54:06.932+08:00 [ERRO] {712e449c94944318b72c746a4453588e} Error occurred: Failed to save file 
 Stack:
 1.  intelligent-course-aware-ide/internal/cmd.init.func1.1
     /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:47
 2.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
     /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
 
-2025-05-27T22:27:29.676+08:00 [ERRO] {8e746d61906843180f7e33014768664b} Panic recovered: exit 
+2025-05-28T11:54:06.932+08:00 [ERRO] {712e449c94944318b72c746a4453588e} Panic recovered: exit 
 Stack:
 1.  intelligent-course-aware-ide/internal/cmd.init.func1.1.1
     /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:35
@@ -335,163 +346,23 @@ Stack:
 3.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
     /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
 
-2025-05-27T22:27:29.676+08:00 {8e746d61906843180f7e33014768664b} 500 "POST http 47.117.144.50:8000 /api/user/loginUser HTTP/1.1" 7670.229, 110.65.147.229, "", "node", 52, "Database Operation Error", ""
+2025-05-28T11:54:06.933+08:00 {712e449c94944318b72c746a4453588e} 500 "POST http 47.117.144.50:8000 /api/Files/lectureFile/upload HTTP/1.1" 585404.095, 110.65.147.206, "http://localhost:3000/dashboard/1/1/courseware", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36", -1, "", ""
 Stack:
-1. SELECT `UserId`,`UserName`,`Email`,`UserSign`,`University`,`Birthday`,`Identity` FROM `Users` WHERE `Email`='22222222@mail.sustech.edu.cn' AND `Password`='123456' LIMIT 1
-   1).  intelligent-course-aware-ide/internal/controller/account.(*ControllerV1).LoginUser
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/controller/account/account_v1_login_user.go:28
-   2).  intelligent-course-aware-ide/internal/logic/middleware.LoggerMiddleware
+1. Failed to save file
+   1).  intelligent-course-aware-ide/internal/controller/Files.(*ControllerV1).UploadLectureFile
+        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/controller/Files/Files_v1_upload_lecture_file.go:49
+   2).  intelligent-course-aware-ide/internal/logic/middleware.Auth
+        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/auth.go:56
+   3).  intelligent-course-aware-ide/internal/logic/middleware.LoggerMiddleware
         /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/loggerMiddleware.go:43
-   3).  intelligent-course-aware-ide/internal/cmd.init.func1.1
+   4).  intelligent-course-aware-ide/internal/cmd.init.func1.1
         /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:43
-   4).  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
+   5).  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
         /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-2. dial tcp: lookup database on 127.0.0.53:53: server misbehaving
 
-2025-05-27T22:27:58.271+08:00 [INFO] {7de4460a97684318107e3301f327ce84} Request: GET /api/course/searchCourseWithLectures/byStudentId
-2025-05-27T22:27:58.271+08:00 [DEBU] {7de4460a97684318107e3301f327ce84} Headers: map[Accept:[application/json, text/plain, */*] Accept-Encoding:[gzip, compress, deflate, br] Authorization:[Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjcsIkVtYWlsIjoiMTExMTExMTFAbWFpbC5zdXN0ZWNoLmVkdS5jbiIsIlVzZXJOYW1lIjoiNyIsImV4cCI6MTc0ODM3NzA1MX0.JqohF6DCcIhbF1GRAoNUXsljp_ZuAhJ3LO6iZNs0a_o] Connection:[keep-alive] User-Agent:[axios/1.9.0]]
-2025-05-27T22:27:58.271+08:00 [DEBU] {7de4460a97684318107e3301f327ce84} 
-2025-05-27T22:27:59.387+08:00 [INFO] {8ec2c84c97684318137e3301691d969a} Request: GET /api/course/searchCourseWithLectures/byStudentId
-2025-05-27T22:27:59.387+08:00 [DEBU] {8ec2c84c97684318137e3301691d969a} Headers: map[Accept:[application/json, text/plain, */*] Accept-Encoding:[gzip, deflate, br, zstd] Accept-Language:[zh-CN,zh;q=0.9] Authorization:[Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjcsIkVtYWlsIjoiMTExMTExMTFAbWFpbC5zdXN0ZWNoLmVkdS5jbiIsIlVzZXJOYW1lIjoiNyIsImV4cCI6MTc0ODM3NzA1MX0.JqohF6DCcIhbF1GRAoNUXsljp_ZuAhJ3LO6iZNs0a_o] Connection:[close] Cookie:[jenkins-timestamper-offset=-28800000; authjs.csrf-token=4d1fee3749023da59c67a79b1a1a993c038fba416e65e958fa36ed458b42a97b%7C7728290b375132ef1cb617c9e044a38eb3fc8e107a9d6706fae37f5db9615d57; authjs.callback-url=http%3A%2F%2Flocalhost%3A3000%2Fdashboard; __next_hmr_refresh_hash__=1346; authjs.session-token=eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIiwia2lkIjoiS0czOHk0LWNWZlZwSzV6UlZ4eWZodDRtb1JQSVVfVXlyZ1FmUTlpM1lTSTcybmdoLU5zWGJybWZEci1TbEdUeHpmOXJSa3BFajlJVmNEUzM0WDVwN1EifQ..0iW7dLEeLM5eItUuiSagug.RfkDDddo5EmUQ_622Ddny8ufdLsAvhZFxqTPTMJ79Ub2wQVZhGWja3jiWCXedsIO_5N0hFnKFcrCvVNqoBByYB7Ix3Z-AbZtr_P4LYE4SvQsYHPAFnIXcvy8P8sJtkbMsJAnjVkeKJqZlQrlVak6zqFGsBD2LIM3oPLkDdDhyRkeZRyY6YbiuHg8MYCEEpyZoPzk5u-1Vf8lD-cDfGEG2979QnET380CDYXye5StGHSfNt-88suhFEnAlqQMjsZ-nXEBsi-Lgd4oMXNZQNCHc_FT2LTXswR1IUcU2fXf-b1lvt4SmazbWH90tTZ2xOx-CY5hvgIfLdqvKVm373rFNfJxWqzYSFP41tCSHuuAgfygPOKnpN42WeM904YL2mnB-iom8s_GAlQerbnKk_soNzDyf4GbUWyrLxeCYAFKs5AjxtLSdvZ_2yqVWyDUMhNOR8GFAfsBa0JhdEmDWHNb3vYO06LhxNMzsg7DXLhphG7rmftd6B8uGW92tTp22DKvflDD8rkUljMDU8-wcPGaFtirb8tb-O_tWjaZSUrDDj_gGsTDfqrR7XYsra6vVBU0inwQHCxInZiNGCMm1j_aiqjR7pNUvaerkdhDCyPTihOK95kqn2_AjMwtEKDuus_tAds5-lp51bZeFLeTMwO9gIIpy_3fd59Orst2kBC9gQo.VsjCzFLIVOOqotxNW0QDo6l64aWUH4Qmdr0l6GiesEU] Referer:[http://localhost:3000/dashboard/1/1/ai] Sec-Ch-Ua:["Chromium";v="136", "Google Chrome";v="136", "Not.A/Brand";v="99"] Sec-Ch-Ua-Mobile:[?0] Sec-Ch-Ua-Platform:["macOS"] Sec-Fetch-Dest:[empty] Sec-Fetch-Mode:[cors] Sec-Fetch-Site:[same-origin] User-Agent:[Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36] X-Forwarded-Host:[localhost:3000]]
-2025-05-27T22:27:59.387+08:00 [DEBU] {8ec2c84c97684318137e3301691d969a} 
-2025-05-27T22:28:04.082+08:00 [INFO] {c3809a6498684318167e33010620661b} Request: GET /api/course/searchCourseWithLectures/byStudentId
-2025-05-27T22:28:04.082+08:00 [DEBU] {c3809a6498684318167e33010620661b} Headers: map[Accept:[application/json, text/plain, */*] Accept-Encoding:[gzip, deflate, br, zstd] Accept-Language:[zh-CN,zh;q=0.9] Authorization:[Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjcsIkVtYWlsIjoiMTExMTExMTFAbWFpbC5zdXN0ZWNoLmVkdS5jbiIsIlVzZXJOYW1lIjoiNyIsImV4cCI6MTc0ODM3NzA1MX0.JqohF6DCcIhbF1GRAoNUXsljp_ZuAhJ3LO6iZNs0a_o] Connection:[close] Cookie:[jenkins-timestamper-offset=-28800000; authjs.csrf-token=4d1fee3749023da59c67a79b1a1a993c038fba416e65e958fa36ed458b42a97b%7C7728290b375132ef1cb617c9e044a38eb3fc8e107a9d6706fae37f5db9615d57; authjs.callback-url=http%3A%2F%2Flocalhost%3A3000%2Fdashboard; __next_hmr_refresh_hash__=1346; authjs.session-token=eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIiwia2lkIjoiS0czOHk0LWNWZlZwSzV6UlZ4eWZodDRtb1JQSVVfVXlyZ1FmUTlpM1lTSTcybmdoLU5zWGJybWZEci1TbEdUeHpmOXJSa3BFajlJVmNEUzM0WDVwN1EifQ..RLiacsDswvZETmcWNpyJOA.9UsllZCRwWD6JZFjt5f5_fVG8_Jidw0UQ3_DOj7ahMBgSEYWH482VcldzXqD0sJXogWrZ1F3WFigjio-qaYuSzlqh7jnBb-FfGO2BJU-9FK8HQdG8Mm2iiNK6sUnRvGTWPO4Ae1D3h-IajABMa9bt9niSEktOva_WEcQ20UdwPdlnlqI5Fyi5qsXFJxfff3PvL1wa2wvfdMaoL-8nycYSuMZvqVlZyd_IVx_ECzRmVEj-po3FLhgxSJFtfA0Jb3WwQU1X1h8hZhTHzm2hC739UvobuAEQlj7N2xf7lEpYnadi32nZC_x41827w2nG1XoVt85WQ5dXYlAPqIZxt7692nrMEWvHqzcgiLKG15L4VJSJGxOghF0h8UKsAAp6mNV1gvDHevP_x1GKj2TOG4ibGIt1v3PVl9oCD17OAddYTrBvKHbjEwQoXtgS6nPUWZjJzjN5D6fuJTsBbcRQJFMTXG2Cp_nUvFfnBbaG-gm-toC30oyYqpFW6MGBSPfjP_ACmS6a1F3WeT-DQ5xavr3POFp0myZObjIcOVc3b2Dbtk7zNkc5Ho617v6OE-2qrnib8L4UAkGjm38npoFAtrgetyWmUP89wYw6EjQL6rhbnBKnff40c8lFe1PA8UWIInxEw4FoWm-vRQnYfSmXMRNbACv3IoBC4ZyiR-KH06foyg.FHbpHvlyl2aT3fD60RIVHqxQtK5n87bWdKlppHKQBVo] Referer:[http://localhost:3000/dashboard] Sec-Ch-Ua:["Chromium";v="136", "Google Chrome";v="136", "Not.A/Brand";v="99"] Sec-Ch-Ua-Mobile:[?0] Sec-Ch-Ua-Platform:["macOS"] Sec-Fetch-Dest:[empty] Sec-Fetch-Mode:[cors] Sec-Fetch-Site:[same-origin] User-Agent:[Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36] X-Forwarded-Host:[localhost:3000]]
-2025-05-27T22:28:04.082+08:00 [DEBU] {c3809a6498684318167e33010620661b} 
-2025-05-27T22:28:11.514+08:00 [INFO] {d3faa01f9a684318197e3301f0754c2f} Request: POST /api/user/loginUser
-2025-05-27T22:28:11.514+08:00 [DEBU] {d3faa01f9a684318197e3301f0754c2f} Headers: map[Accept:[*/*] Accept-Encoding:[gzip, deflate] Accept-Language:[*] Connection:[keep-alive] Content-Length:[74] Content-Type:[application/json] Sec-Fetch-Mode:[cors] User-Agent:[node]]
-2025-05-27T22:28:11.515+08:00 [DEBU] {d3faa01f9a684318197e3301f0754c2f} Form: map[userLogin:map[email:11111111@mail.sustech.edu.cn password:123456]]
-2025-05-27T22:28:11.515+08:00 [DEBU] {d3faa01f9a684318197e3301f0754c2f} Body: {"userLogin":{"email":"11111111@mail.sustech.edu.cn","password":"123456"}}
-2025-05-27T22:28:11.515+08:00 [DEBU] {d3faa01f9a684318197e3301f0754c2f} 
-2025-05-27T22:28:11.522+08:00 [ERRO] {d3faa01f9a684318197e3301f0754c2f} Error occurred: SELECT `UserId`,`UserName`,`Email`,`UserSign`,`University`,`Birthday`,`Identity` FROM `Users` WHERE `Email`='11111111@mail.sustech.edu.cn' AND `Password`='123456' LIMIT 1: dial tcp: lookup database on 127.0.0.53:53: server misbehaving 
-Stack:
-1.  intelligent-course-aware-ide/internal/cmd.init.func1.1
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:47
-2.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-
-2025-05-27T22:28:11.522+08:00 [ERRO] {d3faa01f9a684318197e3301f0754c2f} Panic recovered: exit 
-Stack:
-1.  intelligent-course-aware-ide/internal/cmd.init.func1.1.1
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:35
-2.  intelligent-course-aware-ide/internal/cmd.init.func1.1
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:48
-3.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-
-2025-05-27T22:28:11.522+08:00 {d3faa01f9a684318197e3301f0754c2f} 500 "POST http 47.117.144.50:8000 /api/user/loginUser HTTP/1.1" 7867.667, 110.65.147.206, "", "node", 52, "Database Operation Error", ""
-Stack:
-1. SELECT `UserId`,`UserName`,`Email`,`UserSign`,`University`,`Birthday`,`Identity` FROM `Users` WHERE `Email`='11111111@mail.sustech.edu.cn' AND `Password`='123456' LIMIT 1
-   1).  intelligent-course-aware-ide/internal/controller/account.(*ControllerV1).LoginUser
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/controller/account/account_v1_login_user.go:28
-   2).  intelligent-course-aware-ide/internal/logic/middleware.LoggerMiddleware
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/loggerMiddleware.go:43
-   3).  intelligent-course-aware-ide/internal/cmd.init.func1.1
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:43
-   4).  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-2. dial tcp: lookup database on 127.0.0.53:53: server misbehaving
-
-2025-05-27T22:29:03.750+08:00 [INFO] {85421e49a66843181a7e3301b3bf437b} Request: POST /api/user/loginUser
-2025-05-27T22:29:03.754+08:00 [DEBU] {85421e49a66843181a7e3301b3bf437b} Headers: map[Accept:[*/*] Accept-Encoding:[gzip, deflate] Accept-Language:[*] Connection:[keep-alive] Content-Length:[74] Content-Type:[application/json] Sec-Fetch-Mode:[cors] User-Agent:[node]]
-2025-05-27T22:29:03.755+08:00 [DEBU] {85421e49a66843181a7e3301b3bf437b} Form: map[userLogin:map[email:11111111@mail.sustech.edu.cn password:123456]]
-2025-05-27T22:29:03.755+08:00 [DEBU] {85421e49a66843181a7e3301b3bf437b} Body: {"userLogin":{"email":"11111111@mail.sustech.edu.cn","password":"123456"}}
-2025-05-27T22:29:03.755+08:00 [DEBU] {85421e49a66843181a7e3301b3bf437b} 
-2025-05-27T22:29:03.784+08:00 [ERRO] {85421e49a66843181a7e3301b3bf437b} Error occurred: SELECT `UserId`,`UserName`,`Email`,`UserSign`,`University`,`Birthday`,`Identity` FROM `Users` WHERE `Email`='11111111@mail.sustech.edu.cn' AND `Password`='123456' LIMIT 1: dial tcp: lookup database on 127.0.0.53:53: server misbehaving 
-Stack:
-1.  intelligent-course-aware-ide/internal/cmd.init.func1.1
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:47
-2.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-
-2025-05-27T22:29:03.787+08:00 [ERRO] {85421e49a66843181a7e3301b3bf437b} Panic recovered: exit 
-Stack:
-1.  intelligent-course-aware-ide/internal/cmd.init.func1.1.1
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:35
-2.  intelligent-course-aware-ide/internal/cmd.init.func1.1
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:48
-3.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-
-2025-05-27T22:29:03.788+08:00 {85421e49a66843181a7e3301b3bf437b} 500 "POST http 47.117.144.50:8000 /api/user/loginUser HTTP/1.1" 37904.192, 110.65.147.206, "", "node", 52, "Database Operation Error", ""
-Stack:
-1. SELECT `UserId`,`UserName`,`Email`,`UserSign`,`University`,`Birthday`,`Identity` FROM `Users` WHERE `Email`='11111111@mail.sustech.edu.cn' AND `Password`='123456' LIMIT 1
-   1).  intelligent-course-aware-ide/internal/controller/account.(*ControllerV1).LoginUser
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/controller/account/account_v1_login_user.go:28
-   2).  intelligent-course-aware-ide/internal/logic/middleware.LoggerMiddleware
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/loggerMiddleware.go:43
-   3).  intelligent-course-aware-ide/internal/cmd.init.func1.1
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:43
-   4).  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-2. dial tcp: lookup database on 127.0.0.53:53: server misbehaving
-
-2025-05-27T22:30:11.737+08:00 [INFO] {72f0741db66843181b7e33010a829673} Request: POST /api/user/loginUser
-2025-05-27T22:30:11.738+08:00 [DEBU] {72f0741db66843181b7e33010a829673} Headers: map[Accept:[*/*] Accept-Encoding:[gzip, deflate] Accept-Language:[*] Connection:[keep-alive] Content-Length:[74] Content-Type:[application/json] Sec-Fetch-Mode:[cors] User-Agent:[node]]
-2025-05-27T22:30:11.738+08:00 [DEBU] {72f0741db66843181b7e33010a829673} Form: map[userLogin:map[email:11111111@mail.sustech.edu.cn password:123456]]
-2025-05-27T22:30:11.738+08:00 [DEBU] {72f0741db66843181b7e33010a829673} Body: {"userLogin":{"email":"11111111@mail.sustech.edu.cn","password":"123456"}}
-2025-05-27T22:30:11.738+08:00 [DEBU] {72f0741db66843181b7e33010a829673} 
-2025-05-27T22:30:11.770+08:00 [ERRO] {72f0741db66843181b7e33010a829673} Error occurred: SELECT `UserId`,`UserName`,`Email`,`UserSign`,`University`,`Birthday`,`Identity` FROM `Users` WHERE `Email`='11111111@mail.sustech.edu.cn' AND `Password`='123456' LIMIT 1: dial tcp: lookup database on 127.0.0.53:53: server misbehaving 
-Stack:
-1.  intelligent-course-aware-ide/internal/cmd.init.func1.1
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:47
-2.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-
-2025-05-27T22:30:11.770+08:00 [ERRO] {72f0741db66843181b7e33010a829673} Panic recovered: exit 
-Stack:
-1.  intelligent-course-aware-ide/internal/cmd.init.func1.1.1
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:35
-2.  intelligent-course-aware-ide/internal/cmd.init.func1.1
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:48
-3.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-
-2025-05-27T22:30:11.771+08:00 {72f0741db66843181b7e33010a829673} 500 "POST http 47.117.144.50:8000 /api/user/loginUser HTTP/1.1" 33503.048, 110.65.147.206, "", "node", 52, "Database Operation Error", ""
-Stack:
-1. SELECT `UserId`,`UserName`,`Email`,`UserSign`,`University`,`Birthday`,`Identity` FROM `Users` WHERE `Email`='11111111@mail.sustech.edu.cn' AND `Password`='123456' LIMIT 1
-   1).  intelligent-course-aware-ide/internal/controller/account.(*ControllerV1).LoginUser
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/controller/account/account_v1_login_user.go:28
-   2).  intelligent-course-aware-ide/internal/logic/middleware.LoggerMiddleware
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/loggerMiddleware.go:43
-   3).  intelligent-course-aware-ide/internal/cmd.init.func1.1
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:43
-   4).  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-2. dial tcp: lookup database on 127.0.0.53:53: server misbehaving
-
-2025-05-27T22:31:02.550+08:00 [INFO] {8cc725f2c16843181c7e3301ffa9fb1f} Request: POST /api/user/loginUser
-2025-05-27T22:31:02.550+08:00 [DEBU] {8cc725f2c16843181c7e3301ffa9fb1f} Headers: map[Accept:[*/*] Accept-Encoding:[gzip, deflate] Accept-Language:[*] Connection:[keep-alive] Content-Length:[74] Content-Type:[application/json] Sec-Fetch-Mode:[cors] User-Agent:[node]]
-2025-05-27T22:31:02.550+08:00 [DEBU] {8cc725f2c16843181c7e3301ffa9fb1f} Form: map[userLogin:map[email:11111111@mail.sustech.edu.cn password:123456]]
-2025-05-27T22:31:02.550+08:00 [DEBU] {8cc725f2c16843181c7e3301ffa9fb1f} Body: {"userLogin":{"email":"11111111@mail.sustech.edu.cn","password":"123456"}}
-2025-05-27T22:31:02.550+08:00 [DEBU] {8cc725f2c16843181c7e3301ffa9fb1f} 
-2025-05-27T22:31:02.569+08:00 [ERRO] {8cc725f2c16843181c7e3301ffa9fb1f} Error occurred: SELECT `UserId`,`UserName`,`Email`,`UserSign`,`University`,`Birthday`,`Identity` FROM `Users` WHERE `Email`='11111111@mail.sustech.edu.cn' AND `Password`='123456' LIMIT 1: dial tcp: lookup database on 127.0.0.53:53: server misbehaving 
-Stack:
-1.  intelligent-course-aware-ide/internal/cmd.init.func1.1
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:47
-2.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-
-2025-05-27T22:31:02.569+08:00 [ERRO] {8cc725f2c16843181c7e3301ffa9fb1f} Panic recovered: exit 
-Stack:
-1.  intelligent-course-aware-ide/internal/cmd.init.func1.1.1
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:35
-2.  intelligent-course-aware-ide/internal/cmd.init.func1.1
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:48
-3.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
-    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-
-2025-05-27T22:31:02.570+08:00 {8cc725f2c16843181c7e3301ffa9fb1f} 500 "POST http 47.117.144.50:8000 /api/user/loginUser HTTP/1.1" 19652.878, 110.65.147.206, "", "node", 52, "Database Operation Error", ""
-Stack:
-1. SELECT `UserId`,`UserName`,`Email`,`UserSign`,`University`,`Birthday`,`Identity` FROM `Users` WHERE `Email`='11111111@mail.sustech.edu.cn' AND `Password`='123456' LIMIT 1
-   1).  intelligent-course-aware-ide/internal/controller/account.(*ControllerV1).LoginUser
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/controller/account/account_v1_login_user.go:28
-   2).  intelligent-course-aware-ide/internal/logic/middleware.LoggerMiddleware
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/loggerMiddleware.go:43
-   3).  intelligent-course-aware-ide/internal/cmd.init.func1.1
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:43
-   4).  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
-        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
-2. dial tcp: lookup database on 127.0.0.53:53: server misbehaving
-
-2025-05-27T22:37:06.264+08:00 331359: server gracefully shutting down by signal: terminated
-2025-05-27T22:37:06.271+08:00 pid[331359]: all servers shutdown
+2025-05-28T11:55:05.250+08:00 [INFO] {13472b53a2944318b92c746ae3306083} Request: GET /api/course/searchCourseWithLectures/byStudentId
+2025-05-28T11:55:05.251+08:00 [DEBU] {13472b53a2944318b92c746ae3306083} Headers: map[Accept:[application/json, text/plain, */*] Accept-Encoding:[gzip, compress, deflate, br] Authorization:[Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjcsIkVtYWlsIjoiMTExMTExMTFAbWFpbC5zdXN0ZWNoLmVkdS5jbiIsIlVzZXJOYW1lIjoiNyIsImV4cCI6MTc0ODQyNjAyN30.SUeGH0mTcCqjS0zHyrq2Lfd5IFXFIEVrfFAph4fTnyw] Connection:[keep-alive] User-Agent:[axios/1.9.0]]
+2025-05-28T11:55:05.251+08:00 [DEBU] {13472b53a2944318b92c746ae3306083} 
+2025-05-28T11:55:23.328+08:00 [INFO] {c3efad88a6944318bb2c746aab712a51} Request: GET /api/course/searchCourseWithLectures/byStudentId
+2025-05-28T11:55:23.328+08:00 [DEBU] {c3efad88a6944318bb2c746aab712a51} Headers: map[Accept:[application/json, text/plain, */*] Accept-Encoding:[gzip, compress, deflate, br] Authorization:[Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjcsIkVtYWlsIjoiMTExMTExMTFAbWFpbC5zdXN0ZWNoLmVkdS5jbiIsIlVzZXJOYW1lIjoiNyIsImV4cCI6MTc0ODQyNjAyN30.SUeGH0mTcCqjS0zHyrq2Lfd5IFXFIEVrfFAph4fTnyw] Connection:[keep-alive] User-Agent:[axios/1.9.0]]
+2025-05-28T11:55:23.329+08:00 [DEBU] {c3efad88a6944318bb2c746aab712a51} 
