@@ -318,163 +318,165 @@ export default function CourseList() {
 
   return (
     <PageWrapper>
-      {/* 背景渐变 */}
-      <Box
-        sx={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          height: '40vh',
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-          zIndex: -1,
-        }}
-      />
+      <Box sx={{ position: 'relative', minHeight: '100vh' }}>
+        {/* 背景渐变 */}
+        <Box
+          sx={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            height: '40vh',
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            zIndex: 0,
+          }}
+        />
 
-      <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 1 }}>
-        {/* 头部区域 */}
-        <FadeIn delay={0.1}>
-          <Box sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            mb: 6,
-            pt: 4,
-          }}>
-            <Box>
-              <Typography
-                variant="h3"
-                component="h1"
-                sx={{
-                  // 响应式字号：小屏 2rem，大屏 3rem
-                  fontSize: { xs: '2rem', md: '3rem' },
-                  fontWeight: 800,
-                  // 渐变文字效果
-                  background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  // 微微加宽字距
-                  letterSpacing: '0.05em',
-                  // 下方留白
-                  mb: 1.5,
-                }}
-              >
-                智能学习平台
-              </Typography>
-              <Typography
-                variant="h6"
-                sx={{
-                  // 用主题的灰色作为文字色
-                  color: theme.palette.text.secondary,
-                  fontWeight: 400,
-                  // 斜体更显轻盈
-                  fontStyle: 'italic',
-                  // 响应式字号：小屏 1rem，大屏 1.25rem
-                  fontSize: { xs: '1rem', md: '1.25rem' },
-                  lineHeight: 1.6,
-                }}
-              >
-                探索知识的海洋，开启学习之旅
-              </Typography>
-            </Box>
+        <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 1 }}>
+          {/* 头部区域 */}
+          <FadeIn delay={0.1}>
+            <Box sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              mb: 6,
+              pt: 4,
+            }}>
+              <Box>
+                <Typography
+                  variant="h3"
+                  component="h1"
+                  sx={{
+                    // 响应式字号：小屏 2rem，大屏 3rem
+                    fontSize: { xs: '2rem', md: '3rem' },
+                    fontWeight: 800,
+                    // 白色渐变，从不透明到半透明
+                    background: `linear-gradient(45deg, ${alpha('#ffffff', 1)}, ${alpha('#ffffff', 0.7)})`,
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    // 微微加宽字距
+                    letterSpacing: '0.05em',
+                    // 下方留白
+                    mb: 1.5,
+                  }}
+                >
+                  智能学习平台
+                </Typography>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    // 半透明白色
+                    color: alpha('#ffffff', 0.8),
+                    fontWeight: 400,
+                    // 斜体更显轻盈
+                    fontStyle: 'italic',
+                    // 响应式字号：小屏 1rem，大屏 1.25rem
+                    fontSize: { xs: '1rem', md: '1.25rem' },
+                    lineHeight: 1.6,
+                  }}
+                >
+                  探索知识的海洋，开启学习之旅
+                </Typography>
+              </Box>
 
-            {userInfo?.identity === 'teacher' && tabValue === 0 && (
-              <Button
-                variant="contained"
-                size="large"
-                startIcon={<AddIcon />}
-                onClick={() => router.push('/dashboard/create-course')}
-                sx={{
-                  background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
-                  boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
-                  backdropFilter: 'blur(4px)',
-                  border: '1px solid rgba(255, 255, 255, 0.18)',
-                  color: 'white',
-                  px: 3,
-                  py: 1.5,
-                  borderRadius: 2,
-                  '&:hover': {
-                    background: 'linear-gradient(45deg, #FE6B8B 60%, #FF8E53 100%)',
-                    transform: 'translateY(-2px)',
-                    boxShadow: '0 12px 40px 0 rgba(31, 38, 135, 0.5)',
-                  },
-                }}
-              >
-                新建课程
-              </Button>
-            )}
-          </Box>
-        </FadeIn>
-
-        {/* 主要内容区域 */}
-        <FadeIn delay={0.2}>
-          <Box sx={{ display: 'flex', gap: 3, minHeight: '600px' }}>
-            {/* 侧边标签页 */}
-            <Paper
-              elevation={0}
-              sx={{
-                background: 'rgba(255, 255, 255, 0.95)',
-                backdropFilter: 'blur(10px)',
-                borderRadius: 3,
-                overflow: 'hidden',
-                width: 280,
-                flexShrink: 0,
-                height: 'fit-content',
-              }}
-            >
-              <Tabs
-                orientation="vertical"
-                value={tabValue}
-                onChange={handleTabChange}
-                sx={{
-                  '& .MuiTab-root': {
-                    minHeight: 64,
-                    fontSize: '1.1rem',
-                    fontWeight: 600,
-                    alignItems: 'flex-start',
-                    textAlign: 'left',
+              {userInfo?.identity === 'teacher' && tabValue === 0 && (
+                <Button
+                  variant="contained"
+                  size="large"
+                  startIcon={<AddIcon />}
+                  onClick={() => router.push('/dashboard/create-course')}
+                  sx={{
+                    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+                    boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+                    backdropFilter: 'blur(4px)',
+                    border: '1px solid rgba(255, 255, 255, 0.18)',
+                    color: 'white',
                     px: 3,
-                    py: 2,
-                    transition: 'all 0.3s ease',
+                    py: 1.5,
+                    borderRadius: 2,
                     '&:hover': {
-                      backgroundColor: 'rgba(102, 126, 234, 0.08)',
+                      background: 'linear-gradient(45deg, #FE6B8B 60%, #FF8E53 100%)',
+                      transform: 'translateY(-2px)',
+                      boxShadow: '0 12px 40px 0 rgba(31, 38, 135, 0.5)',
                     },
-                  },
-                  '& .MuiTabs-indicator': {
-                    width: 4,
-                    borderRadius: '0 4px 4px 0',
-                    background: 'linear-gradient(45deg, #2563eb, #7c3aed)',
-                  },
+                  }}
+                >
+                  新建课程
+                </Button>
+              )}
+            </Box>
+          </FadeIn>
+
+          {/* 主要内容区域 */}
+          <FadeIn delay={0.2}>
+            <Box sx={{ display: 'flex', gap: 3, minHeight: '600px' }}>
+              {/* 侧边标签页 */}
+              <Paper
+                elevation={0}
+                sx={{
+                  background: 'rgba(255, 255, 255, 0.95)',
+                  backdropFilter: 'blur(10px)',
+                  borderRadius: 3,
+                  overflow: 'hidden',
+                  width: 280,
+                  flexShrink: 0,
+                  height: 'fit-content',
                 }}
               >
-                <Tab
-                  icon={<SchoolIcon sx={{ fontSize: 24 }} />}
-                  label="我的课程"
-                  iconPosition="start"
-                  sx={{ gap: 2, justifyContent: 'flex-start' }}
-                />
-                <Tab
-                  icon={<NoteIcon sx={{ fontSize: 24 }} />}
-                  label="笔记"
-                  iconPosition="start"
-                  sx={{ gap: 2, justifyContent: 'flex-start' }}
-                />
-                <Tab
-                  icon={<CodeIcon sx={{ fontSize: 24 }} />}
-                  label="IDE"
-                  iconPosition="start"
-                  sx={{ gap: 2, justifyContent: 'flex-start' }}
-                />
-              </Tabs>
-            </Paper>
+                <Tabs
+                  orientation="vertical"
+                  value={tabValue}
+                  onChange={handleTabChange}
+                  sx={{
+                    '& .MuiTab-root': {
+                      minHeight: 64,
+                      fontSize: '1.1rem',
+                      fontWeight: 600,
+                      alignItems: 'flex-start',
+                      textAlign: 'left',
+                      px: 3,
+                      py: 2,
+                      transition: 'all 0.3s ease',
+                      '&:hover': {
+                        backgroundColor: 'rgba(102, 126, 234, 0.08)',
+                      },
+                    },
+                    '& .MuiTabs-indicator': {
+                      width: 4,
+                      borderRadius: '0 4px 4px 0',
+                      background: 'linear-gradient(45deg, #2563eb, #7c3aed)',
+                    },
+                  }}
+                >
+                  <Tab
+                    icon={<SchoolIcon sx={{ fontSize: 24 }} />}
+                    label="我的课程"
+                    iconPosition="start"
+                    sx={{ gap: 2, justifyContent: 'flex-start' }}
+                  />
+                  <Tab
+                    icon={<NoteIcon sx={{ fontSize: 24 }} />}
+                    label="笔记"
+                    iconPosition="start"
+                    sx={{ gap: 2, justifyContent: 'flex-start' }}
+                  />
+                  <Tab
+                    icon={<CodeIcon sx={{ fontSize: 24 }} />}
+                    label="IDE"
+                    iconPosition="start"
+                    sx={{ gap: 2, justifyContent: 'flex-start' }}
+                  />
+                </Tabs>
+              </Paper>
 
-            {/* 主要内容区域 */}
-            <Box sx={{ flexGrow: 1 }}>
-              {renderTabContent()}
+              {/* 主要内容区域 */}
+              <Box sx={{ flexGrow: 1 }}>
+                {renderTabContent()}
+              </Box>
             </Box>
-          </Box>
-        </FadeIn>
-      </Container>
+          </FadeIn>
+        </Container>
+      </Box>
     </PageWrapper>
   );
 }

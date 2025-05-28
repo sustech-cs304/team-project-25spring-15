@@ -112,13 +112,12 @@ export default function ExercisePage({ assignment, onBack }: ExercisePageProps) 
 
     try {
       setRunning(true);
-      
-      // 直接提交代码，不需要上传文件
+
       const attemptData = {
         userId: userInfo.userId,
-        fileId: "0", // fileId不重要，传字符串"0"
-        code: code, // 代码字符串
-        fileType: language, // 编程语言
+        fileId: "0",
+        code: code,
+        fileType: language === 'python' ? 'py' : language,
         assignmentId: assignment.assignmentId
       };
 
@@ -128,7 +127,7 @@ export default function ExercisePage({ assignment, onBack }: ExercisePageProps) 
 
       // 保存提交结果
       setSubmissionResult(result);
-      
+
       alert(`提交成功！总得分: ${result.score}分`);
     } catch (err: any) {
       console.error("Submit failed:", err);
@@ -368,7 +367,7 @@ export default function ExercisePage({ assignment, onBack }: ExercisePageProps) 
                       反馈ID: {submissionResult.feedbackId}
                     </Typography>
                   </Box>
-                  
+
                   {submissionResult.record && (
                     <Box>
                       <Typography variant="subtitle2" gutterBottom>
