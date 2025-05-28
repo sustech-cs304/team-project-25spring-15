@@ -6,7 +6,7 @@ import (
 )
 
 type UploadFileReq struct {
-	g.Meta `path:"/api/Files/{FileId}" method:"put" tags:"file" summary:"upload a file and return a generated fileId, without doing anything else"`
+	g.Meta `path:"/api/Files" method:"post" tags:"file" summary:"upload a file and return a generated fileId, without doing anything else"`
 	File   *ghttp.UploadFile `p:"file" v:"required"`
 }
 
