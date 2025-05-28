@@ -19,7 +19,7 @@ export default async function Page({ params }: { params: Promise<{ courseId: str
   const prevMessages = await AiMessageAPI.getMessages(userId?.toString(), lectureId);
 
   function convertToUIMessages(messages: Array<AiMessage>): Array<UIMessage> {
-    return messages.map((message) => ({
+    return messages.map((message) => ({ // TODO: NOTHING TO STRINGFY parts
       id: message.id,
       parts: message.parts as UIMessage['parts'],
       role: message.role as UIMessage['role'],
@@ -34,7 +34,7 @@ export default async function Page({ params }: { params: Promise<{ courseId: str
     return (
       <div className="flex flex-col h-full w-full">
       <Chat
-          id={'0'} // TODO: change this lectureId, to make different lecture have different ai chatting
+          id={lectureId} // TODO: change this lectureId, to make different lecture have different ai chatting
           initialMessages={convertToUIMessages(prevMessages)}
           selectedChatModel={DEFAULT_CHAT_MODEL}
           isReadonly={false}
@@ -46,7 +46,7 @@ export default async function Page({ params }: { params: Promise<{ courseId: str
   return (
     <div className="flex flex-col h-full w-full">
       <Chat
-          id={'0'} // TODO: change this lectureId, to make different lecture have different ai chatting
+          id={lectureId} // TODO: change this lectureId, to make different lecture have different ai chatting
           initialMessages={convertToUIMessages(prevMessages)}
           selectedChatModel={chatModelFromCookie.value}
           isReadonly={false}

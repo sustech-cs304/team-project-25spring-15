@@ -53,6 +53,25 @@ export const CourseWareAPI = {
       { headers, responseType: 'blob' }
     );
     return res;
+  },
+  uploadMarkdown: async (formData: FormData) => {
+    const headers = await getAuthHeader();
+
+    console.log("uploading pdf...");
+    const res = axios.post("/api/Files/lectureNote/upload", formData, {headers});
+
+    console.log(res);
+    return res;
+  },
+  getMarkdown: async (lectureId: string) => {
+    const headers = await getAuthHeader();
+    console.log("fetching pdf...");
+
+    const res = await axios.get(
+      `/api/Files/lectureNote/lecture/${lectureId}`,
+      { headers, responseType: 'blob' }
+    );
+    return res;
   }
 }
 
