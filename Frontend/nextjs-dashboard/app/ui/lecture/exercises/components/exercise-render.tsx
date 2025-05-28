@@ -19,6 +19,7 @@ import {
   DialogContent,
   DialogActions,
   TextField,
+  Chip,
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
@@ -26,19 +27,28 @@ import SendIcon from '@mui/icons-material/Send';
 import AddIcon from '@mui/icons-material/Add';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import axios from 'axios';
-import ReactMarkdown from 'react-markdown';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { materialDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import CodeEditor from '@/app/ui/note/CodeEditor';
-import { getAuthHeader, CodeAPI, FileAPI } from '@/app/lib/client-api';
+import { getAuthHeader, CodeAPI, FileAPI, AssignmentAPI } from '@/app/lib/client-api';
 import { useStore } from '@/store/useStore';
 import { Assignment } from '@/app/lib/definitions';
+import Markdunner from "@/app/ui/lecture/courseware/markdunner-view";
+import MarkdownWithRunner from "@/app/ui/lecture/courseware/markdown-with-runner";
 
 interface TestCase {
   id: number;
   name: string;
   input: File | null;
   output: File | null;
+}
+
+interface SubmissionResult {
+  feedbackId: number;
+  performerId: number;
+  assignmentId: number;
+  score: number;
+  record: string;
+  fileId: string;
+  fileType: string;
 }
 
 interface ExercisePageProps {
@@ -49,10 +59,11 @@ interface ExercisePageProps {
 export default function ExercisePage({ assignment, onBack }: ExercisePageProps) {
   const [loading, setLoading] = useState(false);
   const [code, setCode] = useState<string>("// 在此编写代码");
-  const [language, setLanguage] = useState<string>('javascript');
+  const [language, setLanguage] = useState<string>('c');
   const [output, setOutput] = useState<string>("");
   const [running, setRunning] = useState(false);
   const [openTestDialog, setOpenTestDialog] = useState(false);
+  const [submissionResult, setSubmissionResult] = useState<SubmissionResult | null>(null);
   const [newTestCase, setNewTestCase] = useState<TestCase>({
     id: 0,
     name: '',
@@ -94,16 +105,33 @@ export default function ExercisePage({ assignment, onBack }: ExercisePageProps) 
       return;
     }
 
+    if (!userInfo?.userId) {
+      alert("用户信息不完整");
+      return;
+    }
+
     try {
       setRunning(true);
-      // 提交代码到后端
-      await axios.post(`/api/exercises/${assignment.assignmentId}/submit`, {
-        code,
-        language,
-        userId: userInfo?.userId
-      });
-      alert("提交成功！");
+      
+      // 直接提交代码，不需要上传文件
+      const attemptData = {
+        userId: userInfo.userId,
+        fileId: "0", // fileId不重要，传字符串"0"
+        code: code, // 代码字符串
+        fileType: language, // 编程语言
+        assignmentId: assignment.assignmentId
+      };
+
+      console.log("Submitting assignment with data:", attemptData);
+      const result = await AssignmentAPI.attemptAssignment(attemptData);
+      console.log("Assignment attempt result:", result);
+
+      // 保存提交结果
+      setSubmissionResult(result);
+      
+      alert(`提交成功！总得分: ${result.score}分`);
     } catch (err: any) {
+      console.error("Submit failed:", err);
       alert(`提交失败: ${err.message || '发生未知错误'}`);
     } finally {
       setRunning(false);
@@ -216,31 +244,7 @@ export default function ExercisePage({ assignment, onBack }: ExercisePageProps) 
           }}
         >
           <Paper sx={{ p: 3, height: '100%', overflow: 'auto' }}>
-            <ReactMarkdown
-              components={{
-                // @ts-expect-error - ReactMarkdown类型定义问题
-                code({node, inline, className, children, ...props}) {
-                  const match = /language-(\w+)/.exec(className || '')
-                  return !inline && match ? (
-                    <SyntaxHighlighter
-                      // @ts-expect-error - SyntaxHighlighter样式类型不匹配
-                      style={materialDark}
-                      language={match[1]}
-                      PreTag="div"
-                      {...props}
-                    >
-                      {String(children).replace(/\n$/, '')}
-                    </SyntaxHighlighter>
-                  ) : (
-                    <code className={className} {...props}>
-                      {children}
-                    </code>
-                  )
-                }
-              }}
-            >
-              {assignment.description}
-            </ReactMarkdown>
+            <MarkdownWithRunner content={assignment.description} />
           </Paper>
         </Box>
 
@@ -257,11 +261,10 @@ export default function ExercisePage({ assignment, onBack }: ExercisePageProps) 
                   label="编程语言"
                   onChange={(e) => setLanguage(e.target.value as string)}
                 >
-                  <MenuItem value="javascript">JavaScript</MenuItem>
-                  <MenuItem value="python">Python</MenuItem>
-                  <MenuItem value="java">Java</MenuItem>
+                  <MenuItem value="c">C</MenuItem>
                   <MenuItem value="cpp">C++</MenuItem>
-                  <MenuItem value="go">Go</MenuItem>
+                  <MenuItem value="python">Python</MenuItem>
+                  <MenuItem value="txt">Txt</MenuItem>
                 </Select>
               </FormControl>
               <Box sx={{ flexGrow: 1 }} />
@@ -338,6 +341,55 @@ export default function ExercisePage({ assignment, onBack }: ExercisePageProps) 
                 </pre>
               )}
             </Paper>
+
+            {/* 提交结果显示区域 */}
+            {submissionResult && (
+              <>
+                <Divider sx={{ my: 1, flexShrink: 0 }} />
+                <Typography variant="subtitle2" gutterBottom sx={{ flexShrink: 0 }}>
+                  提交结果
+                </Typography>
+                <Paper
+                  variant="outlined"
+                  sx={{
+                    p: 2,
+                    backgroundColor: '#e8f5e8',
+                    border: '1px solid #4caf50',
+                    flexShrink: 0,
+                    maxHeight: '200px',
+                    overflow: 'auto'
+                  }}
+                >
+                  <Box sx={{ mb: 2 }}>
+                    <Typography variant="h6" color="success.main" sx={{ fontWeight: 'bold' }}>
+                      总得分: {submissionResult.score}分
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      反馈ID: {submissionResult.feedbackId}
+                    </Typography>
+                  </Box>
+                  
+                  {submissionResult.record && (
+                    <Box>
+                      <Typography variant="subtitle2" gutterBottom>
+                        各测试点得分:
+                      </Typography>
+                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                        {submissionResult.record.split(',').map((score, index) => (
+                          <Chip
+                            key={index}
+                            label={`测试点${index + 1}: ${score.trim()}分`}
+                            color={parseInt(score.trim()) > 0 ? 'success' : 'error'}
+                            variant="outlined"
+                            size="small"
+                          />
+                        ))}
+                      </Box>
+                    </Box>
+                  )}
+                </Paper>
+              </>
+            )}
           </Box>
         </Box>
       </Box>
