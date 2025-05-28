@@ -37,7 +37,7 @@ interface StudentListProps {
 // 这个接口需要根据实际API返回的数据结构调整
 interface CourseStudent extends UserInfo {
   enrollmentDate?: string;
-  isTeachingAssistant?: boolean;
+  courseIdentity?: string;
 }
 
 export default function StudentList({ courseId }: StudentListProps) {
@@ -46,7 +46,6 @@ export default function StudentList({ courseId }: StudentListProps) {
   const courses = useStore(state => state.courses);
 
   const [students, setStudents] = useState<CourseStudent[]>([]);
-  const [teachingAssistants, setTeachingAssistants] = useState<number[]>([]);
   const [loading, setLoading] = useState(true);
   const [studentEmail, setStudentEmail] = useState('');
   const [openAddDialog, setOpenAddDialog] = useState(false);
@@ -54,7 +53,7 @@ export default function StudentList({ courseId }: StudentListProps) {
   const currentCourse = courses.find(course => course.courseId === courseId);
   const isTeacher = userInfo?.identity === 'teacher' && currentCourse?.teacherId === userInfo.userId;
 
-  // 加载学生列表和助教列表
+  // 加载学生列表
   useEffect(() => {
     const loadData = async () => {
       if (!courseId) return;
@@ -64,13 +63,6 @@ export default function StudentList({ courseId }: StudentListProps) {
         // 获取课程学生列表
         const students = await CourseAPI.getCourseStudents(courseId);
         setStudents(students);
-
-        // TODO: 获取助教列表的API
-        // const assistants = await CourseAPI.getTeachingAssistants(courseId);
-        // setTeachingAssistants(assistants.map(ta => ta.userId));
-        
-        // 临时模拟数据
-        setTeachingAssistants([]);
       } catch (error) {
         console.error('获取数据失败', error);
       } finally {
@@ -86,14 +78,14 @@ export default function StudentList({ courseId }: StudentListProps) {
     // 老师排在最前面
     if (a.userId === currentCourse?.teacherId) return -1;
     if (b.userId === currentCourse?.teacherId) return 1;
-    
+
     // 助教排在老师后面，普通学生前面
-    const aIsTA = teachingAssistants.includes(a.userId);
-    const bIsTA = teachingAssistants.includes(b.userId);
-    
+    const aIsTA = a.courseIdentity === 'assistant';
+    const bIsTA = b.courseIdentity === 'assistant';
+
     if (aIsTA && !bIsTA) return -1;
     if (!aIsTA && bIsTA) return 1;
-    
+
     // 同类型按姓名排序
     return a.userName.localeCompare(b.userName);
   });
@@ -134,11 +126,6 @@ export default function StudentList({ courseId }: StudentListProps) {
 
       // 更新本地状态
       setStudents(students.filter(student => student.userId !== studentId));
-      
-      // 如果被移除的学生是助教，也要从助教列表中移除
-      if (teachingAssistants.includes(studentId)) {
-        setTeachingAssistants(teachingAssistants.filter(id => id !== studentId));
-      }
     } catch (error) {
       console.error('移除学生失败', error);
       alert('移除学生失败');
@@ -149,16 +136,17 @@ export default function StudentList({ courseId }: StudentListProps) {
     if (!confirm('确认将此学生设为助教？')) return;
 
     try {
-      // TODO: 调用添加助教的API
-      // await CourseAPI.addTeachingAssistant(courseId, studentId);
-      
-      // 临时更新本地状态
-      setTeachingAssistants([...teachingAssistants, studentId]);
-      
+      // 调用添加助教的API
+      await CourseAPI.assignCourseAssistant(courseId, studentId);
+
+      // 重新加载学生列表以获取最新的身份信息
+      const updatedStudents = await CourseAPI.getCourseStudents(courseId);
+      setStudents(updatedStudents);
+
       alert('已成功设为助教');
     } catch (error) {
       console.error('设置助教失败', error);
-      alert('设置助教失败');
+      alert('设置助教失败: ' + (error instanceof Error ? error.message : '未知错误'));
     }
   };
 
@@ -166,13 +154,12 @@ export default function StudentList({ courseId }: StudentListProps) {
     if (!confirm('确认取消此学生的助教身份？')) return;
 
     try {
-      // TODO: 调用移除助教的API
-      // await CourseAPI.removeTeachingAssistant(courseId, studentId);
-      
-      // 临时更新本地状态
-      setTeachingAssistants(teachingAssistants.filter(id => id !== studentId));
-      
-      alert('已取消助教身份');
+      await CourseAPI.removeCourseAssistant(courseId, studentId);
+
+      const updatedStudents = await CourseAPI.getCourseStudents(courseId);
+      setStudents(updatedStudents);
+
+      alert('已成功移除助教');
     } catch (error) {
       console.error('取消助教失败', error);
       alert('取消助教失败');
@@ -183,7 +170,7 @@ export default function StudentList({ courseId }: StudentListProps) {
     if (student.userId === currentCourse?.teacherId) {
       return 'teacher';
     }
-    if (teachingAssistants.includes(student.userId)) {
+    if (student.courseIdentity === 'assistant') {
       return 'ta';
     }
     return 'student';
@@ -256,8 +243,8 @@ export default function StudentList({ courseId }: StudentListProps) {
                 sortedStudents.map((student) => {
                   const role = getUserRole(student);
                   const isCurrentTeacher = student.userId === currentCourse?.teacherId;
-                  const isTA = teachingAssistants.includes(student.userId);
-                  
+                  const isTA = student.courseIdentity === 'assistant';
+
                   return (
                     <TableRow key={student.userId}>
                       <TableCell>{student.userId}</TableCell>
@@ -289,7 +276,7 @@ export default function StudentList({ courseId }: StudentListProps) {
                                   <SchoolIcon />
                                 </IconButton>
                               )}
-                              
+
                               {/* 删除按钮 */}
                               <IconButton
                                 color="error"
