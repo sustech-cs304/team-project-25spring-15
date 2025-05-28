@@ -13,17 +13,22 @@ func (c *ControllerV1) GeneralRunner(ctx context.Context, req *v1.GeneralRunnerR
 	if req.CodeInfo.Name == "" {
 		req.CodeInfo.Name = consts.TmpFileName
 	}
+	dockerId, err := c.runners.GetTargetContainerID(req.CodeType)
+	if err != nil {
+		return res, err
+	}
+	println(dockerId)
 	if req.CodeType == "c" || req.CodeType == "c++" || req.CodeType == "cpp" {
 		var pathForCDocker, pathForExecutableFile string
 		pathForCDocker, pathForExecutableFile, err = c.runners.CCodeRunner(ctx, &req.CodeInfo)
 		if err == nil {
-			res.CodeFeedback, err = c.runners.RunCCode(ctx, &req.CodeInfo, pathForCDocker, pathForExecutableFile)
+			res.CodeFeedback, err = c.runners.RunCCode(ctx, &req.CodeInfo, dockerId, pathForCDocker, pathForExecutableFile)
 		}
 	} else if req.CodeType == "python" {
 		var pathForPythonDocker string
 		pathForPythonDocker, err = c.runners.PythonCodeRunner(ctx, &req.CodeInfo)
 		if err == nil {
-			res.CodeFeedback, err = c.runners.RunPythonCode(ctx, &req.CodeInfo, pathForPythonDocker)
+			res.CodeFeedback, err = c.runners.RunPythonCode(ctx, &req.CodeInfo, dockerId, pathForPythonDocker)
 		}
 	} else {
 		err = errors.New("only c/cpp and python are support to run")

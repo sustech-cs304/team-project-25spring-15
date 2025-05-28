@@ -3,17 +3,16 @@ package runner
 import (
 	"context"
 	v1 "intelligent-course-aware-ide/api/runner/v1"
-	"intelligent-course-aware-ide/internal/consts"
 	"os/exec"
 	"strings"
 )
 
-func (r *Runners) RunCCode(ctx context.Context, codeInfo *v1.RunnerReq, pathForCDocker string, pathForExecutableFile string) (codeFeedback *v1.RunnerRes, err error) {
+func (r *Runners) RunCCode(ctx context.Context, codeInfo *v1.RunnerReq, dockerId string, pathForCDocker string, pathForExecutableFile string) (codeFeedback *v1.RunnerRes, err error) {
 	var cmd *exec.Cmd
 	var compileInfo, compileErr string
 	var stdout, stderr strings.Builder
 
-	cmd = exec.CommandContext(ctx, "docker", "exec", consts.TargetCDockerName, "g++", pathForCDocker, "-o", pathForExecutableFile)
+	cmd = exec.CommandContext(ctx, "docker", "exec", dockerId, "g++", pathForCDocker, "-o", pathForExecutableFile)
 	cmd.Stdout = &stdout
 	cmd.Stderr = &stderr
 
@@ -49,7 +48,7 @@ func (r *Runners) RunCCode(ctx context.Context, codeInfo *v1.RunnerReq, pathForC
 	}
 
 	var cmdContext []string = []string{
-		"exec", consts.TargetCDockerName, cmdStr2,
+		"exec", dockerId, cmdStr2,
 	}
 
 	cmd = exec.CommandContext(ctx, "docker", cmdContext...)

@@ -9,7 +9,7 @@ type CommentInfo struct {
 	LectureId          int64  `json:"lectureId" dc:"Id of the lecture the comment in"`
 	AuthorId           int64  `json:"authorId" dc:"Id of the commented user"`
 	AuthorName         string `json:"authorName" dc:"Name of the comment user"`
-	RepliedToCommentId int64  `json:"RepliedToCommentId" dc:"Id of the commented comment"`
+	RepliedToCommentId int64  `json:"repliedToCommentId" dc:"Id of the commented comment"`
 	RepliedToUserName  string `json:"repliedToUserName" dc:"Name of the commented user"`
 	Content            string `json:"content" dc:"content of the comment"`
 	CreateTime         string `json:"createTime" dc:" createTime of the comment"`
