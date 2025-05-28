@@ -10,18 +10,24 @@ import {
   Tabs,
   Tab
 } from '@mui/material';
-import { Course } from '@/app/lib/definitions';
+
+import MarkdownEditor from "@/app/ui/note/MarkdownEditor";
+import CodeIDE from "@/app/ui/note/CodeIDE";
 import { useStore } from '@/store/useStore';
 import CourseCard from './cards';
 import AddIcon from '@mui/icons-material/Add';
 import SchoolIcon from '@mui/icons-material/School';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
+import NoteIcon from '@mui/icons-material/Note';
+import CodeIcon from '@mui/icons-material/Code';
 
 export default function CourseList() {
   const router = useRouter();
   const courses = useStore(state => state.courses);
   const userInfo = useStore(state => state.userInfo);
   const [tabValue, setTabValue] = useState(0);
+  // TODO: 增加初始化
+  const [note, setNote] = useState("# 这里是你的笔记...");
 
   const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
@@ -32,10 +38,10 @@ export default function CourseList() {
   };
 
   // 根据用户身份和选项卡筛选课程
-  const filteredCourses = Array.isArray(courses) 
+  const filteredCourses = Array.isArray(courses)
     ? courses.filter(course => {
         if (!course) return false; // 跳过无效课程对象
-        
+
         if (tabValue === 0) return true; // 全部课程
         if (tabValue === 1) { // 我的课程
           if (userInfo?.identity === 'teacher') {
@@ -53,7 +59,7 @@ export default function CourseList() {
     <Container maxWidth="xl">
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
         <Typography variant="h4" component="h1" gutterBottom>
-          课程中心
+          Dashboard
         </Typography>
 
         {userInfo?.identity === 'teacher' && (
@@ -72,10 +78,17 @@ export default function CourseList() {
         <Tabs value={tabValue} onChange={handleTabChange}>
           <Tab icon={<MenuBookIcon />} label="全部课程" />
           <Tab icon={<SchoolIcon />} label="我的课程" />
+          <Tab icon={<NoteIcon />} label="我的笔记" />
+          <Tab icon={<CodeIcon />} label="代码编辑" />
         </Tabs>
       </Box>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      {tabValue === 2 ? (
+        <MarkdownEditor value={note} onChange={setNote} />
+      ) : tabValue === 3 ? (
+        <CodeIDE />
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {filteredCourses == null ? (
           // 还没拿到数据
           <div className="col-span-full text-center py-8 text-gray-500">
@@ -98,6 +111,8 @@ export default function CourseList() {
           ))
         )}
       </div>
+      )}
+
     </Container>
   );
 }
