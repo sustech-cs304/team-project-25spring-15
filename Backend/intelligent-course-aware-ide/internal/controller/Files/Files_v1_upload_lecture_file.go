@@ -2,6 +2,7 @@ package Files
 
 import (
 	"context"
+	"os"
 	"path/filepath"
 	"time"
 
@@ -13,7 +14,6 @@ import (
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gfile"
 	"github.com/gogf/gf/v2/util/gconv"
-	"github.com/gogf/gf/v2/util/guid"
 )
 
 // UploadLectureFile handles both new uploads and replacements based on existing fileId lookup.
@@ -40,15 +40,19 @@ func (c *ControllerV1) UploadLectureFile(ctx context.Context, req *v1.UploadLect
 	}
 	existingFileId := gconv.Int64(idValue) // 0 表示无记录
 
-	/// Generate a unique file name and save it
-	originalName := req.File.Filename
-	ext := filepath.Ext(originalName)
-	uniqueName := guid.S() + ext
-	fullPath := filepath.Join(consts.PathForLecture, uniqueName)
-	if _, err = req.File.Save(fullPath); err != nil {
+	// save the file and get a path
+	if err := os.MkdirAll(consts.PathForLecture, 0755); err != nil {
+		// Log detailed error for debugging
+		return nil, gerror.Wrap(err, "Failed to create upload directory")
+	}
+	// generate a uniqueName with save.para2 = true
+	uniqueName, err := req.File.Save(consts.PathForLecture, true)
+	if err != nil {
 		return nil, gerror.New("Failed to save file")
 	}
 
+	originalName := req.File.Filename
+	fullPath := filepath.Join(consts.PathForLecture, uniqueName)
 	size := req.File.Size
 	ctype := req.File.Header.Get("Content-Type")
 

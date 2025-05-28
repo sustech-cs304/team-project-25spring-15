@@ -24,7 +24,7 @@ const PathForHost string = "/usr/Document/"
 const PathForDocker string = "/usr/Document/"
 
 // Default direction of lecture file, including courseware/note
-const PathForLecture string = "/usr/Document/lecture/"
+const PathForLecture string = "./upload/lecture/"
 
 // Path of testcase
 const TestTestcase string = "/usr/test/testcase.txt"

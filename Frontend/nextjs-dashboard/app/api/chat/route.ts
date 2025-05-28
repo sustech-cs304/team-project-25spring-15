@@ -27,12 +27,12 @@ export async function POST(req: Request) {
     selectedChatModel: string;
   } = await req.json();
 
-  console.log("message: ", messages);
+  console.log("messages: ", messages);
   const lastMessage = messages[messages.length - 1];
 
   const message: AiMessage = {
     id: generateUUID(),
-    chatId: id,
+    lectureId: id,
     userId: userId,
     role: 'user',
     parts: lastMessage.parts, // 复制parts部分，包括reasoning
@@ -86,7 +86,7 @@ export async function POST(req: Request) {
             await AiMessageAPI.saveMessage({
                 id: assistantId,
                 userId: userId,
-                chatId: id,
+                lectureId: id,
                 role: assistantMessage.role,
                 parts: assistantMessage.parts,
                 createdAt: new Date(),
