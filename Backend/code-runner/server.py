@@ -35,7 +35,7 @@ def save(code: str, file_path: str):
 
 def compile(compile_cmd: str):
     try:
-        compile_result = subprocess.run([compile_cmd], capture_output=True, text=True, check=True)
+        compile_result = subprocess.run([compile_cmd], capture_output=True, text=True, check=True, shell=True)
     except subprocess.CalledProcessError as e:
         return f"Compile error:\n{e.stderr}"
     return ""
@@ -51,7 +51,7 @@ def compose_run_cmd(run_cmd: str, args: list[int], input_path: str, output_path:
         run_cmd += f" > {shlex.quote(output_path)}"
     return run_cmd
 
-def exec_file(run_cmd):
+def exec_file(run_cmd: str):
     try:
         run_result = subprocess.run([run_cmd], capture_output=True, text=True, check=True, shell=True)
         return run_result.stdout, ""
@@ -90,7 +90,7 @@ def run_code():
     if codeType == 'c' or codeType == 'cpp' or codeType == 'c++':
         # compile code
         exe_path = os.path.splitext(file_path)[0]
-        err = compile(["gcc", file_path, "-o", exe_path])
+        err = compile("gcc " + file_path + " -o " + exe_path)
         if err != "":
             print("fail to compile")
             return jsonify({"error": err}), 400
@@ -120,7 +120,7 @@ def run_and_check(code_type, code_path, testcases, answers, output_path):
     score_result = ""
     if code_type == 'cpp':
         exe_path = os.path.splitext(code_path)[0]
-        err = compile(["gcc", code_path, "-o", exe_path])
+        err = compile("g++ " + code_path + " -o " + exe_path)
         if err != "":
             return getScore, score_result, str(err)
         run_cmd = exe_path
