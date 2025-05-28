@@ -23,4 +23,6 @@ type ICourseV1 interface {
 	AssignCourseAssistant(ctx context.Context, req *v1.AssignCourseAssistantReq) (res *v1.AssignCourseAssistantRes, err error)
 	UnassignCourseAssistant(ctx context.Context, req *v1.UnassignCourseAssistantReq) (res *v1.UnassignCourseAssistantRes, err error)
 	ApplyToJoinCourse(ctx context.Context, req *v1.ApplyToJoinCourseReq) (res *v1.ApplyToJoinCourseRes, err error)
+	AddStudentsIntoCourse(ctx context.Context, req *v1.AddStudentsIntoCourseReq) (res *v1.AddStudentsIntoCourseRes, err error)
+	GetAllStudentsOfACourse(ctx context.Context, req *v1.GetAllStudentsOfACourseReq) (res *v1.GetAllStudentsOfACourseRes, err error)
 }

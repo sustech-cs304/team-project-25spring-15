@@ -9,12 +9,12 @@ import (
 
 type AssignmentInfo struct {
 	AssignmentId   int64       `json:"assignmentId" dc:"id of this assignment"`
-	AssignmentName string       `json:"assignmentName" dc:"name of this assignment"`
+	AssignmentName string      `json:"assignmentName" dc:"name of this assignment"`
 	PublisherId    int64       `json:"publisherId" dc:"id of publisher"`
 	CourseId       int64       `json:"courseId" dc:"id of this course"`
 	LectureId      int64       `json:"lectureId" dc:"id of this lecture"`
 	Description    string      `json:"description" dc:"description of this assignment"`
-	DeadLine       *gtime.Time `json:"deadLine" dc:"end time of this assignment"`
+	DeadLine       *gtime.Time `json:"deadline" dc:"end time of this assignment"`
 	Completeness   int32       `json:"completeness" dc:"num of the student who has finished this"`
 }
 
@@ -50,6 +50,7 @@ type GetAllAssignmentInfoOfACourseReq struct {
 type GetAllAssignmentInfoOfACourseRes struct {
 	g.Meta      `mime:"text/html" example:"json"`
 	Assignments []*entity.Assignments `json:"assignments" dc:"Info of all assignments of a course"`
+	Scores      []int                 `json:"scorse" dc:"Scores of those assignment"`
 }
 
 type GetAllAssignmentInfoOfALectureReq struct {
@@ -60,6 +61,7 @@ type GetAllAssignmentInfoOfALectureReq struct {
 type GetAllAssignmentInfoOfALectureRes struct {
 	g.Meta      `mime:"text/html" example:"json"`
 	Assignments []*entity.Assignments `json:"assignments" dc:"Info of all assignments of a lecture"`
+	Scores      []int                 `json:"scorse" dc:"Scores of those assignment"`
 }
 
 type CreateAssignmentReq struct {

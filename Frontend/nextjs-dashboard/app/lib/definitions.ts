@@ -100,4 +100,15 @@ export interface Comment {
   repliedToUserName?: string;
 }
 
+export interface Assignment {
+  assignmentId: number;
+  publisherId: number;
+  assignmentName: string;
+  description: string;
+  deadline: string;
+  score: number;
+  courseId: number;
+  lectureId: number;
+}
+
 

@@ -1,8 +1,8 @@
 nohup: ignoring input
-2025-05-26T17:11:57.673+08:00 [DEBU] 日志系统初始化完成
-2025-05-26T17:11:57.685+08:00 [INFO] pid[23515]: http server started listening on [:8000]
-2025-05-26T17:11:57.685+08:00 [INFO] swagger ui is serving at address: http://127.0.0.1:8000/swagger/
-2025-05-26T17:11:57.686+08:00 [INFO] openapi specification is serving at address: http://127.0.0.1:8000/api.json
+2025-05-27T22:26:48.652+08:00 [DEBU] 日志系统初始化完成
+2025-05-27T22:26:48.666+08:00 [INFO] pid[331359]: http server started listening on [:8000]
+2025-05-27T22:26:48.666+08:00 [INFO] swagger ui is serving at address: http://127.0.0.1:8000/swagger/
+2025-05-27T22:26:48.666+08:00 [INFO] openapi specification is serving at address: http://127.0.0.1:8000/api.json
 
   ADDRESS | METHOD |                      ROUTE                       |                                                  HANDLER                                                   |           MIDDLEWARE             
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
@@ -11,246 +11,487 @@ nohup: ignoring input
   :8000   | ALL    | /api.json                                        | github.com/gogf/gf/v2/net/ghttp.(*Server).openapiSpec                                                      |                                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | GET    | /api/Files/lectureFile/file/{FileId}             | intelligent-course-aware-ide/internal/controller/Files.(*ControllerV1).GetLectureFile                      | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | GET    | /api/Files/lectureFile/lecture/{LectureId}       | intelligent-course-aware-ide/internal/controller/Files.(*ControllerV1).GetFileWithLectureId                | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | POST   | /api/Files/lectureFile/upload                    | intelligent-course-aware-ide/internal/controller/Files.(*ControllerV1).UploadLectureFile                   | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | DELETE | /api/Files/lectureFile/{FileId}                  | intelligent-course-aware-ide/internal/controller/Files.(*ControllerV1).DeleteLectureFile                   | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | PUT    | /api/Files/lectureFile/{FileId}                  | intelligent-course-aware-ide/internal/controller/Files.(*ControllerV1).UpdateLectureFile                   | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
+          |        |                                                  |                                                                                                            | middleware.Auth                  
+----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
+  :8000   | GET    | /api/Files/lectureNote/lecture/{LectureId}       | intelligent-course-aware-ide/internal/controller/Files.(*ControllerV1).GetNoteWithLectureId                | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
+          |        |                                                  |                                                                                                            | middleware.Auth                  
+----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
+  :8000   | POST   | /api/Files/lectureNote/upload                    | intelligent-course-aware-ide/internal/controller/Files.(*ControllerV1).UploadLectureNote                   | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
+          |        |                                                  |                                                                                                            | middleware.Auth                  
+----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
+  :8000   | DELETE | /api/Files/lectureNote/{FileId}                  | intelligent-course-aware-ide/internal/controller/Files.(*ControllerV1).DeleteLectureNote                   | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | POST   | /api/assignment/attemptAssignment                | intelligent-course-aware-ide/internal/controller/assignment.(*ControllerV1).AttemptForAssignment           | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | POST   | /api/assignment/createAssignment                 | intelligent-course-aware-ide/internal/controller/assignment.(*ControllerV1).CreateAssignment               | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | DELETE | /api/assignment/deleteAssignment                 | intelligent-course-aware-ide/internal/controller/assignment.(*ControllerV1).DeleteAssignment               | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | DELETE | /api/assignment/deleteTestcaseAndAnswer          | intelligent-course-aware-ide/internal/controller/assignment.(*ControllerV1).DeleteTestcaseAndAnswer        | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | GET    | /api/assignment/getAllAssignmentOfACourse        | intelligent-course-aware-ide/internal/controller/assignment.(*ControllerV1).GetAllAssignmentInfoOfACourse  | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | GET    | /api/assignment/getAllAssignmentOfALecture       | intelligent-course-aware-ide/internal/controller/assignment.(*ControllerV1).GetAllAssignmentInfoOfALecture | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | GET    | /api/assignment/getAssignmentFeedbackOfAUser     | intelligent-course-aware-ide/internal/controller/assignment.(*ControllerV1).GetAssignmentFeedbackOfAUser   | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | GET    | /api/assignment/searchAssignment/{assignmentId}  | intelligent-course-aware-ide/internal/controller/assignment.(*ControllerV1).GetAssignment                  | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | PUT    | /api/assignment/updateAssignment                 | intelligent-course-aware-ide/internal/controller/assignment.(*ControllerV1).UpdateAssignment               | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | POST   | /api/assignment/uploadTestcaseAndAnswer          | intelligent-course-aware-ide/internal/controller/assignment.(*ControllerV1).UploadTestcaseAndAnswer        | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | POST   | /api/chat/addUserIntoChat                        | intelligent-course-aware-ide/internal/controller/chat.(*ControllerV1).AddUserIntoChat                      | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | POST   | /api/chat/createChat                             | intelligent-course-aware-ide/internal/controller/chat.(*ControllerV1).CreateChat                           | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | POST   | /api/chat/createChatMessage                      | intelligent-course-aware-ide/internal/controller/chat.(*ControllerV1).CreateChatMessage                    | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | DELETE | /api/chat/deleteChatId                           | intelligent-course-aware-ide/internal/controller/chat.(*ControllerV1).DeleteChat                           | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | DELETE | /api/chat/deleteChatMessage                      | intelligent-course-aware-ide/internal/controller/chat.(*ControllerV1).DeleteChatMessage                    | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | DELETE | /api/chat/deleteUserFromChat                     | intelligent-course-aware-ide/internal/controller/chat.(*ControllerV1).DeleteUserFromChat                   | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | GET    | /api/chat/getChatMessageOfAChat/{chatId}         | intelligent-course-aware-ide/internal/controller/chat.(*ControllerV1).GetAllChatMessageOfAChatInfo         | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | GET    | /api/chat/getChatMessageOfAChat/{userId}         | intelligent-course-aware-ide/internal/controller/chat.(*ControllerV1).GetAllChatInfoOfAUser                | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | POST   | /api/codeRunner/run                              | intelligent-course-aware-ide/internal/controller/runner.(*ControllerV1).GeneralRunner                      | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | POST   | /api/comment/createComment                       | intelligent-course-aware-ide/internal/controller/comment.(*ControllerV1).CreateComment                     | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | DELETE | /api/comment/deleteComment                       | intelligent-course-aware-ide/internal/controller/comment.(*ControllerV1).DeleteComment                     | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | GET    | /api/comment/getComment/{lectureId}              | intelligent-course-aware-ide/internal/controller/comment.(*ControllerV1).GetComment                        | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | GET    | /api/comment/getHotWords/{lectureId}             | intelligent-course-aware-ide/internal/controller/comment.(*ControllerV1).GetHotWords                       | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | PUT    | /api/comment/updateComment                       | intelligent-course-aware-ide/internal/controller/comment.(*ControllerV1).UpdateComment                     | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
+          |        |                                                  |                                                                                                            | middleware.Auth                  
+----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
+  :8000   | POST   | /api/course/addStudents                          | intelligent-course-aware-ide/internal/controller/course.(*ControllerV1).AddStudentsIntoCourse              | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | POST   | /api/course/applyToJoinCourse                    | intelligent-course-aware-ide/internal/controller/course.(*ControllerV1).ApplyToJoinCourse                  | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | POST   | /api/course/assignCourseAssistant                | intelligent-course-aware-ide/internal/controller/course.(*ControllerV1).AssignCourseAssistant              | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | POST   | /api/course/createCourse                         | intelligent-course-aware-ide/internal/controller/course.(*ControllerV1).CreateCourse                       | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | DELETE | /api/course/deleteCourse                         | intelligent-course-aware-ide/internal/controller/course.(*ControllerV1).DeleteCourse                       | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
+          |        |                                                  |                                                                                                            | middleware.Auth                  
+----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
+  :8000   | GET    | /api/course/getAllStudentsOfACourse/{courseId}   | intelligent-course-aware-ide/internal/controller/course.(*ControllerV1).GetAllStudentsOfACourse            | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | GET    | /api/course/getCourses                           | intelligent-course-aware-ide/internal/controller/course.(*ControllerV1).GetAllCoursesInfo                  | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | GET    | /api/course/recommendCourses                     | intelligent-course-aware-ide/internal/controller/course.(*ControllerV1).RecommendCourse                    | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | GET    | /api/course/searchCourse/{courseId}              | intelligent-course-aware-ide/internal/controller/course.(*ControllerV1).GetCourse                          | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | GET    | /api/course/searchCourseWithLectures/byStudentId | intelligent-course-aware-ide/internal/controller/course.(*ControllerV1).GetCourseWithLecturesByStudentId   | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | GET    | /api/course/searchCourseWithLectures/{courseId}  | intelligent-course-aware-ide/internal/controller/course.(*ControllerV1).GetCourseWithLecturesByCourseId    | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | GET    | /api/course/searchCourses                        | intelligent-course-aware-ide/internal/controller/course.(*ControllerV1).SearchCourse                       | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | DELETE | /api/course/unassignCourseAssistant              | intelligent-course-aware-ide/internal/controller/course.(*ControllerV1).UnassignCourseAssistant            | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | PUT    | /api/course/updateCourse                         | intelligent-course-aware-ide/internal/controller/course.(*ControllerV1).UpdateCourse                       | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | POST   | /api/lecture/createLecture                       | intelligent-course-aware-ide/internal/controller/lecture.(*ControllerV1).CreateLecture                     | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | DELETE | /api/lecture/deleteLecture                       | intelligent-course-aware-ide/internal/controller/lecture.(*ControllerV1).DeleteLecture                     | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | GET    | /api/lecture/getLectures/{courseId}              | intelligent-course-aware-ide/internal/controller/lecture.(*ControllerV1).GetAllLectureOfACourseInfo        | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | GET    | /api/lecture/searchLecture/{lectureId}           | intelligent-course-aware-ide/internal/controller/lecture.(*ControllerV1).GetLecture                        | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | PUT    | /api/lecture/updateLecture                       | intelligent-course-aware-ide/internal/controller/lecture.(*ControllerV1).UpdateLecture                     | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | POST   | /api/user/createUser                             | intelligent-course-aware-ide/internal/controller/account.(*ControllerV1).CreateUser                        | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | DELETE | /api/user/deleteUser                             | intelligent-course-aware-ide/internal/controller/user.(*ControllerV1).DeleteUser                           | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | GET    | /api/user/getUsers                               | intelligent-course-aware-ide/internal/controller/user.(*ControllerV1).GetAllUsersInfo                      | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | POST   | /api/user/loginUser                              | intelligent-course-aware-ide/internal/controller/account.(*ControllerV1).LoginUser                         | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | POST   | /api/user/logoutUser                             | intelligent-course-aware-ide/internal/controller/user.(*ControllerV1).LogoutUser                           | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | GET    | /api/user/searchUser/{userId}                    | intelligent-course-aware-ide/internal/controller/user.(*ControllerV1).GetUser                              | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | PUT    | /api/user/updateUser                             | intelligent-course-aware-ide/internal/controller/user.(*ControllerV1).UpdateUser                           | ghttp.MiddlewareHandlerResponse  
+          |        |                                                  |                                                                                                            | middleware.LoggerMiddleware      
           |        |                                                  |                                                                                                            | middleware.Auth                  
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
   :8000   | ALL    | /swagger/*                                       | github.com/gogf/gf/v2/net/ghttp.(*Server).swaggerUI                                                        | HOOK_BEFORE_SERVE                
 ----------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------
 
-2025-05-26T17:12:44.748+08:00 [DEBU] {6ea121d3ce084318c14cdd41753378c7} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T17:12:45.625+08:00 [DEBU] {e7366c07cf084318c44cdd414755f6df} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T17:13:02.289+08:00 [DEBU] {6dd4ade8d2084318c64cdd4195159295} Request started: /api/user/loginUser
-2025-05-26T17:13:02.659+08:00 [DEBU] {bdd2b2fed2084318c74cdd4189e1ccfd} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T17:13:02.768+08:00 [DEBU] {65633105d3084318c94cdd417690ef20} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T17:13:07.450+08:00 [DEBU] {93394c1cd4084318cb4cdd41d638c6f7} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T17:13:09.014+08:00 [DEBU] {a1407f79d4084318cd4cdd416ad14497} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T17:13:11.585+08:00 [DEBU] {8174c312d5084318cf4cdd4116f425bf} Request started: /api/Files/lectureFile/lecture/1
-2025-05-26T17:15:47.415+08:00 [DEBU] {00aef15af9084318d14cdd4141e42048} Request started: /api/Files/lectureFile/upload
-2025-05-26T17:15:52.391+08:00 [DEBU] {11738c83fa084318d44cdd4145264a75} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T17:15:53.411+08:00 [DEBU] {bb4f52c0fa084318d64cdd41edf4ec09} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T17:18:07.169+08:00 [DEBU] {189feee419094318d84cdd41cd5ef549} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T17:18:22.882+08:00 [DEBU] {9c0b818d1d094318da4cdd412d76b483} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T17:18:23.990+08:00 [DEBU] {905b8ccf1d094318dc4cdd41d5b8c504} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T17:22:23.525+08:00 [DEBU] {6164ec9455094318de4cdd41f1cfd98e} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T17:22:23.730+08:00 [DEBU] {7d7d21a155094318e04cdd41462aba43} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T17:22:23.891+08:00 [DEBU] {6570c7aa55094318e24cdd41bbcadd73} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T17:22:24.211+08:00 [DEBU] {2e2cd4bd55094318e44cdd41687317e6} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T17:22:24.404+08:00 [DEBU] {ed9253c955094318e64cdd41c96f13bf} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T17:22:24.534+08:00 [DEBU] {60c219d155094318e84cdd41ee3fb485} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T17:22:42.367+08:00 [DEBU] {0b4e07f859094318ea4cdd41af70a588} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T17:22:42.847+08:00 [DEBU] {24bc99145a094318ec4cdd410b61828e} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T17:22:56.210+08:00 [DEBU] {a7be1a315d094318ee4cdd4137fb9d8c} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T17:22:57.187+08:00 [DEBU] {172c4f6b5d094318f04cdd41578dbfd5} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T17:25:50.106+08:00 [DEBU] {ca4f18ae85094318f24cdd41ba252e0b} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T17:25:50.360+08:00 [DEBU] {745646bd85094318f44cdd41de91fbba} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T17:25:50.558+08:00 [DEBU] {e8c808c985094318f64cdd41b7dce667} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T17:25:50.817+08:00 [DEBU] {d3727cd885094318f84cdd41fd738219} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T17:25:50.965+08:00 [DEBU] {6d2755e185094318fa4cdd411399b3ad} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T17:25:51.165+08:00 [DEBU] {466343ed85094318fc4cdd4120f5d255} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T17:29:22.719+08:00 [DEBU] {3729d92eb7094318fe4cdd4101613663} Request started: /api/comment/getComment/1
-Fetched Comments: []
-2025-05-26T17:29:22.850+08:00 [DEBU] {179ca436b7094318004ddd4103a3481b} Request started: /api/comment/getComment/1
-Fetched Comments: []
-2025-05-26T17:29:27.594+08:00 [DEBU] {ba1b6a51b8094318024ddd41e0304ab8} Request started: /
-2025-05-26T17:45:12.527+08:00 [DEBU] {85b5cd53940a4318034ddd41a778b907} Request started: /api.json
-2025-05-26T17:45:12.586+08:00 [DEBU] {38514d57940a4318044ddd417e08b300} Request started: /favicon.ico
-2025-05-26T17:45:16.965+08:00 [DEBU] {f4034f5c950a4318054ddd41f8cba2ae} Request started: /api.json
-2025-05-26T17:52:33.613+08:00 [DEBU] {3b6c9206fb0a4318064ddd41c7a84d85} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T18:01:15.039+08:00 [DEBU] {db2bfb6d740b4318084ddd4169c9e086} Request started: /
-2025-05-26T18:01:15.118+08:00 [DEBU] {4275b872740b4318094ddd410b1ea529} Request started: /favicon.ico
-2025-05-26T18:01:51.852+08:00 [DEBU] {cf2141007d0b43180a4ddd41d81f2b41} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T18:02:15.380+08:00 [DEBU] {b6e09e7a820b43180c4ddd41e18833fe} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T18:02:59.546+08:00 [DEBU] {17861dc38c0b43180e4ddd41e861cd72} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T18:03:51.066+08:00 [DEBU] {e67ae8c1980b4318104ddd4108d6008e} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T18:03:51.749+08:00 [DEBU] {9bd7a7ea980b4318124ddd412274cf87} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T18:05:49.784+08:00 [DEBU] {ecec0e66b40b4318144ddd418eaff3e1} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T18:05:51.732+08:00 [DEBU] {890830dab40b4318164ddd419bd6b897} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T18:05:52.977+08:00 [DEBU] {82bc6724b50b4318184ddd4164f81375} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T18:15:55.992+08:00 [DEBU] {b076df8a410c43181a4ddd419a8a3768} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T18:15:56.374+08:00 [DEBU] {7d7ea6a1410c43181c4ddd415c5d5a48} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T18:20:47.176+08:00 [DEBU] {8b57c856850c43181e4ddd417fb6c153} Request started: /api/user/loginUser
-2025-05-26T18:20:47.444+08:00 [DEBU] {1d2bc166850c43181f4ddd4126ca0bbf} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T18:20:47.553+08:00 [DEBU] {c4504d6d850c4318214ddd41a23a6ad0} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T18:20:55.499+08:00 [DEBU] {dfb4e546870c4318234ddd41f5de8f1d} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T18:20:57.002+08:00 [DEBU] {4a8078a0870c4318254ddd4100b90b1f} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T18:21:17.718+08:00 [DEBU] {9f733f738c0c4318274ddd4146ecbf46} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T18:21:18.066+08:00 [DEBU] {dfc900888c0c4318294ddd4156d2b459} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T18:21:43.344+08:00 [DEBU] {185fae6a920c43182b4ddd416aca34af} Request started: /api/user/loginUser
-2025-05-26T18:21:43.770+08:00 [DEBU] {d6371384920c43182c4ddd4118afeb06} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T18:21:44.284+08:00 [DEBU] {92e4b9a2920c43182e4ddd41b526116d} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T18:21:44.389+08:00 [DEBU] {f572f6a8920c4318304ddd41ddcc3aea} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T20:23:09.391+08:00 [DEBU] {b7ebe8d432134318324ddd411a40a9c7} Request started: /
-2025-05-26T20:28:56.006+08:00 [DEBU] {4d77cb8883134318334ddd41abd922f0} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T21:33:58.482+08:00 [DEBU] {21a17d2610174318354ddd411a861c5a} Request started: /
-2025-05-26T22:13:16.933+08:00 [DEBU] {4780224535194318364ddd41dd9f0056} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T22:14:20.791+08:00 [DEBU] {85bf5d2344194318384ddd41be906393} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T22:14:58.441+08:00 [DEBU] {ee5478e74c194318394ddd41b7624736} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T22:15:08.273+08:00 [DEBU] {d5fe86314f1943183a4ddd418629c18e} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T22:15:08.525+08:00 [DEBU] {de7a83404f1943183c4ddd41169e9435} Request started: /api/user/loginUser
-2025-05-26T22:15:08.942+08:00 [DEBU] {e5c158594f1943183d4ddd41c6761780} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T22:15:09.026+08:00 [DEBU] {55d8615e4f1943183f4ddd4140f95437} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T22:15:09.046+08:00 [DEBU] {1e3d985f4f194318414ddd41a8f57d46} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T22:15:16.194+08:00 [DEBU] {9558990951194318434ddd41d58f2adb} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T22:15:16.390+08:00 [DEBU] {250b481551194318454ddd41866a891c} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T22:15:23.214+08:00 [DEBU] {40a907ac52194318474ddd418cb2a9df} Request started: /api/comment/getComment/2
-Fetched Comments: []
-2025-05-26T22:15:23.345+08:00 [DEBU] {4076d7b352194318494ddd4124d69c0e} Request started: /api/comment/getComment/2
-Fetched Comments: []
-2025-05-26T22:17:42.846+08:00 [DEBU] {4e74c42e731943184b4ddd417c969ffa} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T22:18:22.663+08:00 [DEBU] {a0ac0f747c1943184d4ddd41c10aa000} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T22:18:23.377+08:00 [DEBU] {9c96959e7c1943184f4ddd416e3b74d0} Request started: /api/course/searchCourseWithLectures/byStudentId
-2025-05-26T22:18:41.524+08:00 23515: server gracefully shutting down by signal: terminated
-2025-05-26T22:18:41.525+08:00 [INFO] pid[23515]: all servers shutdown
+2025-05-27T22:26:57.596+08:00 [INFO] {d84ec8e9886843180a7e3301fc34fbb1} Request: GET /api/course/searchCourseWithLectures/byStudentId
+2025-05-27T22:26:57.597+08:00 [DEBU] {d84ec8e9886843180a7e3301fc34fbb1} Headers: map[Accept:[application/json, text/plain, */*] Accept-Encoding:[gzip, deflate, br, zstd] Accept-Language:[zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6] Authorization:[Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjgsIkVtYWlsIjoiMjIyMjIyMjJAbWFpbC5zdXN0ZWNoLmVkdS5jbiIsIlVzZXJOYW1lIjoiOCIsImV4cCI6MTc0ODM3NzIxN30.7H50_Eg87pC70e0-EbfV-4nHsE7Ierk_kAO7oqAH_KM] Connection:[close] Cookie:[authjs.csrf-token=d6a53abb34c0a82fc0126e4074944835740ab914d6ee16e40905cf2cb6afd489%7Ca45296f78cac9ce5f57c6055cfe0c5279718729a5d641f52d81279218976b6d5; __next_hmr_refresh_hash__=339; authjs.callback-url=http%3A%2F%2Flocalhost%3A3000%2Fdashboard; authjs.session-token=eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIiwia2lkIjoiS0czOHk0LWNWZlZwSzV6UlZ4eWZodDRtb1JQSVVfVXlyZ1FmUTlpM1lTSTcybmdoLU5zWGJybWZEci1TbEdUeHpmOXJSa3BFajlJVmNEUzM0WDVwN1EifQ..1IvtzdFLXSyTOUvV2KW4Fg.ru58OaC34DiV6hZRyiaSb3J3qq0s6nitMarlkQrOUknJv0flCWA65-0-sM5XpIdgqJ2tRArd_ZYbOifJTt_zavMrdS6Rr5Un0_YwnemgLM7ElyHIM8WnaI3G_32FZIRWRR9u9QEyjDNsfw_kJvBLXCKKq-kr8AjKoaoaSOBc2-OlbZZtg8WNTz9wTTAI7XDBetZP-nJ19qIjMiYspeJMKgV4Vw1UJ8Z-F3gmfWZsxOSok4Hz6i1pI3WGSMmQA5YZ-wNBW6O6U-ZGjGx98MU_AWU-2TPPzAfQ8yVS9giMuA1GA09Du7Akr9S9xYTaDagfi8m94m_OzmIqoaAdpMQHzI5MdjMz_NRIqPDamfdRwSBundz5Ez7hilM1lNfS6AzsjLEC_C7vl-AQkZWhDl3ygGzxGC8lFOFrHoRy93kP5Xa2i13uVzsw1gmKLzzoRH9Pa-0S95IphOzsI87KpKQT_G1rp5dNyry3DZOJiKqSko5COkVqgzjLnXFIWaAZ4pmw6kxFpB9Zrkoj08YUtaq5PSSLJLQjxy_NWNnKjOL8T9qymt98zw-cDRe7l9s7Mlo7pqx-haQWyHEsAb20HZz_kkMmoYpU-eqm_UvvOqetKP0Rrlynf6_ffTjlxZV-X608um38CNVyKlXkKgkInvh_emip1zGvfPcpn_bId1gmC2g.Z6g2Sp4HdWCrYMECuH8Evy6NpDJUpq3KWi5BEOklhGM] Referer:[http://localhost:3000/dashboard] Sec-Ch-Ua:["Chromium";v="136", "Microsoft Edge";v="136", "Not.A/Brand";v="99"] Sec-Ch-Ua-Mobile:[?0] Sec-Ch-Ua-Platform:["Windows"] Sec-Fetch-Dest:[empty] Sec-Fetch-Mode:[cors] Sec-Fetch-Site:[same-origin] User-Agent:[Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0] X-Forwarded-Host:[localhost:3000]]
+2025-05-27T22:26:57.597+08:00 [DEBU] {d84ec8e9886843180a7e3301fc34fbb1} 
+2025-05-27T22:27:13.085+08:00 [INFO] {f408fc848c6843180d7e33016ad2f9d6} Request: POST /api/user/loginUser
+2025-05-27T22:27:13.085+08:00 [DEBU] {f408fc848c6843180d7e33016ad2f9d6} Headers: map[Accept:[*/*] Accept-Encoding:[gzip, deflate] Accept-Language:[*] Connection:[keep-alive] Content-Length:[74] Content-Type:[application/json] Sec-Fetch-Mode:[cors] User-Agent:[node]]
+2025-05-27T22:27:13.086+08:00 [DEBU] {f408fc848c6843180d7e33016ad2f9d6} Form: map[userLogin:map[email:22222222@mail.sustech.edu.cn password:123456]]
+2025-05-27T22:27:13.086+08:00 [DEBU] {f408fc848c6843180d7e33016ad2f9d6} Body: {"userLogin":{"email":"22222222@mail.sustech.edu.cn","password":"123456"}}
+2025-05-27T22:27:13.086+08:00 [DEBU] {f408fc848c6843180d7e33016ad2f9d6} 
+2025-05-27T22:27:13.098+08:00 [ERRO] {f408fc848c6843180d7e33016ad2f9d6} Error occurred: SELECT `UserId`,`UserName`,`Email`,`UserSign`,`University`,`Birthday`,`Identity` FROM `Users` WHERE `Email`='22222222@mail.sustech.edu.cn' AND `Password`='123456' LIMIT 1: dial tcp: lookup database on 127.0.0.53:53: server misbehaving 
+Stack:
+1.  intelligent-course-aware-ide/internal/cmd.init.func1.1
+    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:47
+2.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
+    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
+
+2025-05-27T22:27:13.098+08:00 [ERRO] {f408fc848c6843180d7e33016ad2f9d6} Panic recovered: exit 
+Stack:
+1.  intelligent-course-aware-ide/internal/cmd.init.func1.1.1
+    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:35
+2.  intelligent-course-aware-ide/internal/cmd.init.func1.1
+    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:48
+3.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
+    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
+
+2025-05-27T22:27:13.098+08:00 {f408fc848c6843180d7e33016ad2f9d6} 500 "POST http 47.117.144.50:8000 /api/user/loginUser HTTP/1.1" 13173.161, 110.65.147.229, "", "node", 52, "Database Operation Error", ""
+Stack:
+1. SELECT `UserId`,`UserName`,`Email`,`UserSign`,`University`,`Birthday`,`Identity` FROM `Users` WHERE `Email`='22222222@mail.sustech.edu.cn' AND `Password`='123456' LIMIT 1
+   1).  intelligent-course-aware-ide/internal/controller/account.(*ControllerV1).LoginUser
+        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/controller/account/account_v1_login_user.go:28
+   2).  intelligent-course-aware-ide/internal/logic/middleware.LoggerMiddleware
+        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/loggerMiddleware.go:43
+   3).  intelligent-course-aware-ide/internal/cmd.init.func1.1
+        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:43
+   4).  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
+        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
+2. dial tcp: lookup database on 127.0.0.53:53: server misbehaving
+
+2025-05-27T22:27:14.613+08:00 [INFO] {469d0fe08c6843180e7e3301a61d823f} Request: POST /api/user/loginUser
+2025-05-27T22:27:14.613+08:00 [DEBU] {469d0fe08c6843180e7e3301a61d823f} Headers: map[Accept:[*/*] Accept-Encoding:[gzip, deflate] Accept-Language:[*] Connection:[keep-alive] Content-Length:[74] Content-Type:[application/json] Sec-Fetch-Mode:[cors] User-Agent:[node]]
+2025-05-27T22:27:14.614+08:00 [DEBU] {469d0fe08c6843180e7e3301a61d823f} Form: map[userLogin:map[email:22222222@mail.sustech.edu.cn password:123456]]
+2025-05-27T22:27:14.614+08:00 [DEBU] {469d0fe08c6843180e7e3301a61d823f} Body: {"userLogin":{"email":"22222222@mail.sustech.edu.cn","password":"123456"}}
+2025-05-27T22:27:14.614+08:00 [DEBU] {469d0fe08c6843180e7e3301a61d823f} 
+2025-05-27T22:27:14.623+08:00 [ERRO] {469d0fe08c6843180e7e3301a61d823f} Error occurred: SELECT `UserId`,`UserName`,`Email`,`UserSign`,`University`,`Birthday`,`Identity` FROM `Users` WHERE `Email`='22222222@mail.sustech.edu.cn' AND `Password`='123456' LIMIT 1: dial tcp: lookup database on 127.0.0.53:53: server misbehaving 
+Stack:
+1.  intelligent-course-aware-ide/internal/cmd.init.func1.1
+    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:47
+2.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
+    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
+
+2025-05-27T22:27:14.623+08:00 [ERRO] {469d0fe08c6843180e7e3301a61d823f} Panic recovered: exit 
+Stack:
+1.  intelligent-course-aware-ide/internal/cmd.init.func1.1.1
+    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:35
+2.  intelligent-course-aware-ide/internal/cmd.init.func1.1
+    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:48
+3.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
+    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
+
+2025-05-27T22:27:14.623+08:00 {469d0fe08c6843180e7e3301a61d823f} 500 "POST http 47.117.144.50:8000 /api/user/loginUser HTTP/1.1" 10165.711, 110.65.147.229, "", "node", 52, "Database Operation Error", ""
+Stack:
+1. SELECT `UserId`,`UserName`,`Email`,`UserSign`,`University`,`Birthday`,`Identity` FROM `Users` WHERE `Email`='22222222@mail.sustech.edu.cn' AND `Password`='123456' LIMIT 1
+   1).  intelligent-course-aware-ide/internal/controller/account.(*ControllerV1).LoginUser
+        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/controller/account/account_v1_login_user.go:28
+   2).  intelligent-course-aware-ide/internal/logic/middleware.LoggerMiddleware
+        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/loggerMiddleware.go:43
+   3).  intelligent-course-aware-ide/internal/cmd.init.func1.1
+        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:43
+   4).  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
+        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
+2. dial tcp: lookup database on 127.0.0.53:53: server misbehaving
+
+2025-05-27T22:27:29.669+08:00 [INFO] {8e746d61906843180f7e33014768664b} Request: POST /api/user/loginUser
+2025-05-27T22:27:29.669+08:00 [DEBU] {8e746d61906843180f7e33014768664b} Headers: map[Accept:[*/*] Accept-Encoding:[gzip, deflate] Accept-Language:[*] Connection:[keep-alive] Content-Length:[74] Content-Type:[application/json] Sec-Fetch-Mode:[cors] User-Agent:[node]]
+2025-05-27T22:27:29.669+08:00 [DEBU] {8e746d61906843180f7e33014768664b} Form: map[userLogin:map[email:22222222@mail.sustech.edu.cn password:123456]]
+2025-05-27T22:27:29.669+08:00 [DEBU] {8e746d61906843180f7e33014768664b} Body: {"userLogin":{"email":"22222222@mail.sustech.edu.cn","password":"123456"}}
+2025-05-27T22:27:29.669+08:00 [DEBU] {8e746d61906843180f7e33014768664b} 
+2025-05-27T22:27:29.676+08:00 [ERRO] {8e746d61906843180f7e33014768664b} Error occurred: SELECT `UserId`,`UserName`,`Email`,`UserSign`,`University`,`Birthday`,`Identity` FROM `Users` WHERE `Email`='22222222@mail.sustech.edu.cn' AND `Password`='123456' LIMIT 1: dial tcp: lookup database on 127.0.0.53:53: server misbehaving 
+Stack:
+1.  intelligent-course-aware-ide/internal/cmd.init.func1.1
+    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:47
+2.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
+    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
+
+2025-05-27T22:27:29.676+08:00 [ERRO] {8e746d61906843180f7e33014768664b} Panic recovered: exit 
+Stack:
+1.  intelligent-course-aware-ide/internal/cmd.init.func1.1.1
+    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:35
+2.  intelligent-course-aware-ide/internal/cmd.init.func1.1
+    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:48
+3.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
+    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
+
+2025-05-27T22:27:29.676+08:00 {8e746d61906843180f7e33014768664b} 500 "POST http 47.117.144.50:8000 /api/user/loginUser HTTP/1.1" 7670.229, 110.65.147.229, "", "node", 52, "Database Operation Error", ""
+Stack:
+1. SELECT `UserId`,`UserName`,`Email`,`UserSign`,`University`,`Birthday`,`Identity` FROM `Users` WHERE `Email`='22222222@mail.sustech.edu.cn' AND `Password`='123456' LIMIT 1
+   1).  intelligent-course-aware-ide/internal/controller/account.(*ControllerV1).LoginUser
+        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/controller/account/account_v1_login_user.go:28
+   2).  intelligent-course-aware-ide/internal/logic/middleware.LoggerMiddleware
+        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/loggerMiddleware.go:43
+   3).  intelligent-course-aware-ide/internal/cmd.init.func1.1
+        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:43
+   4).  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
+        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
+2. dial tcp: lookup database on 127.0.0.53:53: server misbehaving
+
+2025-05-27T22:27:58.271+08:00 [INFO] {7de4460a97684318107e3301f327ce84} Request: GET /api/course/searchCourseWithLectures/byStudentId
+2025-05-27T22:27:58.271+08:00 [DEBU] {7de4460a97684318107e3301f327ce84} Headers: map[Accept:[application/json, text/plain, */*] Accept-Encoding:[gzip, compress, deflate, br] Authorization:[Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjcsIkVtYWlsIjoiMTExMTExMTFAbWFpbC5zdXN0ZWNoLmVkdS5jbiIsIlVzZXJOYW1lIjoiNyIsImV4cCI6MTc0ODM3NzA1MX0.JqohF6DCcIhbF1GRAoNUXsljp_ZuAhJ3LO6iZNs0a_o] Connection:[keep-alive] User-Agent:[axios/1.9.0]]
+2025-05-27T22:27:58.271+08:00 [DEBU] {7de4460a97684318107e3301f327ce84} 
+2025-05-27T22:27:59.387+08:00 [INFO] {8ec2c84c97684318137e3301691d969a} Request: GET /api/course/searchCourseWithLectures/byStudentId
+2025-05-27T22:27:59.387+08:00 [DEBU] {8ec2c84c97684318137e3301691d969a} Headers: map[Accept:[application/json, text/plain, */*] Accept-Encoding:[gzip, deflate, br, zstd] Accept-Language:[zh-CN,zh;q=0.9] Authorization:[Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjcsIkVtYWlsIjoiMTExMTExMTFAbWFpbC5zdXN0ZWNoLmVkdS5jbiIsIlVzZXJOYW1lIjoiNyIsImV4cCI6MTc0ODM3NzA1MX0.JqohF6DCcIhbF1GRAoNUXsljp_ZuAhJ3LO6iZNs0a_o] Connection:[close] Cookie:[jenkins-timestamper-offset=-28800000; authjs.csrf-token=4d1fee3749023da59c67a79b1a1a993c038fba416e65e958fa36ed458b42a97b%7C7728290b375132ef1cb617c9e044a38eb3fc8e107a9d6706fae37f5db9615d57; authjs.callback-url=http%3A%2F%2Flocalhost%3A3000%2Fdashboard; __next_hmr_refresh_hash__=1346; authjs.session-token=eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIiwia2lkIjoiS0czOHk0LWNWZlZwSzV6UlZ4eWZodDRtb1JQSVVfVXlyZ1FmUTlpM1lTSTcybmdoLU5zWGJybWZEci1TbEdUeHpmOXJSa3BFajlJVmNEUzM0WDVwN1EifQ..0iW7dLEeLM5eItUuiSagug.RfkDDddo5EmUQ_622Ddny8ufdLsAvhZFxqTPTMJ79Ub2wQVZhGWja3jiWCXedsIO_5N0hFnKFcrCvVNqoBByYB7Ix3Z-AbZtr_P4LYE4SvQsYHPAFnIXcvy8P8sJtkbMsJAnjVkeKJqZlQrlVak6zqFGsBD2LIM3oPLkDdDhyRkeZRyY6YbiuHg8MYCEEpyZoPzk5u-1Vf8lD-cDfGEG2979QnET380CDYXye5StGHSfNt-88suhFEnAlqQMjsZ-nXEBsi-Lgd4oMXNZQNCHc_FT2LTXswR1IUcU2fXf-b1lvt4SmazbWH90tTZ2xOx-CY5hvgIfLdqvKVm373rFNfJxWqzYSFP41tCSHuuAgfygPOKnpN42WeM904YL2mnB-iom8s_GAlQerbnKk_soNzDyf4GbUWyrLxeCYAFKs5AjxtLSdvZ_2yqVWyDUMhNOR8GFAfsBa0JhdEmDWHNb3vYO06LhxNMzsg7DXLhphG7rmftd6B8uGW92tTp22DKvflDD8rkUljMDU8-wcPGaFtirb8tb-O_tWjaZSUrDDj_gGsTDfqrR7XYsra6vVBU0inwQHCxInZiNGCMm1j_aiqjR7pNUvaerkdhDCyPTihOK95kqn2_AjMwtEKDuus_tAds5-lp51bZeFLeTMwO9gIIpy_3fd59Orst2kBC9gQo.VsjCzFLIVOOqotxNW0QDo6l64aWUH4Qmdr0l6GiesEU] Referer:[http://localhost:3000/dashboard/1/1/ai] Sec-Ch-Ua:["Chromium";v="136", "Google Chrome";v="136", "Not.A/Brand";v="99"] Sec-Ch-Ua-Mobile:[?0] Sec-Ch-Ua-Platform:["macOS"] Sec-Fetch-Dest:[empty] Sec-Fetch-Mode:[cors] Sec-Fetch-Site:[same-origin] User-Agent:[Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36] X-Forwarded-Host:[localhost:3000]]
+2025-05-27T22:27:59.387+08:00 [DEBU] {8ec2c84c97684318137e3301691d969a} 
+2025-05-27T22:28:04.082+08:00 [INFO] {c3809a6498684318167e33010620661b} Request: GET /api/course/searchCourseWithLectures/byStudentId
+2025-05-27T22:28:04.082+08:00 [DEBU] {c3809a6498684318167e33010620661b} Headers: map[Accept:[application/json, text/plain, */*] Accept-Encoding:[gzip, deflate, br, zstd] Accept-Language:[zh-CN,zh;q=0.9] Authorization:[Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjcsIkVtYWlsIjoiMTExMTExMTFAbWFpbC5zdXN0ZWNoLmVkdS5jbiIsIlVzZXJOYW1lIjoiNyIsImV4cCI6MTc0ODM3NzA1MX0.JqohF6DCcIhbF1GRAoNUXsljp_ZuAhJ3LO6iZNs0a_o] Connection:[close] Cookie:[jenkins-timestamper-offset=-28800000; authjs.csrf-token=4d1fee3749023da59c67a79b1a1a993c038fba416e65e958fa36ed458b42a97b%7C7728290b375132ef1cb617c9e044a38eb3fc8e107a9d6706fae37f5db9615d57; authjs.callback-url=http%3A%2F%2Flocalhost%3A3000%2Fdashboard; __next_hmr_refresh_hash__=1346; authjs.session-token=eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIiwia2lkIjoiS0czOHk0LWNWZlZwSzV6UlZ4eWZodDRtb1JQSVVfVXlyZ1FmUTlpM1lTSTcybmdoLU5zWGJybWZEci1TbEdUeHpmOXJSa3BFajlJVmNEUzM0WDVwN1EifQ..RLiacsDswvZETmcWNpyJOA.9UsllZCRwWD6JZFjt5f5_fVG8_Jidw0UQ3_DOj7ahMBgSEYWH482VcldzXqD0sJXogWrZ1F3WFigjio-qaYuSzlqh7jnBb-FfGO2BJU-9FK8HQdG8Mm2iiNK6sUnRvGTWPO4Ae1D3h-IajABMa9bt9niSEktOva_WEcQ20UdwPdlnlqI5Fyi5qsXFJxfff3PvL1wa2wvfdMaoL-8nycYSuMZvqVlZyd_IVx_ECzRmVEj-po3FLhgxSJFtfA0Jb3WwQU1X1h8hZhTHzm2hC739UvobuAEQlj7N2xf7lEpYnadi32nZC_x41827w2nG1XoVt85WQ5dXYlAPqIZxt7692nrMEWvHqzcgiLKG15L4VJSJGxOghF0h8UKsAAp6mNV1gvDHevP_x1GKj2TOG4ibGIt1v3PVl9oCD17OAddYTrBvKHbjEwQoXtgS6nPUWZjJzjN5D6fuJTsBbcRQJFMTXG2Cp_nUvFfnBbaG-gm-toC30oyYqpFW6MGBSPfjP_ACmS6a1F3WeT-DQ5xavr3POFp0myZObjIcOVc3b2Dbtk7zNkc5Ho617v6OE-2qrnib8L4UAkGjm38npoFAtrgetyWmUP89wYw6EjQL6rhbnBKnff40c8lFe1PA8UWIInxEw4FoWm-vRQnYfSmXMRNbACv3IoBC4ZyiR-KH06foyg.FHbpHvlyl2aT3fD60RIVHqxQtK5n87bWdKlppHKQBVo] Referer:[http://localhost:3000/dashboard] Sec-Ch-Ua:["Chromium";v="136", "Google Chrome";v="136", "Not.A/Brand";v="99"] Sec-Ch-Ua-Mobile:[?0] Sec-Ch-Ua-Platform:["macOS"] Sec-Fetch-Dest:[empty] Sec-Fetch-Mode:[cors] Sec-Fetch-Site:[same-origin] User-Agent:[Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36] X-Forwarded-Host:[localhost:3000]]
+2025-05-27T22:28:04.082+08:00 [DEBU] {c3809a6498684318167e33010620661b} 
+2025-05-27T22:28:11.514+08:00 [INFO] {d3faa01f9a684318197e3301f0754c2f} Request: POST /api/user/loginUser
+2025-05-27T22:28:11.514+08:00 [DEBU] {d3faa01f9a684318197e3301f0754c2f} Headers: map[Accept:[*/*] Accept-Encoding:[gzip, deflate] Accept-Language:[*] Connection:[keep-alive] Content-Length:[74] Content-Type:[application/json] Sec-Fetch-Mode:[cors] User-Agent:[node]]
+2025-05-27T22:28:11.515+08:00 [DEBU] {d3faa01f9a684318197e3301f0754c2f} Form: map[userLogin:map[email:11111111@mail.sustech.edu.cn password:123456]]
+2025-05-27T22:28:11.515+08:00 [DEBU] {d3faa01f9a684318197e3301f0754c2f} Body: {"userLogin":{"email":"11111111@mail.sustech.edu.cn","password":"123456"}}
+2025-05-27T22:28:11.515+08:00 [DEBU] {d3faa01f9a684318197e3301f0754c2f} 
+2025-05-27T22:28:11.522+08:00 [ERRO] {d3faa01f9a684318197e3301f0754c2f} Error occurred: SELECT `UserId`,`UserName`,`Email`,`UserSign`,`University`,`Birthday`,`Identity` FROM `Users` WHERE `Email`='11111111@mail.sustech.edu.cn' AND `Password`='123456' LIMIT 1: dial tcp: lookup database on 127.0.0.53:53: server misbehaving 
+Stack:
+1.  intelligent-course-aware-ide/internal/cmd.init.func1.1
+    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:47
+2.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
+    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
+
+2025-05-27T22:28:11.522+08:00 [ERRO] {d3faa01f9a684318197e3301f0754c2f} Panic recovered: exit 
+Stack:
+1.  intelligent-course-aware-ide/internal/cmd.init.func1.1.1
+    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:35
+2.  intelligent-course-aware-ide/internal/cmd.init.func1.1
+    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:48
+3.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
+    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
+
+2025-05-27T22:28:11.522+08:00 {d3faa01f9a684318197e3301f0754c2f} 500 "POST http 47.117.144.50:8000 /api/user/loginUser HTTP/1.1" 7867.667, 110.65.147.206, "", "node", 52, "Database Operation Error", ""
+Stack:
+1. SELECT `UserId`,`UserName`,`Email`,`UserSign`,`University`,`Birthday`,`Identity` FROM `Users` WHERE `Email`='11111111@mail.sustech.edu.cn' AND `Password`='123456' LIMIT 1
+   1).  intelligent-course-aware-ide/internal/controller/account.(*ControllerV1).LoginUser
+        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/controller/account/account_v1_login_user.go:28
+   2).  intelligent-course-aware-ide/internal/logic/middleware.LoggerMiddleware
+        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/loggerMiddleware.go:43
+   3).  intelligent-course-aware-ide/internal/cmd.init.func1.1
+        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:43
+   4).  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
+        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
+2. dial tcp: lookup database on 127.0.0.53:53: server misbehaving
+
+2025-05-27T22:29:03.750+08:00 [INFO] {85421e49a66843181a7e3301b3bf437b} Request: POST /api/user/loginUser
+2025-05-27T22:29:03.754+08:00 [DEBU] {85421e49a66843181a7e3301b3bf437b} Headers: map[Accept:[*/*] Accept-Encoding:[gzip, deflate] Accept-Language:[*] Connection:[keep-alive] Content-Length:[74] Content-Type:[application/json] Sec-Fetch-Mode:[cors] User-Agent:[node]]
+2025-05-27T22:29:03.755+08:00 [DEBU] {85421e49a66843181a7e3301b3bf437b} Form: map[userLogin:map[email:11111111@mail.sustech.edu.cn password:123456]]
+2025-05-27T22:29:03.755+08:00 [DEBU] {85421e49a66843181a7e3301b3bf437b} Body: {"userLogin":{"email":"11111111@mail.sustech.edu.cn","password":"123456"}}
+2025-05-27T22:29:03.755+08:00 [DEBU] {85421e49a66843181a7e3301b3bf437b} 
+2025-05-27T22:29:03.784+08:00 [ERRO] {85421e49a66843181a7e3301b3bf437b} Error occurred: SELECT `UserId`,`UserName`,`Email`,`UserSign`,`University`,`Birthday`,`Identity` FROM `Users` WHERE `Email`='11111111@mail.sustech.edu.cn' AND `Password`='123456' LIMIT 1: dial tcp: lookup database on 127.0.0.53:53: server misbehaving 
+Stack:
+1.  intelligent-course-aware-ide/internal/cmd.init.func1.1
+    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:47
+2.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
+    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
+
+2025-05-27T22:29:03.787+08:00 [ERRO] {85421e49a66843181a7e3301b3bf437b} Panic recovered: exit 
+Stack:
+1.  intelligent-course-aware-ide/internal/cmd.init.func1.1.1
+    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:35
+2.  intelligent-course-aware-ide/internal/cmd.init.func1.1
+    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:48
+3.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
+    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
+
+2025-05-27T22:29:03.788+08:00 {85421e49a66843181a7e3301b3bf437b} 500 "POST http 47.117.144.50:8000 /api/user/loginUser HTTP/1.1" 37904.192, 110.65.147.206, "", "node", 52, "Database Operation Error", ""
+Stack:
+1. SELECT `UserId`,`UserName`,`Email`,`UserSign`,`University`,`Birthday`,`Identity` FROM `Users` WHERE `Email`='11111111@mail.sustech.edu.cn' AND `Password`='123456' LIMIT 1
+   1).  intelligent-course-aware-ide/internal/controller/account.(*ControllerV1).LoginUser
+        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/controller/account/account_v1_login_user.go:28
+   2).  intelligent-course-aware-ide/internal/logic/middleware.LoggerMiddleware
+        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/loggerMiddleware.go:43
+   3).  intelligent-course-aware-ide/internal/cmd.init.func1.1
+        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:43
+   4).  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
+        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
+2. dial tcp: lookup database on 127.0.0.53:53: server misbehaving
+
+2025-05-27T22:30:11.737+08:00 [INFO] {72f0741db66843181b7e33010a829673} Request: POST /api/user/loginUser
+2025-05-27T22:30:11.738+08:00 [DEBU] {72f0741db66843181b7e33010a829673} Headers: map[Accept:[*/*] Accept-Encoding:[gzip, deflate] Accept-Language:[*] Connection:[keep-alive] Content-Length:[74] Content-Type:[application/json] Sec-Fetch-Mode:[cors] User-Agent:[node]]
+2025-05-27T22:30:11.738+08:00 [DEBU] {72f0741db66843181b7e33010a829673} Form: map[userLogin:map[email:11111111@mail.sustech.edu.cn password:123456]]
+2025-05-27T22:30:11.738+08:00 [DEBU] {72f0741db66843181b7e33010a829673} Body: {"userLogin":{"email":"11111111@mail.sustech.edu.cn","password":"123456"}}
+2025-05-27T22:30:11.738+08:00 [DEBU] {72f0741db66843181b7e33010a829673} 
+2025-05-27T22:30:11.770+08:00 [ERRO] {72f0741db66843181b7e33010a829673} Error occurred: SELECT `UserId`,`UserName`,`Email`,`UserSign`,`University`,`Birthday`,`Identity` FROM `Users` WHERE `Email`='11111111@mail.sustech.edu.cn' AND `Password`='123456' LIMIT 1: dial tcp: lookup database on 127.0.0.53:53: server misbehaving 
+Stack:
+1.  intelligent-course-aware-ide/internal/cmd.init.func1.1
+    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:47
+2.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
+    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
+
+2025-05-27T22:30:11.770+08:00 [ERRO] {72f0741db66843181b7e33010a829673} Panic recovered: exit 
+Stack:
+1.  intelligent-course-aware-ide/internal/cmd.init.func1.1.1
+    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:35
+2.  intelligent-course-aware-ide/internal/cmd.init.func1.1
+    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:48
+3.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
+    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
+
+2025-05-27T22:30:11.771+08:00 {72f0741db66843181b7e33010a829673} 500 "POST http 47.117.144.50:8000 /api/user/loginUser HTTP/1.1" 33503.048, 110.65.147.206, "", "node", 52, "Database Operation Error", ""
+Stack:
+1. SELECT `UserId`,`UserName`,`Email`,`UserSign`,`University`,`Birthday`,`Identity` FROM `Users` WHERE `Email`='11111111@mail.sustech.edu.cn' AND `Password`='123456' LIMIT 1
+   1).  intelligent-course-aware-ide/internal/controller/account.(*ControllerV1).LoginUser
+        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/controller/account/account_v1_login_user.go:28
+   2).  intelligent-course-aware-ide/internal/logic/middleware.LoggerMiddleware
+        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/loggerMiddleware.go:43
+   3).  intelligent-course-aware-ide/internal/cmd.init.func1.1
+        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:43
+   4).  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
+        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
+2. dial tcp: lookup database on 127.0.0.53:53: server misbehaving
+
+2025-05-27T22:31:02.550+08:00 [INFO] {8cc725f2c16843181c7e3301ffa9fb1f} Request: POST /api/user/loginUser
+2025-05-27T22:31:02.550+08:00 [DEBU] {8cc725f2c16843181c7e3301ffa9fb1f} Headers: map[Accept:[*/*] Accept-Encoding:[gzip, deflate] Accept-Language:[*] Connection:[keep-alive] Content-Length:[74] Content-Type:[application/json] Sec-Fetch-Mode:[cors] User-Agent:[node]]
+2025-05-27T22:31:02.550+08:00 [DEBU] {8cc725f2c16843181c7e3301ffa9fb1f} Form: map[userLogin:map[email:11111111@mail.sustech.edu.cn password:123456]]
+2025-05-27T22:31:02.550+08:00 [DEBU] {8cc725f2c16843181c7e3301ffa9fb1f} Body: {"userLogin":{"email":"11111111@mail.sustech.edu.cn","password":"123456"}}
+2025-05-27T22:31:02.550+08:00 [DEBU] {8cc725f2c16843181c7e3301ffa9fb1f} 
+2025-05-27T22:31:02.569+08:00 [ERRO] {8cc725f2c16843181c7e3301ffa9fb1f} Error occurred: SELECT `UserId`,`UserName`,`Email`,`UserSign`,`University`,`Birthday`,`Identity` FROM `Users` WHERE `Email`='11111111@mail.sustech.edu.cn' AND `Password`='123456' LIMIT 1: dial tcp: lookup database on 127.0.0.53:53: server misbehaving 
+Stack:
+1.  intelligent-course-aware-ide/internal/cmd.init.func1.1
+    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:47
+2.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
+    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
+
+2025-05-27T22:31:02.569+08:00 [ERRO] {8cc725f2c16843181c7e3301ffa9fb1f} Panic recovered: exit 
+Stack:
+1.  intelligent-course-aware-ide/internal/cmd.init.func1.1.1
+    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:35
+2.  intelligent-course-aware-ide/internal/cmd.init.func1.1
+    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:48
+3.  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
+    /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
+
+2025-05-27T22:31:02.570+08:00 {8cc725f2c16843181c7e3301ffa9fb1f} 500 "POST http 47.117.144.50:8000 /api/user/loginUser HTTP/1.1" 19652.878, 110.65.147.206, "", "node", 52, "Database Operation Error", ""
+Stack:
+1. SELECT `UserId`,`UserName`,`Email`,`UserSign`,`University`,`Birthday`,`Identity` FROM `Users` WHERE `Email`='11111111@mail.sustech.edu.cn' AND `Password`='123456' LIMIT 1
+   1).  intelligent-course-aware-ide/internal/controller/account.(*ControllerV1).LoginUser
+        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/controller/account/account_v1_login_user.go:28
+   2).  intelligent-course-aware-ide/internal/logic/middleware.LoggerMiddleware
+        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/loggerMiddleware.go:43
+   3).  intelligent-course-aware-ide/internal/cmd.init.func1.1
+        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/cmd/cmd.go:43
+   4).  intelligent-course-aware-ide/internal/logic/middleware.MiddlewareCORS
+        /home/admin/team-project-25spring-15/Backend/intelligent-course-aware-ide/internal/logic/middleware/cors.go:15
+2. dial tcp: lookup database on 127.0.0.53:53: server misbehaving
+
+2025-05-27T22:37:06.264+08:00 331359: server gracefully shutting down by signal: terminated
+2025-05-27T22:37:06.271+08:00 pid[331359]: all servers shutdown

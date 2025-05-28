@@ -14,7 +14,7 @@ func (c *ControllerV1) DeleteChatMessage(ctx context.Context, req *v1.DeleteChat
 	res = &v1.DeleteChatMessageRes{
 		Success: false,
 	}
-	fmt.Println(operatorId,req.ChatMessage.OwnerId)
+	fmt.Println(operatorId, req.ChatMessage.OwnerId)
 	result1, err := c.chats.CheckUserHasFullPermissionOfChat(ctx, operatorId, req.ChatMessage.ChatId)
 	if err != nil {
 		return res, err

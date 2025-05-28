@@ -40,9 +40,6 @@ var (
 					}
 				}()
 
-				// 在处理请求前记录
-				g.Log().Debug(r.GetCtx(), "Request started:", r.URL.Path)
-
 				r.Middleware.Next()
 
 				// 检查请求处理后是否有错误
@@ -57,6 +54,7 @@ var (
 
 			s.Group("/", func(group *ghttp.RouterGroup) {
 				group.Middleware(ghttp.MiddlewareHandlerResponse)
+				group.Middleware(middleware.LoggerMiddleware)
 				group.Group("/", func(group *ghttp.RouterGroup) {
 					group.Bind(
 						account.NewV1(),

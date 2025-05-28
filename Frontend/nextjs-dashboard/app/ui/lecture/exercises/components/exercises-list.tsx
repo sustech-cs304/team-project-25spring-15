@@ -16,22 +16,13 @@ import { styled } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-
-// 列表接口结构
-interface ExerciseSummary {
-  exerciseId: number;
-  publisherId: 0;
-  title: string;
-  description: string;
-  deadline: string;
-  score: number;
-}
+import { Assignment } from "@/app/lib/definitions";
 
 interface ExercisesListProps {
-  exercises: ExerciseSummary[];
+  exercises: Assignment[];
   onExerciseClick: (exerciseId: number) => void;
   onCreateClick: () => void;
-  onEditClick: (ex: ExerciseSummary) => void;
+  onEditClick: (ex: Assignment) => void;
   onDeleteClick: (exerciseId: number) => void;
 }
 
@@ -83,10 +74,12 @@ export default function ExercisesList({
 
   // 简单过滤示例：可根据实际字段扩展
   const filtered = exercises.filter((ex) => {
-    if (searchText && !ex.title.includes(searchText)) return false;
+    if (searchText && !ex.assignmentName.includes(searchText)) return false;
     // TODO: 根据 tabValue 筛选
     return true;
   });
+
+  console.log("Filtered exercises:", filtered);
 
   return (
     <TaskListContainer>
@@ -111,17 +104,17 @@ export default function ExercisesList({
 
       <Box>
         {filtered.map((ex) => (
-          <TaskRow key={ex.exerciseId}>
-            <Box sx={{ flexGrow: 1 }} onClick={() => onExerciseClick(ex.exerciseId)}>
-              <Typography variant="body1">{ex.title}</Typography>
+          <TaskRow key={ex.assignmentId}>
+            <Box sx={{ flexGrow: 1 }} onClick={() => onExerciseClick(ex.assignmentId)}>
+              <Typography variant="body1">{ex.assignmentName}</Typography>
               <Typography variant="body2" color="textSecondary">
-                截止时间: {new Date(ex.deadline).toLocaleString()}
+                截止时间: {new Date(ex.deadline.replace(' ', 'T')).toLocaleString()}
               </Typography>
             </Box>
             <IconButton size="small" onClick={() => onEditClick(ex)}>
               <EditIcon fontSize="small" />
             </IconButton>
-            <IconButton size="small" onClick={() => onDeleteClick(ex.exerciseId)}>
+            <IconButton size="small" onClick={() => onDeleteClick(ex.assignmentId)}>
               <DeleteIcon fontSize="small" />
             </IconButton>
           </TaskRow>

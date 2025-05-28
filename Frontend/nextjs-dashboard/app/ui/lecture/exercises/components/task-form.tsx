@@ -12,18 +12,18 @@ import {
 } from "@mui/material";
 
 interface TaskFormProps {
-  initial?: { title: string; description: string; deadline: string };
+  initial?: { assignmentName: string; description: string; deadline: string };
   onClose: () => void;
-  onSubmit: (data: { title: string; description: string; deadline: string }) => void;
+  onSubmit: (data: { assignmentName: string; description: string; deadline: string }) => void;
 }
 
 export default function TaskForm({ initial, onClose, onSubmit }: TaskFormProps) {
-  const [title, setTitle] = useState(initial?.title || "");
+  const [assignmentName, setAssignmentName] = useState(initial?.assignmentName || "");
   const [description, setDescription] = useState(initial?.description || "");
   const [deadline, setDeadLine] = useState(initial?.deadline || "");
 
   const handleSubmit = () => {
-    onSubmit({ title, description, deadline });
+    onSubmit({ assignmentName, description, deadline });
   };
 
   return (
@@ -33,8 +33,8 @@ export default function TaskForm({ initial, onClose, onSubmit }: TaskFormProps) 
         <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
           <TextField
             label="标题"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            value={assignmentName}
+            onChange={(e) => setAssignmentName(e.target.value)}
             fullWidth
           />
           <TextField
