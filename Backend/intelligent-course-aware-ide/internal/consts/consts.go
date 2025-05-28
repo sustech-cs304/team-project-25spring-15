@@ -3,7 +3,8 @@ package consts
 import "time"
 
 // Operation url
-const TargetUrl string = "http://47.117.144.50:8000"
+const TargetUrl string = "http://localhost:8081"
+const TmpDirPath string = "/usr/Document/tmp/"
 
 // Database dockerName
 const TargetDockerName string = "$(docker ps -q --filter ancestor=backend-runner | head -n 1)"
