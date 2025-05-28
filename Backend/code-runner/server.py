@@ -209,13 +209,13 @@ def create_bash():
         text=True
     )
     bash_sessions[session_id] = proc
-    return jsonify({'session_id': session_id, 'cwd': initial_cwd, 'error': ''})
+    return jsonify({'sessionId': session_id, 'cwd': initial_cwd, 'error': ''})
 
 @app.route('/bash/exec', methods=['POST'])
 def exec_bash():
     """在指定 bash 会话中执行命令，返回输出和当前工作目录"""
     data = request.get_json()
-    session_id = data.get('session_id')
+    session_id = data.get('sessionId')
     cmd = data.get('command', '')
     proc = bash_sessions.get(session_id)
     if not proc:
