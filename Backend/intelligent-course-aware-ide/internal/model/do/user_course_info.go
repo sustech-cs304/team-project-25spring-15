@@ -13,4 +13,5 @@ type UserCourseInfo struct {
 	g.Meta   `orm:"table:UserCourseInfo, do:true"`
 	UserId   interface{} //
 	CourseId interface{} //
+	Identity interface{} //
 }
