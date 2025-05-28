@@ -4,8 +4,38 @@ import os, subprocess
 
 app = Flask(__name__)
 
-FILE_PATH = "/home/admin/team-project-25spring-15/Backend/data/"
+DIR_PATH = "/usr/Document/"
+TEMPORARY_DIR = "temp/"
 TEMPORARY_NAME = "temp_script"
+TEMPORARY_OUTPUT_NAME = "output"
+
+
+def addExtName(name: str, code_type: str):
+    base, ext = os.path.splitext(name)
+    if not ext:
+        if code_type in ['python', 'py']:
+            name += '.py'
+        elif code_type in ['c']:
+            name += '.c'
+        elif code_type in ['cpp', 'c++']:
+            name += '.cpp'
+        else:
+            name += '.txt'
+    return name
+
+def save(code: str, file_path: str):
+    try:
+        with open(file_path, 'w', encoding='utf-8') as f:
+            f.write(code)
+    except Exception as e:
+        return str(e)
+
+def compile(compile_cmd: str):
+    try:
+        compile_result = subprocess.run([compile_cmd], capture_output=True, text=True, check=True)
+    except subprocess.CalledProcessError as e:
+        return f"Compile error:\n{e.stderr}"
+    return ""
 
 def compose_run_cmd(run_cmd: str, args: list[int], input_path: str, output_path: str):
     if args != []:
@@ -16,56 +46,15 @@ def compose_run_cmd(run_cmd: str, args: list[int], input_path: str, output_path:
 
     if output_path != "":
         run_cmd += f" > {shlex.quote(output_path)}"
-    return run_cmd
+    return [run_cmd]
 
-
-def compile_C(code: str, name: str, dir: str):
-    file_path = FILE_PATH + dir + name
-
-    with open(file_path, 'w', encoding='utf-8') as f:
-        f.write(code)
-
-    exe_path = FILE_PATH + os.path.splitext(name)[0]
-    
-    compile_cmd = ["gcc", file_path, "-o", exe_path]
-
-    try:
-        compile_result = subprocess.run(compile_cmd, capture_output=True, text=True, check=True)
-    except subprocess.CalledProcessError as e:
-        return "", f"Compile error:\n{e.stderr}"
-
-    return exe_path, ""
-
-
-def run_C_code(code: str, name: str, args: list[int], input_path: str, output_path: str, dir: str):
-    exe_path, err = compile_C(code, name, dir)
-
-    if err != "":
-        return "", err
-
-    run_cmd = compose_run_cmd(exe_path, args, input_path, output_path)
-    
+def exec_file(run_cmd):
     try:
         run_result = subprocess.run([run_cmd], capture_output=True, text=True, check=True)
         return run_result.stdout, ""
     except subprocess.CalledProcessError as e:
         return "", f"Runtime error:\n{e.stderr}"
 
-def run_Python_code(code: str, name: str, args: list[int], input_path: str, output_path: str, dir: str):
-    file_path = FILE_PATH + dir + name
-
-    with open(file_path, 'w', encoding='utf-8') as f:
-        f.write(code)
-
-    run_cmd = "python " + file_path
-
-    run_cmd = compose_run_cmd(run_cmd, args, input_path, output_path)
-    
-    try:
-        run_result = subprocess.run([run_cmd], capture_output=True, text=True, check=True)
-        return run_result.stdout, ""
-    except subprocess.CalledProcessError as e:
-        return "", f"Runtime error:\n{e.stderr}"
 
 @app.route('/run', methods=['POST'])
 def run_code():
@@ -76,6 +65,7 @@ def run_code():
     codeInfo = data.get('codeInfo')
     codeType = data.get('type', 'string').lower()
     codeDir = data.get('dir')
+    codeDir = TEMPORARY_DIR + codeDir
 
     code = codeInfo.get('code', '')
     name = codeInfo.get('name', TEMPORARY_NAME)
@@ -83,10 +73,28 @@ def run_code():
     input_path = codeInfo.get('InputPath', "")
     output_path = codeInfo.get('outputPath', "")
 
+    name = addExtName(name, codeType)
+    file_path = DIR_PATH + codeDir + name
+    # save code
+    err = save(code, file_path)
+    if err != "":
+        return "", err
+    
     if codeType == 'c' or codeType == 'cpp' or codeType == 'c++':
-        result, err = run_C_code(code, name, args, input_path, output_path, codeDir)
+        # compile code
+        exe_path = os.path.splitext(file_path)[0]
+        err = compile(["gcc", file_path, "-o", exe_path])
+        if err != "":
+            return "", err
+        # exec code
+        run_cmd = exe_path
+        run_cmd = compose_run_cmd(run_cmd, args, input_path, output_path)
+        result, err = exec_file(run_cmd)
     elif codeType == 'python' or codeType == 'py':
-        result, err = run_Python_code(code, name, args, input_path, output_path, codeDir)
+        # exec code
+        run_cmd = "python " + file_path
+        run_cmd = compose_run_cmd(run_cmd, args, input_path, output_path)
+        result, err = exec_file(run_cmd)
     else:
         result, err = '', 'code type not support'
     response = {
@@ -97,21 +105,44 @@ def run_code():
 
     return jsonify(response)
 
-def run_and_check(code_type, code, codeDir, testcases, answers):
-    file_path = FILE_PATH + codeDir + TEMPORARY_NAME
-
-    with open(file_path, 'w', encoding='utf-8') as f:
-        f.write(code)
-
-    if code_type == 'cpp':
-
-    if code_type == 'python':
-
-
-    totalScore = 0
+def run_and_check(code_type, code_path, testcases, answers, output_path):
     getScore = 0
-
+    score_result = ""
+    if code_type == 'cpp':
+        exe_path = os.path.splitext(code_path)[0]
+        err = compile(["gcc", code_path, "-o", exe_path])
+        if err != "":
+            return getScore, score_result, str(err)
+        run_cmd = exe_path
+    elif code_type == 'python':
+        run_cmd = "python " + code_path
+    elif code_type == 'string':
+        run_cmd = ""
+    else:
+        return getScore, score_result, "code type not support"
+    
     for index in range(len(testcases)):
+        testcase = testcases[index]
+        answer = answers[index]
+        if run_cmd != "":
+            run_cmd = compose_run_cmd(run_cmd, [], testcase.get('fileUrl'), output_path)
+            exec_file(run_cmd)
+        try:
+            diff_result = subprocess.run(
+                ["diff", "-q", output_path, answer.get('fileUrl')],
+                capture_output=True,
+                text=True
+            )
+            if diff_result.returncode == 0:
+                getScore += testcase.get('score')
+                score_result = score_result + str(testcase.get('score')) + ","
+            else:
+                score_result += "0,"
+        except Exception as e:
+            return getScore, score_result, f"Diff error: {str(e)}"
+        
+    return getScore, score_result, ""
+
 
 
 @app.route('/check', methods=['POST'])
@@ -120,28 +151,112 @@ def run_check_answer():
     data = request.get_json()
 
     # 解析 RunnerReq 结构
-    codeInfo = data.get('codeInfo')
+    codePath = data.get('codePath')
     codeType = data.get('type', 'string').lower()
     testcases = data.get('testcases')
     answers = data.get('answers')
-    codeDir = data.get('dir')
+    outputPath = data.get('outputPath')
 
-    code = codeInfo.get('code', '')
-    name = codeInfo.get('name', 'temp_script')
+    codePath = DIR_PATH + codePath
+    outputPath = DIR_PATH + codePath
 
-    if codeType == 'c' or codeType == 'cpp' or codeType == 'c++':
-        result, err = "" , ""
-    elif codeType == 'python' or codeType == 'py':
-        result, err = "" , ""
-    else:
-        result, err = '', 'code type not support'
+    result, record, err = run_and_check(codeType, codePath, testcases, answers, outputPath)
+
     response = {
         "result": result,
+        "record": record,
         "error": err,
         "filePath": ""
     }
 
     return jsonify(response)
+
+import uuid
+from subprocess import PIPE, STDOUT
+
+# 存放所有活跃的 bash 进程
+bash_sessions: dict[str, subprocess.Popen] = {}
+
+@app.route('/bash/create', methods=['POST'])
+def create_bash():
+    data = request.get_json()
+    session_id = str(uuid.uuid4())
+    initial_cwd = data.get('cwd', '')
+
+    if initial_cwd != '':
+        initial_cwd = DIR_PATH + initial_cwd
+        if not os.path.exists(initial_cwd):
+            try:
+                os.makedirs(initial_cwd, exist_ok=True)
+            except Exception as e:
+                return jsonify({'session_id': '', 'error': f'Create dir error: {e}'}), 500
+
+    proc = subprocess.Popen(
+        ['/bin/bash'],
+        stdin=PIPE, stdout=PIPE, stderr=STDOUT,
+        cwd=initial_cwd,
+        text=True
+    )
+    bash_sessions[session_id] = proc
+    return jsonify({'session_id': session_id, 'cwd': initial_cwd, 'error': ''})
+
+@app.route('/bash/exec', methods=['POST'])
+def exec_bash():
+    """在指定 bash 会话中执行命令，返回输出和当前工作目录"""
+    data = request.get_json()
+    session_id = data.get('session_id')
+    cmd = data.get('command', '')
+    proc = bash_sessions.get(session_id)
+    if not proc:
+        return jsonify({'output': '', 'cwd': '', 'error': 'Invalid session_id'}), 400
+
+    # 生成两个 sentinel 用于截取命令输出和 cwd
+    sentinel_out = str(uuid.uuid4())
+    sentinel_cwd = str(uuid.uuid4())
+
+    # 写入用户命令及第一个 sentinel
+    proc.stdin.write(cmd + '\n')
+    proc.stdin.write(f"echo {sentinel_out}\n")
+    proc.stdin.flush()
+
+    # 读取命令输出直到 sentinel_out
+    output_lines = []
+    while True:
+        line = proc.stdout.readline()
+        if not line or line.strip() == sentinel_out:
+            break
+        output_lines.append(line)
+
+    # 再写入 pwd 命令及第二个 sentinel
+    proc.stdin.write("pwd\n")
+    proc.stdin.write(f"echo {sentinel_cwd}\n")
+    proc.stdin.flush()
+
+    # 读取 cwd 输出直到 sentinel_cwd
+    cwd = ''
+    while True:
+        line = proc.stdout.readline()
+        if not line or line.strip() == sentinel_cwd:
+            break
+        cwd += line.strip()
+
+    return jsonify({
+        'output': ''.join(output_lines),
+        'cwd': cwd,
+        'error': ''
+    })
+
+@app.route('/bash/close', methods=['POST'])
+def close_bash():
+    """关闭指定的 bash 会话"""
+    data = request.get_json()
+    session_id = data.get('session_id')
+    proc = bash_sessions.pop(session_id, None)
+    if not proc:
+        return jsonify({'error': 'Invalid session_id'}), 400
+
+    proc.terminate()
+    return jsonify({'error': ''})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8001)
