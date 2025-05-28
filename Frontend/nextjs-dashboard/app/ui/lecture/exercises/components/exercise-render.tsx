@@ -145,19 +145,11 @@ export default function ExercisePage({ assignment, onBack }: ExercisePageProps) 
     try {
       setLoading(true);
 
-      const inputResponse = await FileAPI.uploadFile(
-        newTestCase.input,
-        assignment.lectureId
-      );
+      // 上传输入文件，后端会自动生成fileId
+      const testcaseId = await FileAPI.uploadFile(newTestCase.input);
 
-      const testcaseId = inputResponse.fileId;
-
-      const outputResponse = await FileAPI.uploadFile(
-        newTestCase.output,
-        assignment.lectureId
-      );
-
-      const answerId = outputResponse.fileId;
+      // 上传输出文件，后端会自动生成fileId
+      const answerId = await FileAPI.uploadFile(newTestCase.output);
 
       const headers = await getAuthHeader();
 
@@ -173,6 +165,8 @@ export default function ExercisePage({ assignment, onBack }: ExercisePageProps) 
         courseName: selectedCourse?.courseName,
         chatId: selectedCourse?.chatId
       };
+
+      console.log("Adding testcase: ", testcaseData)
 
       await axios.post("/api/assignment/uploadTestcaseAndAnswer", testcaseData, {headers});
 
@@ -302,9 +296,9 @@ export default function ExercisePage({ assignment, onBack }: ExercisePageProps) 
             </Box>
 
             {/* 代码编辑器 - 固定高度，内部可滚动 */}
-            <Box sx={{ 
+            <Box sx={{
               height: '400px', // 固定高度
-              mb: 2, 
+              mb: 2,
               border: '1px solid #e0e0e0',
               borderRadius: 1,
               overflow: 'hidden',

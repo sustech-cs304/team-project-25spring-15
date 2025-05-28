@@ -417,23 +417,25 @@ export const AssignmentAPI = {
 }
 
 export const FileAPI = {
-  uploadFile: async (file: File, lectureId: number) => {
+  uploadFile: async (file: File) => {
     const headers = await getAuthHeader();
 
     const formData = new FormData();
-    formData.append("lectureId", lectureId.toString());
     formData.append("file", file);
 
     try {
-      const res = await axios.post(`/api/Files/lectureFile/upload`, formData, { headers });
+      // 根据新的API接口，使用POST方法到/api/Files
+      const res = await axios.post(`/api/Files`, formData, {
+        headers: {
+          ...headers,
+          'Content-Type': 'multipart/form-data'
+        }
+      });
 
       console.log("File uploaded successfully:", res.data);
 
-      // 确保返回格式符合API文档
-      return {
-        result: res.data.result,
-        fileId: res.data.fileId
-      };
+      // 直接返回生成的fileId
+      return res.data.data.FileId;
     } catch (error) {
       console.error("File upload failed:", error);
       throw error;
