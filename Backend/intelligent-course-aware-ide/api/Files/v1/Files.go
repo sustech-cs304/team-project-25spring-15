@@ -6,7 +6,7 @@ import (
 )
 
 type UploadFileReq struct {
-	g.Meta `path:"/api/Files/lectureFile/{FileId}" method:"put" tags:"file" summary:"update a fiel without doing anything else"`
+	g.Meta `path:"/api/Files/{FileId}" method:"put" tags:"file" summary:"update a fiel without doing anything else"`
 	File   *ghttp.UploadFile `p:"file" v:"required"`
 }
 
