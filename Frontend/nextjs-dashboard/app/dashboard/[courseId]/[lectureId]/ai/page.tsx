@@ -3,7 +3,7 @@ import { Chat } from '@/app/ui/lecture/ai-view';
 import { cookies } from 'next/headers';
 import type { UIMessage } from 'ai';
 import { auth } from '@/auth';
-import { AiMessageAPI } from '@/app/lib/client-api';
+import { AiMessageAPI } from '@/app/lib/server-api';
 
 export default async function Page({ params }: { params: Promise<{ courseId: string; lectureId: string }> }) {
   const { courseId, lectureId } = await params;
@@ -21,7 +21,7 @@ export default async function Page({ params }: { params: Promise<{ courseId: str
   function convertToUIMessages(messages: Array<AiMessage>): Array<UIMessage> {
     return messages.map((message) => ({ // TODO: NOTHING TO STRINGFY parts
       id: message.id,
-      parts: message.parts as UIMessage['parts'],
+      parts: JSON.parse(message.parts) as UIMessage['parts'],
       role: message.role as UIMessage['role'],
       // Note: content will soon be deprecated in @ai-sdk/react
       content: '',

@@ -38,7 +38,7 @@ export type AiMessage = {
   lectureId: string;
   userId: number;
   role: string;
-  parts: unknown;
+  parts: string;
   createdAt: Date;
 };
 

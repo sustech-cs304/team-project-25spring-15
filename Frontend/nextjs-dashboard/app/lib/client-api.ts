@@ -15,25 +15,6 @@ export const CmdAPI = {
   }
 }
 
-export const AiMessageAPI = {
-  saveMessage: async (message: AiMessage) => {
-    const headers = await getAuthHeader();
-
-    console.log("Saving message from ai...");
-    // const res = await axios.post( //TODO: TO BE SPECIFIED ！！
-    //   `/api/`, message, { headers }
-    // );
-    // return res;
-  },
-  getMessages: async (userId: string, lectureId: string) => {
-    // order is required!!!
-    const headers = await getAuthHeader();
-    console.log("Start fetching messages...");
-    //
-    return [];
-  }
-}
-
 export const CourseWareAPI = {
   uploadPdf: async (file: File, lectureId: string) => {
     const headers = await getAuthHeader();
