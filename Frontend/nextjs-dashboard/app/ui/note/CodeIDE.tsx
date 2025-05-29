@@ -116,7 +116,7 @@ export default function CodeIDE() {
               sendCommandToBackend(inputBuffer.current).then((result) => {
                 if(result !== undefined) {
                   const cleanResult = String(result).replace(/[\r\n]+$/g, "");
-                  term.writeln(`cleanResult`);
+                  term.writeln(`${cleanResult}`);
                 }
               })
             }
