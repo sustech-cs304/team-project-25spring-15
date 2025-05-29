@@ -31,6 +31,7 @@ type FeedbackForAssignmentInfo struct {
 	PerformerId  int64  `json:"performerId" dc:"id of performer"`
 	AssignmentId int64  `json:"assignmentId" dc:"id of assignment"`
 	Score        int    `json:"score" dc:"score of this attempt"`
+	Record       string `json:"record" dc:"score record of this attempt"`
 	FileId       int64  `json:"fileId" dc:"id of this attempt file"`
 	FileType     string `json:"fileType" dc:"type of this attempt file"`
 }
@@ -63,6 +64,7 @@ type GetAllAssignmentInfoOfALectureRes struct {
 	g.Meta      `mime:"text/html" example:"json"`
 	Assignments []*entity.Assignments `json:"assignments" dc:"Info of all assignments of a lecture"`
 	Scores      []int                 `json:"scores" dc:"Scores of those assignment"`
+	TotalScores []int                 `json:"totalScores" dc:"TotalScores of those assignment"`
 }
 
 type CreateAssignmentReq struct {
