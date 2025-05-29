@@ -220,46 +220,58 @@ def exec_bash():
     data = request.get_json()
     session_id = data.get('sessionId')
     cmd = data.get('command', '')
+    content = data.get('content', '')
     proc = bash_sessions.get(session_id)
     if not proc:
         print("fail to exec")
         return jsonify({'output': '', 'cwd': '', 'error': 'Invalid session_id'}), 400
 
-    # 生成两个 sentinel 用于截取命令输出和 cwd
-    sentinel_out = str(uuid.uuid4())
-    sentinel_cwd = str(uuid.uuid4())
+    cmd_list = cmd.split()
 
-    # 写入用户命令及第一个 sentinel
-    proc.stdin.write(cmd + '\n')
-    proc.stdin.write(f"echo {sentinel_out}\n")
-    proc.stdin.flush()
+    if cmd_list[0] == "save":
+        err = save(content, cmd_list[1])
+        if err != None:
+            print("fail to save")
+            return jsonify({'output': "", "cwd": "", "error": err}), 400
+        else:
+            return jsonify({'output': "save successfully", "cwd": cwd, "error": ""}), 200
+    else:
 
-    # 读取命令输出直到 sentinel_out
-    output_lines = []
-    while True:
-        line = proc.stdout.readline()
-        if not line or line.strip() == sentinel_out:
-            break
-        output_lines.append(line)
+        # 生成两个 sentinel 用于截取命令输出和 cwd
+        sentinel_out = str(uuid.uuid4())
+        sentinel_cwd = str(uuid.uuid4())
 
-    # 再写入 pwd 命令及第二个 sentinel
-    proc.stdin.write("pwd\n")
-    proc.stdin.write(f"echo {sentinel_cwd}\n")
-    proc.stdin.flush()
+        # 写入用户命令及第一个 sentinel
+        proc.stdin.write(cmd + '\n')
+        proc.stdin.write(f"echo {sentinel_out}\n")
+        proc.stdin.flush()
 
-    # 读取 cwd 输出直到 sentinel_cwd
-    cwd = ''
-    while True:
-        line = proc.stdout.readline()
-        if not line or line.strip() == sentinel_cwd:
-            break
-        cwd += line.strip()
+        # 读取命令输出直到 sentinel_out
+        output_lines = []
+        while True:
+            line = proc.stdout.readline()
+            if not line or line.strip() == sentinel_out:
+                break
+            output_lines.append(line)
 
-    return jsonify({
-        'output': ''.join(output_lines),
-        'cwd': cwd,
-        'error': ''
-    })
+        # 再写入 pwd 命令及第二个 sentinel
+        proc.stdin.write("pwd\n")
+        proc.stdin.write(f"echo {sentinel_cwd}\n")
+        proc.stdin.flush()
+
+        # 读取 cwd 输出直到 sentinel_cwd
+        cwd = ''
+        while True:
+            line = proc.stdout.readline()
+            if not line or line.strip() == sentinel_cwd:
+                break
+            cwd += line.strip()
+
+        return jsonify({
+            'output': ''.join(output_lines),
+            'cwd': cwd,
+            'error': ''
+        })
 
 @app.route('/bash/close', methods=['POST'])
 def close_bash():
