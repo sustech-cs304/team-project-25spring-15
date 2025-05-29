@@ -165,23 +165,24 @@ func Test_UploadTestCaseAndAnswer(t *testing.T) {
 		gtest.Assert(res.TestcaseAndAnswerId == 1, true)
 	})
 }
-// func Test_AttempForAssignment(t *testing.T) {
-// 	newattempforassignment := v1.AttemptForAssignment{
-// 		UserId:       1,
-// 		FileId:       1,
-// 		FileType:     "string",
-// 		AssignmentId: 1,
-// 	}
-// 	req := &v1.AttemptForAssignmentReq{
-// 		AssignmentUserAttempt: newattempforassignment,
-// 	}
-// 	ctrl := &assignment.ControllerV1{}
-// 	gtest.C(t, func(t *gtest.T) {
-// 		res, err := ctrl.AttemptForAssignment(context.Background(), req)
-// 		gtest.AssertNil(err)
-// 		gtest.Assert(res.AssignmentUserFeedback.FeedbackId == 1, true)
-// 	})
-// }
+
+//	func Test_AttempForAssignment(t *testing.T) {
+//		newattempforassignment := v1.AttemptForAssignment{
+//			UserId:       1,
+//			FileId:       1,
+//			FileType:     "string",
+//			AssignmentId: 1,
+//		}
+//		req := &v1.AttemptForAssignmentReq{
+//			AssignmentUserAttempt: newattempforassignment,
+//		}
+//		ctrl := &assignment.ControllerV1{}
+//		gtest.C(t, func(t *gtest.T) {
+//			res, err := ctrl.AttemptForAssignment(context.Background(), req)
+//			gtest.AssertNil(err)
+//			gtest.Assert(res.AssignmentUserFeedback.FeedbackId == 1, true)
+//		})
+//	}
 func Test_DeleteAssignment(t *testing.T) {
 	ctrlAccount := &account.ControllerV1{}
 	userinfo := V1.UserLoginInfo{
