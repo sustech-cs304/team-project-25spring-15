@@ -18,6 +18,7 @@ func (c *ControllerV1) ExecCommand(ctx context.Context, req *v1.ExecCommandReq) 
 	requestBody := map[string]interface{}{
 		"sessionId": req.SessionId,
 		"command":   req.Command,
+		"content":   req.Content,
 	}
 	jsonData, err := json.Marshal(requestBody)
 	if err != nil {

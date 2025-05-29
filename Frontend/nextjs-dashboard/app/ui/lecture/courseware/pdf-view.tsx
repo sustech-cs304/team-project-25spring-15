@@ -5,6 +5,8 @@ import { Box, Typography, Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Document, Page } from 'react-pdf';
 import { CourseWareAPI } from '@/app/lib/client-api'
+import { useStore } from '@/store/useStore';
+import { usePermissions } from '@/app/lib/permissions';
 
 import { pdfjs } from 'react-pdf';
 
@@ -41,6 +43,14 @@ export default function PdfView({ courseId, lectureId }: PdfViewProps) {
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [uploading, setUploading] = useState(false);
 
+  // 添加权限管理
+  const userInfo = useStore(state => state.userInfo);
+  const courses = useStore(state => state.courses);
+  const courseIdentity = useStore(state => state.courseIdentity);
+  
+  const currentCourse = courses.find(course => course.courseId === parseInt(courseId));
+  const permissions = usePermissions(userInfo, currentCourse?.teacherId, courseIdentity);
+
   useEffect(() => {
     const featchPdf = async () => {
       try {
@@ -64,6 +74,11 @@ export default function PdfView({ courseId, lectureId }: PdfViewProps) {
 
   // 上传文件
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!permissions.canEditExercise) {
+      alert('您没有权限上传PDF');
+      return;
+    }
+
     const file = e.target.files?.[0];
     if (!file) return;
     setUploading(true);
@@ -94,17 +109,20 @@ export default function PdfView({ courseId, lectureId }: PdfViewProps) {
 
   return (
     <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}>
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
-        <Button variant="outlined" component="label" disabled={uploading}>
-          {uploading ? "上传中..." : "上传PDF"}
-          <input
-            type="file"
-            accept="application/pdf"
-            hidden
-            onChange={handleFileChange}
-          />
-        </Button>
-      </Box>
+      {/* 只有有权限的用户才能看到上传按钮 */}
+      {permissions.canEditExercise && (
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
+          <Button variant="outlined" component="label" disabled={uploading}>
+            {uploading ? "上传中..." : "上传PDF"}
+            <input
+              type="file"
+              accept="application/pdf"
+              hidden
+              onChange={handleFileChange}
+            />
+          </Button>
+        </Box>
+      )}
       <div style={{ flex: 1, overflow: 'auto' }}>
         <PdfContainer>
           <Document
