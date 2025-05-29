@@ -10,8 +10,10 @@ import (
 
 	"intelligent-course-aware-ide/internal/controller/Files"
 	"intelligent-course-aware-ide/internal/controller/account"
+	"intelligent-course-aware-ide/internal/controller/ai"
 	"intelligent-course-aware-ide/internal/controller/assignment"
 	"intelligent-course-aware-ide/internal/controller/chat"
+	"intelligent-course-aware-ide/internal/controller/command2"
 	"intelligent-course-aware-ide/internal/controller/comment"
 	"intelligent-course-aware-ide/internal/controller/course"
 	"intelligent-course-aware-ide/internal/controller/lecture"
@@ -40,9 +42,6 @@ var (
 					}
 				}()
 
-				// 在处理请求前记录
-				g.Log().Debug(r.GetCtx(), "Request started:", r.URL.Path)
-
 				r.Middleware.Next()
 
 				// 检查请求处理后是否有错误
@@ -57,6 +56,7 @@ var (
 
 			s.Group("/", func(group *ghttp.RouterGroup) {
 				group.Middleware(ghttp.MiddlewareHandlerResponse)
+				group.Middleware(middleware.LoggerMiddleware)
 				group.Group("/", func(group *ghttp.RouterGroup) {
 					group.Bind(
 						account.NewV1(),
@@ -64,6 +64,7 @@ var (
 					group.Group("/", func(group *ghttp.RouterGroup) {
 						group.Middleware(middleware.Auth)
 						group.Bind(
+							ai.NewV1(),
 							runner.NewV1(),
 							course.NewV1(),
 							Files.NewV1(),
@@ -72,6 +73,7 @@ var (
 							lecture.NewV1(),
 							chat.NewV1(),
 							comment.NewV1(),
+							command2.NewV1(),
 						)
 					})
 				})

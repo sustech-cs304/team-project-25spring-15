@@ -5,6 +5,9 @@ import { Box, Typography, Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Document, Page } from 'react-pdf';
 import { CourseWareAPI } from '@/app/lib/client-api'
+import { useStore } from '@/store/useStore';
+import { usePermissions } from '@/app/lib/permissions';
+import { useMessage } from '@/app/hooks/useMessage';
 
 import { pdfjs } from 'react-pdf';
 
@@ -41,13 +44,24 @@ export default function PdfView({ courseId, lectureId }: PdfViewProps) {
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [uploading, setUploading] = useState(false);
 
+  // 添加权限管理
+  const userInfo = useStore(state => state.userInfo);
+  const courses = useStore(state => state.courses);
+  const courseIdentity = useStore(state => state.courseIdentity);
+  
+  const currentCourse = courses.find(course => course.courseId === parseInt(courseId));
+  const permissions = usePermissions(userInfo, currentCourse?.teacherId, courseIdentity);
+
+  // 使用消息弹窗
+  const { success, error, warning, MessageComponent } = useMessage();
+
   useEffect(() => {
     const featchPdf = async () => {
       try {
         const res = await CourseWareAPI.getPdf(lectureId);
         const fileBlob = res.data;
         const url = URL.createObjectURL(fileBlob);
-        console.log(`file url: ${fileUrl}`);
+        console.log(`file url: ${url}`);
         setFileUrl(url);
       } catch (e) {
         setFileUrl('/mocked.pdf');
@@ -64,6 +78,11 @@ export default function PdfView({ courseId, lectureId }: PdfViewProps) {
 
   // 上传文件
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!permissions.canEditExercise) {
+      warning('您没有权限上传PDF');
+      return;
+    }
+
     const file = e.target.files?.[0];
     if (!file) return;
     setUploading(true);
@@ -76,17 +95,17 @@ export default function PdfView({ courseId, lectureId }: PdfViewProps) {
     try {
       const res = await CourseWareAPI.uploadPdf(file, lectureId);
       if (res.status === 200) {
-        alert("上传成功！");
+        success('上传成功！');
         window.location.reload();
       } else {
-        alert("上传失败");
+        error('上传失败');
       }
       const blob = await CourseWareAPI.getPdf(lectureId);
       const fileBlob = blob.data;
       const fileUrl = URL.createObjectURL(fileBlob);
-      // setFileUrl()
+      setFileUrl(fileUrl);
     } catch {
-      alert("上传出错");
+      error('上传出错');
     } finally {
       setUploading(false);
     }
@@ -94,20 +113,28 @@ export default function PdfView({ courseId, lectureId }: PdfViewProps) {
 
   return (
     <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}>
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
-        <Button variant="outlined" component="label" disabled={uploading}>
-          {uploading ? "上传中..." : "上传PDF"}
-          <input
-            type="file"
-            accept="application/pdf"
-            hidden
-            onChange={handleFileChange}
-          />
-        </Button>
-      </Box>
+      {/* 只有有权限的用户才能看到上传按钮 */}
+      {permissions.canEditExercise && (
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
+          <Button variant="outlined" component="label" disabled={uploading}>
+            {uploading ? "上传中..." : "上传PDF"}
+            <input
+              type="file"
+              accept="application/pdf"
+              hidden
+              onChange={handleFileChange}
+            />
+          </Button>
+        </Box>
+      )}
       <div style={{ flex: 1, overflow: 'auto' }}>
         <PdfContainer>
-          <Document file={fileUrl} onLoadSuccess={onDocumentLoadSuccess}>
+          <Document
+            file={fileUrl}
+            onLoadSuccess={onDocumentLoadSuccess}
+            loading={<div>加载中...</div>}
+            error={<div>PDF 加载失败</div>}
+          >
             <Page
               pageNumber={pageNumber}
               renderTextLayer={false}
@@ -142,6 +169,9 @@ export default function PdfView({ courseId, lectureId }: PdfViewProps) {
           下一页
         </Button>
       </Box>
+      
+      {/* 消息弹窗 */}
+      <MessageComponent />
     </div>
   );
 }

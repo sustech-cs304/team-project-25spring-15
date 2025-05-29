@@ -14,8 +14,10 @@ import (
 )
 
 func Auth(r *ghttp.Request) {
+	ctx := r.GetCtx()
 	authHeader := r.Header.Get("Authorization")
 	if !strings.HasPrefix(authHeader, "Bearer ") {
+		g.Log().Warningf(ctx, "Authorization header must start with 'Bearer '")
 		r.Response.WriteStatus(http.StatusUnauthorized)
 		r.Response.WriteJson(g.Map{"error": "Authorization header must start with 'Bearer '"})
 		r.Exit()
@@ -28,6 +30,7 @@ func Auth(r *ghttp.Request) {
 		return []byte(consts.JWTKey), nil
 	})
 	if err != nil || !tokenClaims.Valid {
+		g.Log().Warningf(ctx, "Invalid or expired token")
 		r.Response.WriteStatus(http.StatusForbidden)
 		r.Response.WriteJson(g.Map{"error": "Invalid or expired token"})
 		r.Exit()
@@ -40,6 +43,7 @@ func Auth(r *ghttp.Request) {
 			"login":  1,
 		}).Count()
 		if err != nil || cnt != 1 {
+			g.Log().Warningf(ctx, "User not logged in or does not exist")
 			r.Response.WriteStatus(http.StatusUnauthorized)
 			r.Response.WriteJson(g.Map{"error": "User not logged in or does not exist"})
 			r.Exit()

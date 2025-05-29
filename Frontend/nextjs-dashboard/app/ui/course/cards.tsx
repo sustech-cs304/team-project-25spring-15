@@ -7,10 +7,32 @@ import {
 } from "@heroicons/react/24/outline";
 import { usePathname } from "next/navigation";
 import { Course, Lecture } from "@/app/lib/definitions";
-import { Card, Typography } from "@mui/material";
+import { 
+  Card, 
+  Typography, 
+  CardContent, 
+  CardActionArea, 
+  Box, 
+  Chip, 
+  Avatar,
+  LinearProgress,
+  alpha,
+} from "@mui/material";
+import { 
+  CalendarToday, 
+  Person, 
+  PlayCircleOutline,
+  Book,
+} from '@mui/icons-material';
 
 interface CardWrapperProps {
   courses: Course[];
+}
+
+// 新增的CourseCard接口
+interface CourseCardProps {
+  course: Course;
+  onClick: () => void;
 }
 
 const iconMap = {
@@ -19,7 +41,226 @@ const iconMap = {
   done: CheckCircleIcon,
 };
 
-export default function CardWrapper({ courses }: CardWrapperProps) {
+// 课程主题颜色配置
+const courseThemes = [
+  { primary: '#667eea', secondary: '#764ba2', accent: '#f093fb' },
+  { primary: '#f093fb', secondary: '#f5576c', accent: '#4facfe' },
+  { primary: '#4facfe', secondary: '#00f2fe', accent: '#43e97b' },
+  { primary: '#43e97b', secondary: '#38f9d7', accent: '#667eea' },
+  { primary: '#ffecd2', secondary: '#fcb69f', accent: '#ff8a80' },
+];
+
+// 新增用于课程列表显示的CourseCard组件
+export default function CourseCard({ course, onClick }: CourseCardProps) {
+  // 添加空值检查
+  if (!course) {
+    return (
+      <Card sx={{ 
+        height: '100%', 
+        display: 'flex', 
+        flexDirection: 'column', 
+        p: 2,
+        background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
+      }}>
+        <Typography color="text.secondary">课程数据加载中...</Typography>
+      </Card>
+    );
+  }
+
+  // 根据课程ID选择主题颜色
+  const themeIndex = course.courseId % courseThemes.length;
+  const theme = courseThemes[themeIndex];
+
+  // 计算课程进度
+  const totalLectures = course.lectures?.length || 0;
+  const completedLectures = course.lectures?.filter(lecture => lecture.status === 'done').length || 0;
+  const progress = totalLectures > 0 ? (completedLectures / totalLectures) * 100 : 0;
+
+  // 获取课程状态
+  const getStatusInfo = () => {
+    if (totalLectures === 0) {
+      return { label: '准备中', color: 'default' as const, icon: <RocketLaunchIcon className="w-4 h-4" /> };
+    }
+    if (progress === 100) {
+      return { label: '已完成', color: 'success' as const, icon: <CheckCircleIcon className="w-4 h-4" /> };
+    }
+    if (progress > 0) {
+      return { label: '进行中', color: 'primary' as const, icon: <ArrowPathIcon className="w-4 h-4" /> };
+    }
+    return { label: '未开始', color: 'default' as const, icon: <RocketLaunchIcon className="w-4 h-4" /> };
+  };
+
+  const statusInfo = getStatusInfo();
+  
+  return (
+    <Card 
+      sx={{ 
+        height: '100%', 
+        display: 'flex', 
+        flexDirection: 'column',
+        position: 'relative',
+        overflow: 'hidden',
+        background: `linear-gradient(135deg, ${theme.primary} 0%, ${theme.secondary} 100%)`,
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'rgba(255, 255, 255, 0.9)',
+          zIndex: 1,
+        },
+        '&:hover::before': {
+          background: 'rgba(255, 255, 255, 0.95)',
+        },
+      }}
+    >
+      {/* 装饰性背景图案 */}
+      <Box
+        sx={{
+          position: 'absolute',
+          top: -20,
+          right: -20,
+          width: 80,
+          height: 80,
+          borderRadius: '50%',
+          background: `linear-gradient(45deg, ${alpha(theme.accent, 0.3)}, ${alpha(theme.primary, 0.2)})`,
+          zIndex: 1,
+        }}
+      />
+      <Box
+        sx={{
+          position: 'absolute',
+          bottom: -30,
+          left: -30,
+          width: 100,
+          height: 100,
+          borderRadius: '50%',
+          background: `linear-gradient(45deg, ${alpha(theme.secondary, 0.2)}, ${alpha(theme.accent, 0.1)})`,
+          zIndex: 1,
+        }}
+      />
+
+      <CardActionArea onClick={onClick} sx={{ flexGrow: 1, position: 'relative', zIndex: 2 }}>
+        <CardContent sx={{ p: 3, height: '100%', display: 'flex', flexDirection: 'column' }}>
+          {/* 头部区域 */}
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
+            <Avatar
+              sx={{
+                width: 48,
+                height: 48,
+                background: `linear-gradient(45deg, ${theme.primary}, ${theme.secondary})`,
+                color: 'white',
+                fontSize: '1.2rem',
+                fontWeight: 'bold',
+              }}
+            >
+              <Book />
+            </Avatar>
+            <Chip
+              label={statusInfo.label}
+              color={statusInfo.color}
+              size="small"
+              variant="outlined"
+              sx={{ 
+                fontWeight: 600,
+                backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                backdropFilter: 'blur(4px)',
+              }}
+            />
+          </Box>
+
+          {/* 课程标题 */}
+          <Typography 
+            variant="h6" 
+            component="div" 
+            gutterBottom 
+            sx={{
+              fontWeight: 700,
+              color: 'text.primary',
+              lineHeight: 1.3,
+              display: '-webkit-box',
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: 'vertical',
+              overflow: 'hidden',
+              minHeight: '2.6em',
+            }}
+          >
+            {course.courseName || '未命名课程'}
+          </Typography>
+
+          {/* 课程描述 */}
+          <Typography 
+            variant="body2" 
+            color="text.secondary" 
+            sx={{ 
+              mb: 3,
+              flexGrow: 1,
+              display: '-webkit-box',
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: 'vertical',
+              overflow: 'hidden',
+              lineHeight: 1.5,
+            }}
+          >
+            {course.description || '暂无描述'}
+          </Typography>
+
+          {/* 进度条 */}
+          {totalLectures > 0 && (
+            <Box sx={{ mb: 2 }}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+                <Typography variant="caption" color="text.secondary" fontWeight={600}>
+                  学习进度
+                </Typography>
+                <Typography variant="caption" color="text.secondary" fontWeight={600}>
+                  {completedLectures}/{totalLectures}
+                </Typography>
+              </Box>
+              <LinearProgress
+                variant="determinate"
+                value={progress}
+                sx={{
+                  height: 6,
+                  borderRadius: 3,
+                  backgroundColor: alpha(theme.primary, 0.2),
+                  '& .MuiLinearProgress-bar': {
+                    borderRadius: 3,
+                    background: `linear-gradient(45deg, ${theme.primary}, ${theme.secondary})`,
+                  },
+                }}
+              />
+            </Box>
+          )}
+
+          {/* 底部信息 */}
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+              <PlayCircleOutline sx={{ fontSize: 16, color: 'text.secondary' }} />
+              <Typography variant="caption" color="text.secondary" fontWeight={600}>
+                {totalLectures} 讲座
+              </Typography>
+            </Box>
+            
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+              <CalendarToday sx={{ fontSize: 16, color: 'text.secondary' }} />
+              <Typography variant="caption" color="text.secondary" fontWeight={600}>
+                {course.startTime ? new Date(course.startTime).toLocaleDateString('zh-CN', {
+                  month: 'short',
+                  day: 'numeric'
+                }) : '无日期'}
+              </Typography>
+            </Box>
+          </Box>
+        </CardContent>
+      </CardActionArea>
+    </Card>
+  );
+}
+
+// 旧的卡片组件，重命名为LectureCardWrapper
+export function LectureCardWrapper({ courses }: CardWrapperProps) {
   console.log("courses in CardWrapper:", courses);
   const pathname = usePathname();
   let currentCouseTitle = "";
@@ -55,7 +296,7 @@ export default function CardWrapper({ courses }: CardWrapperProps) {
       <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {currentLectures.length > 0 ? (
           currentLectures.map((lecture) => (
-            <CourseCard
+            <LectureCard
               key={lecture.lectureId}
               title={lecture.lectureName || "未命名讲座"}
               value={lecture.status || "notStarted"}
@@ -72,7 +313,8 @@ export default function CardWrapper({ courses }: CardWrapperProps) {
   );
 }
 
-export function CourseCard({
+// 原CourseCard组件重命名为LectureCard
+export function LectureCard({
                              title,
                              value,
                              type,

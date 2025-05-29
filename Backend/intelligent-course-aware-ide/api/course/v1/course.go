@@ -3,6 +3,8 @@ package v1
 import (
 	"intelligent-course-aware-ide/internal/model/entity"
 
+	userv1 "intelligent-course-aware-ide/api/user/v1"
+
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gtime"
 )
@@ -76,8 +78,9 @@ type GetCourseWithLecturesByCourseIdReq struct {
 }
 
 type GetCourseWithLecturesByCourseIdRes struct {
-	g.Meta `mime:"text/html" example:"json"`
-	Course CourseInfoWithLecture `json:"course" dc:"info of the course"`
+	g.Meta         `mime:"text/html" example:"json"`
+	Course         CourseInfoWithLecture `json:"course" dc:"info of the course"`
+	CourseIdentity string                `json:"courseIdentity" dc:"identity of the user in this course"`
 }
 
 type GetCourseWithLecturesByStudentIdReq struct {
@@ -150,4 +153,25 @@ type ApplyToJoinCourseReq struct {
 type ApplyToJoinCourseRes struct {
 	g.Meta  `mime:"text/html" example:"json"`
 	Success bool `json:"success" dc:"success or not(attention here: this success does not mean the student has join in the course, he has to wait for teacher or superuser to review this aplication)"`
+}
+
+type AddStudentsIntoCourseReq struct {
+	g.Meta        `path:"/api/course/addStudents" method:"post" tags:"Course" summary:"add students into the course"`
+	CourseId      int64    `json:"courseId" dc:"Id of the course"`
+	StudentsEmail []string `json:"studentsEmail" dc:"Email of students to add into the course"`
+}
+
+type AddStudentsIntoCourseRes struct {
+	g.Meta  `mime:"text/html" example:"json"`
+	Success bool `json:"success" dc:"success or not"`
+}
+
+type GetAllStudentsOfACourseReq struct {
+	g.Meta   `path:"/api/course/getAllStudentsOfACourse/{courseId}" method:"get" tags:"Course" summary:"get all students in the course"`
+	CourseId int64 `json:"courseId" dc:"Id of the course"`
+}
+
+type GetAllStudentsOfACourseRes struct {
+	g.Meta   `mime:"text/html" example:"json"`
+	Students []userv1.UserInfoWithoutPassword `json:"students" dc:"info of students in the course"`
 }

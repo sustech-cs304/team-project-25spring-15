@@ -6,7 +6,8 @@ import (
 
 	v1 "intelligent-course-aware-ide/api/course/v1"
 	"intelligent-course-aware-ide/internal/dao"
-	"intelligent-course-aware-ide/internal/model/do"
+
+	"github.com/gogf/gf/v2/frame/g"
 )
 
 func (c *ControllerV1) AssignCourseAssistant(ctx context.Context, req *v1.AssignCourseAssistantReq) (res *v1.AssignCourseAssistantRes, err error) {
@@ -20,10 +21,7 @@ func (c *ControllerV1) AssignCourseAssistant(ctx context.Context, req *v1.Assign
 		res = &v1.AssignCourseAssistantRes{
 			Success: false,
 		}
-		_, err := dao.CourseAssistants.Ctx(ctx).Data(do.CourseAssistants{
-			CourseId:    req.CourseId,
-			AssistantId: req.AssistantId,
-		}).Insert()
+		_, err := dao.UserCourseInfo.Ctx(ctx).Where("userId", req.AssistantId).Update(g.Map{"identity": "assistant"})
 		if err != nil {
 			return res, err
 		}

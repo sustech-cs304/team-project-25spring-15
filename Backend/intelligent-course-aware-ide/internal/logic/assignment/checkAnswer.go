@@ -5,7 +5,6 @@ import (
 	"errors"
 	assignmentv1 "intelligent-course-aware-ide/api/assignment/v1"
 	runnerV1 "intelligent-course-aware-ide/api/runner/v1"
-	"intelligent-course-aware-ide/internal/consts"
 	"intelligent-course-aware-ide/internal/dao"
 	runnerLogic "intelligent-course-aware-ide/internal/logic/runner"
 	"intelligent-course-aware-ide/internal/model/entity"
@@ -46,28 +45,29 @@ func (a *Assignments) CheckAnswer(ctx context.Context, runners *runnerLogic.Runn
 		OutputPath: outputPath,
 	}
 
-	var dockerName string
+	var dockerId string
+	dockerId, err = runners.GetTargetContainerID(attemptForAssignment.FileType)
+	if err != nil {
+		return befScore, totalScore, err
+	}
 	if attemptForAssignment.FileType == "c" || attemptForAssignment.FileType == "c++" || attemptForAssignment.FileType == "cpp" {
-		_, err = runners.RunCCode(ctx, &codeRunnerReq, codeFile.FileUrl, executableFilePath)
+		_, err = runners.RunCCode(ctx, &codeRunnerReq, dockerId, codeFile.FileUrl, executableFilePath)
 		if err != nil {
 			return befScore, totalScore, err
 		}
-		dockerName = consts.TargetCDockerName
 	} else if attemptForAssignment.FileType == "python" {
-		_, err = runners.RunPythonCode(ctx, &codeRunnerReq, codeFile.FileUrl)
+		_, err = runners.RunPythonCode(ctx, &codeRunnerReq, dockerId, codeFile.FileUrl)
 		if err != nil {
 			return befScore, totalScore, err
 		}
-		dockerName = consts.TargetPythonDockerName
 	} else if attemptForAssignment.FileType == "string" {
-		dockerName = consts.TargetDockerName
 		codeRunnerReq.OutputPath = codeFile.FileUrl
 	} else {
 		return befScore, totalScore, errors.New("only c/cpp and python are support to run")
 	}
 
 	var stdout, stderr strings.Builder
-	cmd := exec.CommandContext(ctx, "docker", "exec", dockerName, "diff", "-b", "-B", codeRunnerReq.OutputPath, answerFile.FileUrl)
+	cmd := exec.CommandContext(ctx, "docker", "exec", dockerId, "diff", "-b", "-B", codeRunnerReq.OutputPath, answerFile.FileUrl)
 	cmd.Stdout = &stdout
 	cmd.Stderr = &stderr
 	cmd.Run()

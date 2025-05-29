@@ -72,6 +72,7 @@ import React, { useState } from 'react';
                 setLectureMenuAnchor(event.currentTarget);
                 setActiveLectureId(lectureId);
                 setSelectedCourseId(courseId);
+                console.log(`Set selected Course ID: ${courseId}, Lecture ID: ${lectureId}`);
             };
 
             const handleLectureMenuClose = () => {

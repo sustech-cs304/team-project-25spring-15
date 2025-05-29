@@ -2,101 +2,145 @@ package Files
 
 import (
 	"context"
-	"fmt"
 	"os"
 	"path/filepath"
 	"time"
 
+	v1 "intelligent-course-aware-ide/api/Files/v1"
+	"intelligent-course-aware-ide/internal/consts"
+	"intelligent-course-aware-ide/internal/dao"
+
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gfile"
-	"github.com/gogf/gf/v2/os/gtime"
-	"github.com/gogf/gf/v2/util/guid"
-
-	v1 "intelligent-course-aware-ide/api/Files/v1"
+	"github.com/gogf/gf/v2/util/gconv"
 )
 
-// the API for uploading lecture files
+// UploadLectureFile handles both new uploads and replacements based on existing fileId lookup.
 func (c *ControllerV1) UploadLectureFile(ctx context.Context, req *v1.UploadLectureFileReq) (res *v1.UploadLectureFileRes, err error) {
-
-	f, ferr := os.OpenFile("debug.log", os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
-	if ferr == nil {
-		fmt.Fprintf(f, "%s Invoke file upload\n", time.Now().Format("2006-01-02 15:04:05"))
-		f.Close()
-	}
-
 	res = &v1.UploadLectureFileRes{}
 
-	lectureExists, err := g.DB().Model("Lectures").Where("lectureId", req.LectureId).Count()
+	// Check if lecture exists
+	lectureCount, err := dao.Lectures.Ctx(ctx).
+		Where("lectureId", req.LectureId).
+		Count()
 	if err != nil {
 		return nil, err
 	}
-	if lectureExists == 0 {
+	if lectureCount == 0 {
 		return nil, gerror.New("Lecture not found")
 	}
 
-	// Generate a unique file name
-	originalName := req.File.Filename
-	req.File.Filename = guid.S() + req.File.Filename
-
-	uploadPath := g.Cfg().MustGet(ctx, "upload.path", "./uploads").String()
-	storagePath := filepath.Join(uploadPath, "lectures", gtime.Date())
-
-	if !gfile.Exists(storagePath) {
-		if err = gfile.Mkdir(storagePath); err != nil {
-			return nil, gerror.New("Failed to create storage directory")
-		}
+	// Queries if there is already a file association
+	idValue, err := dao.LectureFiles.Ctx(ctx).
+		Where("lectureId", req.LectureId).
+		Value("fileId")
+	if err != nil {
+		return nil, err
 	}
+	existingFileId := gconv.Int64(idValue) // 0 表示无记录
 
-	fileUrl := filepath.Join(storagePath, req.File.Filename)
-
-	if _, err = req.File.Save(storagePath); err != nil {
+	filePath := consts.PathForHost + "files/"
+	// save the file and get a path
+	if err := os.MkdirAll(filePath, 0755); err != nil {
+		// Log detailed error for debugging
+		return nil, gerror.Wrap(err, "Failed to create upload directory")
+	}
+	// generate a uniqueName with save.para2 = true
+	uniqueName, err := req.File.Save(filePath, true)
+	if err != nil {
 		return nil, gerror.New("Failed to save file")
 	}
 
-	fileSize := req.File.Size
+	originalName := req.File.Filename
+	fullPath := filepath.Join(filePath, uniqueName)
+	size := req.File.Size
+	ctype := req.File.Header.Get("Content-Type")
 
+	// Starting a database transaction
 	tx, err := g.DB().Begin(ctx)
 	if err != nil {
-		g.Log().Error(ctx, err)
 		return nil, err
 	}
-
 	defer func() {
 		if err != nil {
 			tx.Rollback()
 		}
 	}()
 
-	fileInsertResult, err := tx.Model("Files").Insert(g.Map{
-		"fileSize": fileSize,
-		"fileUrl":  fileUrl,
-		"fileName": originalName,
-		"fileType": req.File.Header.Get("Content-Type"),
-	})
-	if err != nil {
-		return nil, err
-	}
+	// New file upload
+	if existingFileId == 0 {
 
-	fileId, err := fileInsertResult.LastInsertId()
-	if err != nil {
-		return nil, err
-	}
+		// Insert into Files table
+		insertRes, err2 := tx.Model("Files").Insert(g.Map{
+			"fileSize": size,
+			"fileUrl":  fullPath,
+			"fileName": originalName,
+			"fileType": ctype,
+		})
+		if err2 != nil {
+			err = err2
+			return
+		}
+		newFileId, err2 := insertRes.LastInsertId()
+		if err2 != nil {
+			err = err2
+			return
+		}
 
-	_, err = tx.Model("LectureFiles").Insert(g.Map{
-		"fileId":    fileId,
-		"lectureId": req.LectureId,
-	})
-	if err != nil {
-		return nil, err
-	}
+		if _, err2 = tx.Model("LectureFiles").Insert(g.Map{
+			"lectureId": req.LectureId,
+			"fileId":    newFileId,
+		}); err2 != nil {
+			err = err2
+			return
+		}
 
-	// Commit the transaction
-	if err = tx.Commit(); err != nil {
-		return nil, err
-	}
+		if err2 = tx.Commit(); err2 != nil {
+			err = err2
+			return
+		}
+		res.FileId = newFileId
 
-	res.FileId = fileId
+	} else {
+		// ===== Replacement update process =====
+
+		// Retrieve the old fileUrl
+		oldValue, err2 := dao.Files.Ctx(ctx).
+			Where("fileId", existingFileId).
+			Value("fileUrl")
+		if err2 != nil {
+			err = err2
+			return
+		}
+		oldPath := gconv.String(oldValue)
+
+		// Updating the Files table
+		if _, err2 = tx.Model("Files").
+			Where("fileId", existingFileId).
+			Update(g.Map{
+				"fileName":   originalName,
+				"fileUrl":    fullPath,
+				"fileSize":   size,
+				"fileType":   ctype,
+				"uploadTime": time.Now(),
+			}); err2 != nil {
+			err = err2
+			return
+		}
+
+		// Submission of transactions
+		if err2 = tx.Commit(); err2 != nil {
+			err = err2
+			return
+		}
+
+		// Delete old files (ignore errors)
+		if oldPath != "" && gfile.Exists(oldPath) {
+			_ = gfile.Remove(oldPath)
+		}
+		res.FileId = existingFileId
+	}
 
 	return res, nil
 }

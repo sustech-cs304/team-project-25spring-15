@@ -1,32 +1,49 @@
 package runner
 
 import (
+	"bytes"
 	"context"
-	"errors"
+	"encoding/json"
+	"io"
+	"net/http"
+
+	"github.com/gogf/gf/v2/errors/gcode"
+	"github.com/gogf/gf/v2/errors/gerror"
 
 	v1 "intelligent-course-aware-ide/api/runner/v1"
 	"intelligent-course-aware-ide/internal/consts"
 )
 
 func (c *ControllerV1) GeneralRunner(ctx context.Context, req *v1.GeneralRunnerReq) (res *v1.GeneralRunnerRes, err error) {
-	res = &v1.GeneralRunnerRes{}
-	if req.CodeInfo.Name == "" {
-		req.CodeInfo.Name = consts.TmpFileName
+	requestBody := map[string]interface{}{
+		"codeInfo": req.CodeInfo,
+		"type":     req.CodeType,
+		"dir":      "",
 	}
-	if req.CodeType == "c" || req.CodeType == "c++" || req.CodeType == "cpp" {
-		var pathForCDocker, pathForExecutableFile string
-		pathForCDocker, pathForExecutableFile, err = c.runners.CCodeRunner(ctx, &req.CodeInfo)
-		if err == nil {
-			res.CodeFeedback, err = c.runners.RunCCode(ctx, &req.CodeInfo, pathForCDocker, pathForExecutableFile)
-		}
-	} else if req.CodeType == "python" {
-		var pathForPythonDocker string
-		pathForPythonDocker, err = c.runners.PythonCodeRunner(ctx, &req.CodeInfo)
-		if err == nil {
-			res.CodeFeedback, err = c.runners.RunPythonCode(ctx, &req.CodeInfo, pathForPythonDocker)
-		}
-	} else {
-		err = errors.New("only c/cpp and python are support to run")
+	jsonData, err := json.Marshal(requestBody)
+	if err != nil {
+		return nil, gerror.NewCode(gcode.CodeInternalError, "Failed to marshal request body")
 	}
-	return res, err
+	resp, err := http.Post(consts.TargetUrl+"/run", "application/json", bytes.NewBuffer(jsonData))
+
+	if err != nil {
+		return nil, gerror.NewCode(gcode.CodeInternalError, "Failed to send request to runner service")
+	}
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, gerror.NewCode(gcode.CodeInternalError, "Failed to read response body")
+	}
+	if resp.StatusCode != http.StatusOK {
+		return nil, gerror.NewCode(gcode.CodeInternalError, string(body))
+	}
+
+	var runnerRes v1.GeneralRunnerRes
+	err = json.Unmarshal(body, &runnerRes)
+	if err != nil {
+		return nil, gerror.NewCode(gcode.CodeInternalError, "Failed to unmarshal response body")
+	}
+
+	return &runnerRes, nil
 }

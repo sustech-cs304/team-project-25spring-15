@@ -11,7 +11,7 @@ func (c *ChatMessages) CheckUserIsTheOwnerOfChatMessage(ctx context.Context, use
 	if chatMessage.ChatId == 0 || chatMessage.MessageId == 0 || chatMessage.OwnerId == 0 {
 		return false, errors.New("please input chatId, messageId, ownerId")
 	}
-	cnt, err := dao.ChatMessageInfo.Ctx(ctx).Where(chatMessage).Count()
+	cnt, err := dao.ChatMessageInfo.Ctx(ctx).WherePri(chatMessage.MessageId).Count()
 	if err == nil && cnt == 1 {
 		return true, nil
 	}

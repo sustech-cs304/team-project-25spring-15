@@ -4,33 +4,36 @@ import { motion } from 'framer-motion';
 import { Button } from '@mui/material';
 import { memo } from 'react';
 import { UseChatHelpers } from '@ai-sdk/react';
+import { CourseWareAPI } from '@/app/lib/client-api';
 
 interface SuggestedMessagesProps {
   chatId: string;
+  lectureId: string;
   append: UseChatHelpers['append'];
 }
 
-function PureSuggestedActions({ chatId, append }: SuggestedMessagesProps) {
+function PureSuggestedActions({ chatId, lectureId, append }: SuggestedMessagesProps) {
+  const basePrompt = 'Contents for the lecture in markdown format are below: ';
   const suggestedActions = [
     {
-      title: 'What are the advantages',
-      label: 'of using Next.js?',
-      action: 'What are the advantages of using Next.js?',
+      title: 'Generate a mindmap',
+      label: 'for contents in this lecture',
+      action: 'Given the above contents, please draw a brief mindmap for it.',
+    },
+    {
+      title: 'Generate a quiz',
+      label: 'according to contents in this lecture',
+      action: 'Given the above contents, please generate a tiny quiz for it.',
+    },
+    {
+      title: 'Generate a brief summary',
+      label: 'for contents in this lecture',
+      action: 'Given the above contents, please give brief summary for the contents in the file',
     },
     {
       title: 'Write code to',
       label: `demonstrate djikstra's algorithm`,
       action: `Write code to demonstrate djikstra's algorithm`,
-    },
-    {
-      title: 'Help me write an essay',
-      label: `about silicon valley`,
-      action: `Help me write an essay about silicon valley`,
-    },
-    {
-      title: 'What is the weather',
-      label: 'in San Francisco?',
-      action: 'What is the weather in San Francisco?',
     },
   ];
 
@@ -67,10 +70,13 @@ function PureSuggestedActions({ chatId, append }: SuggestedMessagesProps) {
             }}
             onClick={async () => {
               // window.history.replaceState({}, '', `/chat/${chatId}`);
-
+              const res = await CourseWareAPI.getMarkdown(lectureId);
+              const blob = res.data as Blob;
+              const text = await blob.text();
+              const prompt = basePrompt + text + suggestedAction.action;
               append({
                 role: 'user',
-                content: suggestedAction.action,
+                content: prompt,
               });
             }}
             className="text-sm flex-1 gap-1 sm:flex-col w-full h-auto"

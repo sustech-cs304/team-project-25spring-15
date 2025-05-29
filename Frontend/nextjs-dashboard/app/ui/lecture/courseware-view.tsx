@@ -44,7 +44,7 @@ export default function CoursewareView({ courseId, lectureId }: CoursewareViewPr
           {showPdf ? (
             <PdfView courseId={courseId} lectureId={lectureId} />
           ) : (
-            <Markdunner />
+            <Markdunner courseId={courseId} lectureId={lectureId} />
           )}
       </div>
     </main>

@@ -3,10 +3,13 @@ package consts
 import "time"
 
 // Operation url
-const TargetUrl string = "http://47.117.144.50:8000"
+const TargetUrl string = "http://runner:8001"
+
+// const TargetUrl string = "http://localhost:8001"
+const TmpDirPath string = "/usr/Document/tmp/"
 
 // Database dockerName
-const TargetDockerName string = "CS304"
+const TargetDockerName string = "$(docker ps -q --filter ancestor=backend-runner | head -n 1)"
 
 // Python dockerName
 const TargetPythonDockerName string = TargetDockerName
@@ -18,10 +21,14 @@ const TargetCDockerName string = TargetDockerName
 const TmpFileName string = "temp_script"
 
 // Default path of script on host
-const PathForHost string = "/home/admin/data/"
+// const PathForHost string = "/usr/Document/"
+const PathForHost string = "/usr/Document/"
 
 // Default path of script on docker
 const PathForDocker string = "/usr/Document/"
+
+// Default direction of lecture file, including courseware/note
+const PathForLecture string = "./upload/lecture/"
 
 // Path of testcase
 const TestTestcase string = "/usr/test/testcase.txt"

@@ -12,9 +12,10 @@ import (
 
 func CheckUserHasPermissionOfComment(ctx context.Context, userId int64, commentId int64) (result bool, err error) {
 	comment, err := dao.Comment.Ctx(ctx).
-		Fields("authorId").
+		Fields("AuthorId").
 		Where("commentId", commentId).
 		One()
+
 	if err != nil {
 		return false, err
 	}

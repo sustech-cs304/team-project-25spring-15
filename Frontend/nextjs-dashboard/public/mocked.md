@@ -62,6 +62,26 @@ while n != 1:
 print(n)
 ```
 
+### C 实现
+
+```c
+#include <stdio.h>
+
+int main() {
+    int n = 3;
+    while (n != 1) {
+        printf("%d\n", n);
+        if (n % 2 == 0) {
+            n = n / 2;
+        } else {
+            n = 3 * n + 1;
+        }
+    }
+    printf("%d\n", n);
+    return 0;
+}
+```
+
 ### JavaScript/TypeScript 实现
 
 ```javascript
@@ -108,5 +128,3 @@ console.log(n);
 - 静态检查和良好编码习惯可以帮助我们写出更安全、更可靠的代码。
 
 ---
-
-如需将此 Markdown 文件导出为 PDF 或 HTML，请告诉我，我可以为你生成对应格式的文件。

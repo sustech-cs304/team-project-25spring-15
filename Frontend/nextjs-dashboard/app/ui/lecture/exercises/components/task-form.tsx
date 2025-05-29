@@ -10,20 +10,36 @@ import {
   DialogContent,
   DialogTitle,
 } from "@mui/material";
+import { useMessage } from "@/app/hooks/useMessage";
 
 interface TaskFormProps {
-  initial?: { title: string; description: string; deadline: string };
+  initial?: { assignmentName: string; description: string; deadline: string };
   onClose: () => void;
-  onSubmit: (data: { title: string; description: string; deadline: string }) => void;
+  onSubmit: (data: { assignmentName: string; description: string; deadline: string }) => void;
 }
 
 export default function TaskForm({ initial, onClose, onSubmit }: TaskFormProps) {
-  const [title, setTitle] = useState(initial?.title || "");
+  const [assignmentName, setAssignmentName] = useState(initial?.assignmentName || "");
   const [description, setDescription] = useState(initial?.description || "");
   const [deadline, setDeadLine] = useState(initial?.deadline || "");
 
+  // 使用消息弹窗
+  const { warning, MessageComponent } = useMessage();
+
   const handleSubmit = () => {
-    onSubmit({ courseName: courseName, description, deadline });
+    if (!assignmentName.trim()) {
+      warning("请输入任务标题");
+      return;
+    }
+    if (!description.trim()) {
+      warning("请输入任务描述");
+      return;
+    }
+    if (!deadline) {
+      warning("请选择截止日期");
+      return;
+    }
+    onSubmit({ assignmentName, description, deadline });
   };
 
   return (
@@ -33,8 +49,8 @@ export default function TaskForm({ initial, onClose, onSubmit }: TaskFormProps) 
         <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
           <TextField
             label="标题"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            value={assignmentName}
+            onChange={(e) => setAssignmentName(e.target.value)}
             fullWidth
           />
           <TextField
@@ -61,6 +77,9 @@ export default function TaskForm({ initial, onClose, onSubmit }: TaskFormProps) 
           确定
         </Button>
       </DialogActions>
+      
+      {/* 消息弹窗 */}
+      <MessageComponent />
     </Dialog>
   );
 }

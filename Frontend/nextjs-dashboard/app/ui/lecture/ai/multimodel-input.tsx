@@ -19,6 +19,7 @@ import { Button } from '@mui/material';
 import { Textarea } from '@/app/ui/text-area';
 import { SuggestedActions } from './suggested-message';
 import type { UseChatHelpers } from '@ai-sdk/react';
+import { useParams } from 'next/navigation';
 
 function PureMultimodalInput({
   chatId,  // 当前聊天会话的唯一标识符
@@ -43,6 +44,8 @@ function PureMultimodalInput({
   handleSubmit: UseChatHelpers['handleSubmit'];
   className?: string;
 }) {
+  const {courseId, lectureId} = useParams();
+
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { width } = useWindowSize();
 
@@ -114,7 +117,7 @@ function PureMultimodalInput({
   return (
     <div className="relative w-full flex flex-col gap-4">
       {messages.length === 0 && (
-          <SuggestedActions append={append} chatId={chatId} />
+          <SuggestedActions append={append} chatId={chatId} lectureId={lectureId as string}/>
         )}
 
       <Textarea

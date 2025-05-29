@@ -17,13 +17,14 @@ type UserInfoWithPassword struct {
 }
 
 type UserInfoWithoutPassword struct {
-	UserId     int64       `json:"userId" dc:"id of this user"`
-	UserName   string      `json:"userName" dc:"name of this user"`
-	Email      string      `json:"email" dc:"email of this user"`
-	UserSign   string      `json:"usersign" dc:"sign of this user"`
-	University string      `json:"university" dc:"university of this user"`
-	Birthday   *gtime.Time `json:"birthday" dc:"birthday of this user"`
-	Identity   string      `json:"identity" dc:"identity of this user"`
+	UserId         int64       `json:"userId" dc:"id of this user"`
+	UserName       string      `json:"userName" dc:"name of this user"`
+	Email          string      `json:"email" dc:"email of this user"`
+	UserSign       string      `json:"usersign" dc:"sign of this user"`
+	University     string      `json:"university" dc:"university of this user"`
+	Birthday       *gtime.Time `json:"birthday" dc:"birthday of this user"`
+	Identity       string      `json:"identity" dc:"identity of this user"`
+	CourseIdentity string      `json:"courseIdentity" dc:"identity of this user in a course"`
 }
 
 type GetAllUsersInfoReq struct {

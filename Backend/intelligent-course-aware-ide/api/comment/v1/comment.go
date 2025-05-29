@@ -1,8 +1,6 @@
 package v1
 
 import (
-	"intelligent-course-aware-ide/internal/model/entity"
-
 	"github.com/gogf/gf/v2/frame/g"
 )
 
@@ -11,7 +9,7 @@ type CommentInfo struct {
 	LectureId          int64  `json:"lectureId" dc:"Id of the lecture the comment in"`
 	AuthorId           int64  `json:"authorId" dc:"Id of the commented user"`
 	AuthorName         string `json:"authorName" dc:"Name of the comment user"`
-	RepliedToCommentId int64  `json:"repliedTocommentId" dc:"Id of the commented comment"`
+	RepliedToCommentId int64  `json:"repliedToCommentId" dc:"Id of the commented comment"`
 	RepliedToUserName  string `json:"repliedToUserName" dc:"Name of the commented user"`
 	Content            string `json:"content" dc:"content of the comment"`
 	CreateTime         string `json:"createTime" dc:" createTime of the comment"`
@@ -19,7 +17,7 @@ type CommentInfo struct {
 }
 type CreateCommentReq struct {
 	g.Meta     `path:"/api/comment/createComment" method:"post" tags:"Comment" summary:"Create comment"`
-	NewComment entity.Comment `json:"comment" dc:"Info of the comment"`
+	NewComment CommentInfo `json:"comment" dc:"Info of the comment"`
 }
 type CreateCommentRes struct {
 	g.Meta    `mime:"text/html" example:"json"`
@@ -35,7 +33,7 @@ type GetCommentRes struct {
 }
 type DeleteCommentReq struct {
 	g.Meta    `path:"/api/comment/deleteComment" method:"delete" tags:"Comment" summary:"delete comment info"`
-	CommentId int64 `v:"required" dc:"id of the comment to delete"`
+	CommentId int64 `json:"commentId" v:"required" dc:"id of the comment to delete"`
 	UserId    int64 `json:"userId" v:"required" dc:"id of the user who want to delete this comment"`
 }
 

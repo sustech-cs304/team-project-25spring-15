@@ -9,18 +9,19 @@ import (
 
 type AssignmentInfo struct {
 	AssignmentId   int64       `json:"assignmentId" dc:"id of this assignment"`
-	AssignmentName int64       `json:"assignmentName" dc:"name of this assignment"`
+	AssignmentName string      `json:"assignmentName" dc:"name of this assignment"`
 	PublisherId    int64       `json:"publisherId" dc:"id of publisher"`
 	CourseId       int64       `json:"courseId" dc:"id of this course"`
 	LectureId      int64       `json:"lectureId" dc:"id of this lecture"`
 	Description    string      `json:"description" dc:"description of this assignment"`
-	DeadLine       *gtime.Time `json:"deadLine" dc:"end time of this assignment"`
+	Deadline       *gtime.Time `json:"deadline" dc:"end time of this assignment"`
 	Completeness   int32       `json:"completeness" dc:"num of the student who has finished this"`
 }
 
 type AttemptForAssignment struct {
 	UserId       int64  `json:"userId" dc:"id of user"`
 	FileId       int64  `json:"fileId" dc:"id of file"`
+	Code         string `json:"code" dc:"code of this file"`
 	FileType     string `json:"fileType" dc:"type of file"`
 	AssignmentId int64  `json:"assignmentId" dc:"id of assignment"`
 }
@@ -30,6 +31,7 @@ type FeedbackForAssignmentInfo struct {
 	PerformerId  int64  `json:"performerId" dc:"id of performer"`
 	AssignmentId int64  `json:"assignmentId" dc:"id of assignment"`
 	Score        int    `json:"score" dc:"score of this attempt"`
+	Record       string `json:"record" dc:"score record of this attempt"`
 	FileId       int64  `json:"fileId" dc:"id of this attempt file"`
 	FileType     string `json:"fileType" dc:"type of this attempt file"`
 }
@@ -40,6 +42,7 @@ type TestcaseAndAnswerInfo struct {
 	TestcaseId   int64  `json:"testcaseId" dc:"id of this testcase file"`
 	AnswerId     int64  `json:"answerId" dc:"id of the answer to the testcase"`
 	FileType     string `json:"fileType" dc:"type of this testcase"`
+	Score        int    `json:"score" dc:"score of this testcase"`
 }
 
 type GetAllAssignmentInfoOfACourseReq struct {
@@ -50,6 +53,7 @@ type GetAllAssignmentInfoOfACourseReq struct {
 type GetAllAssignmentInfoOfACourseRes struct {
 	g.Meta      `mime:"text/html" example:"json"`
 	Assignments []*entity.Assignments `json:"assignments" dc:"Info of all assignments of a course"`
+	Scores      []int                 `json:"scores" dc:"Scores of those assignment"`
 }
 
 type GetAllAssignmentInfoOfALectureReq struct {
@@ -60,6 +64,8 @@ type GetAllAssignmentInfoOfALectureReq struct {
 type GetAllAssignmentInfoOfALectureRes struct {
 	g.Meta      `mime:"text/html" example:"json"`
 	Assignments []*entity.Assignments `json:"assignments" dc:"Info of all assignments of a lecture"`
+	Scores      []int                 `json:"scores" dc:"Scores of those assignment"`
+	TotalScores []int                 `json:"totalScores" dc:"TotalScores of those assignment"`
 }
 
 type CreateAssignmentReq struct {
@@ -112,7 +118,7 @@ type UpdateAssignmentRes struct {
 type UploadTestcaseAndAnswerReq struct {
 	g.Meta            `path:"/api/assignment/uploadTestcaseAndAnswer" method:"post" tags:"Assignment" summary:"update testcase and answer for this assignment"`
 	TestcaseAndAnswer TestcaseAndAnswerInfo `json:"testcaseAndAnswer" dc:"Info of the testcase and answer"`
-	CourseId          int64                 `v:"required" dc:"id of the course"`
+	CourseId          int64                 `json:"courseId" v:"required" dc:"id of the course"`
 	CourseName        string                `json:"courseName" dc:"name of this course"`
 	ChatId            int64                 `json:"chatId" dc:"chat id of this course"`
 }

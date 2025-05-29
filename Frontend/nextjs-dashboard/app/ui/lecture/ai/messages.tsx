@@ -60,14 +60,17 @@ function PureMessages({
     >
       {messages.length === 0 && <Greeting />}
 
-      {messages.map((message, index) => (
-        <PreviewMessage
-          key={message.id}
-          chatId={chatId}
-          message={message}
-          isLoading={status === 'streaming' && messages.length - 1 === index}
-        />
-      ))}
+      {messages.map((message, index) => {
+        // console.log("message: ", message);
+        return (
+          <PreviewMessage
+            key={message.id}
+            chatId={chatId}
+            message={message}
+            isLoading={status === 'streaming' && messages.length - 1 === index}
+          />
+        );
+      })}
 
       {status === 'submitted' &&
         messages.length > 0 &&

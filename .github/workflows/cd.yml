@@ -1,0 +1,24 @@
+# .github/workflows/cd.yml
+name: Deploy via SSH
+
+on:
+  workflow_call:
+    secrets:
+      SSH_PRIVATE_KEY:
+        required: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: 47.117.144.50
+          username: admin
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /home/admin/team-project-25spring-15
+            git pull
+            make close-backend-dev
+            make setup-backend-dev

@@ -33,14 +33,14 @@ export const myProvider = customProvider({
   }
 });
 
-export interface Exercise {
-  exerciseId: number;
-  publisherId: number;
-  title: string;
-  description: string;
-  deadLine: string;
-  score: number;
-}
+export type AiMessage = {
+  chatId: string; // uuid
+  lectureId: number;
+  userId: number;
+  role: string;
+  parts: string;
+  createdAt: string;
+};
 
 export interface Lecture {
   lectureId: number;
@@ -77,4 +77,39 @@ export type LoginResponse = {
     userInfo: UserInfo;
   };
 };
+
+export interface Exercise {
+  exerciseId: number;
+  publisherId: number;
+  title: string;
+  description: string;
+  deadLine: string;
+  score: number;
+}
+
+export interface Comment {
+  id: number;
+  lectureId: number;
+  content: string;
+  authorId: number;
+  authorName: string;
+  createTime: string;
+  likes: number;
+  repliedToCommentId: number | null;
+  repliedToUserId?: number;
+  repliedToUserName?: string;
+}
+
+export interface Assignment {
+  assignmentId: number;
+  publisherId: number;
+  assignmentName: string;
+  description: string;
+  deadline: string;
+  score: number; // 学生获得的分数
+  totalScore?: number; // 作业的总分值
+  courseId: number;
+  lectureId: number;
+}
+
 

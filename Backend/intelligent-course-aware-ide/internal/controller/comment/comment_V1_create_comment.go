@@ -15,6 +15,7 @@ func (c *ControllerV1) CreateComment(ctx context.Context, req *v1.CreateCommentR
 		RepliedToCommentId: req.NewComment.RepliedToCommentId,
 		Content:            req.NewComment.Content,
 		CreateTime:         req.NewComment.CreateTime,
+		Likes:              req.NewComment.Likes,
 	}).InsertAndGetId()
 	if err != nil {
 		return nil, err
