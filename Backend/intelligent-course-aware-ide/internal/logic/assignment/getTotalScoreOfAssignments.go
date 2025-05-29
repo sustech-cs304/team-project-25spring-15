@@ -11,11 +11,11 @@ func (a *Assignments) GetTotalScoreOfAssignments(ctx context.Context, assignment
 		return totalScores, err
 	}
 	for _, assignment := range assignments {
-		totalScore, err := dao.TestcaseAndAnswerFiles.Ctx(ctx).Where("assignmentId", assignment.AssignmentId).Count("score")
+		totalScore, err := dao.TestcaseAndAnswerFiles.Ctx(ctx).Where("assignmentId", assignment.AssignmentId).Sum("score")
 		if err != nil {
 			return totalScores, err
 		}
-		totalScores = append(totalScores, totalScore)
+		totalScores = append(totalScores, int(totalScore))
 	}
 	return totalScores, nil
 }

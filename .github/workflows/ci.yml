@@ -64,3 +64,11 @@ jobs:
       - name: Go lint check (optional)
         working-directory: Backend/intelligent-course-aware-ide
         run: golint ./...
+  
+  call-deploy:
+    name: Trigger Deploy
+    if: github.event_name == 'push' && github.ref == 'refs/heads/ope'
+    needs: go-syntax-check
+    uses: ./.github/workflows/cd.yml
+    secrets:
+      SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}

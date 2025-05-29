@@ -19,6 +19,7 @@ func (c *ControllerV1) ExecCommand(ctx context.Context, req *v1.ExecCommandReq) 
 		"sessionId": req.SessionId,
 		"command":   req.Command,
 		"content":   req.Content,
+		"cwd":       req.Cwd,
 	}
 	jsonData, err := json.Marshal(requestBody)
 	if err != nil {
