@@ -151,43 +151,43 @@ func Test_LoginUser_DeleteUser(t *testing.T) {
 		ctrl := &account.ControllerV1{}
 		ctrlUser := &user.ControllerV1{}
 		req := &V1.LoginUserReq{}
-			userinfo := V1.UserLoginInfo{
-				UserId:   5,
-				Password: "password5",
-			}
-			req = &V1.LoginUserReq{
-				UserInfo: userinfo,
-			}
-			res, err := ctrl.LoginUser(context.Background(), req)
-			//fmt.Println(res.Token)
-			cxt, _ := middleware.BuildCtx(res.Token)
-			reqDelete := &v1.DeleteUserReq{
-				UserToDeleteId: 5,
-			}
-			resDelete, errDelete := ctrlUser.DeleteUser(cxt, reqDelete)
-			t.AssertNil(err)
-			t.Assert(res.Success, true)
-			t.AssertNil(errDelete)
-			t.Assert(resDelete.Success, true)
-	})
-}
-func Test_LogoutUser(t *testing.T){
-	ctrl := &account.ControllerV1{}
-		ctrlUser := &user.ControllerV1{}
-		req := &V1.LoginUserReq{}
 		userinfo := V1.UserLoginInfo{
-				UserId:   4,
-				Password: "password4",
+			UserId:   5,
+			Password: "password5",
 		}
 		req = &V1.LoginUserReq{
-				UserInfo: userinfo,
+			UserInfo: userinfo,
 		}
-		res, _ := ctrl.LoginUser(context.Background(), req)
+		res, err := ctrl.LoginUser(context.Background(), req)
+		//fmt.Println(res.Token)
 		cxt, _ := middleware.BuildCtx(res.Token)
-		reqUser := &v1.LogoutUserReq{}
-		gtest.C(t,func(t *gtest.T) {
-			resUser, err :=ctrlUser.LogoutUser(cxt,reqUser)
-			gtest.AssertNil(err)
-			gtest.Assert(resUser.Success,true)
-		})
+		reqDelete := &v1.DeleteUserReq{
+			UserToDeleteId: 5,
+		}
+		resDelete, errDelete := ctrlUser.DeleteUser(cxt, reqDelete)
+		t.AssertNil(err)
+		t.Assert(res.Success, true)
+		t.AssertNil(errDelete)
+		t.Assert(resDelete.Success, true)
+	})
+}
+func Test_LogoutUser(t *testing.T) {
+	ctrl := &account.ControllerV1{}
+	ctrlUser := &user.ControllerV1{}
+	req := &V1.LoginUserReq{}
+	userinfo := V1.UserLoginInfo{
+		UserId:   4,
+		Password: "password4",
+	}
+	req = &V1.LoginUserReq{
+		UserInfo: userinfo,
+	}
+	res, _ := ctrl.LoginUser(context.Background(), req)
+	cxt, _ := middleware.BuildCtx(res.Token)
+	reqUser := &v1.LogoutUserReq{}
+	gtest.C(t, func(t *gtest.T) {
+		resUser, err := ctrlUser.LogoutUser(cxt, reqUser)
+		gtest.AssertNil(err)
+		gtest.Assert(resUser.Success, true)
+	})
 }

@@ -128,7 +128,7 @@ func Test_AddStudentsIntoCourse(t *testing.T) {
 		"user2@example.com",
 	}
 	req := &v1.AddStudentsIntoCourseReq{
-		CourseId: 1,
+		CourseId:      1,
 		StudentsEmail: email,
 	}
 	ctrl := &course.ControllerV1{}
@@ -240,6 +240,7 @@ func Test_GetCourseWithLectureByStudentId(t *testing.T) {
 		t.AssertNE(res.Courses, v1.GetCourseWithLecturesByStudentIdReq{})
 	})
 }
+
 // func Test_SearchCourse(t *testing.T) {
 // 	req := &v1.SearchCourseReq{
 // 		Keywords:     "操作",
@@ -255,7 +256,7 @@ func Test_GetCourseWithLectureByStudentId(t *testing.T) {
 // 	})
 // }
 
-func Test_GetALLStudentsOfCourse(t *testing.T){
+func Test_GetALLStudentsOfCourse(t *testing.T) {
 	ctrlAccount := &account.ControllerV1{}
 	userinfo := V1.UserLoginInfo{
 		UserId:   1,
@@ -265,13 +266,13 @@ func Test_GetALLStudentsOfCourse(t *testing.T){
 
 	resAccount, _ := ctrlAccount.LoginUser(context.Background(), reqAccount)
 	cxt, _ := middleware.BuildCtx(resAccount.Token)
-	req :=&v1.GetAllStudentsOfACourseReq{
+	req := &v1.GetAllStudentsOfACourseReq{
 		CourseId: 1,
 	}
-	ctrl :=&course.ControllerV1{}
-	gtest.C(t,func(t *gtest.T) {
-		res,err :=ctrl.GetAllStudentsOfACourse(cxt,req)
+	ctrl := &course.ControllerV1{}
+	gtest.C(t, func(t *gtest.T) {
+		res, err := ctrl.GetAllStudentsOfACourse(cxt, req)
 		gtest.AssertNil(err)
-		gtest.Assert(res.Students[0].UserId,1)
+		gtest.Assert(res.Students[0].UserId, 1)
 	})
 }

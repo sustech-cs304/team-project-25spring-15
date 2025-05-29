@@ -38,11 +38,11 @@ func Test_CreateLecture(t *testing.T) {
 	req := &v1.CreateLectureReq{
 		NewLecture: newlecture,
 	}
-	req2 :=&v1.CreateLectureReq{
+	req2 := &v1.CreateLectureReq{
 		NewLecture: newlecture2,
 	}
 	ctrl := &lecture.ControllerV1{}
-	ctrl.CreateLecture(cxt,req2)
+	ctrl.CreateLecture(cxt, req2)
 	gtest.C(t, func(t *gtest.T) {
 		res, err := ctrl.CreateLecture(cxt, req)
 		t.AssertNil(err)
