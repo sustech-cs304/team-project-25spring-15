@@ -21,7 +21,7 @@ const TmpFileName string = "temp_script"
 
 // Default path of script on host
 // const PathForHost string = "/usr/Document/"
-const PathForHost string = "/home/admin/team-project-25spring-15/Backend/data"
+const PathForHost string = "/home/admin/team-project-25spring-15/Backend/data/"
 
 // Default path of script on docker
 const PathForDocker string = "/usr/Document/"

@@ -1,15 +1,4 @@
-#include <stdio.h>
+// 在此编写代码
+value = 42
 
-int main() {
-    int n = 3;
-    while (n != 1) {
-        printf("%d\n", n);
-        if (n % 2 == 0) {
-            n = n / 2;
-        } else {
-            n = 3 * n + 1;
-        }
-    }
-    printf("%d\n", n);
-    return 0;
-}
+print("输出的值是：", value)

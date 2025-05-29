@@ -115,7 +115,7 @@ def run_code():
 
     return jsonify(response)
 
-def run_and_check(code_type, code_path, testcases, answers, output_path):
+def run_and_check(code_type, code_path, testcases, answers, scores, output_path):
     getScore = 0
     score_result = ""
     if code_type == 'cpp':
@@ -124,7 +124,7 @@ def run_and_check(code_type, code_path, testcases, answers, output_path):
         if err != "":
             return getScore, score_result, str(err)
         run_cmd = exe_path
-    elif code_type == 'python':
+    elif code_type == 'python' or code_type == 'py':
         run_cmd = "python " + code_path
     elif code_type == 'txt':
         run_cmd = ""
@@ -139,13 +139,15 @@ def run_and_check(code_type, code_path, testcases, answers, output_path):
             exec_file(run_cmd)
         try:
             diff_result = subprocess.run(
-                ["diff", "-q", output_path, answer.get('fileUrl')],
+                ["diff", "-Z", output_path, answer.get('fileUrl')],
                 capture_output=True,
                 text=True
             )
+            print(diff_result)
             if diff_result.returncode == 0:
-                getScore += testcase.get('score')
-                score_result = score_result + str(testcase.get('score')) + ","
+
+                getScore += scores[index]
+                score_result = score_result + str(scores[index]) + ","
             else:
                 score_result += "0,"
         except Exception as e:
@@ -166,17 +168,18 @@ def run_check_answer():
     testcases = data.get('testcases')
     answers = data.get('answers')
     outputPath = data.get('outputPath')
+    scores = data.get('scores')
+    dirPath  = os.path.dirname(codePath)
+    outputPath = os.path.join(dirPath, outputPath) 
 
-    codePath = DIR_PATH + codePath
-    outputPath = DIR_PATH + codePath
-
-    result, record, err = run_and_check(codeType, codePath, testcases, answers, outputPath)
+    result, record, err = run_and_check(codeType, codePath, testcases, answers, scores, outputPath)
 
     response = {
         "feedback": {
             "score": result,
             "record": record,
-            "error": err
+            "error": err,
+            "fileType": codeType
         }
     }
 
@@ -217,46 +220,58 @@ def exec_bash():
     data = request.get_json()
     session_id = data.get('sessionId')
     cmd = data.get('command', '')
+    content = data.get('content', '')
     proc = bash_sessions.get(session_id)
     if not proc:
         print("fail to exec")
         return jsonify({'output': '', 'cwd': '', 'error': 'Invalid session_id'}), 400
 
-    # 生成两个 sentinel 用于截取命令输出和 cwd
-    sentinel_out = str(uuid.uuid4())
-    sentinel_cwd = str(uuid.uuid4())
+    cmd_list = cmd.split()
 
-    # 写入用户命令及第一个 sentinel
-    proc.stdin.write(cmd + '\n')
-    proc.stdin.write(f"echo {sentinel_out}\n")
-    proc.stdin.flush()
+    if cmd_list[0] == "save":
+        err = save(content, cmd_list[1])
+        if err != None:
+            print("fail to save")
+            return jsonify({'output': "", "cwd": "", "error": err}), 400
+        else:
+            return jsonify({'output': "save successfully", "cwd": cwd, "error": ""}), 200
+    else:
 
-    # 读取命令输出直到 sentinel_out
-    output_lines = []
-    while True:
-        line = proc.stdout.readline()
-        if not line or line.strip() == sentinel_out:
-            break
-        output_lines.append(line)
+        # 生成两个 sentinel 用于截取命令输出和 cwd
+        sentinel_out = str(uuid.uuid4())
+        sentinel_cwd = str(uuid.uuid4())
 
-    # 再写入 pwd 命令及第二个 sentinel
-    proc.stdin.write("pwd\n")
-    proc.stdin.write(f"echo {sentinel_cwd}\n")
-    proc.stdin.flush()
+        # 写入用户命令及第一个 sentinel
+        proc.stdin.write(cmd + '\n')
+        proc.stdin.write(f"echo {sentinel_out}\n")
+        proc.stdin.flush()
 
-    # 读取 cwd 输出直到 sentinel_cwd
-    cwd = ''
-    while True:
-        line = proc.stdout.readline()
-        if not line or line.strip() == sentinel_cwd:
-            break
-        cwd += line.strip()
+        # 读取命令输出直到 sentinel_out
+        output_lines = []
+        while True:
+            line = proc.stdout.readline()
+            if not line or line.strip() == sentinel_out:
+                break
+            output_lines.append(line)
 
-    return jsonify({
-        'output': ''.join(output_lines),
-        'cwd': cwd,
-        'error': ''
-    })
+        # 再写入 pwd 命令及第二个 sentinel
+        proc.stdin.write("pwd\n")
+        proc.stdin.write(f"echo {sentinel_cwd}\n")
+        proc.stdin.flush()
+
+        # 读取 cwd 输出直到 sentinel_cwd
+        cwd = ''
+        while True:
+            line = proc.stdout.readline()
+            if not line or line.strip() == sentinel_cwd:
+                break
+            cwd += line.strip()
+
+        return jsonify({
+            'output': ''.join(output_lines),
+            'cwd': cwd,
+            'error': ''
+        })
 
 @app.route('/bash/close', methods=['POST'])
 def close_bash():

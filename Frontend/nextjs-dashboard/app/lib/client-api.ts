@@ -121,6 +121,69 @@ export const CourseAPI = {
       console.error(`Failed to fetch courses infomation:`, err);
     }
   },
+
+  // 根据courseId获取课程详情和讲座列表
+  async fetchCourseWithLectures(courseId: number) {
+    try {
+      const headers = await getAuthHeader();
+      console.log('Fetching course with lectures for courseId:', courseId);
+      console.log('Using headers:', headers);
+      
+      const response = await axios.get(`/api/course/searchCourseWithLectures/${courseId}`, {
+        headers
+      });
+      
+      console.log('Raw API response:', response);
+      console.log('Response status:', response.status);
+      console.log('Response data:', response.data);
+      
+      // 检查响应数据结构
+      if (!response.data) {
+        throw new Error('API响应为空');
+      }
+      
+      // 根据API文档，数据可能在data字段中
+      const responseData = response.data.data || response.data;
+      console.log('Processed response data:', responseData);
+      
+      // 检查是否包含必要的字段
+      if (!responseData.course && !responseData.Course) {
+        console.error('响应中缺少course字段:', responseData);
+        throw new Error('API响应中缺少课程数据');
+      }
+      
+      // 标准化字段名（可能是course或Course）
+      const course = responseData.course || responseData.Course;
+      const courseIdentity = responseData.courseIdentity || responseData.CourseIdentity;
+      
+      console.log('Extracted course:', course);
+      console.log('Extracted courseIdentity:', courseIdentity);
+      
+      return {
+        course: course,
+        courseIdentity: courseIdentity
+      };
+    } catch (err) {
+      console.error(`Failed to fetch course with lectures:`, err);
+      
+      // 记录更详细的错误信息
+      if (err instanceof Error) {
+        console.error('Error message:', err.message);
+      }
+      
+      // 如果是网络错误，记录响应详情
+      if (axios.isAxiosError(err)) {
+        console.error('Axios error details:');
+        console.error('- Status:', err.response?.status);
+        console.error('- Status text:', err.response?.statusText);
+        console.error('- Response data:', err.response?.data);
+        console.error('- Request URL:', err.config?.url);
+      }
+      
+      throw err;
+    }
+  },
+
   // 添加课程
   addCourse: async (course: {
     courseName: string;

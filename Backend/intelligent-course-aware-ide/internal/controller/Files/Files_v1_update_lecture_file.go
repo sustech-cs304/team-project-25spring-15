@@ -12,6 +12,7 @@ import (
 	"github.com/gogf/gf/v2/util/guid"
 
 	v1 "intelligent-course-aware-ide/api/Files/v1"
+	"intelligent-course-aware-ide/internal/consts"
 )
 
 func (c *ControllerV1) UpdateLectureFile(ctx context.Context, req *v1.UpdateLectureFileReq) (res *v1.UpdateLectureFileRes, err error) {
@@ -30,7 +31,7 @@ func (c *ControllerV1) UpdateLectureFile(ctx context.Context, req *v1.UpdateLect
 	fileExt := filepath.Ext(originalName)
 	uniqueFileName := guid.S() + fileExt
 
-	uploadPath := g.Cfg().MustGet(ctx, "upload.path", "./uploads").String()
+	uploadPath := consts.PathForHost
 	storagePath := filepath.Join(uploadPath, "lectures", gtime.Date())
 
 	if !gfile.Exists(storagePath) {

@@ -39,19 +39,20 @@ func (c *ControllerV1) UploadLectureNote(ctx context.Context, req *v1.UploadLect
 	}
 	existingFileId := gconv.Int64(idValue) // 0 表示无记录
 
+	filePath := consts.PathForHost + "files/"
 	// save the file and get a path
-	if err := os.MkdirAll(consts.PathForLecture, 0755); err != nil {
+	if err := os.MkdirAll(filePath, 0755); err != nil {
 		// Log detailed error for debugging
 		return nil, gerror.Wrap(err, "Failed to create upload directory")
 	}
 	// generate a uniqueName with save.para2 = true
-	uniqueName, err := req.File.Save(consts.PathForLecture, true)
+	uniqueName, err := req.File.Save(filePath, true)
 	if err != nil {
 		return nil, gerror.New("Failed to save file")
 	}
 
 	originalName := req.File.Filename
-	fullPath := filepath.Join(consts.PathForLecture, uniqueName)
+	fullPath := filepath.Join(filePath, uniqueName)
 	size := req.File.Size
 	ctype := req.File.Header.Get("Content-Type")
 

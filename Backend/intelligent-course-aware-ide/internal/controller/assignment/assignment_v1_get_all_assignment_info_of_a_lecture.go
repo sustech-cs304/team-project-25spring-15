@@ -16,5 +16,12 @@ func (c *ControllerV1) GetAllAssignmentInfoOfALecture(ctx context.Context, req *
 		return res, err
 	}
 	res.Scores, err = c.assignments.GetScoreOfAssignments(ctx, res.Assignments)
-	return res, err
+	if err != nil {
+		return res, err
+	}
+	res.TotalScores, err = c.assignments.GetTotalScoreOfAssignments(ctx, res.Assignments)
+	if err != nil {
+		return res, err
+	}
+	return res, nil
 }

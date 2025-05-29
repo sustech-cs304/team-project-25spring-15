@@ -17,6 +17,7 @@ type ExecCommandReq struct {
 	g.Meta    `path:"/api/command/exec" method:"post" tags:"Command" summary:"exec a command"`
 	SessionId string `json:"sessionId" dc:"Id of this Session"`
 	Command   string `json:"command" dc:"command to run"`
+	Content   string `json:"content" dc:"content to save"`
 }
 
 type ExecCommandRes struct {
