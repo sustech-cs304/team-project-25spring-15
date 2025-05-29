@@ -121,11 +121,12 @@ func (c *ControllerV1) AttemptForAssignment(ctx context.Context, req *v1.Attempt
 
 	_, err = dao.AssignmentUserFeedback.Ctx(ctx).Data(do.AssignmentUserFeedback{
 		AssignmentId: req.AssignmentUserAttempt.AssignmentId,
+		FileId:       codeFile.FileId,
 		PerformerId:  ctx.Value("operatorId").(int64),
 		Score:        resResult.AssignmentUserFeedback.Score,
 		Record:       resResult.AssignmentUserFeedback.Record,
 		FileType:     req.AssignmentUserAttempt.FileType,
 	}).Insert()
 
-	return &resResult, nil
+	return &resResult, err
 }

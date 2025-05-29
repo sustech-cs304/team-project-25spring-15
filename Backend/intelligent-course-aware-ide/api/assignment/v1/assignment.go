@@ -42,6 +42,7 @@ type TestcaseAndAnswerInfo struct {
 	TestcaseId   int64  `json:"testcaseId" dc:"id of this testcase file"`
 	AnswerId     int64  `json:"answerId" dc:"id of the answer to the testcase"`
 	FileType     string `json:"fileType" dc:"type of this testcase"`
+	Score        int    `json:"score" dc:"score of this testcase"`
 }
 
 type GetAllAssignmentInfoOfACourseReq struct {

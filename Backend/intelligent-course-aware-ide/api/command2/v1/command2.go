@@ -18,6 +18,7 @@ type ExecCommandReq struct {
 	SessionId string `json:"sessionId" dc:"Id of this Session"`
 	Command   string `json:"command" dc:"command to run"`
 	Content   string `json:"content" dc:"content to save"`
+	Cwd       string `json:"cwd" dc:"cwd of this shell"`
 }
 
 type ExecCommandRes struct {

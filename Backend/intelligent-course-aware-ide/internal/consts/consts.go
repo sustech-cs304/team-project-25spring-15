@@ -3,8 +3,9 @@ package consts
 import "time"
 
 // Operation url
-// const TargetUrl string = "http://runner:8001"
-const TargetUrl string = "http://localhost:8001"
+const TargetUrl string = "http://runner:8001"
+
+// const TargetUrl string = "http://localhost:8001"
 const TmpDirPath string = "/usr/Document/tmp/"
 
 // Database dockerName
@@ -21,7 +22,7 @@ const TmpFileName string = "temp_script"
 
 // Default path of script on host
 // const PathForHost string = "/usr/Document/"
-const PathForHost string = "/home/admin/team-project-25spring-15/Backend/data/"
+const PathForHost string = "/usr/Document/"
 
 // Default path of script on docker
 const PathForDocker string = "/usr/Document/"

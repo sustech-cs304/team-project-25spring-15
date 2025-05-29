@@ -195,10 +195,10 @@ bash_sessions: dict[str, subprocess.Popen] = {}
 def create_bash():
     data = request.get_json()
     session_id = str(uuid.uuid4())
+    print(session_id)
     initial_cwd = data.get('cwd', '')
 
     if initial_cwd != '':
-        initial_cwd = DIR_PATH + initial_cwd
         if not os.path.exists(initial_cwd):
             try:
                 os.makedirs(initial_cwd, exist_ok=True)
@@ -234,7 +234,7 @@ def exec_bash():
             print("fail to save")
             return jsonify({'output': "", "cwd": "", "error": err}), 400
         else:
-            return jsonify({'output': "save successfully", "cwd": cwd, "error": ""}), 200
+            return jsonify({'output': "save successfully", "cwd": data.get('cwd'), "error": ""}), 200
     else:
 
         # 生成两个 sentinel 用于截取命令输出和 cwd
@@ -245,7 +245,6 @@ def exec_bash():
         proc.stdin.write(cmd + '\n')
         proc.stdin.write(f"echo {sentinel_out}\n")
         proc.stdin.flush()
-
         # 读取命令输出直到 sentinel_out
         output_lines = []
         while True:
@@ -259,6 +258,7 @@ def exec_bash():
         proc.stdin.write(f"echo {sentinel_cwd}\n")
         proc.stdin.flush()
 
+        
         # 读取 cwd 输出直到 sentinel_cwd
         cwd = ''
         while True:
