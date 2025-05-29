@@ -17,13 +17,20 @@ import {
   Avatar,
   LinearProgress,
   alpha,
+  IconButton,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 import { 
   CalendarToday, 
   Person, 
   PlayCircleOutline,
   Book,
+  MoreVert,
+  Edit,
+  Delete,
 } from '@mui/icons-material';
+import { useState, MouseEvent } from 'react';
 
 interface CardWrapperProps {
   courses: Course[];
@@ -33,6 +40,9 @@ interface CardWrapperProps {
 interface CourseCardProps {
   course: Course;
   onClick: () => void;
+  onEdit?: (course: Course) => void;
+  onDelete?: (course: Course) => void;
+  showActions?: boolean;
 }
 
 const iconMap = {
@@ -51,7 +61,31 @@ const courseThemes = [
 ];
 
 // 新增用于课程列表显示的CourseCard组件
-export default function CourseCard({ course, onClick }: CourseCardProps) {
+export default function CourseCard({ course, onClick, onEdit, onDelete, showActions = false }: CourseCardProps) {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+
+  const handleMenuClick = (event: MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleEdit = (event: MouseEvent) => {
+    event.stopPropagation();
+    handleMenuClose();
+    onEdit?.(course);
+  };
+
+  const handleDelete = (event: MouseEvent) => {
+    event.stopPropagation();
+    handleMenuClose();
+    onDelete?.(course);
+  };
+
   // 添加空值检查
   if (!course) {
     return (
@@ -141,6 +175,45 @@ export default function CourseCard({ course, onClick }: CourseCardProps) {
           zIndex: 1,
         }}
       />
+
+      {/* 操作菜单按钮 */}
+      {showActions && (onEdit || onDelete) && (
+        <Box sx={{ position: 'absolute', top: 8, right: 8, zIndex: 3 }}>
+          <IconButton
+            size="small"
+            onClick={handleMenuClick}
+            sx={{
+              backgroundColor: 'rgba(255, 255, 255, 0.8)',
+              backdropFilter: 'blur(4px)',
+              '&:hover': {
+                backgroundColor: 'rgba(255, 255, 255, 0.9)',
+              },
+            }}
+          >
+            <MoreVert fontSize="small" />
+          </IconButton>
+          <Menu
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleMenuClose}
+            transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+            anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+          >
+            {onEdit && (
+              <MenuItem onClick={handleEdit}>
+                <Edit fontSize="small" sx={{ mr: 1 }} />
+                编辑课程
+              </MenuItem>
+            )}
+            {onDelete && (
+              <MenuItem onClick={handleDelete} sx={{ color: 'error.main' }}>
+                <Delete fontSize="small" sx={{ mr: 1 }} />
+                删除课程
+              </MenuItem>
+            )}
+          </Menu>
+        </Box>
+      )}
 
       <CardActionArea onClick={onClick} sx={{ flexGrow: 1, position: 'relative', zIndex: 2 }}>
         <CardContent sx={{ p: 3, height: '100%', display: 'flex', flexDirection: 'column' }}>

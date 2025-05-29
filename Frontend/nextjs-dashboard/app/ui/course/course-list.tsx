@@ -14,6 +14,11 @@ import {
   alpha,
   Card,
   CardContent,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TextField,
 } from '@mui/material';
 
 import MarkdownEditor from "@/app/ui/note/MarkdownEditor";
@@ -28,14 +33,30 @@ import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import { PageWrapper, AnimatedContainer, AnimatedCard, FadeIn, LoadingSpinner } from '@/app/ui/animations';
 import { useTheme } from '@mui/material/styles';
+import { CourseAPI } from '@/app/lib/client-api';
+import { Course } from '@/app/lib/definitions';
+import { usePermissions } from '@/app/lib/permissions';
+import { useMessage } from '@/app/hooks/useMessage';
 
 export default function CourseList() {
   const router = useRouter();
   const courses = useStore(state => state.courses);
+  const setCourses = useStore(state => state.setCourses);
   const userInfo = useStore(state => state.userInfo);
   const [tabValue, setTabValue] = useState(0);
   const theme = useTheme();
   const [note, setNote] = useState("# 这里是你的笔记...");
+
+  // 编辑课程相关状态
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [editingCourse, setEditingCourse] = useState<Course | null>(null);
+  const [editForm, setEditForm] = useState({
+    courseName: '',
+    description: '',
+  });
+
+  // 使用消息弹窗
+  const { success, error, warning, confirm, MessageComponent } = useMessage();
 
   const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
@@ -43,6 +64,92 @@ export default function CourseList() {
 
   const handleCourseClick = (courseId: number) => {
     router.push(`/dashboard/course/${courseId}`);
+  };
+
+  // 处理编辑课程
+  const handleEditCourse = (course: Course) => {
+    setEditingCourse(course);
+    setEditForm({
+      courseName: course.courseName,
+      description: course.description || '',
+    });
+    setEditDialogOpen(true);
+  };
+
+  // 处理删除课程
+  const handleDeleteCourse = async (course: Course) => {
+    if (!userInfo) {
+      warning('用户信息不存在');
+      return;
+    }
+
+    // 检查权限：只有课程创建者可以删除
+    if (course.teacherId !== userInfo.userId) {
+      warning('只有课程创建者可以删除课程');
+      return;
+    }
+
+    confirm(
+      `确认删除课程"${course.courseName}"？\n\n删除后将无法恢复，所有相关的讲座和内容都将被删除。`,
+      async () => {
+        try {
+          await CourseAPI.deleteCourse(course.courseId);
+          
+          // 更新本地状态
+          const updatedCourses = courses.filter(c => c.courseId !== course.courseId);
+          setCourses(updatedCourses);
+          
+          success(`课程"${course.courseName}"已成功删除`, {
+            title: '删除成功'
+          });
+        } catch (err) {
+          console.error('删除课程失败:', err);
+          error('删除课程失败: ' + (err instanceof Error ? err.message : '未知错误'));
+        }
+      }
+    );
+  };
+
+  // 处理保存编辑
+  const handleSaveEdit = async () => {
+    if (!editingCourse) return;
+    
+    if (!editForm.courseName.trim()) {
+      warning('请输入课程名称');
+      return;
+    }
+
+    try {
+      await CourseAPI.updateCourse(editingCourse.courseId, {
+        courseName: editForm.courseName.trim(),
+        description: editForm.description.trim(),
+      });
+
+      // 更新本地状态
+      const updatedCourses = courses.map(course => 
+        course.courseId === editingCourse.courseId 
+          ? { ...course, courseName: editForm.courseName.trim(), description: editForm.description.trim() }
+          : course
+      );
+      setCourses(updatedCourses);
+
+      success(`课程"${editForm.courseName}"已成功更新`, {
+        title: '更新成功'
+      });
+      
+      setEditDialogOpen(false);
+      setEditingCourse(null);
+    } catch (err) {
+      console.error('更新课程失败:', err);
+      error('更新课程失败: ' + (err instanceof Error ? err.message : '未知错误'));
+    }
+  };
+
+  // 取消编辑
+  const handleCancelEdit = () => {
+    setEditDialogOpen(false);
+    setEditingCourse(null);
+    setEditForm({ courseName: '', description: '' });
   };
 
   // 根据用户身份筛选我的课程
@@ -257,7 +364,13 @@ export default function CourseList() {
                       delay={0.4 + index * 0.1}
                       onClick={() => handleCourseClick(course.courseId)}
                     >
-                      <CourseCard course={course} onClick={() => handleCourseClick(course.courseId)} />
+                      <CourseCard 
+                        course={course} 
+                        onClick={() => handleCourseClick(course.courseId)}
+                        onEdit={handleEditCourse}
+                        onDelete={handleDeleteCourse}
+                        showActions={userInfo?.identity === 'teacher' && course.teacherId === userInfo.userId}
+                      />
                     </AnimatedCard>
                   ))
                 )}
@@ -476,6 +589,60 @@ export default function CourseList() {
             </Box>
           </FadeIn>
         </Container>
+
+        {/* 编辑课程对话框 */}
+        <Dialog 
+          open={editDialogOpen} 
+          onClose={handleCancelEdit}
+          maxWidth="sm"
+          fullWidth
+          PaperProps={{
+            sx: {
+              borderRadius: 3,
+              background: 'rgba(255, 255, 255, 0.95)',
+              backdropFilter: 'blur(10px)',
+            }
+          }}
+        >
+          <DialogTitle sx={{ fontWeight: 600, fontSize: '1.5rem' }}>
+            编辑课程
+          </DialogTitle>
+          <DialogContent>
+            <TextField
+              autoFocus
+              margin="dense"
+              label="课程名称"
+              type="text"
+              fullWidth
+              variant="outlined"
+              value={editForm.courseName}
+              onChange={(e) => setEditForm({ ...editForm, courseName: e.target.value })}
+              sx={{ mb: 2 }}
+            />
+            <TextField
+              margin="dense"
+              label="课程描述"
+              type="text"
+              fullWidth
+              multiline
+              rows={4}
+              variant="outlined"
+              value={editForm.description}
+              onChange={(e) => setEditForm({ ...editForm, description: e.target.value })}
+            />
+          </DialogContent>
+          <DialogActions sx={{ p: 3, gap: 1 }}>
+            <Button onClick={handleCancelEdit} variant="outlined">
+              取消
+            </Button>
+            <Button onClick={handleSaveEdit} variant="contained">
+              保存
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        {/* 消息弹窗 */}
+        <MessageComponent />
       </Box>
     </PageWrapper>
   );
