@@ -108,10 +108,62 @@ export default function ExercisesList({
         {filtered.map((ex) => (
           <TaskRow key={ex.assignmentId}>
             <Box sx={{ flexGrow: 1 }} onClick={() => onExerciseClick(ex.assignmentId)}>
-              <Typography variant="body1">{ex.assignmentName}</Typography>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1 }}>
+                <Typography variant="body1" sx={{ fontWeight: 'medium' }}>
+                  {ex.assignmentName}
+                </Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  {ex.totalScore && ex.totalScore > 0 ? (
+                    <Typography 
+                      variant="body2" 
+                      sx={{ 
+                        color: ex.score > 0 ? 'success.main' : 'text.secondary',
+                        fontWeight: 'medium'
+                      }}
+                    >
+                      {Math.round((ex.score / ex.totalScore) * 100)}%
+                    </Typography>
+                  ) : (
+                    <Typography 
+                      variant="body2" 
+                      sx={{ 
+                        color: 'text.secondary',
+                        fontWeight: 'medium'
+                      }}
+                    >
+                      未评分
+                    </Typography>
+                  )}
+                </Box>
+              </Box>
               <Typography variant="body2" color="textSecondary">
                 截止时间: {new Date(ex.deadline.replace(' ', 'T')).toLocaleString()}
               </Typography>
+              {ex.totalScore && ex.totalScore > 0 && (
+                <Box sx={{ mt: 1, display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <Box 
+                    sx={{ 
+                      flexGrow: 1, 
+                      height: 4, 
+                      backgroundColor: 'grey.200', 
+                      borderRadius: 2,
+                      overflow: 'hidden'
+                    }}
+                  >
+                    <Box 
+                      sx={{ 
+                        height: '100%', 
+                        backgroundColor: ex.score > 0 ? 'success.main' : 'grey.300',
+                        width: `${Math.min((ex.score / ex.totalScore) * 100, 100)}%`,
+                        transition: 'width 0.3s ease'
+                      }} 
+                    />
+                  </Box>
+                  <Typography variant="caption" color="textSecondary" sx={{ minWidth: 35 }}>
+                    {ex.totalScore > 0 ? Math.round((ex.score / ex.totalScore) * 100) : 0}%
+                  </Typography>
+                </Box>
+              )}
             </Box>
             {canEdit && (
               <>

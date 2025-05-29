@@ -12,6 +12,7 @@ import { AssignmentAPI } from "@/app/lib/client-api";
 import { Assignment } from "@/app/lib/definitions";
 import { useStore } from "@/store/useStore";
 import { usePermissions } from "@/app/lib/permissions";
+import { useMessage } from "@/app/hooks/useMessage";
 
 export default function ExercisesContainer() {
   const [exercises, setExercises] = useState<Assignment[]>([]);
@@ -32,6 +33,9 @@ export default function ExercisesContainer() {
 
   // 使用权限管理工具
   const permissions = usePermissions(userInfo, selectedCourse?.teacherId, courseIdentity);
+  
+  // 使用消息弹窗
+  const { success, error, warning, info, confirm, MessageComponent } = useMessage();
 
   const fetchExercises = async () => {
     setLoading(true);
@@ -49,7 +53,7 @@ export default function ExercisesContainer() {
 
   const handleCreate = (data: { assignmentName: string; description: string; deadline: string }) => {
     if (!permissions.canEditExercise) {
-      alert('您没有权限创建任务');
+      warning('您没有权限创建任务');
       return;
     }
 
@@ -67,24 +71,36 @@ export default function ExercisesContainer() {
       .then(() => {
         setShowCreate(false);
         fetchExercises();
+        success('任务创建成功');
       })
-      .catch((err) => console.error("创建作业失败", err));
+      .catch((err) => {
+        console.error("创建作业失败", err);
+        error('创建任务失败');
+      });
   };
 
   const handleDelete = (id: number) => {
     if (!permissions.canEditExercise) {
-      alert('您没有权限删除任务');
+      warning('您没有权限删除任务');
       return;
     }
-    if (!window.confirm("确定要删除这个作业吗？")) return;
-    AssignmentAPI.deleteAssignment(id, selectedCourseId || 0)
-      .then(() => fetchExercises())
-      .catch((err) => console.error("删除作业失败", err));
+    
+    confirm("确定要删除这个作业吗？", () => {
+      AssignmentAPI.deleteAssignment(id, selectedCourseId || 0)
+        .then(() => {
+          fetchExercises();
+          success('任务删除成功');
+        })
+        .catch((err) => {
+          console.error("删除作业失败", err);
+          error('删除任务失败');
+        });
+    });
   };
 
   const handleEdit = (ex: Assignment) => {
     if (!permissions.canEditExercise) {
-      alert('您没有权限编辑任务');
+      warning('您没有权限编辑任务');
       return;
     }
     setEditExercise(ex);
@@ -93,15 +109,34 @@ export default function ExercisesContainer() {
 
   const handleUpdate = (data: { assignmentName: string; description: string; deadline: string }) => {
     if (!permissions.canEditExercise) {
-      alert('您没有权限更新任务');
+      warning('您没有权限更新任务');
       return;
     }
     if (!editExercise) return;
-    axios.put(`/api/exercises/${editExercise.assignmentId}`, data).then(() => {
-      setShowEdit(false);
-      setEditExercise(null);
-      fetchExercises();
-    });
+    
+    // 注意：这里可能需要根据实际的API接口来调整
+    const updatedAssignment = {
+      ...editExercise,
+      assignmentName: data.assignmentName,
+      description: data.description,
+      deadline: new Date(data.deadline.replace(' ', 'T')).toISOString(),
+    };
+    
+    // 这里需要调用实际的更新API
+    console.log("Updating assignment:", updatedAssignment);
+    
+    // 临时使用axios.put，实际应该调用AssignmentAPI.updateAssignment
+    axios.put(`/api/exercises/${editExercise.assignmentId}`, updatedAssignment)
+      .then(() => {
+        setShowEdit(false);
+        setEditExercise(null);
+        fetchExercises();
+        success('任务更新成功');
+      })
+      .catch((err) => {
+        console.error("更新作业失败", err);
+        error('更新任务失败');
+      });
   };
 
   const handleView = (id: number) => setSelectedId(id);
@@ -109,7 +144,7 @@ export default function ExercisesContainer() {
 
   const handleCreateClick = () => {
     if (!permissions.canEditExercise) {
-      alert('您没有权限创建任务');
+      warning('您没有权限创建任务');
       return;
     }
     setShowCreate(true);
@@ -122,7 +157,11 @@ export default function ExercisesContainer() {
       {showCreate && <TaskForm onClose={() => setShowCreate(false)} onSubmit={handleCreate} />}
       {showEdit && editExercise && (
         <TaskForm
-          initial={editExercise}
+          initial={{
+            assignmentName: editExercise.assignmentName,
+            description: editExercise.description,
+            deadline: editExercise.deadline.replace('T', ' ').slice(0, -1), // 转换为datetime-local格式
+          }}
           onClose={() => setShowEdit(false)}
           onSubmit={handleUpdate}
         />
@@ -132,6 +171,7 @@ export default function ExercisesContainer() {
         <ExercisesRenderer
           assignment={exercises.find(ex => ex.assignmentId === selectedId)!}
           onBack={handleBack}
+          onRefresh={fetchExercises}
         />
       ) : (
         <ExercisesList
@@ -143,6 +183,9 @@ export default function ExercisesContainer() {
           canEdit={permissions.canEditExercise}
         />
       )}
+      
+      {/* 消息弹窗 */}
+      <MessageComponent />
     </Box>
   );
 }

@@ -10,6 +10,7 @@ import {
   DialogContent,
   DialogTitle,
 } from "@mui/material";
+import { useMessage } from "@/app/hooks/useMessage";
 
 interface TaskFormProps {
   initial?: { assignmentName: string; description: string; deadline: string };
@@ -22,7 +23,22 @@ export default function TaskForm({ initial, onClose, onSubmit }: TaskFormProps) 
   const [description, setDescription] = useState(initial?.description || "");
   const [deadline, setDeadLine] = useState(initial?.deadline || "");
 
+  // 使用消息弹窗
+  const { warning, MessageComponent } = useMessage();
+
   const handleSubmit = () => {
+    if (!assignmentName.trim()) {
+      warning("请输入任务标题");
+      return;
+    }
+    if (!description.trim()) {
+      warning("请输入任务描述");
+      return;
+    }
+    if (!deadline) {
+      warning("请选择截止日期");
+      return;
+    }
     onSubmit({ assignmentName, description, deadline });
   };
 
@@ -61,6 +77,9 @@ export default function TaskForm({ initial, onClose, onSubmit }: TaskFormProps) 
           确定
         </Button>
       </DialogActions>
+      
+      {/* 消息弹窗 */}
+      <MessageComponent />
     </Dialog>
   );
 }

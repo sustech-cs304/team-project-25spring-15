@@ -106,7 +106,8 @@ export interface Assignment {
   assignmentName: string;
   description: string;
   deadline: string;
-  score: number;
+  score: number; // 学生获得的分数
+  totalScore?: number; // 作业的总分值
   courseId: number;
   lectureId: number;
 }

@@ -34,12 +34,14 @@ import { Assignment } from '@/app/lib/definitions';
 import Markdunner from "@/app/ui/lecture/courseware/markdunner-view";
 import MarkdownWithRunner from "@/app/ui/lecture/courseware/markdown-with-runner";
 import { usePermissions } from '@/app/lib/permissions';
+import { useMessage } from '@/app/hooks/useMessage';
 
 interface TestCase {
   id: number;
   name: string;
   input: File | null;
   output: File | null;
+  score: number;
 }
 
 interface SubmissionResult {
@@ -55,9 +57,10 @@ interface SubmissionResult {
 interface ExercisePageProps {
   assignment: Assignment;
   onBack: () => void;
+  onRefresh?: () => void;
 }
 
-export default function ExercisePage({ assignment, onBack }: ExercisePageProps) {
+export default function ExercisePage({ assignment, onBack, onRefresh }: ExercisePageProps) {
   const [loading, setLoading] = useState(false);
   const [code, setCode] = useState<string>("// 在此编写代码");
   const [language, setLanguage] = useState<string>('c');
@@ -65,11 +68,13 @@ export default function ExercisePage({ assignment, onBack }: ExercisePageProps) 
   const [running, setRunning] = useState(false);
   const [openTestDialog, setOpenTestDialog] = useState(false);
   const [submissionResult, setSubmissionResult] = useState<SubmissionResult | null>(null);
+  const [forceUpdate, setForceUpdate] = useState(0);
   const [newTestCase, setNewTestCase] = useState<TestCase>({
     id: 0,
     name: '',
     input: null,
-    output: null
+    output: null,
+    score: 0
   });
   const inputFileRef = useRef<HTMLInputElement>(null);
   const outputFileRef = useRef<HTMLInputElement>(null);
@@ -83,10 +88,13 @@ export default function ExercisePage({ assignment, onBack }: ExercisePageProps) 
 
   // 使用权限管理工具
   const permissions = usePermissions(userInfo, selectedCourse?.teacherId, courseIdentity);
+  
+  // 使用消息弹窗
+  const { success, error, warning, info, confirm, MessageComponent } = useMessage();
 
   const handleRun = async () => {
     if (!code.trim()) {
-      setOutput("请先编写代码");
+      warning("请先编写代码");
       return;
     }
 
@@ -96,7 +104,13 @@ export default function ExercisePage({ assignment, onBack }: ExercisePageProps) 
 
       // 使用 CodeAPI 运行代码
       const result = await CodeAPI.runCode(code, language);
-      setOutput(result || '程序执行完毕，无输出');
+      
+      // 确保有结果显示
+      if (result !== undefined && result !== null) {
+        setOutput(result);
+      } else {
+        setOutput('程序执行完毕，无输出');
+      }
     } catch (err: any) {
       setOutput(`错误: ${err.message || '执行代码时发生未知错误'}`);
     } finally {
@@ -106,12 +120,12 @@ export default function ExercisePage({ assignment, onBack }: ExercisePageProps) 
 
   const handleSubmit = async () => {
     if (!code.trim()) {
-      alert("请先编写代码");
+      warning("请先编写代码");
       return;
     }
 
     if (!userInfo?.userId) {
-      alert("用户信息不完整");
+      error("用户信息不完整");
       return;
     }
 
@@ -126,17 +140,56 @@ export default function ExercisePage({ assignment, onBack }: ExercisePageProps) 
         assignmentId: assignment.assignmentId
       };
 
-      console.log("Submitting assignment with data:", attemptData);
       const result = await AssignmentAPI.attemptAssignment(attemptData);
-      console.log("Assignment attempt result:", result);
+      
+      // 验证返回的数据结构
+      if (!result) {
+        error("提交失败：服务器返回空结果");
+        return;
+      }
+      
+      if (typeof result.score === 'undefined') {
+        error("提交失败：服务器返回的数据格式不正确");
+        return;
+      }
 
       // 保存提交结果
       setSubmissionResult(result);
 
-      alert(`提交成功！总得分: ${result.score}分`);
+      // 手动更新assignment的score以更新右上角完成度显示
+      assignment.score = result.score;
+      
+      // 强制重新渲染以更新右上角完成度显示
+      setForceUpdate(prev => prev + 1);
+
+      const totalScore = assignment.totalScore || 0;
+      const percentage = totalScore > 0 ? Math.round((result.score / totalScore) * 100) : 0;
+      
+      // 解析测试样例结果
+      let detailMessage = '';
+      if (result.record && result.record.trim()) {
+        const cleanRecord = result.record.trim().replace(/,$/, ''); // 去掉末尾的逗号
+        const scores = cleanRecord.split(',').map((s: string) => parseInt(s.trim()));
+        const passCount = scores.filter((s: number) => s > 0).length;
+        const totalCount = scores.length;
+        detailMessage = `\n测试样例: 通过 ${passCount}/${totalCount} 个`;
+      }
+      
+      // 显示成功消息
+      if (totalScore > 0) {
+        success(`🎉 提交成功！\n\n得分: ${result.score}分 (${percentage}%)${detailMessage}`, {
+          title: '提交成功'
+        });
+      } else {
+        success(`🎉 提交成功！\n\n得分: ${result.score}分${detailMessage}`, {
+          title: '提交成功'
+        });
+      }
+      
+      // 暂时注释掉onRefresh，避免代码被清空
+      // onRefresh?.();
     } catch (err: any) {
-      console.error("Submit failed:", err);
-      alert(`提交失败: ${err.message || '发生未知错误'}`);
+      error(`提交失败: ${err.message || '发生未知错误'}`);
     } finally {
       setRunning(false);
     }
@@ -147,7 +200,8 @@ export default function ExercisePage({ assignment, onBack }: ExercisePageProps) 
       id: 0,
       name: '',
       input: null,
-      output: null
+      output: null,
+      score: 10 // 默认分值
     });
     setOpenTestDialog(true);
   };
@@ -170,12 +224,17 @@ export default function ExercisePage({ assignment, onBack }: ExercisePageProps) 
 
   const handleAddTestCase = async () => {
     if (!permissions.canAddTestCase) {
-      alert("您没有权限添加测试样例");
+      warning("您没有权限添加测试样例");
       return;
     }
 
     if (!newTestCase.name || !newTestCase.input || !newTestCase.output) {
-      alert("请填写测试样例名称并上传输入和输出文件");
+      warning("请填写测试样例名称并上传输入和输出文件");
+      return;
+    }
+
+    if (newTestCase.score <= 0) {
+      warning("测试样例分值必须大于0");
       return;
     }
 
@@ -196,22 +255,21 @@ export default function ExercisePage({ assignment, onBack }: ExercisePageProps) 
           publisherId: userInfo?.userId || 0,
           testcaseId: testcaseId,
           answerId: answerId,
-          fileType: "txt"
+          fileType: "txt",
+          score: newTestCase.score // 包含测试样例分值
         },
         courseId: assignment.courseId,
         courseName: selectedCourse?.courseName,
         chatId: selectedCourse?.chatId
       };
 
-      console.log("Adding testcase: ", testcaseData)
-
       await axios.post("/api/assignment/uploadTestcaseAndAnswer", testcaseData, {headers});
 
-      alert("测试样例添加成功");
+      success(`测试样例添加成功，分值：${newTestCase.score}分`);
       handleCloseTestDialog();
-    } catch (error) {
-      console.error('添加测试样例失败', error);
-      alert('添加测试样例失败: ' + (error instanceof Error ? error.message : '未知错误'));
+      onRefresh?.();
+    } catch (err) {
+      error('添加测试样例失败: ' + (err instanceof Error ? err.message : '未知错误'));
     } finally {
       setLoading(false);
     }
@@ -236,9 +294,25 @@ export default function ExercisePage({ assignment, onBack }: ExercisePageProps) 
             {assignment.assignmentName}
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
-          <Typography variant="body2" color="text.secondary">
-            截止日期: {new Date(assignment.deadline).toLocaleString()} | 分值: {assignment.score}分
-          </Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            <Typography variant="body2" color="text.secondary">
+              截止日期: {new Date(assignment.deadline).toLocaleString()}
+            </Typography>
+            {assignment.totalScore && assignment.totalScore > 0 && assignment.score >= 0 && (
+              <>
+                <Divider orientation="vertical" flexItem />
+                <Typography 
+                  variant="body2" 
+                  sx={{ 
+                    color: assignment.score > 0 ? 'success.main' : 'text.secondary',
+                    fontWeight: 'medium'
+                  }}
+                >
+                  完成度: {Math.round((assignment.score / assignment.totalScore) * 100)}%
+                </Typography>
+              </>
+            )}
+          </Box>
         </Toolbar>
       </AppBar>
 
@@ -259,7 +333,13 @@ export default function ExercisePage({ assignment, onBack }: ExercisePageProps) 
 
         {/* 右侧代码区 */}
         <Box sx={{ width: '55%', display: 'flex', flexDirection: 'column', height: '100%' }}>
-          <Box sx={{ p: 2, display: 'flex', flexDirection: 'column', height: '100%', overflow: 'auto' }}>
+          <Box sx={{ 
+            p: 2, 
+            display: 'flex', 
+            flexDirection: 'column', 
+            height: '100%', 
+            overflow: 'auto' // 允许整个区域滚动
+          }}>
             {/* 工具栏 - 固定高度 */}
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, flexShrink: 0 }}>
               <FormControl sx={{ minWidth: 140, mr: 2 }} size="small">
@@ -309,14 +389,14 @@ export default function ExercisePage({ assignment, onBack }: ExercisePageProps) 
 
             {/* 代码编辑器 - 固定高度，内部可滚动 */}
             <Box sx={{
-              height: '400px', // 固定高度
+              height: '300px', // 减少高度从400px到300px，为提交结果留出空间
               mb: 2,
               border: '1px solid #e0e0e0',
               borderRadius: 1,
               overflow: 'hidden',
               flexShrink: 0
             }}>
-              <CodeEditor value={code} language={language} onChange={setCode} height="400px" />
+              <CodeEditor value={code} language={language} onChange={setCode} height="300px" />
             </Box>
 
             {/* 分割线 - 固定高度 */}
@@ -333,7 +413,7 @@ export default function ExercisePage({ assignment, onBack }: ExercisePageProps) 
               sx={{
                 p: 1.5,
                 backgroundColor: '#f5f5f5',
-                height: '150px',
+                height: '100px', // 减少高度从150px到100px，为提交结果留出空间
                 overflow: 'auto',
                 fontFamily: 'monospace',
                 flexShrink: 0
@@ -356,44 +436,106 @@ export default function ExercisePage({ assignment, onBack }: ExercisePageProps) 
               <>
                 <Divider sx={{ my: 1, flexShrink: 0 }} />
                 <Typography variant="subtitle2" gutterBottom sx={{ flexShrink: 0 }}>
-                  提交结果
+                  🎉 提交结果
                 </Typography>
                 <Paper
                   variant="outlined"
                   sx={{
                     p: 2,
-                    backgroundColor: '#e8f5e8',
-                    border: '1px solid #4caf50',
+                    backgroundColor: submissionResult.score > 0 ? '#e8f5e8' : '#fff3e0',
+                    border: `1px solid ${submissionResult.score > 0 ? '#4caf50' : '#ff9800'}`,
                     flexShrink: 0,
-                    maxHeight: '200px',
-                    overflow: 'auto'
+                    mb: 2 // 添加底部边距确保可见
                   }}
                 >
+                  {/* 总得分显示 */}
                   <Box sx={{ mb: 2 }}>
-                    <Typography variant="h6" color="success.main" sx={{ fontWeight: 'bold' }}>
+                    <Typography variant="h6" sx={{ 
+                      color: submissionResult.score > 0 ? 'success.main' : 'warning.main', 
+                      fontWeight: 'bold',
+                      mb: 1
+                    }}>
                       总得分: {submissionResult.score}分
                     </Typography>
+                    
+                    {assignment.totalScore && assignment.totalScore > 0 && (
+                      <Typography variant="body2" sx={{ 
+                        color: 'text.primary',
+                        mb: 1
+                      }}>
+                        完成度: {Math.round((submissionResult.score / assignment.totalScore) * 100)}% ({submissionResult.score}/{assignment.totalScore})
+                      </Typography>
+                    )}
+                    
                     <Typography variant="body2" color="text.secondary">
                       反馈ID: {submissionResult.feedbackId}
                     </Typography>
                   </Box>
 
-                  {submissionResult.record && (
+                  {/* 测试样例详细得分 */}
+                  {submissionResult.record && submissionResult.record.trim() && (
                     <Box>
-                      <Typography variant="subtitle2" gutterBottom>
-                        各测试点得分:
+                      <Typography variant="subtitle2" gutterBottom sx={{ fontWeight: 'bold', mb: 1 }}>
+                        测试样例详情:
                       </Typography>
-                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                        {submissionResult.record.split(',').map((score, index) => (
-                          <Chip
-                            key={index}
-                            label={`测试点${index + 1}: ${score.trim()}分`}
-                            color={parseInt(score.trim()) > 0 ? 'success' : 'error'}
-                            variant="outlined"
-                            size="small"
-                          />
-                        ))}
+                      
+                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
+                        {(() => {
+                          const cleanRecord = submissionResult.record.trim().replace(/,$/, ''); // 去掉末尾的逗号
+                          return cleanRecord.split(',').map((score, index) => {
+                            const testScore = parseInt(score.trim());
+                            const isPass = testScore > 0;
+                            return (
+                              <Box 
+                                key={index}
+                                sx={{ 
+                                  display: 'flex', 
+                                  alignItems: 'center', 
+                                  gap: 1,
+                                  p: 1,
+                                  borderRadius: 1,
+                                  backgroundColor: isPass ? 'rgba(76, 175, 80, 0.1)' : 'rgba(244, 67, 54, 0.1)',
+                                  border: `1px solid ${isPass ? 'rgba(76, 175, 80, 0.3)' : 'rgba(244, 67, 54, 0.3)'}`,
+                                  minWidth: 'fit-content'
+                                }}
+                              >
+                                <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
+                                  测试点{index + 1}:
+                                </Typography>
+                                <Typography 
+                                  variant="body2" 
+                                  sx={{ 
+                                    fontWeight: 'bold',
+                                    color: isPass ? 'success.dark' : 'error.dark'
+                                  }}
+                                >
+                                  {testScore}分
+                                </Typography>
+                                <Box 
+                                  sx={{ 
+                                    width: 8, 
+                                    height: 8, 
+                                    borderRadius: '50%',
+                                    backgroundColor: isPass ? 'success.main' : 'error.main'
+                                  }}
+                                />
+                              </Box>
+                            );
+                          });
+                        })()}
                       </Box>
+                      
+                      {/* 统计信息 */}
+                      <Typography variant="body2" color="text.secondary">
+                        {(() => {
+                          const cleanRecord = submissionResult.record.trim().replace(/,$/, ''); // 去掉末尾的逗号
+                          const scores = cleanRecord.split(',').map(s => parseInt(s.trim()));
+                          const passCount = scores.filter(s => s > 0).length;
+                          const totalCount = scores.length;
+                          const passRate = Math.round((passCount / totalCount) * 100);
+                          return `通过率: ${passCount}/${totalCount} (${passRate}%)`;
+                        })()}
+                      </Typography>
                     </Box>
                   )}
                 </Paper>
@@ -414,6 +556,19 @@ export default function ExercisePage({ assignment, onBack }: ExercisePageProps) 
             variant="outlined"
             value={newTestCase.name}
             onChange={(e) => setNewTestCase({ ...newTestCase, name: e.target.value })}
+            sx={{ mb: 2 }}
+          />
+
+          <TextField
+            margin="dense"
+            label="分值"
+            type="number"
+            fullWidth
+            variant="outlined"
+            value={newTestCase.score}
+            onChange={(e) => setNewTestCase({ ...newTestCase, score: Number(e.target.value) })}
+            inputProps={{ min: 1, step: 1 }}
+            helperText="该测试样例的分值"
             sx={{ mb: 2 }}
           />
 
@@ -466,6 +621,9 @@ export default function ExercisePage({ assignment, onBack }: ExercisePageProps) 
           <Button onClick={handleAddTestCase} variant="contained">添加</Button>
         </DialogActions>
       </Dialog>
+      
+      {/* 消息弹窗 */}
+      <MessageComponent />
     </Box>
   );
 }

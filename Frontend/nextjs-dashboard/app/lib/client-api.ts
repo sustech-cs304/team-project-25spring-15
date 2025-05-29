@@ -88,20 +88,27 @@ export const CodeAPI = {
       type: lang
     };
     console.log("running code with payload:", payload);
-    const res = await axios.post(`/api/codeRunner/run`, payload, {headers});
-    const response = res.data.data.codeFeedback;
-    console.log('Code running result:', response);
-
+    
     try {
-      if(response.error && response.error.trim() !== "") {
+      const res = await axios.post(`/api/codeRunner/run`, payload, {headers});
+      const response = res.data.data.codeFeedback;
+      console.log('Code running result:', response);
+
+      // 检查是否有错误
+      if (response.error && response.error.trim() !== "") {
         return response.error;
-      } else if (response.result) {
+      } 
+      // 检查是否有结果输出
+      else if (response.result) {
         return response.result;
-      } else {
-        console.error("Nothing to show, please check!");
+      } 
+      // 没有输出的情况
+      else {
+        return '程序执行完毕，无输出';
       }
     } catch(e) {
-      console.error(`Failed to fetch courses infomation:`, e);
+      console.error(`Failed to run code:`, e);
+      throw new Error(`代码执行失败: ${e instanceof Error ? e.message : '未知错误'}`);
     }
   }
 }
@@ -449,11 +456,17 @@ export const AssignmentAPI = {
       });
     console.log("Fetched assignments:", res);
     const assignments = res.data.data.assignments as Assignment[];
-    const score       = res.data.data.scores       as number[];
-    console.log("Score: ", score)
+    const scores = res.data.data.scores as number[];
+    const totalScores = res.data.data.totalScores as number[];
+    
+    console.log("Assignments:", assignments);
+    console.log("Scores:", scores);
+    console.log("Total Scores:", totalScores);
+    
     const merged = assignments?.map((assignment, idx) => ({
       ...assignment,
-      score: score[idx],
+      score: scores[idx] || 0, // 学生获得的分数
+      totalScore: totalScores[idx] || 0, // 作业的总分值
     }));
     return merged || [];
   },
@@ -467,11 +480,50 @@ export const AssignmentAPI = {
   }) => {
     const headers = await getAuthHeader();
     console.log("Attempting assignment with data:", attempt);
-    const res = await axios.post(`/api/assignment/attemptAssignment`, {
-      attempt: attempt
-    }, { headers });
-    console.log("Assignment attempt result:", res.data);
-    return res.data.data.feedback;
+    
+    try {
+      const res = await axios.post(`/api/assignment/attemptAssignment`, {
+        attempt: attempt
+      }, { headers });
+      
+      console.log("Assignment attempt result full response:", res);
+      console.log("Response status:", res.status);
+      console.log("Response data:", res.data);
+      console.log("Response data.data:", res.data?.data);
+      console.log("Response data.data.feedback:", res.data?.data?.feedback);
+      
+      // 检查响应结构
+      if (!res.data) {
+        throw new Error("API响应为空");
+      }
+      
+      if (!res.data.data) {
+        console.error("响应缺少data字段:", res.data);
+        throw new Error("API响应格式不正确：缺少data字段");
+      }
+      
+      if (!res.data.data.feedback) {
+        console.error("响应缺少feedback字段:", res.data.data);
+        throw new Error("API响应格式不正确：缺少feedback字段");
+      }
+      
+      const feedback = res.data.data.feedback;
+      console.log("最终返回的feedback:", feedback);
+      console.log("Feedback类型:", typeof feedback);
+      console.log("Feedback的键:", Object.keys(feedback));
+      
+      return feedback;
+    } catch (error) {
+      console.error("attemptAssignment API调用失败:", error);
+      if (axios.isAxiosError(error)) {
+        console.error("Axios错误详情:");
+        console.error("- Status:", error.response?.status);
+        console.error("- Status text:", error.response?.statusText);
+        console.error("- Response data:", error.response?.data);
+        console.error("- Request URL:", error.config?.url);
+      }
+      throw error;
+    }
   },
 
   createAssignment: async (assignment: Assignment, courseName: string | undefined, chatId: number | undefined) => {
