@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useStore } from '@/store/useStore';
-import { AiMessage, Assignment } from './definitions';
+import { AiMessage, Assignment, CmdResult } from './definitions';
 
 // 获取认证信息的辅助函数
 export async function getAuthHeader() {
@@ -9,37 +9,54 @@ export async function getAuthHeader() {
 }
 
 export const IdeAPI = {
-  createCmd: async (userId: number) => {
+  createCmd: async () => {
     const headers = await getAuthHeader();
     try {
-      // const res = await axios.post();
-      // return "1";
+      const res = await axios.post(
+        `/api/command/create`, {}, {headers}
+      );
+      // console.log(res.data);
+      return res.data;
     } catch (e) {
       console.error("Fail run Cmd", e);
       return "";
     }
   },
-  runCmd: async (sectionId: string | null, command: string) => {
+  runCmd: async (sectionId: string | null, command: string, content: string, cwd: string): Promise<CmdResult> => {
     if (!sectionId) {
       console.error("Error run cmd: no current section.")
-      return "Error: no current section."
+      return { output: "", error: "Error: no current section." };
     }
     const headers = await getAuthHeader();
-    const payload = {};
+    const payload = {
+      sessionId: sectionId,
+      command: command,
+      content: content,
+      cwd: cwd
+    };
     try {
-      // const res = await axios.post();
+      const res = await axios.post(
+        `/api/command/exec`, payload, {headers}
+      );
+      console.log(res);
+      return {output: res.data.data.output, error: res.data.data.error};
     } catch (e) {
       console.error("Fail run Cmd:", command, e);
+      return { output: "", error: "Fail run Cmd" };
     }
   },
-  closeCmd: async (userId: number, sectionId: string) => {
+  closeCmd: async (sectionId: string) => {
     const headers = await getAuthHeader();
+    const payload = {sessionId: sectionId};
     try {
-      // const res = await axios.post();
+      const res = await axios.post(
+        `/api/command/close`, payload, {headers}
+      );
+      console.log(res.data);
     } catch (e) {
       console.error("Fail run Cmd", e);
     }
-  }
+  },
 }
 
 export const AiAPI = {
@@ -58,13 +75,6 @@ export const AiAPI = {
     } catch(e) {
       console.error("Error in removeMessage: ", e);
     }
-  }
-}
-
-export const CmdAPI = {
-  sendCmd: async () => {
-    const headers = await getAuthHeader();
-    console.log("Start fetching result of cmd: ");
   }
 }
 
@@ -162,49 +172,49 @@ export const CourseAPI = {
       const headers = await getAuthHeader();
       console.log('Fetching course with lectures for courseId:', courseId);
       console.log('Using headers:', headers);
-      
+
       const response = await axios.get(`/api/course/searchCourseWithLectures/${courseId}`, {
         headers
       });
-      
+
       console.log('Raw API response:', response);
       console.log('Response status:', response.status);
       console.log('Response data:', response.data);
-      
+
       // 检查响应数据结构
       if (!response.data) {
         throw new Error('API响应为空');
       }
-      
+
       // 根据API文档，数据可能在data字段中
       const responseData = response.data.data || response.data;
       console.log('Processed response data:', responseData);
-      
+
       // 检查是否包含必要的字段
       if (!responseData.course && !responseData.Course) {
         console.error('响应中缺少course字段:', responseData);
         throw new Error('API响应中缺少课程数据');
       }
-      
+
       // 标准化字段名（可能是course或Course）
       const course = responseData.course || responseData.Course;
       const courseIdentity = responseData.courseIdentity || responseData.CourseIdentity;
-      
+
       console.log('Extracted course:', course);
       console.log('Extracted courseIdentity:', courseIdentity);
-      
+
       return {
         course: course,
         courseIdentity: courseIdentity
       };
     } catch (err) {
       console.error(`Failed to fetch course with lectures:`, err);
-      
+
       // 记录更详细的错误信息
       if (err instanceof Error) {
         console.error('Error message:', err.message);
       }
-      
+
       // 如果是网络错误，记录响应详情
       if (axios.isAxiosError(err)) {
         console.error('Axios error details:');
@@ -213,7 +223,7 @@ export const CourseAPI = {
         console.error('- Response data:', err.response?.data);
         console.error('- Request URL:', err.config?.url);
       }
-      
+
       throw err;
     }
   },
