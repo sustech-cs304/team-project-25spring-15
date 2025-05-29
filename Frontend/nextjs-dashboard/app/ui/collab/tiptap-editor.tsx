@@ -27,7 +27,7 @@ const docs = Array.from({length: len}, (_, i) => new Y.Doc()); // Initialize Y.D
 
 const providers = Array.from({ length: len }, (_, i) =>
   new HocuspocusProvider({
-    url: "ws://127.0.0.1:1234",
+    url: "ws://10.32.70.120:1234",
     name: `lecture-${i}`, // 每个 provider 一个唯一 name
     document: docs[i],
   })
