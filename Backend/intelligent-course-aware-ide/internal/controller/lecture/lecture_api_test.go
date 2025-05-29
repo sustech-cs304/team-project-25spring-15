@@ -25,18 +25,28 @@ func Test_CreateLecture(t *testing.T) {
 	cxt, _ := middleware.BuildCtx(resAccount.Token)
 	newlecture := v1.LectureInfo{
 		CourseId:    1,
-		LectureId:   2,
+		LectureId:   1,
 		LectureName: "虚拟化",
 		Description: "虚拟化第一章",
+	}
+	newlecture2 := v1.LectureInfo{
+		CourseId:    1,
+		LectureId:   2,
+		LectureName: "虚拟化",
+		Description: "虚拟化第二章",
 	}
 	req := &v1.CreateLectureReq{
 		NewLecture: newlecture,
 	}
+	req2 :=&v1.CreateLectureReq{
+		NewLecture: newlecture2,
+	}
 	ctrl := &lecture.ControllerV1{}
+	ctrl.CreateLecture(cxt,req2)
 	gtest.C(t, func(t *gtest.T) {
 		res, err := ctrl.CreateLecture(cxt, req)
 		t.AssertNil(err)
-		t.Assert(res.LectureId, 2)
+		t.Assert(res.LectureId, 1)
 	})
 }
 func Test_GetAllLectureOfCourse(t *testing.T) {
@@ -52,7 +62,7 @@ func Test_GetAllLectureOfCourse(t *testing.T) {
 }
 func Test_GetLecture(t *testing.T) {
 	req := &v1.GetLectureReq{
-		LectureId: 2,
+		LectureId: 1,
 	}
 	ctrl := &lecture.ControllerV1{}
 	gtest.C(t, func(t *gtest.T) {
@@ -95,7 +105,7 @@ func Test_DeleteLecture(t *testing.T) {
 	resAccount, _ := ctrlAccount.LoginUser(context.Background(), reqAccount)
 	cxt, _ := middleware.BuildCtx(resAccount.Token)
 	req := &v1.DeleteLectureReq{
-		LectureId:   1,
+		LectureId:   2,
 		CourseId:    1,
 		LectureName: "虚拟化",
 		ChatId:      6,

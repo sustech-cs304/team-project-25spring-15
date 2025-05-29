@@ -69,7 +69,7 @@ var NewUser1 = v1.UserInfoWithPassword{
 	UserSign:   "I am a user",
 	University: "SUSTECH",
 	Birthday:   gtime.New(time.Date(2004, 3, 10, 0, 0, 0, 0, time.FixedZone("CST", 8*60*60))),
-	Identity:   "student",
+	Identity:   "teacher",
 	Password:   "woshisb",
 }
 
@@ -151,10 +151,9 @@ func Test_LoginUser_DeleteUser(t *testing.T) {
 		ctrl := &account.ControllerV1{}
 		ctrlUser := &user.ControllerV1{}
 		req := &V1.LoginUserReq{}
-		for i := range [5]int{} {
 			userinfo := V1.UserLoginInfo{
-				UserId:   int64(i + 1),
-				Password: TestUsers[i].Password,
+				UserId:   5,
+				Password: "password5",
 			}
 			req = &V1.LoginUserReq{
 				UserInfo: userinfo,
@@ -163,13 +162,32 @@ func Test_LoginUser_DeleteUser(t *testing.T) {
 			//fmt.Println(res.Token)
 			cxt, _ := middleware.BuildCtx(res.Token)
 			reqDelete := &v1.DeleteUserReq{
-				UserToDeleteId: int64(i + 1),
+				UserToDeleteId: 5,
 			}
 			resDelete, errDelete := ctrlUser.DeleteUser(cxt, reqDelete)
 			t.AssertNil(err)
 			t.Assert(res.Success, true)
 			t.AssertNil(errDelete)
 			t.Assert(resDelete.Success, true)
-		}
 	})
+}
+func Test_LogoutUser(t *testing.T){
+	ctrl := &account.ControllerV1{}
+		ctrlUser := &user.ControllerV1{}
+		req := &V1.LoginUserReq{}
+		userinfo := V1.UserLoginInfo{
+				UserId:   4,
+				Password: "password4",
+		}
+		req = &V1.LoginUserReq{
+				UserInfo: userinfo,
+		}
+		res, _ := ctrl.LoginUser(context.Background(), req)
+		cxt, _ := middleware.BuildCtx(res.Token)
+		reqUser := &v1.LogoutUserReq{}
+		gtest.C(t,func(t *gtest.T) {
+			resUser, err :=ctrlUser.LogoutUser(cxt,reqUser)
+			gtest.AssertNil(err)
+			gtest.Assert(resUser.Success,true)
+		})
 }
