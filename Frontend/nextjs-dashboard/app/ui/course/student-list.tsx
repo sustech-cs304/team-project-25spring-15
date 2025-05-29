@@ -30,6 +30,7 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import SchoolIcon from '@mui/icons-material/School';
 import { CourseAPI } from '@/app/lib/client-api';
 import { usePermissions } from '@/app/lib/permissions';
+import { useMessage } from '@/app/hooks/useMessage';
 
 interface StudentListProps {
   courseId: number;
@@ -56,6 +57,9 @@ export default function StudentList({ courseId }: StudentListProps) {
 
   // 使用权限管理工具
   const permissions = usePermissions(userInfo, currentCourse?.teacherId, courseIdentity);
+  
+  // 使用消息弹窗
+  const { success, error, warning, confirm, MessageComponent } = useMessage();
 
   // 权限检查：只有教师和助教可以管理学生
   useEffect(() => {
@@ -113,8 +117,14 @@ export default function StudentList({ courseId }: StudentListProps) {
   };
 
   const handleAddStudent = async () => {
-    if (!studentEmail) return alert('请输入学生邮箱');
-    if (!permissions.canManageStudents) return alert('您没有权限添加学生');
+    if (!studentEmail) {
+      warning('请输入成员邮箱');
+      return;
+    }
+    if (!permissions.canManageStudents) {
+      warning('您没有权限添加成员');
+      return;
+    }
 
     try {
       // 添加学生到课程
@@ -124,63 +134,86 @@ export default function StudentList({ courseId }: StudentListProps) {
       const updatedStudents = await CourseAPI.getCourseStudents(courseId);
       setStudents(updatedStudents);
 
+      success(`🎉 成功添加成员到课程！\n\n邮箱: ${studentEmail}`, {
+        title: '添加成功'
+      });
       handleAddStudentClose();
-    } catch (error) {
-      console.error('添加学生失败', error);
-      alert('添加学生失败: ' + (error instanceof Error ? error.message : '未知错误'));
+    } catch (err) {
+      console.error('添加学生失败', err);
+      error('添加成员失败: ' + (err instanceof Error ? err.message : '未知错误'));
     }
   };
 
   const handleRemoveStudent = async (studentId: number) => {
-    if (!permissions.canManageStudents) return alert('您没有权限移除学生');
-    if (!confirm('确认从课程中移除此学生？')) return;
-
-    try {
-      // 从课程中移除学生
-      await CourseAPI.removeStudentFromCourse(courseId, studentId);
-
-      // 更新本地状态
-      setStudents(students.filter(student => student.userId !== studentId));
-    } catch (error) {
-      console.error('移除学生失败', error);
-      alert('移除学生失败');
+    if (!permissions.canManageStudents) {
+      warning('您没有权限移除成员');
+      return;
     }
+    
+    confirm("确认从课程中移除此成员？", async () => {
+      try {
+        // 从课程中移除学生
+        await CourseAPI.removeStudentFromCourse(courseId, studentId);
+
+        // 更新本地状态
+        setStudents(students.filter(student => student.userId !== studentId));
+        
+        success('成员已成功移除');
+      } catch (err) {
+        console.error('移除学生失败', err);
+        error('移除成员失败');
+      }
+    });
   };
 
   const handlePromoteToTA = async (studentId: number) => {
-    if (!permissions.isTeacher) return alert('只有教师可以设置助教');
-    if (!confirm('确认将此学生设为助教？')) return;
-
-    try {
-      // 调用添加助教的API
-      await CourseAPI.assignCourseAssistant(courseId, studentId);
-
-      // 重新加载学生列表以获取最新的身份信息
-      const updatedStudents = await CourseAPI.getCourseStudents(courseId);
-      setStudents(updatedStudents);
-
-      alert('已成功设为助教');
-    } catch (error) {
-      console.error('设置助教失败', error);
-      alert('设置助教失败: ' + (error instanceof Error ? error.message : '未知错误'));
+    if (!permissions.isTeacher) {
+      warning('只有教师可以设置助教');
+      return;
     }
+    
+    confirm("确认将此成员设为助教？", async () => {
+      try {
+        // 调用添加助教的API
+        await CourseAPI.assignCourseAssistant(courseId, studentId);
+
+        // 重新加载学生列表以获取最新的身份信息
+        const updatedStudents = await CourseAPI.getCourseStudents(courseId);
+        setStudents(updatedStudents);
+
+        const studentName = students.find(s => s.userId === studentId)?.userName || '该成员';
+        success(`🎓 ${studentName} 已成功设为助教！\n\n现在拥有助教权限，可以协助管理课程。`, {
+          title: '设置助教成功'
+        });
+      } catch (err) {
+        console.error('设置助教失败', err);
+        error('设置助教失败: ' + (err instanceof Error ? err.message : '未知错误'));
+      }
+    });
   };
 
   const handleRemoveTA = async (studentId: number) => {
-    if (!permissions.isTeacher) return alert('只有教师可以取消助教身份');
-    if (!confirm('确认取消此学生的助教身份？')) return;
-
-    try {
-      await CourseAPI.removeCourseAssistant(courseId, studentId);
-
-      const updatedStudents = await CourseAPI.getCourseStudents(courseId);
-      setStudents(updatedStudents);
-
-      alert('已成功移除助教');
-    } catch (error) {
-      console.error('取消助教失败', error);
-      alert('取消助教失败');
+    if (!permissions.isTeacher) {
+      warning('只有教师可以取消助教身份');
+      return;
     }
+    
+    confirm("确认取消此成员的助教身份？", async () => {
+      try {
+        await CourseAPI.removeCourseAssistant(courseId, studentId);
+
+        const updatedStudents = await CourseAPI.getCourseStudents(courseId);
+        setStudents(updatedStudents);
+
+        const studentName = students.find(s => s.userId === studentId)?.userName || '该成员';
+        success(`${studentName} 的助教身份已成功移除`, {
+          title: '移除助教成功'
+        });
+      } catch (err) {
+        console.error('取消助教失败', err);
+        error('取消助教失败');
+      }
+    });
   };
 
   const getUserRole = (student: CourseStudent) => {
@@ -259,7 +292,7 @@ export default function StudentList({ courseId }: StudentListProps) {
             startIcon={<PersonAddIcon />}
             onClick={handleAddStudentOpen}
           >
-            添加学生
+            添加成员
           </Button>
         )}
       </Box>
@@ -271,8 +304,7 @@ export default function StudentList({ courseId }: StudentListProps) {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>学生ID</TableCell>
-                <TableCell>姓名</TableCell>
+                <TableCell>成员ID</TableCell>
                 <TableCell>邮箱</TableCell>
                 <TableCell>学校</TableCell>
                 <TableCell>身份</TableCell>
@@ -290,11 +322,10 @@ export default function StudentList({ courseId }: StudentListProps) {
                   return (
                     <TableRow key={student.userId}>
                       <TableCell>{student.userId}</TableCell>
-                      <TableCell>{student.userName}</TableCell>
                       <TableCell>{student.email}</TableCell>
-                      <TableCell>{student.university || '-'}</TableCell>
+                      <TableCell>南方科技大学</TableCell>
                       <TableCell>{getRoleChip(role)}</TableCell>
-                      <TableCell>{student.enrollmentDate ? new Date(student.enrollmentDate).toLocaleDateString() : '-'}</TableCell>
+                      <TableCell>{new Date().toLocaleDateString()}</TableCell>
                       <TableCell>
                         <Box sx={{ display: 'flex', gap: 1 }}>
                           {/* 有管理权限的用户可以看到操作按钮，但不能对自己进行操作 */}
@@ -327,7 +358,7 @@ export default function StudentList({ courseId }: StudentListProps) {
                               <IconButton
                                 color="error"
                                 onClick={() => handleRemoveStudent(student.userId)}
-                                title="移除学生"
+                                title="移除成员"
                               >
                                 <DeleteIcon />
                               </IconButton>
@@ -340,7 +371,7 @@ export default function StudentList({ courseId }: StudentListProps) {
                 })
               ) : (
                 <TableRow>
-                  <TableCell colSpan={7} align="center">
+                  <TableCell colSpan={6} align="center">
                     暂无学生
                   </TableCell>
                 </TableRow>
@@ -351,17 +382,18 @@ export default function StudentList({ courseId }: StudentListProps) {
       )}
 
       <Dialog open={openAddDialog} onClose={handleAddStudentClose}>
-        <DialogTitle>添加学生到课程</DialogTitle>
+        <DialogTitle>添加成员到课程</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
             margin="dense"
-            label="学生邮箱"
+            label="成员邮箱"
             type="email"
             fullWidth
             variant="outlined"
             value={studentEmail}
             onChange={(e) => setStudentEmail(e.target.value)}
+            placeholder="请输入要添加的成员邮箱"
           />
         </DialogContent>
         <DialogActions>
@@ -369,6 +401,9 @@ export default function StudentList({ courseId }: StudentListProps) {
           <Button onClick={handleAddStudent} variant="contained">添加</Button>
         </DialogActions>
       </Dialog>
+      
+      {/* 消息弹窗 */}
+      <MessageComponent />
     </Container>
   );
 }

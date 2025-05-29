@@ -7,6 +7,7 @@ import { Document, Page } from 'react-pdf';
 import { CourseWareAPI } from '@/app/lib/client-api'
 import { useStore } from '@/store/useStore';
 import { usePermissions } from '@/app/lib/permissions';
+import { useMessage } from '@/app/hooks/useMessage';
 
 import { pdfjs } from 'react-pdf';
 
@@ -51,6 +52,9 @@ export default function PdfView({ courseId, lectureId }: PdfViewProps) {
   const currentCourse = courses.find(course => course.courseId === parseInt(courseId));
   const permissions = usePermissions(userInfo, currentCourse?.teacherId, courseIdentity);
 
+  // 使用消息弹窗
+  const { success, error, warning, MessageComponent } = useMessage();
+
   useEffect(() => {
     const featchPdf = async () => {
       try {
@@ -75,7 +79,7 @@ export default function PdfView({ courseId, lectureId }: PdfViewProps) {
   // 上传文件
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!permissions.canEditExercise) {
-      alert('您没有权限上传PDF');
+      warning('您没有权限上传PDF');
       return;
     }
 
@@ -91,17 +95,17 @@ export default function PdfView({ courseId, lectureId }: PdfViewProps) {
     try {
       const res = await CourseWareAPI.uploadPdf(file, lectureId);
       if (res.status === 200) {
-        alert("上传成功！");
+        success('上传成功！');
         window.location.reload();
       } else {
-        alert("上传失败");
+        error('上传失败');
       }
       const blob = await CourseWareAPI.getPdf(lectureId);
       const fileBlob = blob.data;
       const fileUrl = URL.createObjectURL(fileBlob);
       setFileUrl(fileUrl);
     } catch {
-      alert("上传出错");
+      error('上传出错');
     } finally {
       setUploading(false);
     }
@@ -165,6 +169,9 @@ export default function PdfView({ courseId, lectureId }: PdfViewProps) {
           下一页
         </Button>
       </Box>
+      
+      {/* 消息弹窗 */}
+      <MessageComponent />
     </div>
   );
 }

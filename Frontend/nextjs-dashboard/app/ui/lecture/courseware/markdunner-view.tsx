@@ -7,6 +7,7 @@ import { CourseWareAPI } from "@/app/lib/client-api";
 import { Button } from "@mui/material";
 import { useStore } from '@/store/useStore';
 import { usePermissions } from '@/app/lib/permissions';
+import { useMessage } from '@/app/hooks/useMessage';
 
 type MarkdunnerProps = {
   courseId: string;
@@ -25,6 +26,9 @@ export default function Markdunner({ courseId, lectureId }: MarkdunnerProps) {
   
   const currentCourse = courses.find(course => course.courseId === parseInt(courseId));
   const permissions = usePermissions(userInfo, currentCourse?.teacherId, courseIdentity);
+
+  // 使用消息弹窗
+  const { success, error, warning, MessageComponent } = useMessage();
 
   // 加载 lectureId 对应的 markdown
   useEffect(() => {
@@ -48,14 +52,14 @@ export default function Markdunner({ courseId, lectureId }: MarkdunnerProps) {
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!permissions.canEditExercise) {
-      alert('您没有权限上传Markdown笔记');
+      warning('您没有权限上传Markdown笔记');
       return;
     }
 
     const file = e.target.files?.[0];
     if (!file) return;
     if (!file.name.endsWith('.md')) {
-      alert('只支持上传 .md 文件');
+      warning('只支持上传 .md 文件');
       return;
     }
     setUploading(true);
@@ -67,10 +71,10 @@ export default function Markdunner({ courseId, lectureId }: MarkdunnerProps) {
     const res = await CourseWareAPI.uploadMarkdown(formData);
     // TODO: modify the logic
     if (res) {
-      alert("上传成功！");
+      success('上传成功！');
       // 你可以在这里处理上传后的逻辑，比如刷新页面或获取新内容
     } else {
-      alert("上传失败！");
+      error('上传失败！');
     }
     setUploading(false);
 
@@ -111,6 +115,9 @@ export default function Markdunner({ courseId, lectureId }: MarkdunnerProps) {
         onChange={handleFileChange}
       />
       <MarkdownWithRunner content={markdownContent} />
+      
+      {/* 消息弹窗 */}
+      <MessageComponent />
     </div>
   );
 }

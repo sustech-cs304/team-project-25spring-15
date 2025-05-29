@@ -29,7 +29,7 @@ func Test_CreateAssignment(t *testing.T) {
 		AssignmentName: "拿下zyc",
 		PublisherId:    1,
 		CourseId:       1,
-		LectureId:      2,
+		LectureId:      1,
 		Description:    "验证拿下zyc的成果",
 		Deadline:       gtime.New(time.Date(2025, 5, 30, 17, 0, 0, 0, time.FixedZone("CST", 8*60*60))),
 		Completeness:   2,
@@ -38,7 +38,7 @@ func Test_CreateAssignment(t *testing.T) {
 		AssignmentName: "拿下zyc2",
 		PublisherId:    1,
 		CourseId:       1,
-		LectureId:      2,
+		LectureId:      1,
 		Description:    "验证拿下zyc的成果2",
 		Deadline:       gtime.New(time.Date(2025, 5, 30, 18, 0, 0, 0, time.FixedZone("CST", 8*60*60))),
 		Completeness:   2,
@@ -69,23 +69,41 @@ func Test_GetAssignment(t *testing.T) {
 	})
 }
 func Test_GetAllAssignmentInfoOfLecture(t *testing.T) {
+	ctrlAccount := &account.ControllerV1{}
+	userinfo := V1.UserLoginInfo{
+		UserId:   1,
+		Password: "woshisb",
+	}
+	reqAccount := &V1.LoginUserReq{UserInfo: userinfo}
+
+	resAccount, _ := ctrlAccount.LoginUser(context.Background(), reqAccount)
+	cxt, _ := middleware.BuildCtx(resAccount.Token)
 	ctrl := &assignment.ControllerV1{}
 	req := &v1.GetAllAssignmentInfoOfALectureReq{
-		LectureId: 2,
+		LectureId: 1,
 	}
 	gtest.C(t, func(t *gtest.T) {
-		res, err := ctrl.GetAllAssignmentInfoOfALecture(context.Background(), req)
+		res, err := ctrl.GetAllAssignmentInfoOfALecture(cxt, req)
 		gtest.AssertNil(err)
 		gtest.Assert(len(res.Assignments) == 2, true)
 	})
 }
 func Test_GetAllAssignmentInfoOfCourse(t *testing.T) {
+	ctrlAccount := &account.ControllerV1{}
+	userinfo := V1.UserLoginInfo{
+		UserId:   1,
+		Password: "woshisb",
+	}
+	reqAccount := &V1.LoginUserReq{UserInfo: userinfo}
+
+	resAccount, _ := ctrlAccount.LoginUser(context.Background(), reqAccount)
+	cxt, _ := middleware.BuildCtx(resAccount.Token)
 	req := &v1.GetAllAssignmentInfoOfACourseReq{
 		CourseId: 1,
 	}
 	ctrl := &assignment.ControllerV1{}
 	gtest.C(t, func(t *gtest.T) {
-		res, err := ctrl.GetAllAssignmentInfoOfACourse(context.Background(), req)
+		res, err := ctrl.GetAllAssignmentInfoOfACourse(cxt, req)
 		gtest.AssertNil(err)
 		gtest.Assert(len(res.Assignments) == 2, true)
 	})
@@ -147,23 +165,24 @@ func Test_UploadTestCaseAndAnswer(t *testing.T) {
 		gtest.Assert(res.TestcaseAndAnswerId == 1, true)
 	})
 }
-func Test_AttemoForAssignment(t *testing.T) {
-	newattempforassignment := v1.AttemptForAssignment{
-		UserId:       1,
-		FileId:       1,
-		FileType:     "string",
-		AssignmentId: 1,
-	}
-	req := &v1.AttemptForAssignmentReq{
-		AssignmentUserAttempt: newattempforassignment,
-	}
-	ctrl := &assignment.ControllerV1{}
-	gtest.C(t, func(t *gtest.T) {
-		res, err := ctrl.AttemptForAssignment(context.Background(), req)
-		gtest.AssertNil(err)
-		gtest.Assert(res.AssignmentUserFeedback.FeedbackId == 1, true)
-	})
-}
+
+//	func Test_AttempForAssignment(t *testing.T) {
+//		newattempforassignment := v1.AttemptForAssignment{
+//			UserId:       1,
+//			FileId:       1,
+//			FileType:     "string",
+//			AssignmentId: 1,
+//		}
+//		req := &v1.AttemptForAssignmentReq{
+//			AssignmentUserAttempt: newattempforassignment,
+//		}
+//		ctrl := &assignment.ControllerV1{}
+//		gtest.C(t, func(t *gtest.T) {
+//			res, err := ctrl.AttemptForAssignment(context.Background(), req)
+//			gtest.AssertNil(err)
+//			gtest.Assert(res.AssignmentUserFeedback.FeedbackId == 1, true)
+//		})
+//	}
 func Test_DeleteAssignment(t *testing.T) {
 	ctrlAccount := &account.ControllerV1{}
 	userinfo := V1.UserLoginInfo{

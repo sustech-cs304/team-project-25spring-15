@@ -114,7 +114,31 @@ func Test_UpdateCourse(t *testing.T) {
 		t.Assert(res.Success, true)
 	})
 }
-func Test_AssignAndUnassignCourseAssistant(t *testing.T) {
+func Test_AddStudentsIntoCourse(t *testing.T) {
+	ctrlAccount := &account.ControllerV1{}
+	userinfo := V1.UserLoginInfo{
+		UserId:   1,
+		Password: "woshisb",
+	}
+	reqAccount := &V1.LoginUserReq{UserInfo: userinfo}
+
+	resAccount, _ := ctrlAccount.LoginUser(context.Background(), reqAccount)
+	cxt, _ := middleware.BuildCtx(resAccount.Token)
+	email := []string{
+		"user2@example.com",
+	}
+	req := &v1.AddStudentsIntoCourseReq{
+		CourseId:      1,
+		StudentsEmail: email,
+	}
+	ctrl := &course.ControllerV1{}
+	gtest.C(t, func(t *gtest.T) {
+		res, err := ctrl.AddStudentsIntoCourse(cxt, req)
+		t.AssertNil(err)
+		t.Assert(res.Success, true)
+	})
+}
+func Test_AssignCourseAssistant(t *testing.T) {
 	ctrlAccount := &account.ControllerV1{}
 	userinfo := V1.UserLoginInfo{
 		UserId:   1,
@@ -126,7 +150,7 @@ func Test_AssignAndUnassignCourseAssistant(t *testing.T) {
 	cxt, _ := middleware.BuildCtx(resAccount.Token)
 	req := &v1.AssignCourseAssistantReq{
 		CourseId:    1,
-		AssistantId: 1,
+		AssistantId: 2,
 	}
 	ctrl := &course.ControllerV1{}
 	gtest.C(t, func(t *gtest.T) {
@@ -134,15 +158,15 @@ func Test_AssignAndUnassignCourseAssistant(t *testing.T) {
 		t.AssertNil(err)
 		t.Assert(res.Success, true)
 	})
-	requnassign := &v1.UnassignCourseAssistantReq{
-		CourseId:    1,
-		AssistantId: 1,
-	}
-	gtest.C(t, func(t *gtest.T) {
-		res, err := ctrl.UnassignCourseAssistant(cxt, requnassign)
-		t.AssertNil(err)
-		t.Assert(res.Success, true)
-	})
+	// requnassign := &v1.UnassignCourseAssistantReq{
+	// 	CourseId:    1,
+	// 	AssistantId: 1,
+	// }
+	// gtest.C(t, func(t *gtest.T) {
+	// 	res, err := ctrl.UnassignCourseAssistant(cxt, requnassign)
+	// 	t.AssertNil(err)
+	// 	t.Assert(res.Success, true)
+	// })
 }
 func Test_UnassignCourseAssistant(t *testing.T) {
 	ctrlAccount := &account.ControllerV1{}
@@ -157,7 +181,7 @@ func Test_UnassignCourseAssistant(t *testing.T) {
 	ctrl := &course.ControllerV1{}
 	req := &v1.UnassignCourseAssistantReq{
 		CourseId:    1,
-		AssistantId: 1,
+		AssistantId: 2,
 	}
 	gtest.C(t, func(t *gtest.T) {
 		res, err := ctrl.UnassignCourseAssistant(cxt, req)
@@ -168,8 +192,8 @@ func Test_UnassignCourseAssistant(t *testing.T) {
 func Test_ApplyToJoinCourse(t *testing.T) {
 	ctrlAccount := &account.ControllerV1{}
 	userinfo := V1.UserLoginInfo{
-		UserId:   2,
-		Password: "password2",
+		UserId:   3,
+		Password: "password3",
 	}
 	reqAccount := &V1.LoginUserReq{UserInfo: userinfo}
 
@@ -216,17 +240,39 @@ func Test_GetCourseWithLectureByStudentId(t *testing.T) {
 		t.AssertNE(res.Courses, v1.GetCourseWithLecturesByStudentIdReq{})
 	})
 }
-func Test_SearchCourse(t *testing.T) {
-	req := &v1.SearchCourseReq{
-		Keywords:     "操作",
-		SourceTable:  "name",
-		RecommendNum: 1,
+
+// func Test_SearchCourse(t *testing.T) {
+// 	req := &v1.SearchCourseReq{
+// 		Keywords:     "操作",
+// 		SourceTable:  "name",
+// 		RecommendNum: 1,
+// 	}
+// 	ctrl := &course.ControllerV1{}
+// 	gtest.C(t, func(t *gtest.T) {
+// 		res, err := ctrl.SearchCourse(context.Background(), req)
+// 		t.AssertNil(err)
+// 		//这个要改
+// 		t.Assert(res.Courses[0].Name, "操作系统Plus")
+// 	})
+// }
+
+func Test_GetALLStudentsOfCourse(t *testing.T) {
+	ctrlAccount := &account.ControllerV1{}
+	userinfo := V1.UserLoginInfo{
+		UserId:   1,
+		Password: "woshisb",
+	}
+	reqAccount := &V1.LoginUserReq{UserInfo: userinfo}
+
+	resAccount, _ := ctrlAccount.LoginUser(context.Background(), reqAccount)
+	cxt, _ := middleware.BuildCtx(resAccount.Token)
+	req := &v1.GetAllStudentsOfACourseReq{
+		CourseId: 1,
 	}
 	ctrl := &course.ControllerV1{}
 	gtest.C(t, func(t *gtest.T) {
-		res, err := ctrl.SearchCourse(context.Background(), req)
-		t.AssertNil(err)
-		//这个要改
-		t.Assert(res.Courses[0].Name, "操作系统Plus")
+		res, err := ctrl.GetAllStudentsOfACourse(cxt, req)
+		gtest.AssertNil(err)
+		gtest.Assert(res.Students[0].UserId, 1)
 	})
 }

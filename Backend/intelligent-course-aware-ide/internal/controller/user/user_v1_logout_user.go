@@ -3,8 +3,6 @@ package user
 import (
 	"context"
 
-	"github.com/gogf/gf/v2/errors/gcode"
-	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
 
 	v1 "intelligent-course-aware-ide/api/user/v1"
@@ -17,5 +15,5 @@ func (c *ControllerV1) LogoutUser(ctx context.Context, req *v1.LogoutUserReq) (r
 	if err != nil {
 		return nil, err
 	}
-	return nil, gerror.NewCode(gcode.CodeNotImplemented)
+	return &v1.LogoutUserRes{Success: true}, nil
 }
