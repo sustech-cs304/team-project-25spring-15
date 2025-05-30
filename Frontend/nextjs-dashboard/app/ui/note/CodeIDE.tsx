@@ -2,6 +2,7 @@
 
 import React, { useRef, useEffect } from "react";
 import CodeEditor from "./CodeEditor";
+import { IdeAPI } from "@/app/lib/client-api";
 import { Box, Button, Typography } from "@mui/material";
 import TerminalIcon from "@mui/icons-material/Terminal";
 import "@xterm/xterm/css/xterm.css";
@@ -9,22 +10,57 @@ import "@xterm/xterm/css/xterm.css";
 export default function CodeIDE() {
   const [showTerminal, setShowTerminal] = React.useState(false);
   const [code, setCode] = React.useState(
-    '// 输入JS代码\nconsole.log("Hello World")'
+    '// 请使用cat打开文件'
   );
+  const codeRef = useRef(code);
+  useEffect(() => {
+    codeRef.current = code;
+  }, [code]);
+
   const terminalRef = useRef<HTMLDivElement>(null);
   const termRef = useRef<any>(null); // xterm.Terminal 实例
   const inputBuffer = useRef("");
+  const sectionIdRef = useRef<string | null>(null);
+  const fileNameRef = useRef<string | null>(null);
 
   async function sendCommandToBackend(command: string) {
     // 假设你的后端有 /api/terminal 这个接口
-    const res = await fetch("/api/terminal", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ command }),
-    });
-    const data = await res.json();
-    return data.result; // 假设后端返回 { result: "xxx" }
+    console.log(sectionIdRef.current);
+    const res = await IdeAPI.runCmd(sectionIdRef.current, command, "", "");
+    console.log(res);
+    if (res.error && res.error !== "")
+      return res.error;
+    else
+      return res.output; // 假设后端返回 { result: "xxx" }
   }
+
+  async function saveFileToBackend(command: string, content: string, cwd: string) {
+    // 假设你的后端有 /api/terminal 这个接口
+    console.log(sectionIdRef.current);
+    const res = await IdeAPI.runCmd(sectionIdRef.current, command, content, cwd);
+    console.log(res);
+    if (res.error && res.error !== "")
+      return res.error;
+    else
+      return res.output; // 假设后端返回 { result: "xxx" }
+  }
+
+  useEffect(() => {
+    IdeAPI.createCmd().then((res) => {
+      let sectionId: string | null = null;
+      if (res && typeof res === "object" && "data" in res && res.data?.sessionId) {
+        sectionId = res.data.sessionId;
+      }
+      // console.log(sectionId);
+      sectionIdRef.current = sectionId;
+    });
+
+    return () => {
+      if (sectionIdRef.current) {
+        IdeAPI.closeCmd(sectionIdRef.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     if (showTerminal && terminalRef.current && !termRef.current) {
@@ -50,14 +86,39 @@ export default function CodeIDE() {
         term.onData((data: string) => {
           if (data === "\r") {
             term.write("\r\n");
-            // 这里只做简单命令模拟
-            if (inputBuffer.current.trim() === "clear") {
+
+            if (inputBuffer.current.trim() === "") { // 如果输入为空，只换行
+                term.write("$ ");
+                return;
+              }
+
+            if (inputBuffer.current.trim() === "clear") { // clear
               term.clear();
-            } else if (inputBuffer.current.trim().startsWith("dakai")) {
+            } else if (inputBuffer.current.trim().startsWith("cat")) { // cat file.py
               const args = inputBuffer.current.trim().split(" ");
-              term.writeln(`你输入了 dakai 指令，参数为: ${args.slice(1).join(" ")}`);
+              fileNameRef.current = args.slice(1).join(" ");
+              term.writeln(`你输入了 cat 指令，参数为: ${args.slice(1).join(" ")}`);
+              sendCommandToBackend(inputBuffer.current).then((result) => {
+                setCode(result);
+              });
+              term.writeln(`successfully cat ${fileNameRef.current}`);
+            } else if(inputBuffer.current.trim().startsWith("save")) {
+              sendCommandToBackend("pwd").then((result) => {
+                const cleanResult = result.replace(/[\r\n]+/g, "");
+                const path = cleanResult + '/' + fileNameRef.current;
+                console.log(path);
+                saveFileToBackend("save " + path , codeRef.current , cleanResult).then((result) => {
+                  console.log(result);
+                });
+              })
+              term.writeln(`successfully save file`);
             } else {
-              term.writeln(`未知命令: ${inputBuffer.current.trim()}`);
+              sendCommandToBackend(inputBuffer.current).then((result) => {
+                if(result !== undefined) {
+                  const cleanResult = String(result).replace(/[\r\n]+$/g, "");
+                  term.writeln(`${cleanResult}`);
+                }
+              })
             }
             inputBuffer.current = "";
             term.write("$ ");
@@ -82,29 +143,7 @@ export default function CodeIDE() {
     }
   }, [showTerminal]);
 
-  const runCode = () => {
-    if (termRef.current) {
-      try {
-        termRef.current.writeln("--- 运行编辑器代码 ---");
-        const logs: any[] = [];
-        const originLog = console.log;
-        console.log = (...args) => {
-          logs.push(args.join(" "));
-          originLog(...args);
-        };
-        // eslint-disable-next-line no-eval
-        eval(code);
-        logs.forEach((line) => termRef.current!.writeln(line));
-        console.log = originLog;
-        termRef.current.writeln("--- 代码运行结束 ---");
-        termRef.current.write("$ ");
-        termRef.current.scrollToBottom();
-      } catch (e) {
-        termRef.current.writeln("错误: " + String(e));
-        termRef.current.scrollToBottom();
-      }
-    }
-  };
+  console.log(code);
 
   return (
     <Box
@@ -137,14 +176,6 @@ export default function CodeIDE() {
           代码编辑器
         </Typography>
         <Box sx={{ display: "flex", gap: 2 }}>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={runCode}
-            sx={{ borderRadius: 2 }}
-          >
-            运行
-          </Button>
           <Button
             variant="contained"
             color="primary"

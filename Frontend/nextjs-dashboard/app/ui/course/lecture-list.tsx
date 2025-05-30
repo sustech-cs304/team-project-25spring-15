@@ -20,6 +20,9 @@ import {
   Grid,
   alpha,
   LinearProgress,
+  IconButton,
+  Menu,
+  MenuItem,
 } from '@mui/material';
 import { Course, Lecture, UserInfo } from '@/app/lib/definitions';
 import { useStore } from '@/store/useStore';
@@ -32,8 +35,12 @@ import PlayCircleOutline from '@mui/icons-material/PlayCircleOutline';
 import CalendarToday from '@mui/icons-material/CalendarToday';
 import AccessTime from '@mui/icons-material/AccessTime';
 import CheckCircle from '@mui/icons-material/CheckCircle';
+import MoreVert from '@mui/icons-material/MoreVert';
+import Edit from '@mui/icons-material/Edit';
+import Delete from '@mui/icons-material/Delete';
 import { LectureAPI, CourseAPI } from '@/app/lib/client-api';
 import { usePermissions } from '@/app/lib/permissions';
+import { useMessage } from '@/app/hooks/useMessage';
 import {
   PageWrapper,
   AnimatedContainer,
@@ -45,6 +52,136 @@ import {
 
 interface LectureListProps {
   courseId: number;
+}
+
+// 讲座卡片组件，带有操作按钮
+interface LectureCardProps {
+  lecture: Lecture;
+  onEdit?: (lecture: Lecture) => void;
+  onDelete?: (lecture: Lecture) => void;
+  onClick: () => void;
+  showActions?: boolean;
+}
+
+function LectureCard({ lecture, onEdit, onDelete, onClick, showActions = false }: LectureCardProps) {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+
+  const handleMenuClick = (event: React.MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleEdit = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    handleMenuClose();
+    onEdit?.(lecture);
+  };
+
+  const handleDelete = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    handleMenuClose();
+    onDelete?.(lecture);
+  };
+
+  return (
+    <Card
+      sx={{
+        height: '100%',
+        cursor: 'pointer',
+        background: 'rgba(255, 255, 255, 0.95)',
+        backdropFilter: 'blur(10px)',
+        border: '1px solid rgba(255, 255, 255, 0.3)',
+        position: 'relative',
+        '&:hover': {
+          background: 'rgba(255, 255, 255, 1)',
+        },
+      }}
+    >
+      {/* 操作菜单按钮 */}
+      {showActions && (onEdit || onDelete) && (
+        <Box sx={{ position: 'absolute', top: 8, right: 8, zIndex: 2 }}>
+          <IconButton
+            size="small"
+            onClick={handleMenuClick}
+            sx={{
+              backgroundColor: 'rgba(255, 255, 255, 0.8)',
+              backdropFilter: 'blur(4px)',
+              '&:hover': {
+                backgroundColor: 'rgba(255, 255, 255, 0.9)',
+              },
+            }}
+          >
+            <MoreVert fontSize="small" />
+          </IconButton>
+          <Menu
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleMenuClose}
+            transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+            anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+          >
+            {onEdit && (
+              <MenuItem onClick={handleEdit}>
+                <Edit fontSize="small" sx={{ mr: 1 }} />
+                编辑讲座
+              </MenuItem>
+            )}
+            {onDelete && (
+              <MenuItem onClick={handleDelete} sx={{ color: 'error.main' }}>
+                <Delete fontSize="small" sx={{ mr: 1 }} />
+                删除讲座
+              </MenuItem>
+            )}
+          </Menu>
+        </Box>
+      )}
+
+      <div onClick={onClick}>
+        <CardContent sx={{ p: 3 }}>
+          <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2, mb: 2 }}>
+            <Avatar
+              sx={{
+                bgcolor: 'primary.main',
+                width: 48,
+                height: 48,
+              }}
+            >
+              <AssignmentIcon />
+            </Avatar>
+            <Box sx={{ flexGrow: 1 }}>
+              <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
+                {lecture.lectureName}
+              </Typography>
+              <Chip
+                label={lecture.status === 'done' ? '已完成' : lecture.status === 'inProgress' ? '进行中' : '未开始'}
+                color={lecture.status === 'done' ? 'success' : lecture.status === 'inProgress' ? 'primary' : 'default'}
+                size="small"
+                variant="outlined"
+              />
+            </Box>
+          </Box>
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{
+              display: '-webkit-box',
+              WebkitLineClamp: 3,
+              WebkitBoxOrient: 'vertical',
+              overflow: 'hidden',
+              lineHeight: 1.5,
+            }}
+          >
+            {lecture.description || '暂无描述'}
+          </Typography>
+        </CardContent>
+      </div>
+    </Card>
+  );
 }
 
 export default function LectureList({ courseId }: LectureListProps) {
@@ -63,6 +200,17 @@ export default function LectureList({ courseId }: LectureListProps) {
   const [studentEmail, setStudentEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [currentCourse, setCurrentCourse] = useState<Course | null>(null);
+
+  // 编辑讲座相关状态
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [editingLecture, setEditingLecture] = useState<Lecture | null>(null);
+  const [editForm, setEditForm] = useState({
+    lectureName: '',
+    description: '',
+  });
+
+  // 使用消息弹窗
+  const { success, error, warning, confirm, MessageComponent } = useMessage();
 
   // 获取当前课程和讲座信息
   useEffect(() => {
@@ -180,6 +328,113 @@ export default function LectureList({ courseId }: LectureListProps) {
   const handleCloseStudentDialog = () => {
     setOpenStudentDialog(false);
     setStudentEmail('');
+  };
+
+  // 处理编辑讲座
+  const handleEditLecture = (lecture: Lecture) => {
+    setEditingLecture(lecture);
+    setEditForm({
+      lectureName: lecture.lectureName,
+      description: lecture.description || '',
+    });
+    setEditDialogOpen(true);
+  };
+
+  // 处理删除讲座
+  const handleDeleteLecture = async (lecture: Lecture) => {
+    if (!permissions.canManageCourse) {
+      warning('您没有权限删除讲座');
+      return;
+    }
+
+    confirm(
+      `确认删除讲座"${lecture.lectureName}"？\n\n删除后将无法恢复，所有相关的作业和内容都将被删除。`,
+      async () => {
+        try {
+          await LectureAPI.deleteLecture(courseId, lecture.lectureId);
+          
+          // 重新加载讲座列表
+          const response = await CourseAPI.fetchCourseWithLectures(courseId);
+          const updatedCourse = response.course;
+
+          if (updatedCourse) {
+            // 更新本地状态
+            setCurrentCourse(updatedCourse);
+
+            // 更新store中的课程数据
+            const existingCourseIndex = courses.findIndex(c => c.courseId === courseId);
+            if (existingCourseIndex >= 0) {
+              const updatedCourses = [...courses];
+              updatedCourses[existingCourseIndex] = updatedCourse;
+              setCourses(updatedCourses);
+            }
+          }
+          
+          success(`讲座"${lecture.lectureName}"已成功删除`, {
+            title: '删除成功'
+          });
+        } catch (err) {
+          console.error('删除讲座失败:', err);
+          error('删除讲座失败: ' + (err instanceof Error ? err.message : '未知错误'));
+        }
+      }
+    );
+  };
+
+  // 处理保存编辑
+  const handleSaveEdit = async () => {
+    if (!editingLecture || !currentCourse) return;
+    
+    if (!editForm.lectureName.trim()) {
+      warning('请输入讲座名称');
+      return;
+    }
+
+    try {
+      await LectureAPI.updateLecture(
+        currentCourse.chatId, 
+        courseId, 
+        editingLecture.lectureId, 
+        {
+          lectureName: editForm.lectureName.trim(),
+          description: editForm.description.trim(),
+        }
+      );
+
+      // 重新加载讲座列表
+      const response = await CourseAPI.fetchCourseWithLectures(courseId);
+      const updatedCourse = response.course;
+
+      if (updatedCourse) {
+        // 更新本地状态
+        setCurrentCourse(updatedCourse);
+
+        // 更新store中的课程数据
+        const existingCourseIndex = courses.findIndex(c => c.courseId === courseId);
+        if (existingCourseIndex >= 0) {
+          const updatedCourses = [...courses];
+          updatedCourses[existingCourseIndex] = updatedCourse;
+          setCourses(updatedCourses);
+        }
+      }
+
+      success(`讲座"${editForm.lectureName}"已成功更新`, {
+        title: '更新成功'
+      });
+      
+      setEditDialogOpen(false);
+      setEditingLecture(null);
+    } catch (err) {
+      console.error('更新讲座失败:', err);
+      error('更新讲座失败: ' + (err instanceof Error ? err.message : '未知错误'));
+    }
+  };
+
+  // 取消编辑
+  const handleCancelEdit = () => {
+    setEditDialogOpen(false);
+    setEditingLecture(null);
+    setEditForm({ lectureName: '', description: '' });
   };
 
   const handleAddLecture = async () => {
@@ -540,7 +795,7 @@ export default function LectureList({ courseId }: LectureListProps) {
           </FadeIn>
 
           <AnimatedContainer>
-            {currentCourse.lectures && currentCourse.lectures.length > 0 ? (
+            {currentCourse?.lectures && currentCourse.lectures.length > 0 ? (
               <Box
                 sx={{
                   display: 'grid',
@@ -558,56 +813,13 @@ export default function LectureList({ courseId }: LectureListProps) {
                     delay={index * 0.1}
                     onClick={() => handleLectureClick(lecture.lectureId)}
                   >
-                    <Card
-                      sx={{
-                        height: '100%',
-                        cursor: 'pointer',
-                        background: 'rgba(255, 255, 255, 0.95)',
-                        backdropFilter: 'blur(10px)',
-                        border: '1px solid rgba(255, 255, 255, 0.3)',
-                        '&:hover': {
-                          background: 'rgba(255, 255, 255, 1)',
-                        },
-                      }}
-                    >
-                      <CardContent sx={{ p: 3 }}>
-                        <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2, mb: 2 }}>
-                          <Avatar
-                            sx={{
-                              bgcolor: 'primary.main',
-                              width: 48,
-                              height: 48,
-                            }}
-                          >
-                            <AssignmentIcon />
-                          </Avatar>
-                          <Box sx={{ flexGrow: 1 }}>
-                            <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
-                              {lecture.lectureName}
-                            </Typography>
-                            <Chip
-                              label={lecture.status === 'done' ? '已完成' : lecture.status === 'inProgress' ? '进行中' : '未开始'}
-                              color={lecture.status === 'done' ? 'success' : lecture.status === 'inProgress' ? 'primary' : 'default'}
-                              size="small"
-                              variant="outlined"
-                            />
-                          </Box>
-                        </Box>
-                        <Typography
-                          variant="body2"
-                          color="text.secondary"
-                          sx={{
-                            display: '-webkit-box',
-                            WebkitLineClamp: 3,
-                            WebkitBoxOrient: 'vertical',
-                            overflow: 'hidden',
-                            lineHeight: 1.5,
-                          }}
-                        >
-                          {lecture.description || '暂无描述'}
-                        </Typography>
-                      </CardContent>
-                    </Card>
+                    <LectureCard
+                      lecture={lecture}
+                      onClick={() => handleLectureClick(lecture.lectureId)}
+                      onEdit={handleEditLecture}
+                      onDelete={handleDeleteLecture}
+                      showActions={permissions.canManageCourse}
+                    />
                   </AnimatedCard>
                 ))}
               </Box>
@@ -724,8 +936,63 @@ export default function LectureList({ courseId }: LectureListProps) {
               </Button>
             </DialogActions>
           </Dialog>
+
+          {/* 编辑讲座对话框 */}
+          <Dialog
+            open={editDialogOpen}
+            onClose={handleCancelEdit}
+            maxWidth="sm"
+            fullWidth
+            PaperProps={{
+              sx: {
+                borderRadius: 3,
+                background: 'rgba(255, 255, 255, 0.95)',
+                backdropFilter: 'blur(10px)',
+              }
+            }}
+          >
+            <DialogTitle sx={{ fontWeight: 600, fontSize: '1.5rem' }}>
+              编辑讲座
+            </DialogTitle>
+            <DialogContent>
+              <TextField
+                autoFocus
+                margin="dense"
+                label="讲座名称"
+                type="text"
+                fullWidth
+                variant="outlined"
+                value={editForm.lectureName}
+                onChange={(e) => setEditForm({ ...editForm, lectureName: e.target.value })}
+                sx={{ mb: 2 }}
+              />
+              <TextField
+                margin="dense"
+                label="讲座描述"
+                type="text"
+                fullWidth
+                multiline
+                rows={4}
+                variant="outlined"
+                value={editForm.description}
+                onChange={(e) => setEditForm({ ...editForm, description: e.target.value })}
+              />
+            </DialogContent>
+            <DialogActions sx={{ p: 3, gap: 1 }}>
+              <Button onClick={handleCancelEdit} variant="outlined">
+                取消
+              </Button>
+              <Button onClick={handleSaveEdit} variant="contained">
+                保存
+              </Button>
+            </DialogActions>
+          </Dialog>
+
+          {/* 消息弹窗 */}
+          <MessageComponent />
         </Container>
       </Box>
     </PageWrapper>
   );
 }
+ 

@@ -3,6 +3,11 @@ import { customProvider, extractReasoningMiddleware, wrapLanguageModel } from "a
 
 export const DEFAULT_CHAT_MODEL: string = 'chat-model';
 
+export type CmdResult = {
+  output: string;
+  error: string;
+};
+
 interface ChatModel {
   id: string;
   name: string;

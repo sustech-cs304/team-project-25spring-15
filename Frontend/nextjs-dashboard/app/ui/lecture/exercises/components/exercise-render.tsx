@@ -107,7 +107,7 @@ export default function ExercisePage({ assignment, onBack, onRefresh }: Exercise
       
       // 确保有结果显示
       if (result !== undefined && result !== null) {
-        setOutput(result);
+      setOutput(result);
       } else {
         setOutput('程序执行完毕，无输出');
       }
@@ -344,18 +344,18 @@ export default function ExercisePage({ assignment, onBack, onRefresh }: Exercise
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, flexShrink: 0 }}>
               <FormControl sx={{ minWidth: 140, mr: 2 }} size="small">
                 <InputLabel id="language-select-label">编程语言</InputLabel>
-                <Select
-                  labelId="language-select-label"
-                  value={language}
+            <Select
+              labelId="language-select-label"
+              value={language}
                   label="编程语言"
-                  onChange={(e) => setLanguage(e.target.value as string)}
-                >
+              onChange={(e) => setLanguage(e.target.value as string)}
+            >
                   <MenuItem value="c">C</MenuItem>
                   <MenuItem value="cpp">C++</MenuItem>
-                  <MenuItem value="python">Python</MenuItem>
+              <MenuItem value="python">Python</MenuItem>
                   <MenuItem value="txt">Txt</MenuItem>
-                </Select>
-              </FormControl>
+            </Select>
+          </FormControl>
               <Box sx={{ flexGrow: 1 }} />
               {permissions.canAddTestCase && (
                 <Button
@@ -385,7 +385,7 @@ export default function ExercisePage({ assignment, onBack, onRefresh }: Exercise
               >
                 提交答案
               </Button>
-            </Box>
+          </Box>
 
             {/* 代码编辑器 - 固定高度，内部可滚动 */}
             <Box sx={{

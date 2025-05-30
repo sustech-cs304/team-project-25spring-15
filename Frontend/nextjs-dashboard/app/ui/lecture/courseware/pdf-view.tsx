@@ -115,17 +115,17 @@ export default function PdfView({ courseId, lectureId }: PdfViewProps) {
     <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}>
       {/* 只有有权限的用户才能看到上传按钮 */}
       {permissions.canEditExercise && (
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
-          <Button variant="outlined" component="label" disabled={uploading}>
-            {uploading ? "上传中..." : "上传PDF"}
-            <input
-              type="file"
-              accept="application/pdf"
-              hidden
-              onChange={handleFileChange}
-            />
-          </Button>
-        </Box>
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
+        <Button variant="outlined" component="label" disabled={uploading}>
+          {uploading ? "上传中..." : "上传PDF"}
+          <input
+            type="file"
+            accept="application/pdf"
+            hidden
+            onChange={handleFileChange}
+          />
+        </Button>
+      </Box>
       )}
       <div style={{ flex: 1, overflow: 'auto' }}>
         <PdfContainer>

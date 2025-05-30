@@ -20,8 +20,11 @@ services:
 
   runner:
     image: backend-runner
+    ports:
+      - "8001:8001"
     volumes:
       - ./data:/usr/Document
+      - ./log:/usr/log
     networks:
       - backend-net
     deploy:

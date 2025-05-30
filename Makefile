@@ -1,8 +1,11 @@
 # Makefile
 MAKEFLAGS += --no-print-directory
 
-# Develop part
+# Dev part
 .PHONY: setup-backend-dev close-backend-dev
+
+# Ope part
+.PHONY: setup-backend-ope close-backend-dev
 
 # Analyze part
 .PHONY: all-analyze
@@ -15,15 +18,30 @@ MAKEFLAGS += --no-print-directory
 VENV_DIR := ./venv
 DEV_COMPOSE_DIR := ./Backend
 DEV_COMPOSE_NAME := docker-compose.dev.yml
-BACKEND_DIR := ./Backend/intelligent-course-aware-ide
+OPE_COMPOSE_NAME := docker-compose.ope.yml
+BACKEND_DIR := ./Backend/
+TMP_DIR := ./Backend/data/tmp
+BACKEND_GO_DIR := ./Backend/intelligent-course-aware-ide
+BACKEND_PYTHON_DIR := ./Backend/code-runner
 FRONTEND_DIR := ./Frontend/nextjs-dashboard
 
-# ====== Setup develop
+# ====== Setup dev
 setup-backend-dev:
+	@mkdir -p $(TMP_DIR)
 	@cd $(DEV_COMPOSE_DIR) && docker compose -f $(DEV_COMPOSE_NAME) up -d --build
 
 close-backend-dev:
 	@cd $(DEV_COMPOSE_DIR) && docker compose -f $(DEV_COMPOSE_NAME) down
+
+# ====== Setup ope
+setup-backend-ope:
+	@mkdir -p $(TMP_DIR)
+	@cd $(DEV_COMPOSE_DIR) && \
+	docker compose -f $(DEV_COMPOSE_NAME) build && \
+	( docker info --format '{{.Swarm.LocalNodeState}}' | grep -q 'active' || docker swarm init ) && \
+	docker stack deploy -c $(OPE_COMPOSE_NAME) CS304
+close-backend-ope:
+	@cd $(DEV_COMPOSE_DIR) && docker stack rm CS304
 
 # ====== Setup analyze environment and analyze
 all-analyze: setup-analyze analyze
@@ -85,7 +103,7 @@ count-lines:
 	@echo ""
 
 calc-complexity:
-	@echo "-- Cyclomatic Complexity (Go):"
+	@echo "-- Cyclomatic Complexity:"
 	@gocyclo -over 0 $(BACKEND_DIR) | \
 	awk '{count[$$1]++} END {for (c in count) printf("%s %d\n", c, count[c])}' | \
 	sort -n | \
@@ -98,11 +116,18 @@ count-go-files:
 	@echo ""
 
 count-deps:
-	@if [ -f $(BACKEND_DIR)/go.mod ]; then \
+	@if [ -f $(BACKEND_GO_DIR)/go.mod ]; then \
 		echo "-- Go Dependencies:"; \
-		cd $(BACKEND_DIR) && go list -m all | wc -l; \
+		cd $(BACKEND_GO_DIR) && go list -m all | wc -l; \
 	else \
 		echo "No go.mod file found"; \
+	fi
+	@echo ""
+	@if [ -f $(BACKEND_PYTHON_DIR)/requirements.txt ]; then \
+		echo "-- Python Dependencies:"; \
+		cd $(BACKEND_PYTHON_DIR) && grep -v '^\s*#' requirements.txt | grep -v '^\s*$$' | wc -l;\
+	else \
+		echo "No requirements.txt found"; \
 	fi
 	@echo ""
 

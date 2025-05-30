@@ -1,11 +1,62 @@
 import axios from 'axios';
 import { useStore } from '@/store/useStore';
-import {AiMessage, Assignment} from './definitions';
+import { AiMessage, Assignment, CmdResult } from './definitions';
 
 // 获取认证信息的辅助函数
 export async function getAuthHeader() {
   const token = useStore.getState().token;
   return token ? { Authorization: `Bearer ${token}` } : {};
+}
+
+export const IdeAPI = {
+  createCmd: async () => {
+    const headers = await getAuthHeader();
+    try {
+      const res = await axios.post(
+        `/api/command/create`, {}, {headers}
+      );
+      // console.log(res.data);
+      return res.data;
+    } catch (e) {
+      console.error("Fail run Cmd", e);
+      return "";
+    }
+  },
+  runCmd: async (sectionId: string | null, command: string, content: string, cwd: string): Promise<CmdResult> => {
+    if (!sectionId) {
+      console.error("Error run cmd: no current section.")
+      return { output: "", error: "Error: no current section." };
+    }
+    const headers = await getAuthHeader();
+    const payload = {
+      sessionId: sectionId,
+      command: command,
+      content: content,
+      cwd: cwd
+    };
+    try {
+      const res = await axios.post(
+        `/api/command/exec`, payload, {headers}
+      );
+      console.log(res);
+      return {output: res.data.data.output, error: res.data.data.error};
+    } catch (e) {
+      console.error("Fail run Cmd:", command, e);
+      return { output: "", error: "Fail run Cmd" };
+    }
+  },
+  closeCmd: async (sectionId: string) => {
+    const headers = await getAuthHeader();
+    const payload = {sessionId: sectionId};
+    try {
+      const res = await axios.post(
+        `/api/command/close`, payload, {headers}
+      );
+      console.log(res.data);
+    } catch (e) {
+      console.error("Fail run Cmd", e);
+    }
+  },
 }
 
 export const AiAPI = {
@@ -24,13 +75,6 @@ export const AiAPI = {
     } catch(e) {
       console.error("Error in removeMessage: ", e);
     }
-  }
-}
-
-export const CmdAPI = {
-  sendCmd: async () => {
-    const headers = await getAuthHeader();
-    console.log("Start fetching result of cmd: ");
   }
 }
 
@@ -88,7 +132,7 @@ export const CodeAPI = {
       type: lang
     };
     console.log("running code with payload:", payload);
-    
+
     try {
       const res = await axios.post(`/api/codeRunner/run`, payload, {headers});
       const response = res.data.data.codeFeedback;
@@ -97,11 +141,11 @@ export const CodeAPI = {
       // 检查是否有错误
       if (response.error && response.error.trim() !== "") {
         return response.error;
-      } 
+      }
       // 检查是否有结果输出
       else if (response.result) {
         return response.result;
-      } 
+      }
       // 没有输出的情况
       else {
         return '程序执行完毕，无输出';
@@ -135,49 +179,49 @@ export const CourseAPI = {
       const headers = await getAuthHeader();
       console.log('Fetching course with lectures for courseId:', courseId);
       console.log('Using headers:', headers);
-      
+
       const response = await axios.get(`/api/course/searchCourseWithLectures/${courseId}`, {
         headers
       });
-      
+
       console.log('Raw API response:', response);
       console.log('Response status:', response.status);
       console.log('Response data:', response.data);
-      
+
       // 检查响应数据结构
       if (!response.data) {
         throw new Error('API响应为空');
       }
-      
+
       // 根据API文档，数据可能在data字段中
       const responseData = response.data.data || response.data;
       console.log('Processed response data:', responseData);
-      
+
       // 检查是否包含必要的字段
       if (!responseData.course && !responseData.Course) {
         console.error('响应中缺少course字段:', responseData);
         throw new Error('API响应中缺少课程数据');
       }
-      
+
       // 标准化字段名（可能是course或Course）
       const course = responseData.course || responseData.Course;
       const courseIdentity = responseData.courseIdentity || responseData.CourseIdentity;
-      
+
       console.log('Extracted course:', course);
       console.log('Extracted courseIdentity:', courseIdentity);
-      
+
       return {
         course: course,
         courseIdentity: courseIdentity
       };
     } catch (err) {
       console.error(`Failed to fetch course with lectures:`, err);
-      
+
       // 记录更详细的错误信息
       if (err instanceof Error) {
         console.error('Error message:', err.message);
       }
-      
+
       // 如果是网络错误，记录响应详情
       if (axios.isAxiosError(err)) {
         console.error('Axios error details:');
@@ -186,7 +230,7 @@ export const CourseAPI = {
         console.error('- Response data:', err.response?.data);
         console.error('- Request URL:', err.config?.url);
       }
-      
+
       throw err;
     }
   },
@@ -225,6 +269,7 @@ export const CourseAPI = {
         }
       }
     );
+    console.log('Course deleted successfully:', response.data);
     return response.data;
   },
 
@@ -458,11 +503,11 @@ export const AssignmentAPI = {
     const assignments = res.data.data.assignments as Assignment[];
     const scores = res.data.data.scores as number[];
     const totalScores = res.data.data.totalScores as number[];
-    
+
     console.log("Assignments:", assignments);
     console.log("Scores:", scores);
     console.log("Total Scores:", totalScores);
-    
+
     const merged = assignments?.map((assignment, idx) => ({
       ...assignment,
       score: scores[idx] || 0, // 学生获得的分数
@@ -480,38 +525,38 @@ export const AssignmentAPI = {
   }) => {
     const headers = await getAuthHeader();
     console.log("Attempting assignment with data:", attempt);
-    
+
     try {
       const res = await axios.post(`/api/assignment/attemptAssignment`, {
         attempt: attempt
       }, { headers });
-      
+
       console.log("Assignment attempt result full response:", res);
       console.log("Response status:", res.status);
       console.log("Response data:", res.data);
       console.log("Response data.data:", res.data?.data);
       console.log("Response data.data.feedback:", res.data?.data?.feedback);
-      
+
       // 检查响应结构
       if (!res.data) {
         throw new Error("API响应为空");
       }
-      
+
       if (!res.data.data) {
         console.error("响应缺少data字段:", res.data);
         throw new Error("API响应格式不正确：缺少data字段");
       }
-      
+
       if (!res.data.data.feedback) {
         console.error("响应缺少feedback字段:", res.data.data);
         throw new Error("API响应格式不正确：缺少feedback字段");
       }
-      
+
       const feedback = res.data.data.feedback;
       console.log("最终返回的feedback:", feedback);
       console.log("Feedback类型:", typeof feedback);
       console.log("Feedback的键:", Object.keys(feedback));
-      
+
       return feedback;
     } catch (error) {
       console.error("attemptAssignment API调用失败:", error);

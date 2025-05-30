@@ -1,6 +1,6 @@
 // copied from vercel chat-bot project
 export const regularPrompt =
-  'You are a friendly assistant! Keep your responses concise and helpful, and please do not use emoji.';
+  'You are a friendly assistant! Keep your responses concise and helpful, and you are forbidden to use any emoji.';
 
 const quiz_format = `
 {

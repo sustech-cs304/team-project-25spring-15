@@ -53,8 +53,10 @@ def compose_run_cmd(run_cmd: str, args: list[int], input_path: str, output_path:
 
 def exec_file(run_cmd: str):
     try:
-        run_result = subprocess.run([run_cmd], capture_output=True, text=True, check=True, shell=True)
+        run_result = subprocess.run([run_cmd], capture_output=True, text=True, check=True, shell=True, timeout=30)
         return run_result.stdout, ""
+    except subprocess.TimeoutExpired as e:
+        return f"Timeout error:\n{e.stderr}"
     except subprocess.CalledProcessError as e:
         return "", f"Runtime error:\n{e.stderr}"
 
@@ -80,7 +82,9 @@ def run_code():
     output_path = codeInfo.get('outputPath', "")
 
     name = addExtName(name, codeType)
-    file_path = DIR_PATH + codeDir + name
+    file_path = DIR_PATH + codeDir
+    # file_path.mkdir(parents=True, exist_ok=True)
+    file_path = file_path + name
     # save code
     err = save(code, file_path)
     if err != None:
@@ -287,4 +291,4 @@ def close_bash():
     return jsonify({'error': ''})
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8001)
+    app.run(host='0.0.0.0', port=8001,  debug=True)
