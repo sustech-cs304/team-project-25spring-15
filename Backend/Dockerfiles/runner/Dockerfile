@@ -10,6 +10,4 @@ RUN pip install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple \
 WORKDIR /app
 COPY . .
 
-RUN mkdir -p /usr/Document/tmp
-
-CMD [ "sh", "-c", "python server.py > /usr/log/runner-output.log" ]
+CMD [ "sh", "-c", "python app.py > /usr/log/runner-output.log" ]

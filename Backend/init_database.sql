@@ -52,7 +52,7 @@ CREATE TABLE Courses(
     courseId BIGINT AUTO_INCREMENT PRIMARY KEY,
     teacherId BIGINT NOT NULL,
     courseName VARCHAR(255) NOT NULL,
-    description VARCHAR(255),
+    description VARCHAR(8191),
     startTime TIMESTAMP,
     endTime TIMESTAMP,
     chatId BIGINT,
@@ -63,7 +63,7 @@ CREATE TABLE Lectures(
     lectureId INTEGER AUTO_INCREMENT PRIMARY KEY,
     courseId BIGINT NOT NULL,
     lectureName VARCHAR(255) NOT NULL,
-    description VARCHAR(255),
+    description VARCHAR(8191),
     FOREIGN KEY (courseId) REFERENCES Courses(courseId) ON DELETE CASCADE
 );
 CREATE TABLE Assignments(
@@ -72,7 +72,7 @@ CREATE TABLE Assignments(
     publisherId BIGINT NOT NULL,
     courseId BIGINT,
     lectureId INTEGER,
-    description VARCHAR(255),
+    description VARCHAR(8191),
     deadline TIMESTAMP,
     completeness INT,
     FOREIGN KEY (publisherId) REFERENCES Users(userId) ON DELETE CASCADE,
@@ -95,8 +95,9 @@ CREATE TABLE AssignmentUserFeedback(
     assignmentId BIGINT NOT NULL,
     performerId BIGINT NOT NULL,
     score INT,
+    record VARCHAR(255) ,
     fileId BIGINT NOT NULL,
-    fileType ENUM('string', 'python', 'c', 'c++', 'cpp') default 'string',
+    fileType ENUM('txt', 'python', 'py', 'c', 'c++', 'cpp') default 'txt',
     PRIMARY KEY (assignmentId, performerId),
     FOREIGN KEY (assignmentId) REFERENCES Assignments(assignmentId) ON DELETE CASCADE,
     FOREIGN KEY (performerId) REFERENCES Users(userId) ON DELETE CASCADE
@@ -104,6 +105,7 @@ CREATE TABLE AssignmentUserFeedback(
 CREATE TABLE UserCourseInfo(
     userId BIGINT NOT NULL,
     courseId BIGINT NOT NULL,
+    identity ENUM('student', 'assistant', 'teacher') DEFAULT 'student',
     PRIMARY KEY(userId, courseId),
     FOREIGN KEY (userId) REFERENCES Users(userId) ON DELETE CASCADE,
     FOREIGN KEY (courseId) REFERENCES Courses(courseId) ON DELETE CASCADE
@@ -131,13 +133,13 @@ CREATE TABLE LectureNoteFiles(
     FOREIGN KEY (fileId) REFERENCES Files(fileId) ON DELETE CASCADE,
     FOREIGN KEY (lectureId) REFERENCES Lectures(lectureId) ON DELETE CASCADE
 );
-CREATE TABLE CourseAssistants(
-    courseId BIGINT NOT NULL,
-    assistantId BIGINT NOT NULL,
-    PRIMARY KEY (courseId, assistantId),
-    FOREIGN KEY (courseId) REFERENCES Courses(courseId) ON DELETE CASCADE,
-    FOREIGN KEY (assistantId) REFERENCES Users(userId) ON DELETE CASCADE
-);
+# CREATE TABLE CourseAssistants(
+#     courseId BIGINT NOT NULL,
+#     assistantId BIGINT NOT NULL,
+#     PRIMARY KEY (courseId, assistantId),
+#     FOREIGN KEY (courseId) REFERENCES Courses(courseId) ON DELETE CASCADE,
+#     FOREIGN KEY (assistantId) REFERENCES Users(userId) ON DELETE CASCADE
+# );
 CREATE TABLE AssignmentFiles(
     assignmentId BIGINT NOT NULL,
     ownerId BIGINT NOT NULL,
@@ -153,11 +155,21 @@ CREATE TABLE TestcaseAndAnswerFiles(
     testcaseId BIGINT,
     answerId BIGINT,
     score INT DEFAULT 1,
-    fileType ENUM('string', 'code') DEFAULT 'string',
+    fileType ENUM('txt', 'python', 'c', 'c++', 'cpp') default 'txt',
     FOREIGN KEY (assignmentId) REFERENCES Assignments(assignmentId) ON DELETE CASCADE,
     FOREIGN KEY (publisherId) REFERENCES Users(userId) ON DELETE CASCADE,
     FOREIGN KEY (testcaseId) REFERENCES Files(fileId) ON DELETE CASCADE,
     FOREIGN KEY (answerId) REFERENCES Files(fileId) ON DELETE CASCADE
+);
+CREATE TABLE IF NOT EXISTS AIChatHistory(
+    chatId VARCHAR(63) PRIMARY KEY,
+    lectureId INTEGER NOT NULL,
+    userId BIGINT NOT NULL,
+    role VARCHAR(127) NOT NULL ,
+    parts VARCHAR(8191) NOT NULL ,
+    createAt DATETIME DEFAULT NOW(),
+    FOREIGN KEY (lectureId) REFERENCES Lectures(lectureId) ON DELETE CASCADE,
+    FOREIGN KEY (userId) REFERENCES Users(userId) ON DELETE CASCADE
 );
 CREATE TABLE ChatUserInfo(
     userId BIGINT NOT NULL,
@@ -416,6 +428,45 @@ insert into Files(fileId, fileSize, fileUrl, fileName, fileType) VALUES (2,1,'/u
 insert into Files(fileId, fileSize, fileUrl, fileName, fileType) VALUES (3,1,'/usr/Document/answer_1.txt','answer_1', '1');
 insert into Files(fileId, fileSize, fileUrl, fileName, fileType) VALUES (4,1,'/usr/Document/answer_2.txt','answer_2', '1');
 insert into Files(fileId, fileSize, fileUrl, fileName, fileType) VALUES (5,1,'/usr/Document/attempt.py','attempt.py', '1');
-insert into TestcaseAndAnswerFiles(testcaseAndAnswerId, assignmentId, publisherId, testcaseId, answerId, fileType) VALUES (1,1,1,1,3,'code');
-insert into TestcaseAndAnswerFiles(testcaseAndAnswerId, assignmentId, publisherId, testcaseId, answerId, fileType) VALUES (2,1,1,2,4,'code');
-insert into TestcaseAndAnswerFiles(testcaseAndAnswerId, assignmentId, publisherId, testcaseId, answerId, fileType, score) VALUES (3,1,1,2,3,'code',2);
+insert into TestcaseAndAnswerFiles(testcaseAndAnswerId, assignmentId, publisherId, testcaseId, answerId, fileType) VALUES (1,1,1,1,3,'cpp');
+insert into TestcaseAndAnswerFiles(testcaseAndAnswerId, assignmentId, publisherId, testcaseId, answerId, fileType) VALUES (2,1,1,2,4,'cpp');
+insert into TestcaseAndAnswerFiles(testcaseAndAnswerId, assignmentId, publisherId, testcaseId, answerId, fileType, score) VALUES (3,1,1,2,3,'cpp',2);
+
+select * from UserCourseInfo;
+
+SHOW TABLE STATUS WHERE Name = 'AIChatHistory';
+SHOW FULL COLUMNS FROM `AIChatHistory`;
+ALTER TABLE AIChatHistory CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+select * from Files;
+select * from AIChatHistory;
+
+select * from TestcaseAndAnswerFiles;
+select * from AssignmentUserFeedback;
+
+insert into Users(userName, password, email, identity)
+VALUES ('student1', '123456', 'student1@mail.sustech.edu.cn', 'student');
+insert into Users(userName, password, email, identity)
+VALUES ('student2', '123456', 'student2@mail.sustech.edu.cn', 'student');
+insert into Users(userName, password, email, identity)
+VALUES ('student3', '123456', 'student3@mail.sustech.edu.cn', 'student');
+insert into Users(userName, password, email, identity)
+VALUES ('teacher1', '123456', 'teacher1@mail.sustech.edu.cn', 'teacher');
+insert into Users(userName, password, email, identity)
+VALUES ('superuser1', '123456', 'superuser1@mail.sustech.edu.cn', 'superuser');
+
+-- select * from Users;
+
+-- insert into Courses(courseName, description, teacherId) values ('软件工程', '软件工程是一门研究用工程化方法构建和维护高质量软件的学科。它涉及程序设计语言、数据库、开发工具、系统平台等多个方面，主要包括三个要素：过程、方法和工具。软件工程的过程包括沟通、需求分析、设计、编程、测试和技术支持等步骤。此外，软件工程专业培养具备创新精神和实践能力的人才，毕业生可以在互联网、电子商务、教育等多个领域找到广泛的就业机会。', 15);
+-- insert into Courses (courseName, description, teacherId) values ('数据挖掘', '数据挖掘是从大量的数据中，提取隐藏在其中的、事先不知道的、但潜在有用的信息的过程。数据挖掘的目标是建立一个决策模型，根据过去的行动数据来预测未来的行为。数据挖掘主要基于人工智能、机器学习、模式识别、统计学、数据库、可视化技术等，高度自动化地分析企业的数据，作出归纳性的推理，从中挖掘出潜在的模式，帮助决策者调整市场策略，减少风险，作出正确的决策。', 15);
+
+-- select * from Courses;
+
+-- insert into UserCourseInfo(userId, courseId, identity) values (15, 4, 'teacher');
+-- insert into UserCourseInfo(userId, courseId, identity) values (15, 5, 'teacher');
+
+-- insert into Lectures(lectureName, courseId, description) values ('软件工程简介', 4, '软件工程是一门研究用工程化方法构建和维护有效、实用和高质量的软件的学科。它涉及程序设计语言、数据库、软件开发工具、系统平台、标准、设计件有电子邮件、嵌入式系统、人机界面、办公套件、操作系统、编译器、数据库、游戏等。同时，各个行业几乎都有计算机软件的应用，如工业、农业、银行、航空、政府部门等。这些应用促进了经济和社会的发展，也提高了工作效率和生活效率 。');
+-- insert into Lectures(lectureName, courseId, description) values ('软件工程流程', 4, '由于软件危机，人们意识到，把软件的质量于各个程序员的技能与认真负责是不可靠的、危险的、不现实的。要想大幅度的提高软件开发的质量和效率，就应当吸取传统产业的成功经验，从组织管理上加强，使软件生产从程序员的个人劳动提高成为有组织、可控制的工程——软件工程');
+-- insert into Lectures(lectureName, courseId, description) values ('版本控制', 4, '版本控制是一种记录一个或若干文件内容变化，以便将来查阅特定版本修订情况的系统');
+-- insert into Lectures(lectureName, courseId, description) values ('需求分析', 4, '需求分析是指通过分析用户或业务的需求，确定其目的和目标，并将这些需求转化为产品需求的过程');
+
