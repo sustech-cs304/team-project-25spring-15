@@ -1,6 +1,6 @@
 Analyzing Backend Code...
 -- Lines of Code (Go):
-github.com/AlDanial/cloc v 1.98  T=0.27 s (1232.5 files/s, 51564.0 lines/s)
+github.com/AlDanial/cloc v 1.98  T=0.20 s (1690.6 files/s, 70733.3 lines/s)
 -------------------------------------------------------------------------------
 Language                     files          blank        comment           code
 -------------------------------------------------------------------------------
@@ -20,6 +20,7 @@ SUM:                           334           1975           1284          10715
 -------------------------------------------------------------------------------
 
 -- Cyclomatic Complexity:
+Average Complexity: 2.07
 Complexity 1: 321 functions
 Complexity 2: 37 functions
 Complexity 3: 12 functions
@@ -46,7 +47,7 @@ Complexity 18: 2 functions
 72
 
 Analyzing Frontend Code...
-github.com/AlDanial/cloc v 1.98  T=0.16 s (643.4 files/s, 147211.1 lines/s)
+github.com/AlDanial/cloc v 1.98  T=0.17 s (601.4 files/s, 137597.1 lines/s)
 -------------------------------------------------------------------------------
 Language                     files          blank        comment           code
 -------------------------------------------------------------------------------
