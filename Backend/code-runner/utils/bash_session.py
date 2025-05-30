@@ -1,6 +1,4 @@
 import subprocess
-import os
-import signal
 
 # 用于持久化 subprocess.Popen 对象
 _bash_session = {

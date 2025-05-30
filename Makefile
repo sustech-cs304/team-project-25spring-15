@@ -22,6 +22,7 @@ OPE_COMPOSE_NAME := docker-compose.ope.yml
 BACKEND_DIR := ./Backend/
 TMP_DIR := ./Backend/data/tmp
 BACKEND_GO_DIR := ./Backend/intelligent-course-aware-ide
+BACKEND_PYTHON_DIR := ./Backend/code-runner
 FRONTEND_DIR := ./Frontend/nextjs-dashboard
 
 # ====== Setup dev
@@ -120,6 +121,13 @@ count-deps:
 		cd $(BACKEND_GO_DIR) && go list -m all | wc -l; \
 	else \
 		echo "No go.mod file found"; \
+	fi
+	@echo ""
+	@if [ -f $(BACKEND_PYTHON_DIR)/requirements.txt ]; then \
+		echo "-- Python Dependencies:"; \
+		cd $(BACKEND_PYTHON_DIR) && grep -v '^\s*#' requirements.txt | grep -v '^\s*$$' | wc -l;\
+	else \
+		echo "No requirements.txt found"; \
 	fi
 	@echo ""
 
