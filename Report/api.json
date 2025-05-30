@@ -1,0 +1,4820 @@
+{
+    "openapi": "3.0.0",
+    "components": {
+        "schemas": {
+            "intelligent-course-aware-ide.api.Files.v1.UploadFileReq": {
+                "properties": {
+                    "file": {
+                        "format": "*ghttp.UploadFile",
+                        "type": "file"
+                    }
+                },
+                "required": [
+                    "file"
+                ],
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.Files.v1.UploadFileRes": {
+                "properties": {
+                    "fileId": {
+                        "description": "file id genrating by uploading a file without doing anything else",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.Files.v1.GetLectureFileReq": {
+                "properties": {
+                    "FileId": {
+                        "description": "an unique file id",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "FileId"
+                ],
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.Files.v1.GetLectureFileRes": {
+                "properties": {},
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.Files.v1.GetFileWithLectureIdReq": {
+                "properties": {
+                    "LectureId": {
+                        "description": "an unique lecture id",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "LectureId"
+                ],
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.Files.v1.GetFileWithLectureIdRes": {
+                "properties": {},
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.Files.v1.UploadLectureFileReq": {
+                "properties": {
+                    "lectureId": {
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "file": {
+                        "format": "*ghttp.UploadFile",
+                        "type": "file"
+                    }
+                },
+                "required": [
+                    "lectureId",
+                    "file"
+                ],
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.Files.v1.UploadLectureFileRes": {
+                "properties": {
+                    "result": {
+                        "description": "is OK or not",
+                        "format": "bool",
+                        "type": "boolean"
+                    },
+                    "fileId": {
+                        "description": "file id",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.Files.v1.DeleteLectureFileReq": {
+                "properties": {
+                    "FileId": {
+                        "description": "an unique file id",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "FileId"
+                ],
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.Files.v1.DeleteLectureFileRes": {
+                "properties": {
+                    "result": {
+                        "description": "is OK or not",
+                        "format": "bool",
+                        "type": "boolean"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.Files.v1.UpdateLectureFileReq": {
+                "properties": {
+                    "FileId": {
+                        "description": "file id",
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "file": {
+                        "format": "*ghttp.UploadFile",
+                        "type": "file"
+                    }
+                },
+                "required": [
+                    "FileId",
+                    "file"
+                ],
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.Files.v1.UpdateLectureFileRes": {
+                "properties": {
+                    "result": {
+                        "description": "is OK or not",
+                        "format": "bool",
+                        "type": "boolean"
+                    },
+                    "fileId": {
+                        "description": "file id",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.Files.v1.GetNoteWithLectureIdReq": {
+                "properties": {
+                    "LectureId": {
+                        "description": "an unique lecture id",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "LectureId"
+                ],
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.Files.v1.GetNoteWithLectureIdRes": {
+                "properties": {},
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.Files.v1.UploadLectureNoteReq": {
+                "properties": {
+                    "lectureId": {
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "file": {
+                        "format": "*ghttp.UploadFile",
+                        "type": "file"
+                    }
+                },
+                "required": [
+                    "lectureId",
+                    "file"
+                ],
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.Files.v1.UploadLectureNoteRes": {
+                "properties": {
+                    "result": {
+                        "description": "is OK or not",
+                        "format": "bool",
+                        "type": "boolean"
+                    },
+                    "fileId": {
+                        "description": "file id",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.Files.v1.DeleteLectureNoteReq": {
+                "properties": {
+                    "FileId": {
+                        "description": "an unique file id",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "FileId"
+                ],
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.Files.v1.DeleteLectureNoteRes": {
+                "properties": {
+                    "result": {
+                        "description": "is OK or not",
+                        "format": "bool",
+                        "type": "boolean"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.ai.v1.AskForAiReq": {
+                "properties": {
+                    "userId": {
+                        "description": "Id of the user",
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "askForAiReqInfo": {
+                        "$ref": "#/components/schemas/intelligent-course-aware-ide.api.ai.v1.AskForAiReqInfos",
+                        "description": "Info of this question"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.ai.v1.AskForAiReqInfos": {
+                "properties": {
+                    "question": {
+                        "description": "question for ai",
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "type": {
+                        "description": "type of this question",
+                        "format": "string",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.ai.v1.AskForAiRes": {
+                "example": "json",
+                "properties": {
+                    "askForAiResInfo": {
+                        "$ref": "#/components/schemas/intelligent-course-aware-ide.api.ai.v1.AskForAiResInfos",
+                        "description": "Info of this answer"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.ai.v1.AskForAiResInfos": {
+                "properties": {
+                    "answer": {
+                        "description": "answer of ai",
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "type": {
+                        "description": "type of this question",
+                        "format": "string",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.ai.v1.ClearHistoriesReq": {
+                "properties": {
+                    "LectureId": {
+                        "description": "an unique lecture id",
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "UserId": {
+                        "description": "an unique user id",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "LectureId",
+                    "UserId"
+                ],
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.ai.v1.ClearHistoriesRes": {
+                "properties": {},
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.ai.v1.GetHistoriesReq": {
+                "properties": {
+                    "LectureId": {
+                        "description": "an unique lecture id",
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "UserId": {
+                        "description": "an unique user id",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "LectureId",
+                    "UserId"
+                ],
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.ai.v1.GetHistoriesRes": {
+                "properties": {
+                    "data": {
+                        "description": "Required History",
+                        "format": "[]v1.StoreHistoryItem",
+                        "items": {
+                            "$ref": "#/components/schemas/intelligent-course-aware-ide.api.ai.v1.StoreHistoryItem",
+                            "description": ""
+                        },
+                        "type": "array"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.ai.v1.StoreHistoryItem": {
+                "properties": {
+                    "chatId": {
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "lectureId": {
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "userId": {
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "role": {
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "parts": {
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "createAt": {
+                        "format": "time.Time",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.ai.v1.StoreHistoriesReq": {
+                "properties": {
+                    "data": {
+                        "format": "[]v1.StoreHistoryItem",
+                        "items": {
+                            "$ref": "#/components/schemas/intelligent-course-aware-ide.api.ai.v1.StoreHistoryItem",
+                            "description": ""
+                        },
+                        "type": "array"
+                    }
+                },
+                "required": [
+                    "data"
+                ],
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.ai.v1.StoreHistoriesRes": {
+                "properties": {},
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.ai.v1.StoreMessageReq": {
+                "properties": {
+                    "chatId": {
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "lectureId": {
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "userId": {
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "role": {
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "parts": {
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "createAt": {
+                        "format": "time.Time",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.ai.v1.StoreMessageRes": {
+                "properties": {},
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.assignment.v1.AttemptForAssignmentReq": {
+                "properties": {
+                    "attempt": {
+                        "$ref": "#/components/schemas/intelligent-course-aware-ide.api.assignment.v1.AttemptForAssignment",
+                        "description": "Info of the attempt for this assignment"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.assignment.v1.AttemptForAssignment": {
+                "properties": {
+                    "userId": {
+                        "description": "id of user",
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "fileId": {
+                        "description": "id of file",
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "code": {
+                        "description": "code of this file",
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "fileType": {
+                        "description": "type of file",
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "assignmentId": {
+                        "description": "id of assignment",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.assignment.v1.AttemptForAssignmentRes": {
+                "example": "json",
+                "properties": {
+                    "feedback": {
+                        "$ref": "#/components/schemas/intelligent-course-aware-ide.api.assignment.v1.FeedbackForAssignmentInfo",
+                        "description": "Info of the feedback for this attempt"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.assignment.v1.FeedbackForAssignmentInfo": {
+                "properties": {
+                    "feedbackId": {
+                        "description": "id of feedback",
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "performerId": {
+                        "description": "id of performer",
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "assignmentId": {
+                        "description": "id of assignment",
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "score": {
+                        "description": "score of this attempt",
+                        "format": "int",
+                        "type": "integer"
+                    },
+                    "record": {
+                        "description": "score record of this attempt",
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "fileId": {
+                        "description": "id of this attempt file",
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "fileType": {
+                        "description": "type of this attempt file",
+                        "format": "string",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.assignment.v1.CreateAssignmentReq": {
+                "properties": {
+                    "assignment": {
+                        "$ref": "#/components/schemas/intelligent-course-aware-ide.api.assignment.v1.AssignmentInfo",
+                        "description": "Info of the assignment to create"
+                    },
+                    "courseName": {
+                        "description": "name of this course",
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "chatId": {
+                        "description": "chat id of this course",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.assignment.v1.AssignmentInfo": {
+                "properties": {
+                    "assignmentId": {
+                        "description": "id of this assignment",
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "assignmentName": {
+                        "description": "name of this assignment",
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "publisherId": {
+                        "description": "id of publisher",
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "courseId": {
+                        "description": "id of this course",
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "lectureId": {
+                        "description": "id of this lecture",
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "description": {
+                        "description": "description of this assignment",
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "deadline": {
+                        "description": "end time of this assignment",
+                        "format": "*gtime.Time",
+                        "type": "string"
+                    },
+                    "completeness": {
+                        "description": "num of the student who has finished this",
+                        "format": "int32",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.assignment.v1.CreateAssignmentRes": {
+                "example": "json",
+                "properties": {
+                    "assignmentId": {
+                        "description": "id of the new assignment",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.assignment.v1.DeleteAssignmentReq": {
+                "properties": {
+                    "AssignmentId": {
+                        "description": "id of the assignment to delete",
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "CourseId": {
+                        "description": "id of the course",
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "courseName": {
+                        "description": "name of this course",
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "chatId": {
+                        "description": "chat id of this course",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "AssignmentId",
+                    "CourseId"
+                ],
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.assignment.v1.DeleteAssignmentRes": {
+                "example": "json",
+                "properties": {
+                    "success": {
+                        "description": "success or not",
+                        "format": "bool",
+                        "type": "boolean"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.assignment.v1.DeleteTestcaseAndAnswerReq": {
+                "properties": {
+                    "testcaseAndAnswerId": {
+                        "description": "Id of the testcase and answer",
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "CourseId": {
+                        "description": "id of the course",
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "courseName": {
+                        "description": "name of this course",
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "chatId": {
+                        "description": "chat id of this course",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "CourseId"
+                ],
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.assignment.v1.DeleteTestcaseAndAnswerRes": {
+                "example": "json",
+                "properties": {
+                    "success": {
+                        "description": "success or not",
+                        "format": "bool",
+                        "type": "boolean"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.assignment.v1.GetAllAssignmentInfoOfACourseReq": {
+                "properties": {
+                    "courseId": {
+                        "description": "Id of this course",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.assignment.v1.GetAllAssignmentInfoOfACourseRes": {
+                "example": "json",
+                "properties": {
+                    "assignments": {
+                        "description": "Info of all assignments of a course",
+                        "format": "[]*entity.Assignments",
+                        "items": {
+                            "$ref": "#/components/schemas/intelligent-course-aware-ide.internal.model.entity.Assignments",
+                            "description": ""
+                        },
+                        "type": "array"
+                    },
+                    "scores": {
+                        "description": "Scores of those assignment",
+                        "format": "[]int",
+                        "items": {
+                            "format": "int",
+                            "type": "integer"
+                        },
+                        "type": "array"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.internal.model.entity.Assignments": {
+                "properties": {
+                    "assignmentId": {
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "assignmentName": {
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "publisherId": {
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "courseId": {
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "lectureId": {
+                        "format": "int",
+                        "type": "integer"
+                    },
+                    "description": {
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "deadline": {
+                        "format": "*gtime.Time",
+                        "type": "string"
+                    },
+                    "completeness": {
+                        "format": "int",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.assignment.v1.GetAllAssignmentInfoOfALectureReq": {
+                "properties": {
+                    "lectureId": {
+                        "description": "Id of this lecture",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.assignment.v1.GetAllAssignmentInfoOfALectureRes": {
+                "example": "json",
+                "properties": {
+                    "assignments": {
+                        "description": "Info of all assignments of a lecture",
+                        "format": "[]*entity.Assignments",
+                        "items": {
+                            "$ref": "#/components/schemas/intelligent-course-aware-ide.internal.model.entity.Assignments",
+                            "description": ""
+                        },
+                        "type": "array"
+                    },
+                    "scores": {
+                        "description": "Scores of those assignment",
+                        "format": "[]int",
+                        "items": {
+                            "format": "int",
+                            "type": "integer"
+                        },
+                        "type": "array"
+                    },
+                    "totalScores": {
+                        "description": "TotalScores of those assignment",
+                        "format": "[]int",
+                        "items": {
+                            "format": "int",
+                            "type": "integer"
+                        },
+                        "type": "array"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.assignment.v1.GetAssignmentFeedbackOfAUserReq": {
+                "properties": {
+                    "AssignmentId": {
+                        "description": "id of the assignment to get",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "AssignmentId"
+                ],
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.assignment.v1.GetAssignmentFeedbackOfAUserRes": {
+                "example": "json",
+                "properties": {
+                    "feedback": {
+                        "description": "Info of the feedback for this assignment",
+                        "format": "[]*entity.AssignmentUserFeedback",
+                        "items": {
+                            "$ref": "#/components/schemas/intelligent-course-aware-ide.internal.model.entity.AssignmentUserFeedback",
+                            "description": ""
+                        },
+                        "type": "array"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.internal.model.entity.AssignmentUserFeedback": {
+                "properties": {
+                    "assignmentId": {
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "performerId": {
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "score": {
+                        "format": "int",
+                        "type": "integer"
+                    },
+                    "record": {
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "error": {
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "fileId": {
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "fileType": {
+                        "format": "string",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.assignment.v1.GetAssignmentReq": {
+                "properties": {
+                    "AssignmentId": {
+                        "description": "id of the assignment to find",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "AssignmentId"
+                ],
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.assignment.v1.GetAssignmentRes": {
+                "example": "json",
+                "properties": {
+                    "assignment": {
+                        "$ref": "#/components/schemas/intelligent-course-aware-ide.internal.model.entity.Assignments",
+                        "description": "info of the assignment"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.assignment.v1.UpdateAssignmentReq": {
+                "properties": {
+                    "assignment": {
+                        "$ref": "#/components/schemas/intelligent-course-aware-ide.api.assignment.v1.AssignmentInfo",
+                        "description": "Info of the assignment to update"
+                    },
+                    "courseName": {
+                        "description": "name of this course",
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "chatId": {
+                        "description": "chat id of this course",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.assignment.v1.UpdateAssignmentRes": {
+                "example": "json",
+                "properties": {
+                    "success": {
+                        "description": "success or not",
+                        "format": "bool",
+                        "type": "boolean"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.assignment.v1.UploadTestcaseAndAnswerReq": {
+                "properties": {
+                    "testcaseAndAnswer": {
+                        "$ref": "#/components/schemas/intelligent-course-aware-ide.api.assignment.v1.TestcaseAndAnswerInfo",
+                        "description": "Info of the testcase and answer"
+                    },
+                    "courseId": {
+                        "description": "id of the course",
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "courseName": {
+                        "description": "name of this course",
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "chatId": {
+                        "description": "chat id of this course",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "courseId"
+                ],
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.assignment.v1.TestcaseAndAnswerInfo": {
+                "properties": {
+                    "assignmentId": {
+                        "description": "id of this assignment",
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "publisherId": {
+                        "description": "id of the publisher",
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "testcaseId": {
+                        "description": "id of this testcase file",
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "answerId": {
+                        "description": "id of the answer to the testcase",
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "fileType": {
+                        "description": "type of this testcase",
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "score": {
+                        "description": "score of this testcase",
+                        "format": "int",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.assignment.v1.UploadTestcaseAndAnswerRes": {
+                "example": "json",
+                "properties": {
+                    "testcaseAndAnswerId": {
+                        "description": "id of this testcase and answer",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.chat.v1.AddUserIntoChatReq": {
+                "properties": {
+                    "chatUserInfo": {
+                        "$ref": "#/components/schemas/intelligent-course-aware-ide.api.chat.v1.ChatUserInfo",
+                        "description": "new user to be added into chat"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.chat.v1.ChatUserInfo": {
+                "properties": {
+                    "chatId": {
+                        "description": "Id of this chat",
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "userId": {
+                        "description": "Id of this chat member",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.chat.v1.AddUserIntoChatRes": {
+                "example": "json",
+                "properties": {
+                    "success": {
+                        "description": "Success or not",
+                        "format": "bool",
+                        "type": "boolean"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.chat.v1.CreateChatReq": {
+                "properties": {
+                    "chatName": {
+                        "description": "Name of this chat",
+                        "format": "string",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.chat.v1.CreateChatRes": {
+                "example": "json",
+                "properties": {
+                    "chatId": {
+                        "description": "Id of the created chat",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.chat.v1.CreateChatMessageReq": {
+                "properties": {
+                    "chatMessage": {
+                        "$ref": "#/components/schemas/intelligent-course-aware-ide.api.chat.v1.MessageInfo",
+                        "description": "Info of the chat message"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.chat.v1.MessageInfo": {
+                "properties": {
+                    "messageId": {
+                        "description": "Id of this chat message",
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "chatId": {
+                        "description": "Id of this chat",
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "message": {
+                        "description": "Content of this chat",
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "ownerId": {
+                        "description": "Id of this chat message owner",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.chat.v1.CreateChatMessageRes": {
+                "example": "json",
+                "properties": {
+                    "messageId": {
+                        "description": "Id of the chat message to create",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.chat.v1.DeleteChatReq": {
+                "properties": {
+                    "chatId": {
+                        "description": "Id of the chat to delete",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.chat.v1.DeleteChatRes": {
+                "example": "json",
+                "properties": {
+                    "success": {
+                        "description": "Success or not",
+                        "format": "bool",
+                        "type": "boolean"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.chat.v1.DeleteChatMessageReq": {
+                "properties": {
+                    "chatMessage": {
+                        "$ref": "#/components/schemas/intelligent-course-aware-ide.api.chat.v1.MessageInfo",
+                        "description": "Info of the chat message"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.chat.v1.DeleteChatMessageRes": {
+                "example": "json",
+                "properties": {
+                    "success": {
+                        "description": "Success or not",
+                        "format": "bool",
+                        "type": "boolean"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.chat.v1.DeleteUserFromChatReq": {
+                "properties": {
+                    "chatUserInfo": {
+                        "$ref": "#/components/schemas/intelligent-course-aware-ide.api.chat.v1.ChatUserInfo",
+                        "description": "user to be delete from chat"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.chat.v1.DeleteUserFromChatRes": {
+                "example": "json",
+                "properties": {
+                    "success": {
+                        "description": "Success or not",
+                        "format": "bool",
+                        "type": "boolean"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.chat.v1.GetAllChatMessageOfAChatInfoReq": {
+                "properties": {
+                    "chatId": {
+                        "description": "Id of this chat",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.chat.v1.GetAllChatMessageOfAChatInfoRes": {
+                "example": "json",
+                "properties": {
+                    "chatMessages": {
+                        "description": "Info of all message of the chat",
+                        "format": "[]*entity.ChatMessageInfo",
+                        "items": {
+                            "$ref": "#/components/schemas/intelligent-course-aware-ide.internal.model.entity.ChatMessageInfo",
+                            "description": ""
+                        },
+                        "type": "array"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.internal.model.entity.ChatMessageInfo": {
+                "properties": {
+                    "messageId": {
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "chatId": {
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "ownerId": {
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "message": {
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "totalNum": {
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.chat.v1.GetAllChatInfoOfAUserReq": {
+                "properties": {
+                    "userId": {
+                        "description": "Id of this user",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.chat.v1.GetAllChatInfoOfAUserRes": {
+                "example": "json",
+                "properties": {
+                    "chats": {
+                        "description": "Info of all message of the chat",
+                        "format": "[]*entity.ChatUserInfo",
+                        "items": {
+                            "$ref": "#/components/schemas/intelligent-course-aware-ide.internal.model.entity.ChatUserInfo",
+                            "description": ""
+                        },
+                        "type": "array"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.internal.model.entity.ChatUserInfo": {
+                "properties": {
+                    "userId": {
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "chatId": {
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "hasRead": {
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.runner.v1.GeneralRunnerReq": {
+                "properties": {
+                    "codeInfo": {
+                        "$ref": "#/components/schemas/intelligent-course-aware-ide.api.runner.v1.RunnerReq",
+                        "description": "Info of the code to run"
+                    },
+                    "type": {
+                        "description": "type of the code to run",
+                        "format": "string",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.runner.v1.RunnerReq": {
+                "properties": {
+                    "code": {
+                        "description": "code to run",
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "args": {
+                        "description": "Arguments to pass to the script",
+                        "format": "[]string",
+                        "items": {
+                            "format": "string",
+                            "type": "string"
+                        },
+                        "type": "array"
+                    },
+                    "name": {
+                        "default": "temp_script",
+                        "description": "FileName",
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "inputPath": {
+                        "description": "Input file path",
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "outputPath": {
+                        "description": "Output file path",
+                        "format": "string",
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "code"
+                ],
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.runner.v1.GeneralRunnerRes": {
+                "example": "json",
+                "properties": {
+                    "codeFeedback": {
+                        "$ref": "#/components/schemas/intelligent-course-aware-ide.api.runner.v1.RunnerRes",
+                        "description": "Feedback of the code to run"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.runner.v1.RunnerRes": {
+                "properties": {
+                    "result": {
+                        "description": "Result of the code execution",
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "error": {
+                        "description": "Error message if any",
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "filePath": {
+                        "description": "Path to the temporary file",
+                        "format": "string",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.command2.v1.CloseShellReq": {
+                "properties": {
+                    "sessionId": {
+                        "description": "Id of this Session",
+                        "format": "string",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.command2.v1.CloseShellRes": {
+                "example": "json",
+                "properties": {
+                    "error": {
+                        "description": "error message",
+                        "format": "string",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.command2.v1.CreateShellReq": {
+                "properties": {},
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.command2.v1.CreateShellRes": {
+                "example": "json",
+                "properties": {
+                    "sessionId": {
+                        "description": "Id of this Session",
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "cwd": {
+                        "description": "cwd",
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "error": {
+                        "description": "error message",
+                        "format": "string",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.command2.v1.ExecCommandReq": {
+                "properties": {
+                    "sessionId": {
+                        "description": "Id of this Session",
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "command": {
+                        "description": "command to run",
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "content": {
+                        "description": "content to save",
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "cwd": {
+                        "description": "cwd of this shell",
+                        "format": "string",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.command2.v1.ExecCommandRes": {
+                "example": "json",
+                "properties": {
+                    "output": {
+                        "description": "output of this command",
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "cwd": {
+                        "description": "cwd",
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "error": {
+                        "description": "error message",
+                        "format": "string",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.comment.v1.CreateCommentReq": {
+                "properties": {
+                    "comment": {
+                        "$ref": "#/components/schemas/intelligent-course-aware-ide.api.comment.v1.CommentInfo",
+                        "description": "Info of the comment"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.comment.v1.CommentInfo": {
+                "properties": {
+                    "id": {
+                        "description": "Id of the comment",
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "lectureId": {
+                        "description": "Id of the lecture the comment in",
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "authorId": {
+                        "description": "Id of the commented user",
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "authorName": {
+                        "description": "Name of the comment user",
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "repliedToCommentId": {
+                        "description": "Id of the commented comment",
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "repliedToUserName": {
+                        "description": "Name of the commented user",
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "content": {
+                        "description": "content of the comment",
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "createTime": {
+                        "description": " createTime of the comment",
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "likes": {
+                        "description": "The number of likes",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.comment.v1.CreateCommentRes": {
+                "example": "json",
+                "properties": {
+                    "CommentId": {
+                        "description": "Id of the created comment",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.comment.v1.DeleteCommentReq": {
+                "properties": {
+                    "commentId": {
+                        "description": "id of the comment to delete",
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "userId": {
+                        "description": "id of the user who want to delete this comment",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "commentId",
+                    "userId"
+                ],
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.comment.v1.DeleteCommentRes": {
+                "example": "json",
+                "properties": {
+                    "success": {
+                        "description": "success or not",
+                        "format": "bool",
+                        "type": "boolean"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.comment.v1.GetCommentReq": {
+                "properties": {
+                    "LectureId": {
+                        "description": "Id of the required lecture",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.comment.v1.GetCommentRes": {
+                "example": "json",
+                "properties": {
+                    "comment": {
+                        "description": "info of the comment",
+                        "format": "[]*v1.CommentInfo",
+                        "items": {
+                            "$ref": "#/components/schemas/intelligent-course-aware-ide.api.comment.v1.CommentInfo",
+                            "description": ""
+                        },
+                        "type": "array"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.comment.v1.GetHotWordsReq": {
+                "properties": {
+                    "lectureId": {
+                        "description": "Lecture ID",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.comment.v1.GetHotWordsRes": {
+                "example": "json",
+                "properties": {
+                    "list": {
+                        "description": "List of hot words",
+                        "format": "[]*v1.HotWord",
+                        "items": {
+                            "$ref": "#/components/schemas/intelligent-course-aware-ide.api.comment.v1.HotWord",
+                            "description": ""
+                        },
+                        "type": "array"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.comment.v1.HotWord": {
+                "properties": {
+                    "word": {
+                        "description": "High frequency word",
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "count": {
+                        "description": "Word count",
+                        "format": "int",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.comment.v1.UpdateCommentReq": {
+                "properties": {
+                    "userId": {
+                        "description": "id of the user who want to update",
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "commentId": {
+                        "description": "id of the comment to update",
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "likes": {
+                        "description": "the number of new likes",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "userId",
+                    "commentId",
+                    "likes"
+                ],
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.comment.v1.UpdateCommentRes": {
+                "example": "json",
+                "properties": {
+                    "success": {
+                        "description": "success or not",
+                        "format": "bool",
+                        "type": "boolean"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.course.v1.AddStudentsIntoCourseReq": {
+                "properties": {
+                    "courseId": {
+                        "description": "Id of the course",
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "studentsEmail": {
+                        "description": "Email of students to add into the course",
+                        "format": "[]string",
+                        "items": {
+                            "format": "string",
+                            "type": "string"
+                        },
+                        "type": "array"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.course.v1.AddStudentsIntoCourseRes": {
+                "example": "json",
+                "properties": {
+                    "success": {
+                        "description": "success or not",
+                        "format": "bool",
+                        "type": "boolean"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.course.v1.ApplyToJoinCourseReq": {
+                "properties": {
+                    "courseId": {
+                        "description": "Id of the course",
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "applicationInfo": {
+                        "description": "Info of this application",
+                        "format": "string",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.course.v1.ApplyToJoinCourseRes": {
+                "example": "json",
+                "properties": {
+                    "success": {
+                        "description": "success or not(attention here: this success does not mean the student has join in the course, he has to wait for teacher or superuser to review this aplication)",
+                        "format": "bool",
+                        "type": "boolean"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.course.v1.AssignCourseAssistantReq": {
+                "properties": {
+                    "courseId": {
+                        "description": "Id of the course",
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "assistantId": {
+                        "description": "id of the user who will be the assistant",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "assistantId"
+                ],
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.course.v1.AssignCourseAssistantRes": {
+                "example": "json",
+                "properties": {
+                    "success": {
+                        "description": "success or not",
+                        "format": "bool",
+                        "type": "boolean"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.course.v1.CreateCourseReq": {
+                "properties": {
+                    "course": {
+                        "$ref": "#/components/schemas/intelligent-course-aware-ide.api.course.v1.CourseInfo",
+                        "description": "Info of the course to create"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.course.v1.CourseInfo": {
+                "properties": {
+                    "courseId": {
+                        "description": "id of this course",
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "teacherId": {
+                        "description": "id of teacher",
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "courseName": {
+                        "description": "name of this course",
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "description": {
+                        "description": "description of this course",
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "startTime": {
+                        "description": "start time of this course",
+                        "format": "*gtime.Time",
+                        "type": "string"
+                    },
+                    "endTime": {
+                        "description": "end time of this course",
+                        "format": "*gtime.Time",
+                        "type": "string"
+                    },
+                    "chatId": {
+                        "description": "chat id of this course",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.course.v1.CreateCourseRes": {
+                "example": "json",
+                "properties": {
+                    "courseId": {
+                        "description": "id of the new course",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.course.v1.DeleteCourseReq": {
+                "properties": {
+                    "CourseId": {
+                        "description": "id of the course to delete",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "CourseId"
+                ],
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.course.v1.DeleteCourseRes": {
+                "example": "json",
+                "properties": {
+                    "success": {
+                        "description": "success or not",
+                        "format": "bool",
+                        "type": "boolean"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.course.v1.GetAllStudentsOfACourseReq": {
+                "properties": {
+                    "courseId": {
+                        "description": "Id of the course",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.course.v1.GetAllStudentsOfACourseRes": {
+                "example": "json",
+                "properties": {
+                    "students": {
+                        "description": "info of students in the course",
+                        "format": "[]v1.UserInfoWithoutPassword",
+                        "items": {
+                            "$ref": "#/components/schemas/intelligent-course-aware-ide.api.user.v1.UserInfoWithoutPassword",
+                            "description": ""
+                        },
+                        "type": "array"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.user.v1.UserInfoWithoutPassword": {
+                "properties": {
+                    "userId": {
+                        "description": "id of this user",
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "userName": {
+                        "description": "name of this user",
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "email": {
+                        "description": "email of this user",
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "usersign": {
+                        "description": "sign of this user",
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "university": {
+                        "description": "university of this user",
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "birthday": {
+                        "description": "birthday of this user",
+                        "format": "*gtime.Time",
+                        "type": "string"
+                    },
+                    "identity": {
+                        "description": "identity of this user",
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "courseIdentity": {
+                        "description": "identity of this user in a course",
+                        "format": "string",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.course.v1.GetAllCoursesInfoReq": {
+                "properties": {},
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.course.v1.GetAllCoursesInfoRes": {
+                "example": "json",
+                "properties": {
+                    "courses": {
+                        "description": "Info of all courses",
+                        "format": "[]*entity.Courses",
+                        "items": {
+                            "$ref": "#/components/schemas/intelligent-course-aware-ide.internal.model.entity.Courses",
+                            "description": ""
+                        },
+                        "type": "array"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.internal.model.entity.Courses": {
+                "properties": {
+                    "courseId": {
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "teacherId": {
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "courseName": {
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "description": {
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "startTime": {
+                        "format": "*gtime.Time",
+                        "type": "string"
+                    },
+                    "endTime": {
+                        "format": "*gtime.Time",
+                        "type": "string"
+                    },
+                    "chatId": {
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.course.v1.RecommendCourseReq": {
+                "properties": {},
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.course.v1.RecommendCourseRes": {
+                "example": "json",
+                "properties": {
+                    "courses": {
+                        "description": "Info of all courses",
+                        "format": "[]*entity.FuzzySearchAdv",
+                        "items": {
+                            "$ref": "#/components/schemas/intelligent-course-aware-ide.internal.model.entity.FuzzySearchAdv",
+                            "description": ""
+                        },
+                        "type": "array"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.internal.model.entity.FuzzySearchAdv": {
+                "properties": {
+                    "fuzzySearchId": {
+                        "format": "int",
+                        "type": "integer"
+                    },
+                    "id": {
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "matchCount": {
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "info": {
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "name": {
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "sourceTable": {
+                        "format": "string",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.course.v1.GetCourseReq": {
+                "properties": {
+                    "CourseId": {
+                        "description": "id of the course to find",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "CourseId"
+                ],
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.course.v1.GetCourseRes": {
+                "example": "json",
+                "properties": {
+                    "course": {
+                        "$ref": "#/components/schemas/intelligent-course-aware-ide.internal.model.entity.Courses",
+                        "description": "info of the course"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.course.v1.GetCourseWithLecturesByStudentIdReq": {
+                "properties": {},
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.course.v1.GetCourseWithLecturesByStudentIdRes": {
+                "example": "json",
+                "properties": {
+                    "courses": {
+                        "description": "info of the courses",
+                        "format": "[]v1.CourseInfoWithLecture",
+                        "items": {
+                            "$ref": "#/components/schemas/intelligent-course-aware-ide.api.course.v1.CourseInfoWithLecture",
+                            "description": ""
+                        },
+                        "type": "array"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.course.v1.CourseInfoWithLecture": {
+                "properties": {
+                    "courseId": {
+                        "description": "id of this course",
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "teacherId": {
+                        "description": "id of teacher",
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "courseName": {
+                        "description": "name of this course",
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "description": {
+                        "description": "description of this course",
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "startTime": {
+                        "description": "start time of this course",
+                        "format": "*gtime.Time",
+                        "type": "string"
+                    },
+                    "endTime": {
+                        "description": "end time of this course",
+                        "format": "*gtime.Time",
+                        "type": "string"
+                    },
+                    "chatId": {
+                        "description": "chat id of this course",
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "lectures": {
+                        "description": "lectures of this course",
+                        "format": "[]*entity.Lectures",
+                        "items": {
+                            "$ref": "#/components/schemas/intelligent-course-aware-ide.internal.model.entity.Lectures",
+                            "description": ""
+                        },
+                        "type": "array"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.internal.model.entity.Lectures": {
+                "properties": {
+                    "lectureId": {
+                        "format": "int",
+                        "type": "integer"
+                    },
+                    "courseId": {
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "lectureName": {
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "description": {
+                        "format": "string",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.course.v1.GetCourseWithLecturesByCourseIdReq": {
+                "properties": {
+                    "CourseId": {
+                        "description": "id of the course to find",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "CourseId"
+                ],
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.course.v1.GetCourseWithLecturesByCourseIdRes": {
+                "example": "json",
+                "properties": {
+                    "course": {
+                        "$ref": "#/components/schemas/intelligent-course-aware-ide.api.course.v1.CourseInfoWithLecture",
+                        "description": "info of the course"
+                    },
+                    "courseIdentity": {
+                        "description": "identity of the user in this course",
+                        "format": "string",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.course.v1.SearchCourseReq": {
+                "properties": {
+                    "keywords": {
+                        "description": "keywords of this search",
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "kind": {
+                        "description": "which kind of info will be included this search",
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "recommendNum": {
+                        "description": "number of the result to show",
+                        "format": "int",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.course.v1.SearchCourseRes": {
+                "example": "json",
+                "properties": {
+                    "courses": {
+                        "description": "Info of all courses",
+                        "format": "[]*entity.FuzzySearchAdv",
+                        "items": {
+                            "$ref": "#/components/schemas/intelligent-course-aware-ide.internal.model.entity.FuzzySearchAdv",
+                            "description": ""
+                        },
+                        "type": "array"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.course.v1.UnassignCourseAssistantReq": {
+                "properties": {
+                    "courseId": {
+                        "description": "Id of the course",
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "assistantId": {
+                        "description": "id of the user who will not be the assistant any more",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "assistantId"
+                ],
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.course.v1.UnassignCourseAssistantRes": {
+                "example": "json",
+                "properties": {
+                    "success": {
+                        "description": "success or not",
+                        "format": "bool",
+                        "type": "boolean"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.course.v1.UpdateCourseReq": {
+                "properties": {
+                    "course": {
+                        "$ref": "#/components/schemas/intelligent-course-aware-ide.api.course.v1.CourseInfo",
+                        "description": "Info of the course to update"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.course.v1.UpdateCourseRes": {
+                "example": "json",
+                "properties": {
+                    "success": {
+                        "description": "success or not",
+                        "format": "bool",
+                        "type": "boolean"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.lecture.v1.CreateLectureReq": {
+                "properties": {
+                    "lecture": {
+                        "$ref": "#/components/schemas/intelligent-course-aware-ide.api.lecture.v1.LectureInfo",
+                        "description": "Info of the lecture to create"
+                    },
+                    "chatId": {
+                        "description": "chat id of this course",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.lecture.v1.LectureInfo": {
+                "properties": {
+                    "courseId": {
+                        "description": "id of this course",
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "lectureId": {
+                        "description": "id of this lecture",
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "lectureName": {
+                        "description": "name of this lecture",
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "description": {
+                        "description": "description of this lecture",
+                        "format": "string",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.lecture.v1.CreateLectureRes": {
+                "example": "json",
+                "properties": {
+                    "lectureId": {
+                        "description": "id of the new lecture",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.lecture.v1.DeleteLectureReq": {
+                "properties": {
+                    "LectureId": {
+                        "description": "id of the lecture to delete",
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "CourseId": {
+                        "description": "id of the course",
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "LectureName": {
+                        "description": "name of the lecture to delete",
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "chatId": {
+                        "description": "chat id of this course",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "LectureId",
+                    "CourseId"
+                ],
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.lecture.v1.DeleteLectureRes": {
+                "example": "json",
+                "properties": {
+                    "success": {
+                        "description": "success or not",
+                        "format": "bool",
+                        "type": "boolean"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.lecture.v1.GetAllLectureOfACourseInfoReq": {
+                "properties": {
+                    "courseId": {
+                        "description": "Id of this course",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.lecture.v1.GetAllLectureOfACourseInfoRes": {
+                "example": "json",
+                "properties": {
+                    "lectures": {
+                        "description": "Info of all lectures of the course",
+                        "format": "[]*entity.Lectures",
+                        "items": {
+                            "$ref": "#/components/schemas/intelligent-course-aware-ide.internal.model.entity.Lectures",
+                            "description": ""
+                        },
+                        "type": "array"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.lecture.v1.GetLectureReq": {
+                "properties": {
+                    "LectureId": {
+                        "description": "id of the lecture to find",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "LectureId"
+                ],
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.lecture.v1.GetLectureRes": {
+                "example": "json",
+                "properties": {
+                    "lecture": {
+                        "$ref": "#/components/schemas/intelligent-course-aware-ide.internal.model.entity.Lectures",
+                        "description": "info of the lecture"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.lecture.v1.UpdateLectureReq": {
+                "properties": {
+                    "lecture": {
+                        "$ref": "#/components/schemas/intelligent-course-aware-ide.api.lecture.v1.LectureInfo",
+                        "description": "Info of the lecture to update"
+                    },
+                    "chatId": {
+                        "description": "chat id of this course",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.lecture.v1.UpdateLectureRes": {
+                "example": "json",
+                "properties": {
+                    "success": {
+                        "description": "success or not",
+                        "format": "bool",
+                        "type": "boolean"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.account.v1.CreateUserReq": {
+                "properties": {
+                    "user": {
+                        "$ref": "#/components/schemas/intelligent-course-aware-ide.api.user.v1.UserInfoWithPassword",
+                        "description": "Info of the user to create"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.user.v1.UserInfoWithPassword": {
+                "properties": {
+                    "userId": {
+                        "description": "id of this user",
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "userName": {
+                        "description": "name of this user",
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "email": {
+                        "description": "email of this user",
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "usersign": {
+                        "description": "sign of this user",
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "university": {
+                        "description": "university of this user",
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "birthday": {
+                        "description": "birthday of this user",
+                        "format": "*gtime.Time",
+                        "type": "string"
+                    },
+                    "identity": {
+                        "description": "identity of this user",
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "password of this user",
+                        "format": "string",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.account.v1.CreateUserRes": {
+                "example": "json",
+                "properties": {
+                    "userId": {
+                        "description": "id of the new user",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.user.v1.DeleteUserReq": {
+                "properties": {
+                    "UserToDeleteId": {
+                        "description": "id of the user to delete",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "UserToDeleteId"
+                ],
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.user.v1.DeleteUserRes": {
+                "example": "json",
+                "properties": {
+                    "success": {
+                        "description": "success or not",
+                        "format": "bool",
+                        "type": "boolean"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.user.v1.GetAllUsersInfoReq": {
+                "properties": {},
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.user.v1.GetAllUsersInfoRes": {
+                "example": "json",
+                "properties": {
+                    "users": {
+                        "description": "Info of all users",
+                        "format": "[]v1.UserInfoWithoutPassword",
+                        "items": {
+                            "$ref": "#/components/schemas/intelligent-course-aware-ide.api.user.v1.UserInfoWithoutPassword",
+                            "description": ""
+                        },
+                        "type": "array"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.account.v1.LoginUserReq": {
+                "properties": {
+                    "userLogin": {
+                        "$ref": "#/components/schemas/intelligent-course-aware-ide.api.account.v1.UserLoginInfo",
+                        "description": "Login info of user"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.account.v1.UserLoginInfo": {
+                "properties": {
+                    "userId": {
+                        "description": "id of this user",
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "email": {
+                        "description": "email of this user",
+                        "format": "string",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "password of this user",
+                        "format": "string",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.account.v1.LoginUserRes": {
+                "example": "json",
+                "properties": {
+                    "success": {
+                        "description": "success or not",
+                        "format": "bool",
+                        "type": "boolean"
+                    },
+                    "userInfo": {
+                        "$ref": "#/components/schemas/intelligent-course-aware-ide.api.user.v1.UserInfoWithoutPassword",
+                        "description": "info of user"
+                    },
+                    "token": {
+                        "description": "token of this time",
+                        "format": "string",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.user.v1.LogoutUserReq": {
+                "properties": {},
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.user.v1.LogoutUserRes": {
+                "example": "json",
+                "properties": {
+                    "success": {
+                        "description": "success or not",
+                        "format": "bool",
+                        "type": "boolean"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.user.v1.GetUserReq": {
+                "properties": {
+                    "UserId": {
+                        "description": "id of the user to find",
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "UserId"
+                ],
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.user.v1.GetUserRes": {
+                "example": "json",
+                "properties": {
+                    "user": {
+                        "$ref": "#/components/schemas/intelligent-course-aware-ide.api.user.v1.UserInfoWithoutPassword",
+                        "description": "info of the user"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.user.v1.UpdateUserReq": {
+                "properties": {
+                    "user": {
+                        "$ref": "#/components/schemas/intelligent-course-aware-ide.api.user.v1.UserInfoWithPassword",
+                        "description": "Info of the user to update"
+                    }
+                },
+                "type": "object"
+            },
+            "intelligent-course-aware-ide.api.user.v1.UpdateUserRes": {
+                "example": "json",
+                "properties": {
+                    "success": {
+                        "description": "success or not",
+                        "format": "bool",
+                        "type": "boolean"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "info": {
+        "title": "",
+        "version": ""
+    },
+    "paths": {
+        "/api/Files": {
+            "post": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/intelligent-course-aware-ide.api.Files.v1.UploadFileReq",
+                                "description": ""
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.Files.v1.UploadFileRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "upload a file and return a generated fileId, without doing anything else",
+                "tags": [
+                    "file"
+                ]
+            }
+        },
+        "/api/Files/lectureFile/file/{FileId}": {
+            "get": {
+                "parameters": [
+                    {
+                        "description": "an unique file id",
+                        "in": "path",
+                        "name": "FileId",
+                        "required": true,
+                        "schema": {
+                            "description": "an unique file id",
+                            "format": "int64",
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.Files.v1.GetLectureFileRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "get lecture File",
+                "tags": [
+                    "file"
+                ]
+            }
+        },
+        "/api/Files/lectureFile/lecture/{LectureId}": {
+            "get": {
+                "parameters": [
+                    {
+                        "description": "an unique lecture id",
+                        "in": "path",
+                        "name": "LectureId",
+                        "required": true,
+                        "schema": {
+                            "description": "an unique lecture id",
+                            "format": "int64",
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.Files.v1.GetFileWithLectureIdRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "get lecture File",
+                "tags": [
+                    "file"
+                ]
+            }
+        },
+        "/api/Files/lectureFile/upload": {
+            "post": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/intelligent-course-aware-ide.api.Files.v1.UploadLectureFileReq",
+                                "description": ""
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.Files.v1.UploadLectureFileRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "upload lectureFile",
+                "tags": [
+                    "file"
+                ]
+            }
+        },
+        "/api/Files/lectureFile/{FileId}": {
+            "delete": {
+                "parameters": [
+                    {
+                        "description": "an unique file id",
+                        "in": "path",
+                        "name": "FileId",
+                        "required": true,
+                        "schema": {
+                            "description": "an unique file id",
+                            "format": "int64",
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.Files.v1.DeleteLectureFileRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "delete lecture File",
+                "tags": [
+                    "file"
+                ]
+            },
+            "put": {
+                "parameters": [
+                    {
+                        "description": "file id",
+                        "in": "path",
+                        "name": "FileId",
+                        "required": true,
+                        "schema": {
+                            "description": "file id",
+                            "format": "int64",
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "file": {
+                                        "format": "*ghttp.UploadFile",
+                                        "type": "file"
+                                    }
+                                },
+                                "required": [
+                                    "file"
+                                ],
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.Files.v1.UpdateLectureFileRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "update a lectureFile",
+                "tags": [
+                    "file"
+                ]
+            }
+        },
+        "/api/Files/lectureNote/lecture/{LectureId}": {
+            "get": {
+                "parameters": [
+                    {
+                        "description": "an unique lecture id",
+                        "in": "path",
+                        "name": "LectureId",
+                        "required": true,
+                        "schema": {
+                            "description": "an unique lecture id",
+                            "format": "int64",
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.Files.v1.GetNoteWithLectureIdRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "get lecture File",
+                "tags": [
+                    "file"
+                ]
+            }
+        },
+        "/api/Files/lectureNote/upload": {
+            "post": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/intelligent-course-aware-ide.api.Files.v1.UploadLectureNoteReq",
+                                "description": ""
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.Files.v1.UploadLectureNoteRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "upload lectureNote",
+                "tags": [
+                    "file"
+                ]
+            }
+        },
+        "/api/Files/lectureNote/{FileId}": {
+            "delete": {
+                "parameters": [
+                    {
+                        "description": "an unique file id",
+                        "in": "path",
+                        "name": "FileId",
+                        "required": true,
+                        "schema": {
+                            "description": "an unique file id",
+                            "format": "int64",
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.Files.v1.DeleteLectureNoteRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "delete lecture File",
+                "tags": [
+                    "file"
+                ]
+            }
+        },
+        "/api/ai/ask": {
+            "post": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/intelligent-course-aware-ide.api.ai.v1.AskForAiReq",
+                                "description": ""
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.ai.v1.AskForAiRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "ask ai",
+                "tags": [
+                    "AI"
+                ]
+            }
+        },
+        "/api/ai/chat/history/clear": {
+            "post": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/intelligent-course-aware-ide.api.ai.v1.ClearHistoriesReq",
+                                "description": ""
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.ai.v1.ClearHistoriesRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "Clear chat histories in batch",
+                "tags": [
+                    "AI"
+                ]
+            }
+        },
+        "/api/ai/chat/history/get": {
+            "get": {
+                "parameters": [
+                    {
+                        "description": "an unique lecture id",
+                        "in": "query",
+                        "name": "LectureId",
+                        "required": true,
+                        "schema": {
+                            "description": "an unique lecture id",
+                            "format": "int64",
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "an unique user id",
+                        "in": "query",
+                        "name": "UserId",
+                        "required": true,
+                        "schema": {
+                            "description": "an unique user id",
+                            "format": "int64",
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.ai.v1.GetHistoriesRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "Get chat histories in batch",
+                "tags": [
+                    "AI"
+                ]
+            }
+        },
+        "/api/ai/chat/history/store": {
+            "post": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/intelligent-course-aware-ide.api.ai.v1.StoreHistoriesReq",
+                                "description": ""
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.ai.v1.StoreHistoriesRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "Store chat histories in batch",
+                "tags": [
+                    "AI"
+                ]
+            }
+        },
+        "/api/ai/chat/message/store": {
+            "post": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/intelligent-course-aware-ide.api.ai.v1.StoreMessageReq",
+                                "description": ""
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.ai.v1.StoreMessageRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "Store chat histories in batch",
+                "tags": [
+                    "AI"
+                ]
+            }
+        },
+        "/api/assignment/attemptAssignment": {
+            "post": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/intelligent-course-aware-ide.api.assignment.v1.AttemptForAssignmentReq",
+                                "description": ""
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.assignment.v1.AttemptForAssignmentRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "attempt assignment",
+                "tags": [
+                    "Assignment"
+                ]
+            }
+        },
+        "/api/assignment/createAssignment": {
+            "post": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/intelligent-course-aware-ide.api.assignment.v1.CreateAssignmentReq",
+                                "description": ""
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.assignment.v1.CreateAssignmentRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "create assignment",
+                "tags": [
+                    "Assignment"
+                ]
+            }
+        },
+        "/api/assignment/deleteAssignment": {
+            "delete": {
+                "parameters": [
+                    {
+                        "description": "id of the assignment to delete",
+                        "in": "query",
+                        "name": "AssignmentId",
+                        "required": true,
+                        "schema": {
+                            "description": "id of the assignment to delete",
+                            "format": "int64",
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "id of the course",
+                        "in": "query",
+                        "name": "CourseId",
+                        "required": true,
+                        "schema": {
+                            "description": "id of the course",
+                            "format": "int64",
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "name of this course",
+                        "in": "query",
+                        "name": "courseName",
+                        "schema": {
+                            "description": "name of this course",
+                            "format": "string",
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "chat id of this course",
+                        "in": "query",
+                        "name": "chatId",
+                        "schema": {
+                            "description": "chat id of this course",
+                            "format": "int64",
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.assignment.v1.DeleteAssignmentRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "delete assignment info",
+                "tags": [
+                    "Assignment"
+                ]
+            }
+        },
+        "/api/assignment/deleteTestcaseAndAnswer": {
+            "delete": {
+                "parameters": [
+                    {
+                        "description": "Id of the testcase and answer",
+                        "in": "query",
+                        "name": "testcaseAndAnswerId",
+                        "schema": {
+                            "description": "Id of the testcase and answer",
+                            "format": "int64",
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "id of the course",
+                        "in": "query",
+                        "name": "CourseId",
+                        "required": true,
+                        "schema": {
+                            "description": "id of the course",
+                            "format": "int64",
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "name of this course",
+                        "in": "query",
+                        "name": "courseName",
+                        "schema": {
+                            "description": "name of this course",
+                            "format": "string",
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "chat id of this course",
+                        "in": "query",
+                        "name": "chatId",
+                        "schema": {
+                            "description": "chat id of this course",
+                            "format": "int64",
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.assignment.v1.DeleteTestcaseAndAnswerRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "delete testcase and answer",
+                "tags": [
+                    "Assignment"
+                ]
+            }
+        },
+        "/api/assignment/getAllAssignmentOfACourse": {
+            "get": {
+                "parameters": [
+                    {
+                        "description": "Id of this course",
+                        "in": "query",
+                        "name": "courseId",
+                        "schema": {
+                            "description": "Id of this course",
+                            "format": "int64",
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.assignment.v1.GetAllAssignmentInfoOfACourseRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "get info of all assignment of a course",
+                "tags": [
+                    "Assignment"
+                ]
+            }
+        },
+        "/api/assignment/getAllAssignmentOfALecture": {
+            "get": {
+                "parameters": [
+                    {
+                        "description": "Id of this lecture",
+                        "in": "query",
+                        "name": "lectureId",
+                        "schema": {
+                            "description": "Id of this lecture",
+                            "format": "int64",
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.assignment.v1.GetAllAssignmentInfoOfALectureRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "get info of all assignment of a lecture",
+                "tags": [
+                    "Assignment"
+                ]
+            }
+        },
+        "/api/assignment/getAssignmentFeedbackOfAUser": {
+            "get": {
+                "parameters": [
+                    {
+                        "description": "id of the assignment to get",
+                        "in": "query",
+                        "name": "AssignmentId",
+                        "required": true,
+                        "schema": {
+                            "description": "id of the assignment to get",
+                            "format": "int64",
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.assignment.v1.GetAssignmentFeedbackOfAUserRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "get assignment result",
+                "tags": [
+                    "Assignment"
+                ]
+            }
+        },
+        "/api/assignment/searchAssignment/{assignmentId}": {
+            "get": {
+                "parameters": [
+                    {
+                        "description": "id of the assignment to find",
+                        "in": "path",
+                        "name": "AssignmentId",
+                        "required": true,
+                        "schema": {
+                            "description": "id of the assignment to find",
+                            "format": "int64",
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.assignment.v1.GetAssignmentRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "get assignment info",
+                "tags": [
+                    "Assignment"
+                ]
+            }
+        },
+        "/api/assignment/updateAssignment": {
+            "put": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/intelligent-course-aware-ide.api.assignment.v1.UpdateAssignmentReq",
+                                "description": ""
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.assignment.v1.UpdateAssignmentRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "update assignment",
+                "tags": [
+                    "Assignment"
+                ]
+            }
+        },
+        "/api/assignment/uploadTestcaseAndAnswer": {
+            "post": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/intelligent-course-aware-ide.api.assignment.v1.UploadTestcaseAndAnswerReq",
+                                "description": ""
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.assignment.v1.UploadTestcaseAndAnswerRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "update testcase and answer for this assignment",
+                "tags": [
+                    "Assignment"
+                ]
+            }
+        },
+        "/api/chat/addUserIntoChat": {
+            "post": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/intelligent-course-aware-ide.api.chat.v1.AddUserIntoChatReq",
+                                "description": ""
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.chat.v1.AddUserIntoChatRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "Add a user into a chat",
+                "tags": [
+                    "Chat"
+                ]
+            }
+        },
+        "/api/chat/createChat": {
+            "post": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/intelligent-course-aware-ide.api.chat.v1.CreateChatReq",
+                                "description": ""
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.chat.v1.CreateChatRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "Create a chat",
+                "tags": [
+                    "Chat"
+                ]
+            }
+        },
+        "/api/chat/createChatMessage": {
+            "post": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/intelligent-course-aware-ide.api.chat.v1.CreateChatMessageReq",
+                                "description": ""
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.chat.v1.CreateChatMessageRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "Create a chat message",
+                "tags": [
+                    "Chat"
+                ]
+            }
+        },
+        "/api/chat/deleteChatId": {
+            "delete": {
+                "parameters": [
+                    {
+                        "description": "Id of the chat to delete",
+                        "in": "query",
+                        "name": "chatId",
+                        "schema": {
+                            "description": "Id of the chat to delete",
+                            "format": "int64",
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.chat.v1.DeleteChatRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "Delete a chat",
+                "tags": [
+                    "Chat"
+                ]
+            }
+        },
+        "/api/chat/deleteChatMessage": {
+            "delete": {
+                "parameters": [
+                    {
+                        "description": "Info of the chat message",
+                        "in": "query",
+                        "name": "chatMessage",
+                        "schema": {
+                            "$ref": "#/components/schemas/intelligent-course-aware-ide.api.chat.v1.MessageInfo",
+                            "description": "Info of the chat message"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.chat.v1.DeleteChatMessageRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "Delete a chat message",
+                "tags": [
+                    "Chat"
+                ]
+            }
+        },
+        "/api/chat/deleteUserFromChat": {
+            "delete": {
+                "parameters": [
+                    {
+                        "description": "user to be delete from chat",
+                        "in": "query",
+                        "name": "chatUserInfo",
+                        "schema": {
+                            "$ref": "#/components/schemas/intelligent-course-aware-ide.api.chat.v1.ChatUserInfo",
+                            "description": "user to be delete from chat"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.chat.v1.DeleteUserFromChatRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "delete a user from a chat",
+                "tags": [
+                    "Chat"
+                ]
+            }
+        },
+        "/api/chat/getChatMessageOfAChat/{chatId}": {
+            "get": {
+                "parameters": [
+                    {
+                        "description": "Id of this chat",
+                        "in": "path",
+                        "name": "chatId",
+                        "required": true,
+                        "schema": {
+                            "description": "Id of this chat",
+                            "format": "int64",
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.chat.v1.GetAllChatMessageOfAChatInfoRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "get all message of this chat",
+                "tags": [
+                    "Chat"
+                ]
+            }
+        },
+        "/api/chat/getChatMessageOfAChat/{userId}": {
+            "get": {
+                "parameters": [
+                    {
+                        "description": "Id of this user",
+                        "in": "path",
+                        "name": "userId",
+                        "required": true,
+                        "schema": {
+                            "description": "Id of this user",
+                            "format": "int64",
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.chat.v1.GetAllChatInfoOfAUserRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "get all chat info of this user",
+                "tags": [
+                    "Chat"
+                ]
+            }
+        },
+        "/api/codeRunner/run": {
+            "post": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/intelligent-course-aware-ide.api.runner.v1.GeneralRunnerReq",
+                                "description": ""
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.runner.v1.GeneralRunnerRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "Run code",
+                "tags": [
+                    "CodeRunner"
+                ]
+            }
+        },
+        "/api/command/close": {
+            "post": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/intelligent-course-aware-ide.api.command2.v1.CloseShellReq",
+                                "description": ""
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.command2.v1.CloseShellRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "close a shell",
+                "tags": [
+                    "Command"
+                ]
+            }
+        },
+        "/api/command/create": {
+            "post": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/intelligent-course-aware-ide.api.command2.v1.CreateShellReq",
+                                "description": ""
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.command2.v1.CreateShellRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "create a shell",
+                "tags": [
+                    "Command"
+                ]
+            }
+        },
+        "/api/command/exec": {
+            "post": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/intelligent-course-aware-ide.api.command2.v1.ExecCommandReq",
+                                "description": ""
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.command2.v1.ExecCommandRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "exec a command",
+                "tags": [
+                    "Command"
+                ]
+            }
+        },
+        "/api/comment/createComment": {
+            "post": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/intelligent-course-aware-ide.api.comment.v1.CreateCommentReq",
+                                "description": ""
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.comment.v1.CreateCommentRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "Create comment",
+                "tags": [
+                    "Comment"
+                ]
+            }
+        },
+        "/api/comment/deleteComment": {
+            "delete": {
+                "parameters": [
+                    {
+                        "description": "id of the comment to delete",
+                        "in": "query",
+                        "name": "commentId",
+                        "required": true,
+                        "schema": {
+                            "description": "id of the comment to delete",
+                            "format": "int64",
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "id of the user who want to delete this comment",
+                        "in": "query",
+                        "name": "userId",
+                        "required": true,
+                        "schema": {
+                            "description": "id of the user who want to delete this comment",
+                            "format": "int64",
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.comment.v1.DeleteCommentRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "delete comment info",
+                "tags": [
+                    "Comment"
+                ]
+            }
+        },
+        "/api/comment/getComment/{lectureId}": {
+            "get": {
+                "parameters": [
+                    {
+                        "description": "Id of the required lecture",
+                        "in": "path",
+                        "name": "LectureId",
+                        "required": true,
+                        "schema": {
+                            "description": "Id of the required lecture",
+                            "format": "int64",
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.comment.v1.GetCommentRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "Get comment",
+                "tags": [
+                    "Comment"
+                ]
+            }
+        },
+        "/api/comment/getHotWords/{lectureId}": {
+            "get": {
+                "parameters": [
+                    {
+                        "description": "Lecture ID",
+                        "in": "path",
+                        "name": "lectureId",
+                        "required": true,
+                        "schema": {
+                            "description": "Lecture ID",
+                            "format": "int64",
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.comment.v1.GetHotWordsRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "Get high frequency words from comments",
+                "tags": [
+                    "Comment"
+                ]
+            }
+        },
+        "/api/comment/updateComment": {
+            "put": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/intelligent-course-aware-ide.api.comment.v1.UpdateCommentReq",
+                                "description": ""
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.comment.v1.UpdateCommentRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "update the comment(mainly likes) info",
+                "tags": [
+                    "Comment"
+                ]
+            }
+        },
+        "/api/course/addStudents": {
+            "post": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/intelligent-course-aware-ide.api.course.v1.AddStudentsIntoCourseReq",
+                                "description": ""
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.course.v1.AddStudentsIntoCourseRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "add students into the course",
+                "tags": [
+                    "Course"
+                ]
+            }
+        },
+        "/api/course/applyToJoinCourse": {
+            "post": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/intelligent-course-aware-ide.api.course.v1.ApplyToJoinCourseReq",
+                                "description": ""
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.course.v1.ApplyToJoinCourseRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "student apply to join in the course",
+                "tags": [
+                    "Course"
+                ]
+            }
+        },
+        "/api/course/assignCourseAssistant": {
+            "post": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/intelligent-course-aware-ide.api.course.v1.AssignCourseAssistantReq",
+                                "description": ""
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.course.v1.AssignCourseAssistantRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "assign course assistant",
+                "tags": [
+                    "Course"
+                ]
+            }
+        },
+        "/api/course/createCourse": {
+            "post": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/intelligent-course-aware-ide.api.course.v1.CreateCourseReq",
+                                "description": ""
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.course.v1.CreateCourseRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "create course",
+                "tags": [
+                    "Course"
+                ]
+            }
+        },
+        "/api/course/deleteCourse": {
+            "delete": {
+                "parameters": [
+                    {
+                        "description": "id of the course to delete",
+                        "in": "query",
+                        "name": "CourseId",
+                        "required": true,
+                        "schema": {
+                            "description": "id of the course to delete",
+                            "format": "int64",
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.course.v1.DeleteCourseRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "delete course info",
+                "tags": [
+                    "Course"
+                ]
+            }
+        },
+        "/api/course/getAllStudentsOfACourse/{courseId}": {
+            "get": {
+                "parameters": [
+                    {
+                        "description": "Id of the course",
+                        "in": "path",
+                        "name": "courseId",
+                        "required": true,
+                        "schema": {
+                            "description": "Id of the course",
+                            "format": "int64",
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.course.v1.GetAllStudentsOfACourseRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "get all students in the course",
+                "tags": [
+                    "Course"
+                ]
+            }
+        },
+        "/api/course/getCourses": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.course.v1.GetAllCoursesInfoRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "get info of all courses",
+                "tags": [
+                    "Course"
+                ]
+            }
+        },
+        "/api/course/recommendCourses": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.course.v1.RecommendCourseRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "recommend courses",
+                "tags": [
+                    "Course"
+                ]
+            }
+        },
+        "/api/course/searchCourse/{courseId}": {
+            "get": {
+                "parameters": [
+                    {
+                        "description": "id of the course to find",
+                        "in": "path",
+                        "name": "CourseId",
+                        "required": true,
+                        "schema": {
+                            "description": "id of the course to find",
+                            "format": "int64",
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.course.v1.GetCourseRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "get course info",
+                "tags": [
+                    "Course"
+                ]
+            }
+        },
+        "/api/course/searchCourseWithLectures/byStudentId": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.course.v1.GetCourseWithLecturesByStudentIdRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "get courses info and lectures info of a user",
+                "tags": [
+                    "Course"
+                ]
+            }
+        },
+        "/api/course/searchCourseWithLectures/{courseId}": {
+            "get": {
+                "parameters": [
+                    {
+                        "description": "id of the course to find",
+                        "in": "path",
+                        "name": "CourseId",
+                        "required": true,
+                        "schema": {
+                            "description": "id of the course to find",
+                            "format": "int64",
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.course.v1.GetCourseWithLecturesByCourseIdRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "get course info and lectures with courseId",
+                "tags": [
+                    "Course"
+                ]
+            }
+        },
+        "/api/course/searchCourses": {
+            "get": {
+                "parameters": [
+                    {
+                        "description": "keywords of this search",
+                        "in": "query",
+                        "name": "keywords",
+                        "schema": {
+                            "description": "keywords of this search",
+                            "format": "string",
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "which kind of info will be included this search",
+                        "in": "query",
+                        "name": "kind",
+                        "schema": {
+                            "description": "which kind of info will be included this search",
+                            "format": "string",
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "number of the result to show",
+                        "in": "query",
+                        "name": "recommendNum",
+                        "schema": {
+                            "description": "number of the result to show",
+                            "format": "int",
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.course.v1.SearchCourseRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "search courses with keyword",
+                "tags": [
+                    "Course"
+                ]
+            }
+        },
+        "/api/course/unassignCourseAssistant": {
+            "delete": {
+                "parameters": [
+                    {
+                        "description": "Id of the course",
+                        "in": "query",
+                        "name": "courseId",
+                        "schema": {
+                            "description": "Id of the course",
+                            "format": "int64",
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "id of the user who will not be the assistant any more",
+                        "in": "query",
+                        "name": "assistantId",
+                        "required": true,
+                        "schema": {
+                            "description": "id of the user who will not be the assistant any more",
+                            "format": "int64",
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.course.v1.UnassignCourseAssistantRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "unassign course assistant",
+                "tags": [
+                    "Course"
+                ]
+            }
+        },
+        "/api/course/updateCourse": {
+            "put": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/intelligent-course-aware-ide.api.course.v1.UpdateCourseReq",
+                                "description": ""
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.course.v1.UpdateCourseRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "update course",
+                "tags": [
+                    "Course"
+                ]
+            }
+        },
+        "/api/lecture/createLecture": {
+            "post": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/intelligent-course-aware-ide.api.lecture.v1.CreateLectureReq",
+                                "description": ""
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.lecture.v1.CreateLectureRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "create lecture",
+                "tags": [
+                    "Lecture"
+                ]
+            }
+        },
+        "/api/lecture/deleteLecture": {
+            "delete": {
+                "parameters": [
+                    {
+                        "description": "id of the lecture to delete",
+                        "in": "query",
+                        "name": "LectureId",
+                        "required": true,
+                        "schema": {
+                            "description": "id of the lecture to delete",
+                            "format": "int64",
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "id of the course",
+                        "in": "query",
+                        "name": "CourseId",
+                        "required": true,
+                        "schema": {
+                            "description": "id of the course",
+                            "format": "int64",
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "name of the lecture to delete",
+                        "in": "query",
+                        "name": "LectureName",
+                        "schema": {
+                            "description": "name of the lecture to delete",
+                            "format": "string",
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "chat id of this course",
+                        "in": "query",
+                        "name": "chatId",
+                        "schema": {
+                            "description": "chat id of this course",
+                            "format": "int64",
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.lecture.v1.DeleteLectureRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "delete lecture info",
+                "tags": [
+                    "Lecture"
+                ]
+            }
+        },
+        "/api/lecture/getLectures/{courseId}": {
+            "get": {
+                "parameters": [
+                    {
+                        "description": "Id of this course",
+                        "in": "path",
+                        "name": "courseId",
+                        "required": true,
+                        "schema": {
+                            "description": "Id of this course",
+                            "format": "int64",
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.lecture.v1.GetAllLectureOfACourseInfoRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "get info of all courses",
+                "tags": [
+                    "Lecture"
+                ]
+            }
+        },
+        "/api/lecture/searchLecture/{lectureId}": {
+            "get": {
+                "parameters": [
+                    {
+                        "description": "id of the lecture to find",
+                        "in": "path",
+                        "name": "LectureId",
+                        "required": true,
+                        "schema": {
+                            "description": "id of the lecture to find",
+                            "format": "int64",
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.lecture.v1.GetLectureRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "get lecture info",
+                "tags": [
+                    "Lecture"
+                ]
+            }
+        },
+        "/api/lecture/updateLecture": {
+            "put": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/intelligent-course-aware-ide.api.lecture.v1.UpdateLectureReq",
+                                "description": ""
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.lecture.v1.UpdateLectureRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "update lecture",
+                "tags": [
+                    "Lecture"
+                ]
+            }
+        },
+        "/api/user/createUser": {
+            "post": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/intelligent-course-aware-ide.api.account.v1.CreateUserReq",
+                                "description": ""
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.account.v1.CreateUserRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "create user",
+                "tags": [
+                    "User"
+                ]
+            }
+        },
+        "/api/user/deleteUser": {
+            "delete": {
+                "parameters": [
+                    {
+                        "description": "id of the user to delete",
+                        "in": "query",
+                        "name": "UserToDeleteId",
+                        "required": true,
+                        "schema": {
+                            "description": "id of the user to delete",
+                            "format": "int64",
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.user.v1.DeleteUserRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "delete user info",
+                "tags": [
+                    "User"
+                ]
+            }
+        },
+        "/api/user/getUsers": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.user.v1.GetAllUsersInfoRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "get info of all users",
+                "tags": [
+                    "User"
+                ]
+            }
+        },
+        "/api/user/loginUser": {
+            "post": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/intelligent-course-aware-ide.api.account.v1.LoginUserReq",
+                                "description": ""
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.account.v1.LoginUserRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "login user",
+                "tags": [
+                    "User"
+                ]
+            }
+        },
+        "/api/user/logoutUser": {
+            "post": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/intelligent-course-aware-ide.api.user.v1.LogoutUserReq",
+                                "description": ""
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.user.v1.LogoutUserRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "logout user",
+                "tags": [
+                    "User"
+                ]
+            }
+        },
+        "/api/user/searchUser/{userId}": {
+            "get": {
+                "parameters": [
+                    {
+                        "description": "id of the user to find",
+                        "in": "path",
+                        "name": "UserId",
+                        "required": true,
+                        "schema": {
+                            "description": "id of the user to find",
+                            "format": "int64",
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.user.v1.GetUserRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "get user info",
+                "tags": [
+                    "User"
+                ]
+            }
+        },
+        "/api/user/updateUser": {
+            "put": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/intelligent-course-aware-ide.api.user.v1.UpdateUserReq",
+                                "description": ""
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/intelligent-course-aware-ide.api.user.v1.UpdateUserRes",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "summary": "update user",
+                "tags": [
+                    "User"
+                ]
+            }
+        }
+    }
+}

@@ -44,6 +44,9 @@
 📄 [开发者文档 (GitHub)](https://github.com/sustech-cs304/team-project-25spring-15/blob/main/%E6%99%BA%E8%83%BD%E8%AF%BE%E7%A8%8B%E6%84%9F%E7%9F%A5IDE%20-%20%E5%BC%80%E5%8F%91%E8%80%85%E6%96%87%E6%A1%A3.md)  
 📄 [开发者文档 (Swagger)](http://47.117.144.50:8000/swagger)
 
+Notice: 47.117.144.50 will close on 2025/06/05, if you want to get the swagger, you could run backend locally or read api.json
+📄 [api.json](https://github.com/sustech-cs304/team-project-25spring-15/blob/main/Report/api.json)
+
 ---
 
 ## Test（测试体系）
