@@ -15,7 +15,7 @@
 - **依赖数量**：评估了项目中各个模块之间的依赖关系，越少的依赖有助于提高模块的独立性与可重用性。
 
 详细统计信息已记录在以下日志文件中，可供进一步分析参考：  
-🔗 [evaluate.log](https://github.com/sustech-cs304/team-project-25spring-15/blob/main/evaluate.log)
+🔗 [evaluate.log](https://github.com/sustech-cs304/team-project-25spring-15/blob/main/docs/evaluate.log)
 
 ---
 
