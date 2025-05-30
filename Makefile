@@ -105,9 +105,12 @@ count-lines:
 calc-complexity:
 	@echo "-- Cyclomatic Complexity:"
 	@gocyclo -over 0 $(BACKEND_DIR) | \
-	awk '{count[$$1]++} END {for (c in count) printf("%s %d\n", c, count[c])}' | \
-	sort -n | \
-	awk '{printf("Complexity %s: %d functions\n", $$1, $$2)}' || true
+	awk '{count[$$1]++; sum+=$$1; total++} \
+	END { \
+		if (total > 0) printf("Average Complexity: %.2f\n", sum/total); else print "Average Complexity: N/A"; \
+		for (c in count) printf("%s %d\n", c, count[c]); \
+	}' | sort -n -k1,1 | \
+	awk 'NR==1{print;next} {printf("Complexity %s: %d functions\n", $$1, $$2)}'
 	@echo ""
 
 count-go-files:
