@@ -47,7 +47,7 @@ jobs:
   
   call-deploy:
     name: Trigger Deploy
-    if: github.event_name == 'push' && github.ref == 'refs/heads/ope'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: go-syntax-check
     uses: ./.github/workflows/cd.yml
     secrets:
