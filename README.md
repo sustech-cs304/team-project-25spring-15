@@ -85,7 +85,8 @@ dev environment:
 make setup-backend-dev
 ```
 
-ope environment:
+If you want to stop backend, you could execute this command
+
 ``` bash
 make close-backend-dev
 ```
