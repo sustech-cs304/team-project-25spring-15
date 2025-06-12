@@ -2,9 +2,9 @@ name: team_project_25spring_15
 
 on:
   push:
-    branches: [main, ope]
+    branches: [dev, ope]
   pull_request:
-    branches: [main, ope]
+    branches: [dev, ope]
 
 jobs:
   go-syntax-check:
